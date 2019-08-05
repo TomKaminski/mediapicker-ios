@@ -12,7 +12,8 @@ class PagesController: UIViewController {
   lazy var scrollView: UIScrollView = self.makeScrollView()
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
-  
+  lazy var bottomView: BottomView = self.makeBottomView()
+
   var selectedIndex: Int = 0
   let once = Once()
   
@@ -84,6 +85,10 @@ class PagesController: UIViewController {
     return indicator
   }
   
+  func makeBottomView() -> BottomView {
+    return BottomView()
+  }
+  
   // MARK: - Setup
   
   func setup() {
@@ -138,6 +143,45 @@ class PagesController: UIViewController {
       if i == self.controllers.count - 1 {
         controller.view.g_pin(on: .right)
       }
+    }
+    
+    view.addSubview(bottomView)
+    Constraint.on(
+      bottomView.leadingAnchor.constraint(equalTo: bottomView.superview!.leadingAnchor),
+      bottomView.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor),
+      bottomView.heightAnchor.constraint(equalToConstant: 100),
+      bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor)
+    )
+    
+    EventHub.shared.changeMediaPickerState = {
+      stateFromEvent in
+      self.state = self.shuffleState()
+      self.bottomView.state = self.state
+      self.bottomView.setup()
+      print("Changing state to.. \(self.state)")
+    }
+  }
+  
+  var state = MediaToolbarState.Library
+  
+  private func shuffleState() -> MediaToolbarState {
+    switch state {
+    case .Camera:
+      return .AudioRecording
+    case .CartExpanded:
+      return .Camera
+    case .VideoRecording:
+      return .CartExpanded
+    case .VideoTaken:
+      return .VideoRecording
+    case .Library:
+      return .VideoTaken
+    case .Audio:
+      return .Library
+    case .AudioTaken:
+      return .Audio
+    case .AudioRecording:
+      return .AudioTaken
     }
   }
   

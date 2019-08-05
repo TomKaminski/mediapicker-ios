@@ -10,7 +10,7 @@ class GridView: UIView {
   lazy var bottomBlurView: UIVisualEffectView = self.makeBottomBlurView()
   lazy var arrowButton: ArrowButton = self.makeArrowButton()
   lazy var collectionView: UICollectionView = self.makeCollectionView()
-  lazy var closeButton: UIButton = self.makeCloseButton()
+  lazy var shuffleStateTestButton: UIButton = self.makeShuffelStateButton()
   lazy var doneButton: UIButton = self.makeDoneButton()
   lazy var emptyView: UIView = self.makeEmptyView()
   lazy var loadingIndicator: UIActivityIndicatorView = self.makeLoadingIndicator()
@@ -35,7 +35,7 @@ class GridView: UIView {
       addSubview($0)
     }
     
-    [closeButton, arrowButton].forEach {
+    [shuffleStateTestButton, arrowButton].forEach {
       topView.addSubview($0)
     }
     
@@ -72,9 +72,9 @@ class GridView: UIView {
     
     bottomBlurView.g_pinEdges()
     
-    closeButton.g_pin(on: .top)
-    closeButton.g_pin(on: .left)
-    closeButton.g_pin(size: CGSize(width: 40, height: 40))
+    shuffleStateTestButton.g_pin(on: .top)
+    shuffleStateTestButton.g_pin(on: .left)
+    shuffleStateTestButton.g_pin(size: CGSize(width: 40, height: 40))
     
     arrowButton.g_pinCenter()
     arrowButton.g_pin(height: 40)
@@ -117,7 +117,7 @@ class GridView: UIView {
     return view
   }
   
-  private func makeCloseButton() -> UIButton {
+  private func makeShuffelStateButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.setImage(MediaPickerBundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
     button.tintColor = Config.Grid.CloseButton.tintColor

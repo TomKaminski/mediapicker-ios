@@ -58,9 +58,9 @@ class LibraryController: UIViewController {
 //    stackView.g_pin(on: .left, constant: 38)
 //    stackView.g_pin(size: CGSize(width: 56, height: 56))
     
-//    gridView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)), for: .touchUpInside)
+    gridView.shuffleStateTestButton.addTarget(self, action: #selector(shuffleButtonTouched), for: .touchUpInside)
 //    gridView.doneButton.addTarget(self, action: #selector(doneButtonTouched(_:)), for: .touchUpInside)
-//    gridView.arrowButton.addTarget(self, action: #selector(arrowButtonTouched(_:)), for: .touchUpInside)
+    gridView.arrowButton.addTarget(self, action: #selector(arrowButtonTouched(_:)), for: .touchUpInside)
 //    stackView.addTarget(self, action: #selector(stackViewTouched(_:)), for: .touchUpInside)
 //
     
@@ -83,6 +83,10 @@ class LibraryController: UIViewController {
   @objc func arrowButtonTouched(_ button: ArrowButton) {
     dropdownController.toggle()
     button.toggle(dropdownController.expanding)
+  }
+  
+  @objc func shuffleButtonTouched() {
+    EventHub.shared.changeMediaPickerState?(.Audio)
   }
   
 //  @objc func stackViewTouched(_ stackView: StackView) {

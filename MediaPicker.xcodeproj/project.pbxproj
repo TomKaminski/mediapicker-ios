@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		269E963E28480018C354EB80 /* libPods-MediaPickerExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */; };
 		712C1213792289B0CC722CEB /* libPods-MediaPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */; };
+		7618EE1022F4579C0051C287 /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE0F22F4579C0051C287 /* BottomView.swift */; };
+		7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */; };
+		7618EE1422F477F70051C287 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1322F477F70051C287 /* File.swift */; };
+		7618EE1622F489C50051C287 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1522F489C50051C287 /* ShutterButton.swift */; };
 		761B9FD922E9BAB9004D494E /* MediaPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 761B9FD722E9BAB9004D494E /* MediaPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		761B9FFE22E9BBE4004D494E /* MediaPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761B9FFD22E9BBE4004D494E /* MediaPickerController.swift */; };
 		761BA00D22E9BE4C004D494E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761BA00C22E9BE4C004D494E /* AppDelegate.swift */; };
@@ -40,6 +44,10 @@
 		7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067622F2EE2D007CD4CE /* ArrowButton.swift */; };
 		7639067922F2EE3B007CD4CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067822F2EE3B007CD4CE /* GridView.swift */; };
 		7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067A22F2EF9B007CD4CE /* UIScrollView+Extensions.swift */; };
+		76AFCBEA22F81E1400E1B7CB /* CartCollectionScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */; };
+		76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */; };
+		76AFCBEE22F8201100E1B7CB /* CartCollectionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */; };
+		76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */; };
 		76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4E422EACE0000D99495 /* PermissionController.swift */; };
 		76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4E722EACE0E00D99495 /* PermissionView.swift */; };
 		76B8E4EA22EACE2900D99495 /* PermissionSentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4E922EACE2900D99495 /* PermissionSentry.swift */; };
@@ -76,6 +84,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7618EE0F22F4579C0051C287 /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
+		7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryFloatingButton.swift; sourceTree = "<group>"; };
+		7618EE1322F477F70051C287 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		7618EE1522F489C50051C287 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		761B9FD422E9BAB9004D494E /* MediaPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MediaPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		761B9FD722E9BAB9004D494E /* MediaPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaPicker.h; sourceTree = "<group>"; };
 		761B9FD822E9BAB9004D494E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -109,6 +121,10 @@
 		7639067622F2EE2D007CD4CE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 		7639067822F2EE3B007CD4CE /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		7639067A22F2EF9B007CD4CE /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
+		76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionScrollView.swift; sourceTree = "<group>"; };
+		76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
+		76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionItemView.swift; sourceTree = "<group>"; };
+		76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilenameInputView.swift; sourceTree = "<group>"; };
 		76B8E4E422EACE0000D99495 /* PermissionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionController.swift; sourceTree = "<group>"; };
 		76B8E4E722EACE0E00D99495 /* PermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionView.swift; sourceTree = "<group>"; };
 		76B8E4E922EACE2900D99495 /* PermissionSentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionSentry.swift; sourceTree = "<group>"; };
@@ -190,6 +206,7 @@
 		761B9FD622E9BAB9004D494E /* MediaPicker */ = {
 			isa = PBXGroup;
 			children = (
+				76AFCBE822F81DF900E1B7CB /* BottomView */,
 				7639065422F2DD55007CD4CE /* Core */,
 				7639064F22F2DC66007CD4CE /* Library */,
 				7639064E22F2DC46007CD4CE /* Camera */,
@@ -221,6 +238,7 @@
 		7639064E22F2DC46007CD4CE /* Camera */ = {
 			isa = PBXGroup;
 			children = (
+				7618EE1522F489C50051C287 /* ShutterButton.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -242,6 +260,7 @@
 				7639065F22F2E401007CD4CE /* Audio */,
 				7639065E22F2E3FC007CD4CE /* Video */,
 				7639065D22F2E3F7007CD4CE /* Image */,
+				7618EE1322F477F70051C287 /* File.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -280,6 +299,7 @@
 				7639067422F2EE10007CD4CE /* EmptyView.swift */,
 				7639067622F2EE2D007CD4CE /* ArrowButton.swift */,
 				7639067822F2EE3B007CD4CE /* GridView.swift */,
+				7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -290,6 +310,18 @@
 				7639067022F2ED5E007CD4CE /* DropdownController.swift */,
 			);
 			path = Dropdown;
+			sourceTree = "<group>";
+		};
+		76AFCBE822F81DF900E1B7CB /* BottomView */ = {
+			isa = PBXGroup;
+			children = (
+				7618EE0F22F4579C0051C287 /* BottomView.swift */,
+				76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */,
+				76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */,
+				76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */,
+				76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */,
+			);
+			path = BottomView;
 			sourceTree = "<group>";
 		};
 		76B8E4E322EACDF200D99495 /* Permission */ = {
@@ -504,22 +536,30 @@
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,
 				7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */,
+				7618EE1422F477F70051C287 /* File.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
 				76B8E4F022EAD3A200D99495 /* String+Extensions.swift in Sources */,
 				7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */,
 				7639066422F2E60E007CD4CE /* FrameView.swift in Sources */,
+				76AFCBEE22F8201100E1B7CB /* CartCollectionItemView.swift in Sources */,
 				76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */,
+				76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */,
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
 				7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */,
 				7639066A22F2E7FE007CD4CE /* VideoCell.swift in Sources */,
 				7639065A22F2DDD3007CD4CE /* Utils.swift in Sources */,
 				7639064922F2CA73007CD4CE /* PagesController.swift in Sources */,
 				76B8E4F822EADA5F00D99495 /* UIViewController+Extensions.swift in Sources */,
+				7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */,
 				76B8E4ED22EAD23100D99495 /* Once.swift in Sources */,
+				7618EE1622F489C50051C287 /* ShutterButton.swift in Sources */,
 				76B8E4EA22EACE2900D99495 /* PermissionSentry.swift in Sources */,
 				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
+				76AFCBEA22F81E1400E1B7CB /* CartCollectionScrollView.swift in Sources */,
 				7639067122F2ED5E007CD4CE /* DropdownController.swift in Sources */,
+				7618EE1022F4579C0051C287 /* BottomView.swift in Sources */,
+				76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */,
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,

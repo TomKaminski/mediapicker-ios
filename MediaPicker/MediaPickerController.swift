@@ -1,5 +1,13 @@
 public class MediaPickerController: UIViewController, PermissionControllerDelegate {
 
+  public override var shouldAutorotate: Bool {
+    return true
+  }
+  
+  public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    return [.portrait, .portraitUpsideDown]
+  }
+  
   func permissionControllerDidFinish(_ controller: PermissionController, closeTapped: Bool) {
     if closeTapped {
       self.navigationController?.popViewController(animated: true)
@@ -46,14 +54,12 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     ctrl.title = "LIBRARY"
     return ctrl
   }
-
+  
 
   public override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.navigationController?.setNavigationBarHidden(true, animated: false)
 
-    //setup()
+    setup()
 
     if let pagesController = makePagesController() {
       addChildController(pagesController)
@@ -62,13 +68,18 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
       addChildController(permissionController)
     }
   }
-
-  public override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    self.navigationController?.setNavigationBarHidden(false, animated: false)
-  }
   
-  public override var prefersStatusBarHidden: Bool {
-    return true
+  func setup() {
+    EventHub.shared.close = { [weak self] in
+      if let strongSelf = self {
+        strongSelf.dismiss(animated: true, completion: nil)
+      }
+    }
+    
+    EventHub.shared.doneWithMedia = { [weak self] in
+//      if let strongSelf = self {
+//
+//      }
+    }
   }
 }

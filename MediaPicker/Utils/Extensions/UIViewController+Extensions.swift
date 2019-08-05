@@ -6,7 +6,10 @@ extension UIViewController {
     view.addSubview(controller.view)
     controller.didMove(toParent: self)
 
-    controller.view.g_pinEdges()
+    controller.view.g_pin(on: .topMargin)
+    controller.view.g_pin(on: .bottom)
+    controller.view.g_pin(on: .left)
+    controller.view.g_pin(on: .right)
   }
   
   func removeFromParentController() {

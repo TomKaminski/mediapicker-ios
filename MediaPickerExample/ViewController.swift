@@ -18,7 +18,7 @@ class ViewController: UIViewController {
 
   @IBAction func onTapAdd(_ sender: Any) {
     let picker = MediaPickerController()
-    self.navigationController?.pushViewController(picker, animated: true)
+    self.present(picker, animated: true, completion: nil)
   }
 }
 
