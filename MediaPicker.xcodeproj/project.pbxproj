@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		269E963E28480018C354EB80 /* libPods-MediaPickerExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */; };
 		712C1213792289B0CC722CEB /* libPods-MediaPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */; };
+		7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7617E87122F87706007B7E4E /* MediaToolbarState.swift */; };
 		7618EE1022F4579C0051C287 /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE0F22F4579C0051C287 /* BottomView.swift */; };
 		7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */; };
-		7618EE1422F477F70051C287 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1322F477F70051C287 /* File.swift */; };
+		7618EE1422F477F70051C287 /* EventHub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1322F477F70051C287 /* EventHub.swift */; };
 		7618EE1622F489C50051C287 /* ShutterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1522F489C50051C287 /* ShutterButton.swift */; };
 		761B9FD922E9BAB9004D494E /* MediaPicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 761B9FD722E9BAB9004D494E /* MediaPicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		761B9FFE22E9BBE4004D494E /* MediaPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761B9FFD22E9BBE4004D494E /* MediaPickerController.swift */; };
@@ -84,9 +85,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7617E87122F87706007B7E4E /* MediaToolbarState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaToolbarState.swift; sourceTree = "<group>"; };
 		7618EE0F22F4579C0051C287 /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
 		7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryFloatingButton.swift; sourceTree = "<group>"; };
-		7618EE1322F477F70051C287 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		7618EE1322F477F70051C287 /* EventHub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventHub.swift; sourceTree = "<group>"; };
 		7618EE1522F489C50051C287 /* ShutterButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShutterButton.swift; sourceTree = "<group>"; };
 		761B9FD422E9BAB9004D494E /* MediaPicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MediaPicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		761B9FD722E9BAB9004D494E /* MediaPicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaPicker.h; sourceTree = "<group>"; };
@@ -260,7 +262,8 @@
 				7639065F22F2E401007CD4CE /* Audio */,
 				7639065E22F2E3FC007CD4CE /* Video */,
 				7639065D22F2E3F7007CD4CE /* Image */,
-				7618EE1322F477F70051C287 /* File.swift */,
+				7618EE1322F477F70051C287 /* EventHub.swift */,
+				7617E87122F87706007B7E4E /* MediaToolbarState.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -536,7 +539,7 @@
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,
 				7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */,
-				7618EE1422F477F70051C287 /* File.swift in Sources */,
+				7618EE1422F477F70051C287 /* EventHub.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
 				76B8E4F022EAD3A200D99495 /* String+Extensions.swift in Sources */,
@@ -563,6 +566,7 @@
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,
+				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

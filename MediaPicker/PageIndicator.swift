@@ -5,7 +5,6 @@ protocol PageIndicatorDelegate: AnyObject {
 }
 
 class PageIndicator: UIView {
-  
   let items: [String]
   var buttons: [UIButton]!
   lazy var indicator: UIImageView = self.makeIndicator()
