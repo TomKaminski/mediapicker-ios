@@ -2,21 +2,39 @@ import UIKit
 import Photos
 
 /// Wrap a PHAsset
-public class Image: Equatable {
-  
+public class Image: Equatable, CartItemProtocol {
+  public var guid: String
+
+  public var cartView: UIView {
+    return UIView()
+  }
+
+  public var type: CartItemType {
+    return .Image
+  }
+
   public let asset: PHAsset
-  
+
   // MARK: - Initialization
-  
-  init(asset: PHAsset) {
+
+  init(asset: PHAsset, guid: String) {
     self.asset = asset
+    self.guid = guid
+  }
+  
+  public func removeSelfFromCart() {
+    
+  }
+  
+  public func runPreviewOrEdit() {
+    
   }
 }
 
 // MARK: - UIImage
 
 extension Image {
-  
+
   /// Resolve UIImage synchronously
   ///
   /// - Parameter size: The target size
@@ -25,21 +43,21 @@ extension Image {
     let options = PHImageRequestOptions()
     options.isNetworkAccessAllowed = true
     options.deliveryMode = .highQualityFormat
-    
+
     let targetSize = CGSize(
       width: asset.pixelWidth,
       height: asset.pixelHeight
     )
-    
+
     PHImageManager.default().requestImage(
       for: asset,
       targetSize: targetSize,
       contentMode: .default,
       options: options) { (image, _) in
-        completion(image)
+      completion(image)
     }
   }
-  
+
   /// Resolve an array of Image
   ///
   /// - Parameters:
@@ -49,19 +67,19 @@ extension Image {
   public static func resolve(images: [Image], completion: @escaping ([UIImage?]) -> Void) {
     let dispatchGroup = DispatchGroup()
     var convertedImages = [Int: UIImage]()
-    
+
     for (index, image) in images.enumerated() {
       dispatchGroup.enter()
-      
+
       image.resolve(completion: { resolvedImage in
         if let resolvedImage = resolvedImage {
           convertedImages[index] = resolvedImage
         }
-        
+
         dispatchGroup.leave()
       })
     }
-    
+
     dispatchGroup.notify(queue: .main, execute: {
       let sortedImages = convertedImages
         .sorted(by: { $0.key < $1.key })

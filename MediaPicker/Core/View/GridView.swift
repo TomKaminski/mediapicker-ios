@@ -67,8 +67,9 @@ class GridView: UIView {
     
     emptyView.g_pinEdges(view: collectionView)
     
-    collectionView.g_pinDownward()
+    collectionView.g_pinDownward(view: bottomView)
     collectionView.g_pin(on: .top, view: topView, on: .bottom, constant: 1)
+    collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
     
     bottomBlurView.g_pinEdges()
     

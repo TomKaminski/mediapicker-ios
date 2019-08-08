@@ -20,9 +20,9 @@ class Album {
     let itemsFetchResult = PHAsset.fetchAssets(in: collection, options: Utils.fetchOptions())
     itemsFetchResult.enumerateObjects({ (asset, count, stop) in
       if asset.mediaType == .image {
-        self.images.append(Image(asset: asset))
+        self.images.append(Image(asset: asset, guid: UUID().uuidString))
       } else if asset.mediaType == .video {
-        self.videos.append(Video(asset: asset))
+        self.videos.append(Video(asset: asset, guid: UUID().uuidString))
       }
     })
   }

@@ -46,6 +46,7 @@ class DropdownController: UIViewController {
     tableView.register(AlbumCell.self, forCellReuseIdentifier: String(describing: AlbumCell.self))
     
     tableView.g_pinEdges()
+    tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 130, right: 0)
   }
   
   // MARK: - Logic

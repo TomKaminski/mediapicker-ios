@@ -3,6 +3,8 @@ import UIKit
 protocol PageAware: AnyObject {
   func pageDidShow()
   func pageDidHide()
+  
+  var initialBottomViewState: MediaToolbarState { get }
 }
 
 class PagesController: UIViewController {
@@ -13,7 +15,8 @@ class PagesController: UIViewController {
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
   lazy var bottomView: BottomView = self.makeBottomView()
-
+  
+  var state = MediaToolbarState.Camera
   var selectedIndex: Int = 0
   var blockPageIndicator: Bool = false {
     didSet {
@@ -163,14 +166,11 @@ class PagesController: UIViewController {
 
     EventHub.shared.changeMediaPickerState = {
       stateFromEvent in
-      self.state = self.shuffleState()
-      self.bottomView.state = self.state
+      self.changeBottomViewState(self.shuffleState())
       self.bottomView.setup()
       print("Changing state to.. \(self.state)")
     }
   }
-
-  var state = MediaToolbarState.Library
 
   fileprivate func showPageIndicator() {
     pageIndicatorHeightConstraint.constant = 40
@@ -238,9 +238,18 @@ class PagesController: UIViewController {
     notifyShow()
   }
 
+  fileprivate func changeBottomViewState(_ newState: MediaToolbarState) {
+    self.state = newState
+    self.bottomView.state = self.state
+    self.bottomView.setup()
+  }
+  
   func notifyShow() {
     if let controller = controllers[selectedIndex] as? PageAware {
       controller.pageDidShow()
+      if bottomView.state != .CartExpanded {
+        changeBottomViewState(controller.initialBottomViewState)
+      }
     }
   }
 

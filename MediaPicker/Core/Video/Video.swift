@@ -1,9 +1,17 @@
 import UIKit
 import Photos
 
-/// Wrap a PHAsset for video
-public class Video: Equatable {
+public class Video: Equatable, CartItemProtocol {
+  public var guid: String
   
+  public var cartView: UIView {
+    return UIView()
+  }
+  
+  public var type: CartItemType {
+    return .Video
+  }
+
   public let asset: PHAsset
   
   var durationRequestID: Int = 0
@@ -11,8 +19,18 @@ public class Video: Equatable {
   
   // MARK: - Initialization
   
-  init(asset: PHAsset) {
+  init(asset: PHAsset, guid: String) {
     self.asset = asset
+    self.guid = guid
+  }
+  
+  
+  public func removeSelfFromCart() {
+    
+  }
+  
+  public func runPreviewOrEdit() {
+    
   }
   
   /// Fetch video duration asynchronously
