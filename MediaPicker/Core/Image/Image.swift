@@ -1,12 +1,18 @@
 import UIKit
 import Photos
 
+
+
 /// Wrap a PHAsset
 public class Image: Equatable, CartItemProtocol {
   public var guid: String
 
-  public var cartView: UIView {
-    return UIView()
+  public var cartView: CartCollectionItemView {
+    return CartCollectionItemView(imageCompletion: { (imageView) in
+      self.resolve(completion: { (image) in
+        imageView.image = image
+      })
+    })
   }
 
   public var type: CartItemType {

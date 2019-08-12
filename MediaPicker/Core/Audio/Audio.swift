@@ -3,8 +3,8 @@ import AVFoundation
 
 public class Audio: Equatable, CartItemProtocol {
 
-  public var cartView: UIView {
-    return UIView()
+  public var cartView: CartCollectionItemView {
+    return CartCollectionItemView(image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
   }
 
   public var type: CartItemType {

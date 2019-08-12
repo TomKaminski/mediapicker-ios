@@ -1,6 +1,9 @@
 import UIKit
 
 protocol BottomViewDelegate: AnyObject {
+  var itemsInCart: Int { get }
+  var cartItems: [CartItemProtocol] { get }
+
   func bottomView(_ changedStateTo: MediaToolbarState)
 }
 
@@ -8,7 +11,6 @@ class BottomView: UIView {
   weak var delegate: BottomViewDelegate?
 
   var backButton: UIImageView?
-  var cartButton: UIImageView?
   var filenameInputView: FilenameInputView?
   var cartView: CartCollectionScrollView?
   var saveButton: GalleryFloatingButton?
@@ -72,6 +74,8 @@ class BottomView: UIView {
     return button
   }
 
+
+
   func makeShutterButton() -> ShutterButton {
     return ShutterButton()
   }
@@ -86,12 +90,9 @@ class BottomView: UIView {
     self.saveButton?.removeFromSuperview()
     self.saveButton = nil
 
-    self.cartButton?.removeFromSuperview()
-    self.cartButton = nil
-
     self.cartView?.removeFromSuperview()
     self.cartView = nil
-    
+
     self.filenameInputView?.removeFromSuperview()
     self.filenameInputView = nil
   }
@@ -100,11 +101,7 @@ class BottomView: UIView {
     clearSubviews()
     insertShutterButton(recording: true)
   }
-  
 
-
-
-  
   func setupFilenameInputLayout() {
     clearSubviews()
     insertBackButton()
@@ -115,24 +112,19 @@ class BottomView: UIView {
   func setupCartCollectionLayout() {
     clearSubviews()
 
-    insertCartButton()
-
-    let cartView = CartCollectionScrollView()
+    let cartView = CartCollectionScrollView(frame: .zero, cartItems: self.delegate!.cartItems)
     self.cartView = cartView
     cartView.backgroundColor = .black
     addSubview(cartView)
     cartView.g_pinEdges()
   }
 
-  
-  
   func setupCameraLayout() {
     clearSubviews()
     insertShutterButton(recording: false)
     insertBackButton()
-    insertCartButton()
   }
-  
+
   func setupAudioRecording() {
     clearSubviews()
     insertBackButton()
@@ -143,24 +135,7 @@ class BottomView: UIView {
     insertBackButton()
     insertSaveButton()
   }
-  
-  private var cartEmpty: Bool {
-    return false
-  }
-  
-  fileprivate func insertCartButton() {
-    if(!cartEmpty) {
-      let cartButton = self.makeBackButton()
-      self.cartButton = cartButton
-      cartButton.backgroundColor = .black
-      addSubview(cartButton)
-      Constraint.on(
-        cartButton.bottomAnchor.constraint(equalTo: cartButton.superview!.topAnchor, constant: -16),
-        cartButton.trailingAnchor.constraint(equalTo: cartButton.superview!.trailingAnchor, constant: -16)
-      )
-    }
-  }
-  
+
   fileprivate func insertShutterButton(recording: Bool) {
     let shutterButton = self.shutterButton ?? self.makeShutterButton()
     self.shutterButton = shutterButton
@@ -173,7 +148,7 @@ class BottomView: UIView {
       shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
-  
+
   fileprivate func insertSaveButton() {
     let saveButton = self.saveButton ?? self.makeSaveButton()
     self.saveButton = saveButton
@@ -183,7 +158,7 @@ class BottomView: UIView {
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
-  
+
   fileprivate func insertFileNameInput() {
     let filenameInputView = self.filenameInputView ?? FilenameInputView()
     self.filenameInputView = filenameInputView
@@ -194,7 +169,7 @@ class BottomView: UIView {
       filenameInputView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
-  
+
   fileprivate func insertBackButton() {
     let backButton = self.backButton ?? self.makeBackButton()
     self.backButton = backButton

@@ -7,7 +7,7 @@ public enum CartItemType {
 public protocol CartItemProtocol {
   var guid: String { get set }
   
-  var cartView: UIView { get }
+  var cartView: CartCollectionItemView { get }
   var type: CartItemType { get }
   
   func removeSelfFromCart()

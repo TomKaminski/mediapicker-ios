@@ -6,7 +6,7 @@ class VideoCell: ImageCell {
   lazy var cameraImageView: UIImageView = self.makeCameraImageView()
   lazy var durationLabel: UILabel = self.makeDurationLabel()
   lazy var bottomOverlay: UIView = self.makeBottomOverlay()
-  
+
   // MARK: - Config
   
   func configure(_ video: Video) {
@@ -27,7 +27,7 @@ class VideoCell: ImageCell {
     [bottomOverlay, cameraImageView, durationLabel].forEach {
       self.insertSubview($0, belowSubview: self.highlightOverlay)
     }
-    
+        
     bottomOverlay.g_pinDownward()
     bottomOverlay.g_pin(height: 16)
     
@@ -63,5 +63,12 @@ class VideoCell: ImageCell {
     view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
     
     return view
+  }
+  
+  private func makeFrameView() -> FrameView {
+    let frameView = FrameView(frame: .zero)
+    frameView.alpha = 0
+    
+    return frameView
   }
 }

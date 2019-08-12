@@ -1,10 +1,15 @@
+public protocol CartMainDelegate : AnyObject {
+  func itemAdded()
+  func itemRemoved()
+}
 
 public class Cart {
 
   public var items: [CartItemProtocol] = []
 
   var delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
-
+  weak var cartMainDelegate: CartMainDelegate?
+  
   // MARK: - Initialization
 
   init() {
@@ -19,6 +24,7 @@ public class Cart {
 
   public func add(_ item: CartItemProtocol) {
     items.append(item)
+    cartMainDelegate?.itemAdded()
 
     for case let delegate as CartDelegate in delegates.allObjects {
       switch item.type {
@@ -39,6 +45,7 @@ public class Cart {
     }) else { return }
 
     items.remove(at: index)
+    cartMainDelegate?.itemRemoved()
 
     for case let delegate as CartDelegate in delegates.allObjects {
       switch itemToRemove.type {

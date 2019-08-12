@@ -10,11 +10,12 @@ public class CartCollectionItemView: UIView {
   
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    self.layer.borderWidth = 2
-    backgroundColor = .green
+    self.layer.borderWidth = 1
+    backgroundColor = .white
     
-    imageView = UIImageView(image: MediaPickerBundle.image("gallery_camera_flash_auto"))
-    imageView.contentMode = .scaleAspectFit
+    imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFill
+    imageView.clipsToBounds = true
     deleteButon = UIImageView(image: MediaPickerBundle.image("gallery_close"))
     
     self.addSubview(imageView)
@@ -26,6 +27,16 @@ public class CartCollectionItemView: UIView {
       deleteButon.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
       deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2)
     )
+  }
+  
+  convenience init(image: UIImage) {
+    self.init(frame: .zero)
+    imageView.image = image
+  }
+  
+  convenience init(imageCompletion: (UIImageView) -> Void) {
+    self.init(frame: .zero)
+    imageCompletion(self.imageView)
   }
   
   //TO I TAK JEST BEZ SENSU BO DESIGN NIE MA SENSU TUTAJ

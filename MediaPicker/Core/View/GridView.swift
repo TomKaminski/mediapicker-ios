@@ -7,6 +7,7 @@ class GridView: UIView {
   
   lazy var topView: UIView = self.makeTopView()
   lazy var bottomView: UIView = self.makeBottomView()
+
   lazy var bottomBlurView: UIVisualEffectView = self.makeBottomBlurView()
   lazy var arrowButton: ArrowButton = self.makeArrowButton()
   lazy var collectionView: UICollectionView = self.makeCollectionView()

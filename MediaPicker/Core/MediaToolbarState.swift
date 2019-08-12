@@ -1,4 +1,4 @@
-enum MediaToolbarState {
+public enum MediaToolbarState {
   case Camera
   case CartExpanded
   case VideoRecording

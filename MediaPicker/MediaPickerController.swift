@@ -1,6 +1,7 @@
 public class MediaPickerController: UIViewController, PermissionControllerDelegate {
 
   let cart = Cart()
+  var pagesController: PagesController?
   
   public override var shouldAutorotate: Bool {
     return true
@@ -49,6 +50,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
 
     let controller = PagesController(controllers: controllers)
+    self.pagesController = controller
     let useCamera = Permission.Camera.status == .authorized
     controller.selectedIndex = useCamera ? 1 : 0
 
@@ -86,7 +88,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     super.viewDidLoad()
 
     setup()
-
+    self.cart.cartMainDelegate = self
     if let pagesController = makePagesController() {
       addChildController(pagesController)
     } else {
@@ -107,5 +109,15 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
 //
 //      }
     }
+  }
+}
+
+extension MediaPickerController: CartMainDelegate {
+  public func itemAdded() {
+    self.pagesController?.bottomView.cartView?.buildScrollView(cartItems: self.cart.items)
+  }
+  
+  public func itemRemoved() {
+    self.pagesController?.bottomView.cartView?.buildScrollView(cartItems: self.cart.items)
   }
 }

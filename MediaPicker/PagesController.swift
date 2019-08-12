@@ -14,6 +14,7 @@ class PagesController: UIViewController {
   lazy var scrollView: UIScrollView = self.makeScrollView()
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
+  lazy var cartButton: CartButton = self.makeCartButton()
   lazy var bottomView: BottomView = self.makeBottomView()
   
   var state = MediaToolbarState.Camera
@@ -86,6 +87,11 @@ class PagesController: UIViewController {
 
     return scrollView
   }
+  
+  func makeCartButton() -> CartButton {
+    let button = CartButton()
+    return button
+  }
 
   func makePageIndicator() -> PageIndicator {
     let items = controllers.compactMap { $0.title }
@@ -157,11 +163,21 @@ class PagesController: UIViewController {
     }
 
     view.addSubview(bottomView)
+    bottomView.delegate = self
     Constraint.on(
       bottomView.leadingAnchor.constraint(equalTo: bottomView.superview!.leadingAnchor),
       bottomView.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor),
       bottomView.heightAnchor.constraint(equalToConstant: 100),
       bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor)
+    )
+    
+    view.addSubview(cartButton)
+    cartButton.delegate = self
+    Constraint.on(
+      cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -16),
+      cartButton.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor, constant: -16),
+      cartButton.heightAnchor.constraint(equalToConstant: 40),
+      cartButton.widthAnchor.constraint(equalToConstant: 40)
     )
 
     EventHub.shared.changeMediaPickerState = {
@@ -286,5 +302,39 @@ extension PagesController: UIScrollViewDelegate {
     let index = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
     pageIndicator.select(index: index)
     updateAndNotify(index)
+  }
+}
+
+extension PagesController: BottomViewDelegate {
+  var cartItems: [CartItemProtocol] {
+    return self.mediaPickerController.cart.items
+  }
+  
+  var mediaPickerController: MediaPickerController {
+    return self.parent as! MediaPickerController
+  }
+  
+  var itemsInCart: Int {
+    return self.mediaPickerController.cart.items.count
+  }
+  
+  func bottomView(_ changedStateTo: MediaToolbarState) {
+    
+  }
+}
+
+extension PagesController: CartButtonDelegate {
+  func cartButtonTapped() {
+    
+    self.cartButton.cartOpened = !self.cartButton.cartOpened
+    if self.cartButton.cartOpened {
+      self.changeBottomViewState(.CartExpanded)
+    } else {
+      if let controller = controllers[selectedIndex] as? CartDelegate {
+        self.changeBottomViewState(controller.basicBottomViewState);
+      }
+    }
+    
+    self.bottomView.setup()
   }
 }

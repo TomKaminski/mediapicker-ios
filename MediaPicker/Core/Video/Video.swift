@@ -4,8 +4,12 @@ import Photos
 public class Video: Equatable, CartItemProtocol {
   public var guid: String
   
-  public var cartView: UIView {
-    return UIView()
+  public var cartView: CartCollectionItemView {
+    return CartCollectionItemView(imageCompletion: { (imageView) in
+      self.fetchThumbnail(completion: { (image) in
+        imageView.image = image
+      })
+    })
   }
   
   public var type: CartItemType {

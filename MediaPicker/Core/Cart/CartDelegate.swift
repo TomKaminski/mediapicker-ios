@@ -6,4 +6,6 @@ public protocol CartDelegate: AnyObject {
   func cart(_ cart: Cart, didRemove audio: Audio)
   func cart(_ cart: Cart, didRemove video: Video)
   func cartDidReload(_ cart: Cart)
+  
+  var basicBottomViewState: MediaToolbarState { get }
 }

@@ -31,7 +31,7 @@ class LibraryController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    self.cart.delegates.add(self)
     setup()
   }
 
@@ -296,13 +296,54 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func configureFrameView(_ cell: ImageCell, indexPath: IndexPath) {
-//    let item = items[(indexPath as NSIndexPath).item]
-//
-//    if let index = cart.images.firstIndex(of: item) {
-//      cell.frameView.g_quickFade()
-//      cell.frameView.label.text = "\(index + 1)"
-//    } else {
-//      cell.frameView.alpha = 0
-//    }
+    let item = getCartItem(indexPath: indexPath)
+
+    if cart.items.firstIndex(where: { (cartItem) -> Bool in
+      return item.guid == cartItem.guid
+    }) != nil {
+      cell.frameView.quickFade()
+    } else {
+      cell.frameView.alpha = 0
+    }
   }
+
+  var pagesController: PagesController {
+    return self.parent as! PagesController
+  }
+}
+
+extension LibraryController: CartDelegate {
+  var basicBottomViewState: MediaToolbarState {
+    return .Library
+  }
+  
+  func cart(_ cart: Cart, didAdd video: Video) {
+    pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+  }
+
+  func cart(_ cart: Cart, didAdd audio: Audio) {
+    //Nothing here
+  }
+
+  func cart(_ cart: Cart, didAdd image: Image) {
+    pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+  }
+
+  func cart(_ cart: Cart, didRemove image: Image) {
+    pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+  }
+
+  func cart(_ cart: Cart, didRemove audio: Audio) {
+    //Nothing here
+  }
+
+  func cart(_ cart: Cart, didRemove video: Video) {
+    pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+  }
+
+  func cartDidReload(_ cart: Cart) {
+
+  }
+
+
 }
