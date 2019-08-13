@@ -109,15 +109,19 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
 //
 //      }
     }
+    
+    EventHub.shared.selfDeleteFromCart = { guid in
+      self.cart.remove(guidToRemove: guid)
+    }
   }
 }
 
 extension MediaPickerController: CartMainDelegate {
-  public func itemAdded() {
-    self.pagesController?.bottomView.cartView?.buildScrollView(cartItems: self.cart.items)
+  public func itemAdded(item: CartItemProtocol) {
+    self.pagesController?.bottomView.cartView?.addItem(item: item)
   }
   
-  public func itemRemoved() {
-    self.pagesController?.bottomView.cartView?.buildScrollView(cartItems: self.cart.items)
+  public func itemRemoved(item: CartItemProtocol) {
+    self.pagesController?.bottomView.cartView?.removeItem(item: item)
   }
 }

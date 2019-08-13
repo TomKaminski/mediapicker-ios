@@ -5,7 +5,7 @@ public class Video: Equatable, CartItemProtocol {
   public var guid: String
   
   public var cartView: CartCollectionItemView {
-    return CartCollectionItemView(imageCompletion: { (imageView) in
+    return CartCollectionItemView(guid: guid, imageCompletion: { (imageView) in
       self.fetchThumbnail(completion: { (image) in
         imageView.image = image
       })
@@ -26,15 +26,6 @@ public class Video: Equatable, CartItemProtocol {
   init(asset: PHAsset, guid: String) {
     self.asset = asset
     self.guid = guid
-  }
-  
-  
-  public func removeSelfFromCart() {
-    
-  }
-  
-  public func runPreviewOrEdit() {
-    
   }
   
   /// Fetch video duration asynchronously

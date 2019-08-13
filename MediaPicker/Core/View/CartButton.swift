@@ -3,7 +3,7 @@ protocol CartButtonDelegate: AnyObject {
 }
 
 class CartButton: UIView {
-  var cartOpenedImage: UIImageView = UIImageView(image: MediaPickerBundle.image("gallery_close"))
+  var cartOpenedImage: UIImageView = UIImageView(image: Config.CartButton.cartExpandedImage)
   var cartItemsLabel: UILabel = UILabel()
   
   weak var delegate: CartButtonDelegate?
@@ -17,27 +17,14 @@ class CartButton: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.53)
-    self.layer.borderColor = UIColor.white.cgColor
-    self.layer.borderWidth = 1
-    self.layer.cornerRadius = 20
-    
-    cartItemsLabel.textColor = .white
-    cartItemsLabel.text = "0"
-    cartItemsLabel.textAlignment = .center
-    cartItemsLabel.font = UIFont.systemFont(ofSize: 18, weight: .light)
+    setup()
+    setupCartItemsLabel()
     cartOpenedImage.contentMode = .scaleAspectFit
     
-    self.isUserInteractionEnabled = true
     self.addSubview(cartOpenedImage)
     self.addSubview(cartItemsLabel)
-    toggleVisibility()
     
-    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
-  }
-  
-  @objc private func tapped() {
-    self.delegate?.cartButtonTapped()
+    toggleVisibility()
   }
   
   override func updateConstraints() {
@@ -51,6 +38,10 @@ class CartButton: UIView {
     cartItemsLabel.text = "\(items)"
   }
   
+  @objc private func tapped() {
+    self.delegate?.cartButtonTapped()
+  }
+  
   private func toggleVisibility() {
     if cartOpened {
       self.cartOpenedImage.isHidden = false
@@ -59,6 +50,23 @@ class CartButton: UIView {
       self.cartOpenedImage.isHidden = true
       self.cartItemsLabel.isHidden = false
     }
+  }
+  
+  fileprivate func setupCartItemsLabel() {
+    cartItemsLabel.textColor = Config.CartButton.textColor
+    cartItemsLabel.text = "0"
+    cartItemsLabel.textAlignment = .center
+    cartItemsLabel.font = Config.CartButton.font
+  }
+  
+  fileprivate func setup() {
+    self.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.53)
+    self.layer.borderColor = Config.CartButton.textColor.cgColor
+    self.layer.borderWidth = 1
+    self.layer.cornerRadius = 20
+    self.isUserInteractionEnabled = true
+    
+    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapped)))
   }
   
   required init?(coder aDecoder: NSCoder) {

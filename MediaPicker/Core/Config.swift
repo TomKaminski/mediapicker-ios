@@ -117,4 +117,10 @@ public struct Config {
     public static var portraitSize: CGSize = CGSize(width: 360, height: 640)
     public static var landscapeSize: CGSize = CGSize(width: 640, height: 360)
   }
+  
+  public struct CartButton {
+    public static var textColor = UIColor.white
+    public static var font = UIFont.systemFont(ofSize: 18, weight: .light)
+    public static var cartExpandedImage = MediaPickerBundle.image("gallery_close")
+  }
 }

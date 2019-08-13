@@ -12,7 +12,7 @@ class BottomView: UIView {
 
   var backButton: UIImageView?
   var filenameInputView: FilenameInputView?
-  var cartView: CartCollectionScrollView?
+  var cartView: CartCollectionView?
   var saveButton: GalleryFloatingButton?
   var shutterButton: ShutterButton?
 
@@ -112,7 +112,7 @@ class BottomView: UIView {
   func setupCartCollectionLayout() {
     clearSubviews()
 
-    let cartView = CartCollectionScrollView(frame: .zero, cartItems: self.delegate!.cartItems)
+    let cartView = CartCollectionView(frame: .zero, cartItems: self.delegate!.cartItems)
     self.cartView = cartView
     cartView.backgroundColor = .black
     addSubview(cartView)

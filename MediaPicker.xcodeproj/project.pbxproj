@@ -48,7 +48,7 @@
 		76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511DFC22FC10C100F4F32E /* CartDelegate.swift */; };
 		76511DFF22FC10F300F4F32E /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511DFE22FC10F300F4F32E /* Cart.swift */; };
 		76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511E0022FC113400F4F32E /* CartItemProtocol.swift */; };
-		76AFCBEA22F81E1400E1B7CB /* CartCollectionScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */; };
+		76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBE922F81E1400E1B7CB /* CartCollectionView.swift */; };
 		76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */; };
 		76AFCBEE22F8201100E1B7CB /* CartCollectionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */; };
 		76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */; };
@@ -61,6 +61,9 @@
 		76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4F522EAD5CB00D99495 /* MediaPickerBundle.swift */; };
 		76B8E4F822EADA5F00D99495 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4F722EADA5F00D99495 /* UIViewController+Extensions.swift */; };
 		76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4F922EADCAA00D99495 /* Constraints.swift */; };
+		76C0CFF62302987800E25900 /* CartItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF52302987800E25900 /* CartItemType.swift */; };
+		76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF72302989800E25900 /* CartMainDelegate.swift */; };
+		76C0CFFA2302996A00E25900 /* CartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF92302996900E25900 /* CartCollectionView.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
 /* End PBXBuildFile section */
@@ -131,7 +134,7 @@
 		76511DFC22FC10C100F4F32E /* CartDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDelegate.swift; sourceTree = "<group>"; };
 		76511DFE22FC10F300F4F32E /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		76511E0022FC113400F4F32E /* CartItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemProtocol.swift; sourceTree = "<group>"; };
-		76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionScrollView.swift; sourceTree = "<group>"; };
+		76AFCBE922F81E1400E1B7CB /* CartCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionView.swift; sourceTree = "<group>"; };
 		76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
 		76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionItemView.swift; sourceTree = "<group>"; };
 		76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilenameInputView.swift; sourceTree = "<group>"; };
@@ -144,6 +147,9 @@
 		76B8E4F522EAD5CB00D99495 /* MediaPickerBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerBundle.swift; sourceTree = "<group>"; };
 		76B8E4F722EADA5F00D99495 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		76B8E4F922EADCAA00D99495 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
+		76C0CFF52302987800E25900 /* CartItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemType.swift; sourceTree = "<group>"; };
+		76C0CFF72302989800E25900 /* CartMainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartMainDelegate.swift; sourceTree = "<group>"; };
+		76C0CFF92302996900E25900 /* CartCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CartCollectionView.swift; path = MediaPicker/BottomView/CartCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		76E7C0F423015CFC003A07B2 /* CartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartButton.swift; sourceTree = "<group>"; };
 		8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -314,6 +320,7 @@
 		7639066222F2E601007CD4CE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				76C0CFF92302996900E25900 /* CartCollectionView.swift */,
 				7639066322F2E60E007CD4CE /* FrameView.swift */,
 				7639067222F2ED91007CD4CE /* AlbumCell.swift */,
 				7639067422F2EE10007CD4CE /* EmptyView.swift */,
@@ -339,6 +346,8 @@
 				76511DFC22FC10C100F4F32E /* CartDelegate.swift */,
 				76511DFE22FC10F300F4F32E /* Cart.swift */,
 				76511E0022FC113400F4F32E /* CartItemProtocol.swift */,
+				76C0CFF52302987800E25900 /* CartItemType.swift */,
+				76C0CFF72302989800E25900 /* CartMainDelegate.swift */,
 			);
 			path = Cart;
 			sourceTree = "<group>";
@@ -347,7 +356,7 @@
 			isa = PBXGroup;
 			children = (
 				7618EE0F22F4579C0051C287 /* BottomView.swift */,
-				76AFCBE922F81E1400E1B7CB /* CartCollectionScrollView.swift */,
+				76AFCBE922F81E1400E1B7CB /* CartCollectionView.swift */,
 				76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */,
 				76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */,
 				76AFCBEF22F8317600E1B7CB /* FilenameInputView.swift */,
@@ -567,6 +576,8 @@
 				76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */,
 				76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */,
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
+				76C0CFF62302987800E25900 /* CartItemType.swift in Sources */,
+				76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */,
 				7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */,
 				7639066A22F2E7FE007CD4CE /* VideoCell.swift in Sources */,
 				7639065A22F2DDD3007CD4CE /* Utils.swift in Sources */,
@@ -579,9 +590,10 @@
 				76511DFF22FC10F300F4F32E /* Cart.swift in Sources */,
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
 				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
-				76AFCBEA22F81E1400E1B7CB /* CartCollectionScrollView.swift in Sources */,
+				76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */,
 				7639067122F2ED5E007CD4CE /* DropdownController.swift in Sources */,
 				7618EE1022F4579C0051C287 /* BottomView.swift in Sources */,
+				76C0CFFA2302996A00E25900 /* CartCollectionView.swift in Sources */,
 				76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */,
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,

@@ -29,14 +29,6 @@ public class Audio: Equatable, CartItemProtocol {
     return lhs.audioFile == rhs.audioFile
   }
 
-  public func removeSelfFromCart() {
-
-  }
-
-  public func runPreviewOrEdit() {
-
-  }
-
   func fetchDuration(_ completion: @escaping (Double) -> Void) {
     guard duration == 0 else {
       DispatchQueue.main.async {

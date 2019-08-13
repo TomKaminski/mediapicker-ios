@@ -1,8 +1,3 @@
-public protocol CartMainDelegate : AnyObject {
-  func itemAdded()
-  func itemRemoved()
-}
-
 public class Cart {
 
   public var items: [CartItemProtocol] = []
@@ -12,9 +7,7 @@ public class Cart {
   
   // MARK: - Initialization
 
-  init() {
-
-  }
+  init() {}
 
   // MARK: - Delegate
 
@@ -24,7 +17,7 @@ public class Cart {
 
   public func add(_ item: CartItemProtocol) {
     items.append(item)
-    cartMainDelegate?.itemAdded()
+    cartMainDelegate?.itemAdded(item: item)
 
     for case let delegate as CartDelegate in delegates.allObjects {
       switch item.type {
@@ -45,11 +38,27 @@ public class Cart {
     }) else { return }
 
     items.remove(at: index)
-    cartMainDelegate?.itemRemoved()
+    cartMainDelegate?.itemRemoved(item: itemToRemove)
 
+    processRemoveEvent(itemToRemove)
+  }
+  
+  public func remove(guidToRemove: String) {
+    guard let index = items.firstIndex(where: { (cartItem) -> Bool in
+      return cartItem.guid == guidToRemove
+    }) else { return }
+    
+    let itemToRemove = items[index]
+    items.remove(at: index)
+    cartMainDelegate?.itemRemoved(item: itemToRemove)
+    
+    processRemoveEvent(itemToRemove)
+  }
+  
+  fileprivate func processRemoveEvent(_ itemToRemove: CartItemProtocol) {
     for case let delegate as CartDelegate in delegates.allObjects {
       switch itemToRemove.type {
-
+        
       case .Audio:
         delegate.cart(self, didRemove: itemToRemove as! Audio)
       case .Video:

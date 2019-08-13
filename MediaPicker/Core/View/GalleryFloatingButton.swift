@@ -22,14 +22,6 @@ public class GalleryFloatingButton: UIView {
     self.addGestureRecognizer(gestureRecognizer)
   }
   
-  @objc private func buttonTapped() {
-    self.tapDelegate?.tapped()
-  }
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   override public func updateConstraints() {
     self.translatesAutoresizingMaskIntoConstraints = false
     self.imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,5 +35,13 @@ public class GalleryFloatingButton: UIView {
     self.imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
     
     super.updateConstraints()
+  }
+  
+  @objc private func buttonTapped() {
+    self.tapDelegate?.tapped()
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

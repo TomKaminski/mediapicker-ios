@@ -8,9 +8,7 @@ class Library {
   
   // MARK: - Initialization
   
-  init() {
-    
-  }
+  init() {}
   
   // MARK: - Logic
   

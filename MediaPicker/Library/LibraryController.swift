@@ -331,6 +331,7 @@ extension LibraryController: CartDelegate {
 
   func cart(_ cart: Cart, didRemove image: Image) {
     pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+    configureFrameViews()
   }
 
   func cart(_ cart: Cart, didRemove audio: Audio) {
@@ -339,11 +340,10 @@ extension LibraryController: CartDelegate {
 
   func cart(_ cart: Cart, didRemove video: Video) {
     pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+    configureFrameViews()
   }
 
   func cartDidReload(_ cart: Cart) {
 
   }
-
-
 }

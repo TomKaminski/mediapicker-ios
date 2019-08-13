@@ -13,4 +13,5 @@ class EventHub {
   var close: Action?
   var doneWithMedia: Action?
   var changeMediaPickerState: ((MediaToolbarState) -> Void)?
+  var selfDeleteFromCart: ((String) -> Void)?
 }
