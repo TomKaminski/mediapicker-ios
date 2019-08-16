@@ -3,6 +3,9 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
   let cart = Cart()
   var pagesController: PagesController?
   
+  var pagesBottomContraint: NSLayoutConstraint?
+  var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
+
   public override var shouldAutorotate: Bool {
     return true
   }
@@ -62,7 +65,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
       return nil
     }
 
-    let ctrl = UIViewController()
+    let ctrl = CameraController()
     ctrl.title = title
     return ctrl
   }
@@ -72,7 +75,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
       return nil
     }
 
-    let ctrl = UIViewController()
+    let ctrl = AudioController(cart: self.cart)
     ctrl.title = title
     return ctrl
   }
@@ -91,12 +94,42 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     self.cart.cartMainDelegate = self
     if let pagesController = makePagesController() {
       addChildController(pagesController)
+      addChild(pagesController)
+      view.addSubview(pagesController.view)
+      pagesController.didMove(toParent: self)
+      
+      pagesController.view.g_pin(on: .topMargin)
+      pagesBottomContraint = pagesController.view.g_pin(on: .bottom)
+      pagesController.view.g_pin(on: .left)
+      pagesController.view.g_pin(on: .right)
     } else {
       let permissionController = makePermissionController()
       addChildController(permissionController)
     }
+    
+    let ntCenter = NotificationCenter.default
+    ntCenter.addObserver(self, selector: #selector(keyboardWillBeShown(note:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    ntCenter.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
   }
 
+  @objc func keyboardWillBeShown(note: Notification) {
+    let userInfo = note.userInfo
+    let keyboardFrame = userInfo?[UIWindow.keyboardFrameEndUserInfoKey] as! CGRect
+    self.pagesBottomContraint?.isActive = false
+    if self.pagesBottomActiveKeyboardContraint == nil {
+      pagesBottomActiveKeyboardContraint = pagesController?.view.g_pin(on: .bottom, constant: keyboardFrame.height)
+    }
+    self.pagesBottomActiveKeyboardContraint?.isActive = true
+  }
+  
+  @objc func keyboardWillBeHidden(note: Notification) {
+    self.pagesBottomActiveKeyboardContraint?.isActive = false
+    if self.pagesBottomContraint == nil {
+      pagesBottomContraint = pagesController?.view.g_pin(on: .bottom)
+    }
+    self.pagesBottomContraint?.isActive = true
+  }
+  
   func setup() {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {

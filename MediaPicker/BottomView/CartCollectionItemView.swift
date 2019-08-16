@@ -45,9 +45,10 @@ public class CartCollectionItemView: UIView {
     EventHub.shared.selfDeleteFromCart?(guid)
   }
 
-  convenience init(image: UIImage) {
+  convenience init(guid: String,image: UIImage) {
     self.init(frame: .zero)
     imageView.image = image
+    self.guid = guid
   }
 
   convenience init(guid: String, imageCompletion: (UIImageView) -> Void) {

@@ -48,6 +48,10 @@
 		76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511DFC22FC10C100F4F32E /* CartDelegate.swift */; };
 		76511DFF22FC10F300F4F32E /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511DFE22FC10F300F4F32E /* Cart.swift */; };
 		76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76511E0022FC113400F4F32E /* CartItemProtocol.swift */; };
+		768A03E42306767D00C9B65F /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A03E32306767D00C9B65F /* CameraController.swift */; };
+		768A03E7230676A100C9B65F /* AudioController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A03E6230676A100C9B65F /* AudioController.swift */; };
+		768A03E923067C4D00C9B65F /* AudioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A03E823067C4D00C9B65F /* AudioView.swift */; };
+		768A03EB2306C5A400C9B65F /* AudioPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 768A03EA2306C5A400C9B65F /* AudioPreviewController.swift */; };
 		76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBE922F81E1400E1B7CB /* CartCollectionView.swift */; };
 		76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */; };
 		76AFCBEE22F8201100E1B7CB /* CartCollectionItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */; };
@@ -134,6 +138,10 @@
 		76511DFC22FC10C100F4F32E /* CartDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartDelegate.swift; sourceTree = "<group>"; };
 		76511DFE22FC10F300F4F32E /* Cart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		76511E0022FC113400F4F32E /* CartItemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemProtocol.swift; sourceTree = "<group>"; };
+		768A03E32306767D00C9B65F /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		768A03E6230676A100C9B65F /* AudioController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioController.swift; sourceTree = "<group>"; };
+		768A03E823067C4D00C9B65F /* AudioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioView.swift; sourceTree = "<group>"; };
+		768A03EA2306C5A400C9B65F /* AudioPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreviewController.swift; sourceTree = "<group>"; };
 		76AFCBE922F81E1400E1B7CB /* CartCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionView.swift; sourceTree = "<group>"; };
 		76AFCBEB22F81E6300E1B7CB /* HorizontalScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalScrollView.swift; sourceTree = "<group>"; };
 		76AFCBED22F8201100E1B7CB /* CartCollectionItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCollectionItemView.swift; sourceTree = "<group>"; };
@@ -224,6 +232,7 @@
 		761B9FD622E9BAB9004D494E /* MediaPicker */ = {
 			isa = PBXGroup;
 			children = (
+				768A03E52306768F00C9B65F /* Audio */,
 				76AFCBE822F81DF900E1B7CB /* BottomView */,
 				7639065422F2DD55007CD4CE /* Core */,
 				7639064F22F2DC66007CD4CE /* Library */,
@@ -256,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				7618EE1522F489C50051C287 /* ShutterButton.swift */,
+				768A03E32306767D00C9B65F /* CameraController.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -350,6 +360,16 @@
 				76C0CFF72302989800E25900 /* CartMainDelegate.swift */,
 			);
 			path = Cart;
+			sourceTree = "<group>";
+		};
+		768A03E52306768F00C9B65F /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				768A03E6230676A100C9B65F /* AudioController.swift */,
+				768A03E823067C4D00C9B65F /* AudioView.swift */,
+				768A03EA2306C5A400C9B65F /* AudioPreviewController.swift */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 		76AFCBE822F81DF900E1B7CB /* BottomView */ = {
@@ -568,6 +588,7 @@
 				76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */,
 				76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
+				768A03E42306767D00C9B65F /* CameraController.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
 				76B8E4F022EAD3A200D99495 /* String+Extensions.swift in Sources */,
 				7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */,
@@ -578,6 +599,7 @@
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
 				76C0CFF62302987800E25900 /* CartItemType.swift in Sources */,
 				76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */,
+				768A03EB2306C5A400C9B65F /* AudioPreviewController.swift in Sources */,
 				7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */,
 				7639066A22F2E7FE007CD4CE /* VideoCell.swift in Sources */,
 				7639065A22F2DDD3007CD4CE /* Utils.swift in Sources */,
@@ -591,6 +613,7 @@
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
 				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
 				76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */,
+				768A03E7230676A100C9B65F /* AudioController.swift in Sources */,
 				7639067122F2ED5E007CD4CE /* DropdownController.swift in Sources */,
 				7618EE1022F4579C0051C287 /* BottomView.swift in Sources */,
 				76C0CFFA2302996A00E25900 /* CartCollectionView.swift in Sources */,
@@ -599,6 +622,7 @@
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
+				768A03E923067C4D00C9B65F /* AudioView.swift in Sources */,
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -182,7 +182,7 @@ class PagesController: UIViewController {
 
     EventHub.shared.changeMediaPickerState = {
       stateFromEvent in
-      self.changeBottomViewState(self.shuffleState())
+      self.changeBottomViewState(stateFromEvent)
       self.bottomView.setup()
       print("Changing state to.. \(self.state)")
     }
