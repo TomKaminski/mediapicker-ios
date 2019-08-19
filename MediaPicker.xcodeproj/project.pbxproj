@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		269E963E28480018C354EB80 /* libPods-MediaPickerExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */; };
 		712C1213792289B0CC722CEB /* libPods-MediaPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */; };
+		760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17B9230A8F3100D5E192 /* CameraMan.swift */; };
+		760D17BC230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BB230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift */; };
+		760D17BE230A907A00D5E192 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BD230A907A00D5E192 /* Fetcher.swift */; };
+		760D17C0230A90B900D5E192 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BF230A90B900D5E192 /* CameraView.swift */; };
+		760D17C2230A91DE00D5E192 /* TripleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17C1230A91DE00D5E192 /* TripleButton.swift */; };
 		7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7617E87122F87706007B7E4E /* MediaToolbarState.swift */; };
 		7618EE1022F4579C0051C287 /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE0F22F4579C0051C287 /* BottomView.swift */; };
 		7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */; };
@@ -97,6 +102,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		760D17B9230A8F3100D5E192 /* CameraMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMan.swift; sourceTree = "<group>"; };
+		760D17BB230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosuredAVCaptureMoveFileOutput.swift; sourceTree = "<group>"; };
+		760D17BD230A907A00D5E192 /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
+		760D17BF230A90B900D5E192 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
+		760D17C1230A91DE00D5E192 /* TripleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripleButton.swift; sourceTree = "<group>"; };
 		7617E87122F87706007B7E4E /* MediaToolbarState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaToolbarState.swift; sourceTree = "<group>"; };
 		7618EE0F22F4579C0051C287 /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
 		7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryFloatingButton.swift; sourceTree = "<group>"; };
@@ -266,6 +276,9 @@
 			children = (
 				7618EE1522F489C50051C287 /* ShutterButton.swift */,
 				768A03E32306767D00C9B65F /* CameraController.swift */,
+				760D17B9230A8F3100D5E192 /* CameraMan.swift */,
+				760D17BF230A90B900D5E192 /* CameraView.swift */,
+				760D17C1230A91DE00D5E192 /* TripleButton.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -297,6 +310,7 @@
 				76B8E4F922EADCAA00D99495 /* Constraints.swift */,
 				7639065922F2DDD3007CD4CE /* Utils.swift */,
 				7639066522F2E65B007CD4CE /* Config.swift */,
+				760D17BD230A907A00D5E192 /* Fetcher.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -315,6 +329,7 @@
 			children = (
 				7639065722F2DD75007CD4CE /* Video.swift */,
 				7639066922F2E7FE007CD4CE /* VideoCell.swift */,
+				760D17BB230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -586,7 +601,9 @@
 				7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */,
 				7618EE1422F477F70051C287 /* EventHub.swift in Sources */,
 				76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */,
+				760D17C2230A91DE00D5E192 /* TripleButton.swift in Sources */,
 				76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */,
+				760D17C0230A90B900D5E192 /* CameraView.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
 				768A03E42306767D00C9B65F /* CameraController.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
@@ -594,6 +611,8 @@
 				7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */,
 				7639066422F2E60E007CD4CE /* FrameView.swift in Sources */,
 				76AFCBEE22F8201100E1B7CB /* CartCollectionItemView.swift in Sources */,
+				760D17BC230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift in Sources */,
+				760D17BE230A907A00D5E192 /* Fetcher.swift in Sources */,
 				76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */,
 				76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */,
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
@@ -622,6 +641,7 @@
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
+				760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */,
 				768A03E923067C4D00C9B65F /* AudioView.swift in Sources */,
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 			);

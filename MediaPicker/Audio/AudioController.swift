@@ -5,7 +5,8 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   lazy var audioView: AudioView = self.makeAudioView()
   let cart: Cart
 
-  var audioRecorder: AVAudioRecorder?
+  var audioRecorder: AVAudioRecorder!
+  var recordingSession: AVAudioSession!
   var isPaused: Bool = false
   var recordTimer: Timer?
   var fileName: String!
@@ -24,7 +25,14 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    setup()
+    recordingSession = AVAudioSession.sharedInstance()
+    do {
+      try recordingSession.setCategory(.playAndRecord, mode: .default)
+      try recordingSession.setActive(true)
+      setup()
+    } catch {
+      
+    }
   }
   
   private func setup() {
@@ -90,8 +98,8 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     
     do {
       audioRecorder = try AVAudioRecorder(url: tempPath, settings: settings)
-      audioRecorder?.delegate = self
-      audioRecorder?.record()
+      audioRecorder.delegate = self
+      audioRecorder.record()
       
       self.audioView.toogleDoneButtonVisibility(isHidden: false)
       self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording"))
@@ -180,10 +188,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     audioRecorder?.stop()
     self.audioView.toogleDoneButtonVisibility(isHidden: true)
     if let url = audioRecorder?.url {
-//      try? self.cart.add(Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString))
-//      EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
-
-      //TODO: Remove it?
+      try? self.cart.add(Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString))
       self.addAudioTakenChildrenController(url: url)
     } else {
       EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)

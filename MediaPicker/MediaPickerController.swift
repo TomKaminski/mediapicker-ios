@@ -41,9 +41,9 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
       if tab == .libraryTab {
         return createLibraryController()
       } else if tab == .cameraTab {
-        return createCameraController(title: "CAMERA")
+        return createCameraController()
       } else if tab == .audioTab {
-        return createAudioController(title: "AUDIO")
+        return createAudioController()
       }
       return nil
     }
@@ -60,23 +60,23 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     return controller
   }
 
-  func createCameraController(title: String) -> UIViewController? {
+  func createCameraController() -> UIViewController? {
     guard Permission.Camera.status == .authorized else {
       return nil
     }
 
-    let ctrl = CameraController()
-    ctrl.title = title
+    let ctrl = CameraController(cart: self.cart)
+    ctrl.title = "CAMERA"
     return ctrl
   }
 
-  func createAudioController(title: String) -> UIViewController? {
+  func createAudioController() -> UIViewController? {
     guard Permission.Microphone.status == .authorized else {
       return nil
     }
 
     let ctrl = AudioController(cart: self.cart)
-    ctrl.title = title
+    ctrl.title = "AUDIO"
     return ctrl
   }
 
