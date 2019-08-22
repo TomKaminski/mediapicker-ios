@@ -12,6 +12,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   lazy var focusImageView: UIImageView = self.makeFocusImageView()
   lazy var tapGR: UITapGestureRecognizer = self.makeTapGR()
   lazy var blurView: UIVisualEffectView = self.makeBlurView()
+  lazy var shutterOverlayView: UIView = self.makeShutterOverlayView()
 
   var timer: Timer?
   var videoRecordingTimer: Timer?
@@ -42,6 +43,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     
     rotateOverlayView.addSubview(blurView)
     insertSubview(rotateOverlayView, belowSubview: rotateButton)
+    insertSubview(shutterOverlayView, belowSubview: blurView)
 
     rotateButton.g_pin(on: .right)
     rotateButton.g_pin(size: CGSize(width: 44, height: 44))
@@ -58,6 +60,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     
     rotateOverlayView.g_pinEdges()
     blurView.g_pinEdges()
+    shutterOverlayView.g_pinEdges()
   }
   
   func setupPreviewLayer(_ session: AVCaptureSession) {
@@ -166,5 +169,13 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     let blurView = UIVisualEffectView(effect: effect)
     
     return blurView
+  }
+  
+  func makeShutterOverlayView() -> UIView {
+    let view = UIView()
+    view.alpha = 0
+    view.backgroundColor = UIColor.black
+    
+    return view
   }
 }

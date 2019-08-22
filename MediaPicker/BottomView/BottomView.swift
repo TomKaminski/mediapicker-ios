@@ -5,6 +5,7 @@ protocol BottomViewDelegate: AnyObject {
   var cartItems: [CartItemProtocol] { get }
 
   func bottomView(_ changedStateTo: MediaToolbarState)
+  func shutterButtonTouched()
 }
 
 class BottomView: UIView {
@@ -74,10 +75,14 @@ class BottomView: UIView {
     return button
   }
 
-
-
   func makeShutterButton() -> ShutterButton {
-    return ShutterButton()
+    let shutterBtn =  ShutterButton()
+    shutterBtn.addTarget(self, action: #selector(onShutterButtonTapped), for: .touchUpInside)
+    return shutterBtn
+  }
+  
+  @objc private func onShutterButtonTapped() {
+    self.delegate?.shutterButtonTouched()
   }
 
   func clearSubviews() {
@@ -139,6 +144,7 @@ class BottomView: UIView {
   fileprivate func insertShutterButton(recording: Bool) {
     let shutterButton = self.shutterButton ?? self.makeShutterButton()
     self.shutterButton = shutterButton
+    self.shutterButton?.isUserInteractionEnabled = true
     shutterButton.recording = recording
     addSubview(shutterButton)
     shutterButton.g_pin(width: 55)

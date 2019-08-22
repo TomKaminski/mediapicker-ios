@@ -5,6 +5,9 @@ protocol PageAware: AnyObject {
   func pageDidHide()
   
   var initialBottomViewState: MediaToolbarState { get }
+  
+  func switchedToState(state: MediaToolbarState)
+  func shutterButtonTouched()
 }
 
 class PagesController: UIViewController {
@@ -24,6 +27,7 @@ class PagesController: UIViewController {
       scrollView.isScrollEnabled = false
     }
   }
+  
   let once = Once()
 
   var pageIndicatorHeightConstraint: NSLayoutConstraint!
@@ -184,8 +188,13 @@ class PagesController: UIViewController {
       stateFromEvent in
       self.changeBottomViewState(stateFromEvent)
       self.bottomView.setup()
+      self.activeController?.switchedToState(state: stateFromEvent)
       print("Changing state to.. \(self.state)")
     }
+  }
+  
+  fileprivate var activeController: PageAware? {
+    return self.controllers[self.selectedIndex] as? PageAware
   }
 
   fileprivate func showPageIndicator() {
@@ -198,36 +207,6 @@ class PagesController: UIViewController {
     pageIndicatorHeightConstraint.constant = 0
     pageIndicator.isHidden = true
     blockPageIndicator = true
-  }
-  
-  
-  private func shuffleState() -> MediaToolbarState {
-    switch state {
-    case .Camera:
-      showPageIndicator()
-      return .AudioRecording
-    case .CartExpanded:
-      hidePageIndicator()
-      return .Camera
-    case .VideoRecording:
-      showPageIndicator()
-      return .CartExpanded
-    case .VideoTaken:
-      hidePageIndicator()
-      return .VideoRecording
-    case .Library:
-      showPageIndicator()
-      return .VideoTaken
-    case .Audio:
-      showPageIndicator()
-      return .Library
-    case .AudioTaken:
-      hidePageIndicator()
-      return .Audio
-    case .AudioRecording:
-      showPageIndicator()
-      return .AudioTaken
-    }
   }
 
   // MARK: - Index
@@ -306,6 +285,10 @@ extension PagesController: UIScrollViewDelegate {
 }
 
 extension PagesController: BottomViewDelegate {
+  func shutterButtonTouched() {
+    self.activeController?.shutterButtonTouched()
+  }
+  
   var cartItems: [CartItemProtocol] {
     return self.mediaPickerController.cart.items
   }

@@ -207,6 +207,14 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
 }
 
 extension AudioController: PageAware {
+  func shutterButtonTouched() {
+    
+  }
+  
+  func switchedToState(state: MediaToolbarState) {
+    
+  }
+  
   func pageDidShow() {}
   
   func pageDidHide() {

@@ -42,6 +42,11 @@ class CameraController: UIViewController {
     super.viewWillTransition(to: size, with: coordinator)
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    
+  }
   
   func setup() {
     view.addSubview(cameraView)
@@ -85,6 +90,37 @@ class CameraController: UIViewController {
     return view
   }
 
+  
+  func shutterButtonAction() {
+    guard let previewLayer = cameraView.previewLayer else { return }
+    
+    switch Config.Camera.recordMode {
+    case .photo:
+      self.pagesController.bottomView.shutterButton?.isEnabled = false
+      UIView.animate(withDuration: 0.1, animations: {
+        self.cameraView.shutterOverlayView.alpha = 1
+      }, completion: { _ in
+        UIView.animate(withDuration: 0.1, animations: {
+          self.cameraView.shutterOverlayView.alpha = 0
+        })
+      })
+  
+      cameraMan.takePhoto(previewLayer, location: nil)
+    case .video:
+      break;
+//      if self.cameraMan.isRecording() {
+//        button.isEnabled = false
+//        self.cameraView.morphToVideoRecordingSavingStarted()
+//        self.cameraMan.stopVideoRecording()
+//      } else {
+//        button.isEnabled = false
+//        self.cameraMan.startVideoRecord(location: nil, startCompletion: { result in
+//          button.isEnabled = true
+//          self.cameraView.morphToVideoRecordingStarted()
+//        })
+//      }
+    }
+  }
 }
 
 extension CameraController: CameraViewDelegate {
@@ -94,11 +130,23 @@ extension CameraController: CameraViewDelegate {
 }
 
 extension CameraController: PageAware {
+  func shutterButtonTouched() {
+    self.shutterButtonAction()
+  }
+  
+  func switchedToState(state: MediaToolbarState) {
+    if (state == .Camera) {
+//      self.pagesController.bottomView.shutterButton?.addTarget(self, action: #selector(shutterButtonTouched(_:)), for: .touchUpInside)
+    }
+  }
+  
+  
   func pageDidHide() {
     //self.stopVideoRecordingIfStarted()
   }
   
   func pageDidShow() {
+    
 //    if let video = self.cart.video {
 //      self.videoBox.imageView.g_loadImage(video.asset)
 //    }
@@ -106,10 +154,16 @@ extension CameraController: PageAware {
     once.run {
       cameraMan.setup()
     }
+//
+//    self.pagesController.bottomView.shutterButton!.addTarget(self, action: #selector(shutterButtonTouched(_:)), for: .touchUpInside)
   }
 
   var initialBottomViewState: MediaToolbarState {
     return .Camera
+  }
+  
+  var pagesController: PagesController {
+    return self.parent as! PagesController
   }
 }
 
@@ -161,31 +215,19 @@ extension CameraController: CameraManDelegate {
   }
   
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
-//    if Config.Camera.recordMode == .photo {
-//      self.cameraView.shutterButton.isEnabled = true
-//      self.cameraView.stackView.stopLoading()
-//      
-//      if let asset = asset {
-//        originalImageAsset = Image(asset: asset)
-//        originalImageAsset?.resolve { (originalImage) in
-//          guard let originalImage = originalImage else {
-//            self.cart.add(self.originalImageAsset!, newlyTaken: true)
-//            return
-//          }
-//          
-//          let photoEditor = PhotoEditorViewController(nibName: "PhotoEditorViewController", bundle: Bundle(for: PhotoEditorViewController.self))
-//          photoEditor.photoEditorDelegate = self
-//          photoEditor.image = originalImage
-//          self.present(photoEditor, animated: true, completion: nil)
-//        }
-//      }
-//    } else {
+    if Config.Camera.recordMode == .photo {
+      self.pagesController.bottomView.shutterButton?.isEnabled = true
+
+      if let asset = asset {
+        self.cart.add(Image(asset: asset, guid: UUID().uuidString))
+      }
+    } else {
 //      self.cameraView.shutterButton.isEnabled = true
 //      self.cameraView.morphToVideoRecordingSavingDone()
 //      if let asset = asset {
 //        self.cart.setVideo(Video(asset: asset))
 //      }
-//    }
+    }
   }
 }
 

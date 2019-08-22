@@ -150,6 +150,14 @@ class LibraryController: UIViewController {
 }
 
 extension LibraryController: PageAware {
+  func shutterButtonTouched() {
+    
+  }
+  
+  func switchedToState(state: MediaToolbarState) {
+    
+  }
+  
   var initialBottomViewState: MediaToolbarState {
     return .Library
   }

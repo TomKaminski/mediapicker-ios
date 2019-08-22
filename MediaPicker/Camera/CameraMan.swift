@@ -174,7 +174,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   
   var lastLocation: CLLocation?
   
-  func takePhoto(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?, completion: @escaping ((PHAsset?) -> Void)) {
+  func takePhoto(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?) {
     guard let connection = photoOutput?.connection(with: .video) else { return }
     
     connection.videoOrientation = Utils.videoOrientation()
