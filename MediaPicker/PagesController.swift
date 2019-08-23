@@ -7,7 +7,12 @@ protocol PageAware: AnyObject {
   var initialBottomViewState: MediaToolbarState { get }
   
   func switchedToState(state: MediaToolbarState)
-  func shutterButtonTouched()
+}
+
+protocol CameraPageAware: PageAware {
+  func shutterButtonTapped()
+  func shutterButtonHeld()
+  func shutterButtonReleased()
 }
 
 class PagesController: UIViewController {
@@ -285,8 +290,18 @@ extension PagesController: UIScrollViewDelegate {
 }
 
 extension PagesController: BottomViewDelegate {
+  func shutterButtonHeld() {
+    (self.activeController as? CameraPageAware)?.shutterButtonHeld()
+    self.cartButton.isHidden = true
+  }
+  
+  func shutterButtonReleased() {
+    (self.activeController as? CameraPageAware)?.shutterButtonReleased()
+    self.cartButton.isHidden = false
+  }
+  
   func shutterButtonTouched() {
-    self.activeController?.shutterButtonTouched()
+    (self.activeController as? CameraPageAware)?.shutterButtonTapped()
   }
   
   var cartItems: [CartItemProtocol] {

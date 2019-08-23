@@ -6,6 +6,8 @@ protocol BottomViewDelegate: AnyObject {
 
   func bottomView(_ changedStateTo: MediaToolbarState)
   func shutterButtonTouched()
+  func shutterButtonHeld()
+  func shutterButtonReleased()
 }
 
 class BottomView: UIView {
@@ -40,8 +42,6 @@ class BottomView: UIView {
       setupCameraLayout()
     case .CartExpanded:
       setupCartCollectionLayout()
-    case .VideoRecording:
-      setupCameraRecordingLayout()
     case .VideoTaken:
       setupFilenameInputLayout()
     case .Library:
@@ -76,9 +76,27 @@ class BottomView: UIView {
   }
 
   func makeShutterButton() -> ShutterButton {
-    let shutterBtn =  ShutterButton()
+    let shutterBtn = ShutterButton()
     shutterBtn.addTarget(self, action: #selector(onShutterButtonTapped), for: .touchUpInside)
+
+    let longGesture = UILongPressGestureRecognizer(target: self, action: #selector(shutterLongTap(sender:)))
+    shutterBtn.addGestureRecognizer(longGesture)
     return shutterBtn
+  }
+  
+  @objc func shutterLongTap(sender: UIGestureRecognizer) {
+    if sender.state == .began {
+      self.setupRecordingLayout()
+      self.delegate?.shutterButtonHeld()
+    } else if sender.state == .ended {
+      self.delegate?.shutterButtonReleased()
+      self.setupCameraLayout()
+    }
+  }
+  
+  private func setupRecordingLayout() {
+    self.shutterButton?.recording = true
+    self.backButton?.isHidden = true
   }
   
   @objc private func onShutterButtonTapped() {
@@ -100,11 +118,6 @@ class BottomView: UIView {
 
     self.filenameInputView?.removeFromSuperview()
     self.filenameInputView = nil
-  }
-
-  func setupCameraRecordingLayout() {
-    clearSubviews()
-    insertShutterButton(recording: true)
   }
 
   func setupFilenameInputLayout() {

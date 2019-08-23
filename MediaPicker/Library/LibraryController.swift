@@ -46,8 +46,6 @@ class LibraryController: UIViewController {
     gridView.insertSubview(dropdownController.view, belowSubview: gridView.topView)
     dropdownController.didMove(toParent: self)
 
-    //gridView.bottomView.addSubview(stackView)
-
     gridView.g_pinEdges()
 
     dropdownController.view.g_pin(on: .left)
@@ -58,15 +56,9 @@ class LibraryController: UIViewController {
     dropdownController.expandedTopConstraint?.isActive = false
     dropdownController.collapsedTopConstraint = dropdownController.view.g_pin(on: .top, on: .bottom)
 
-//    stackView.g_pin(on: .centerY, constant: -4)
-//    stackView.g_pin(on: .left, constant: 38)
-//    stackView.g_pin(size: CGSize(width: 56, height: 56))
 
     gridView.shuffleStateTestButton.addTarget(self, action: #selector(shuffleButtonTouched), for: .touchUpInside)
-//    gridView.doneButton.addTarget(self, action: #selector(doneButtonTouched(_:)), for: .touchUpInside)
     gridView.arrowButton.addTarget(self, action: #selector(arrowButtonTouched(_:)), for: .touchUpInside)
-//    stackView.addTarget(self, action: #selector(stackViewTouched(_:)), for: .touchUpInside)
-//
 
     gridView.collectionView.dataSource = self
     gridView.collectionView.delegate = self
@@ -76,15 +68,6 @@ class LibraryController: UIViewController {
 
   // MARK: - Action
 
-//  @objc func closeButtonTouched(_ button: UIButton) {
-//    EventHub.shared.close?()
-//  }
-//
-//  @objc func doneButtonTouched(_ button: UIButton) {
-//    button.isEnabled = false
-//    EventHub.shared.doneWithImages?()
-//  }
-
   @objc func arrowButtonTouched(_ button: ArrowButton) {
     dropdownController.toggle()
     button.toggle(dropdownController.expanding)
@@ -93,10 +76,6 @@ class LibraryController: UIViewController {
   @objc func shuffleButtonTouched() {
     EventHub.shared.changeMediaPickerState?(.Audio)
   }
-
-//  @objc func stackViewTouched(_ stackView: StackView) {
-//    EventHub.shared.stackViewTouched?()
-//  }
 
   // MARK: - Logic
 
@@ -118,14 +97,6 @@ class LibraryController: UIViewController {
     }
   }
 
-  // MARK: - View
-
-  func refreshView() {
-    let hasImages = false //!cart.images.isEmpty
-    //gridView.bottomView.g_fade(visible: hasImages)
-    gridView.collectionView.updateBottomInset(hasImages ? gridView.bottomView.frame.size.height : 0)
-  }
-
   // MARK: - Controls
 
   func makeDropdownController() -> DropdownController {
@@ -141,19 +112,9 @@ class LibraryController: UIViewController {
 
     return view
   }
-
-//  func makeStackView() -> StackView {
-//    let view = StackView()
-//
-//    return view
-//  }
 }
 
 extension LibraryController: PageAware {
-  func shutterButtonTouched() {
-    
-  }
-  
   func switchedToState(state: MediaToolbarState) {
     
   }
@@ -181,34 +142,6 @@ extension LibraryController: PageAware {
     }
   }
 }
-
-//extension ImagesController: CartDelegate {
-//  func cart(_ cart: Cart, didSet audio: Audio) {
-//  }
-//
-//  func cart(_ cart: Cart, didSet video: Video) {
-//  }
-//
-//  func cart(_ cart: Cart, didAdd image: Image, newlyTaken: Bool) {
-//    stackView.reload(cart.images, added: true)
-//    refreshView()
-//
-//    if newlyTaken {
-//      refreshSelectedAlbum()
-//    }
-//  }
-//
-//  func cart(_ cart: Cart, didRemove image: Image) {
-//    stackView.reload(cart.images)
-//    refreshView()
-//  }
-//
-//  func cartDidReload(_ cart: Cart) {
-//    stackView.reload(cart.images)
-//    refreshView()
-//    refreshSelectedAlbum()
-//  }
-//}
 
 extension LibraryController: DropdownControllerDelegate {
 
