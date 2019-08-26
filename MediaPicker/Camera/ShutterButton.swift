@@ -16,10 +16,14 @@ class ShutterButton: UIButton {
       
       UIView.animate(withDuration: 0.5) {
         self.overlayView.backgroundColor = .red
+        self.roundLayer.strokeColor = UIColor.red.cgColor
+        self.backgroundColor = .red
       }
     } else {
       UIView.animate(withDuration: 0.5) {
         self.overlayView.backgroundColor = .white
+        self.roundLayer.strokeColor = Config.Camera.ShutterButton.numberColor.cgColor
+        self.backgroundColor = .white
       }
     }
   }
