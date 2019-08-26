@@ -160,8 +160,8 @@ class BottomView: UIView {
     self.shutterButton?.isUserInteractionEnabled = true
     shutterButton.recording = recording
     addSubview(shutterButton)
-    shutterButton.g_pin(width: 55)
-    shutterButton.g_pin(height: 55)
+    shutterButton.g_pin(width: 65)
+    shutterButton.g_pin(height: 65)
     Constraint.on(
       shutterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
       shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)

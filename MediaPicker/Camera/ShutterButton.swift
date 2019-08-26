@@ -13,9 +13,14 @@ class ShutterButton: UIButton {
   
   private func recordingChanged() {
     if recording {
-      self.overlayView.backgroundColor = .red
+      
+      UIView.animate(withDuration: 0.5) {
+        self.overlayView.backgroundColor = .red
+      }
     } else {
-      self.overlayView.backgroundColor = .white
+      UIView.animate(withDuration: 0.5) {
+        self.overlayView.backgroundColor = .white
+      }
     }
   }
   
