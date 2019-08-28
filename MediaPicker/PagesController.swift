@@ -304,7 +304,7 @@ extension PagesController: BottomViewDelegate {
     (self.activeController as? CameraPageAware)?.shutterButtonTapped()
   }
   
-  var cartItems: [CartItemProtocol] {
+  var cartItems: [String: CartItemProtocol] {
     return self.mediaPickerController.cart.items
   }
   

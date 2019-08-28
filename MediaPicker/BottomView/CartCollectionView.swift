@@ -1,7 +1,7 @@
 class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView> {
   var views = [CartCollectionItemView]()
   
-  init(frame: CGRect, cartItems: [CartItemProtocol]) {
+  init(frame: CGRect, cartItems: [String: CartItemProtocol]) {
     super.init(frame: frame)
     
     self.buildScrollView(cartItems: cartItems)
@@ -31,10 +31,10 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView> {
     }
   }
   
-  private func buildScrollView(cartItems: [CartItemProtocol]) {
+  private func buildScrollView(cartItems: [String: CartItemProtocol]) {
     _ = self.removeAllItems()
     self.views = cartItems.compactMap { (cartItem) -> CartCollectionItemView in
-      return cartItem.cartView
+      return cartItem.value.cartView
     }
     self.addItems(self.views)
   }

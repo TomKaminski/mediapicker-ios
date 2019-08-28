@@ -27,6 +27,8 @@ public class CartCollectionItemView: UIView {
       deleteButon.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
       deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2)
     )
+    
+    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapped)))
   }
   
   fileprivate func setupDeleteButton() {
@@ -43,6 +45,10 @@ public class CartCollectionItemView: UIView {
   
   @objc private func onDeleteTapped() {
     EventHub.shared.selfDeleteFromCart?(guid)
+  }
+  
+  @objc private func onTapped() {
+    EventHub.shared.executeCustomAction?(guid)
   }
 
   convenience init(guid: String,image: UIImage) {

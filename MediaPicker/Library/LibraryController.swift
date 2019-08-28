@@ -206,13 +206,9 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
     let newItem = getCartItem(indexPath: indexPath)
-
-    if cart.items.contains(where: { (cartItem) -> Bool in
-      return newItem.guid == cartItem.guid
-    }) {
-      cart.remove(newItem)
+    if let itemFromCart = cart.getItem(by: newItem.guid) {
+      cart.remove(itemFromCart)
     } else {
       cart.add(newItem)
     }
@@ -237,11 +233,8 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func configureFrameView(_ cell: ImageCell, indexPath: IndexPath) {
-    let item = getCartItem(indexPath: indexPath)
-
-    if cart.items.firstIndex(where: { (cartItem) -> Bool in
-      return item.guid == cartItem.guid
-    }) != nil {
+    let newItem = getCartItem(indexPath: indexPath)
+    if cart.getItem(by: newItem.guid) != nil {
       cell.frameView.quickFade()
     } else {
       cell.frameView.alpha = 0

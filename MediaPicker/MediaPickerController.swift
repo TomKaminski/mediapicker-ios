@@ -143,6 +143,20 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
 //      }
     }
     
+    EventHub.shared.executeCustomAction = { guid in
+      if let item = self.cart.getItem(by: guid) {
+        if item.type == .Image {
+          let image = item as! Image
+          image.resolve(completion: { (uiImage) in
+            let photoEditor = PhotoEditorViewController(nibName: "PhotoEditorViewController", bundle: Bundle(for: PhotoEditorViewController.self))
+            photoEditor.photoEditorDelegate = self
+            photoEditor.image = uiImage
+            self.present(photoEditor, animated: true, completion: nil)
+          })
+        }
+      }
+    }
+    
     EventHub.shared.selfDeleteFromCart = { guid in
       self.cart.remove(guidToRemove: guid)
     }
@@ -156,5 +170,15 @@ extension MediaPickerController: CartMainDelegate {
   
   public func itemRemoved(item: CartItemProtocol) {
     self.pagesController?.bottomView.cartView?.removeItem(item: item)
+  }
+}
+
+extension MediaPickerController: PhotoEditorDelegate {
+  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorViewController, editedSomething: Bool) {
+    
+  }
+  
+  public func canceledEditing() {
+    
   }
 }

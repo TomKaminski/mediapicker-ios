@@ -1,6 +1,6 @@
 public class Cart {
 
-  public var items: [CartItemProtocol] = []
+  public var items: [String:CartItemProtocol] = [:]
 
   var delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
   weak var cartMainDelegate: CartMainDelegate?
@@ -16,7 +16,7 @@ public class Cart {
   }
 
   public func add(_ item: CartItemProtocol) {
-    items.append(item)
+    items.updateValue(item, forKey: item.guid)
     cartMainDelegate?.itemAdded(item: item)
 
     for case let delegate as CartDelegate in delegates.allObjects {
@@ -33,26 +33,19 @@ public class Cart {
   }
 
   public func remove(_ itemToRemove: CartItemProtocol) {
-    guard let index = items.firstIndex(where: { (cartItem) -> Bool in
-      return cartItem.guid == itemToRemove.guid
-    }) else { return }
-
-    items.remove(at: index)
+    items.removeValue(forKey: itemToRemove.guid)
     cartMainDelegate?.itemRemoved(item: itemToRemove)
-
     processRemoveEvent(itemToRemove)
   }
   
   public func remove(guidToRemove: String) {
-    guard let index = items.firstIndex(where: { (cartItem) -> Bool in
-      return cartItem.guid == guidToRemove
-    }) else { return }
-    
-    let itemToRemove = items[index]
-    items.remove(at: index)
-    cartMainDelegate?.itemRemoved(item: itemToRemove)
-    
-    processRemoveEvent(itemToRemove)
+    if let itemToRemove = items[guidToRemove] {
+      self.remove(itemToRemove)
+    }
+  }
+  
+  public func getItem(by guid: String) -> CartItemProtocol? {
+    return items[guid]
   }
   
   fileprivate func processRemoveEvent(_ itemToRemove: CartItemProtocol) {
