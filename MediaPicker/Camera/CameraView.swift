@@ -138,7 +138,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func makeRotateButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(MediaPickerBundle.image("gallery_camera_rotate"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("cameraIcon"), for: UIControl.State())
 
     return button
   }

@@ -148,9 +148,9 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
         if item.type == .Image {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
-            let photoEditor = PhotoEditorViewController(nibName: "PhotoEditorViewController", bundle: Bundle(for: PhotoEditorViewController.self))
-            photoEditor.photoEditorDelegate = self
-            photoEditor.image = uiImage
+            let photoEditor = PhotoEditorController()
+//            photoEditor.photoEditorDelegate = self
+//            photoEditor.image = uiImage
             self.present(photoEditor, animated: true, completion: nil)
           })
         }

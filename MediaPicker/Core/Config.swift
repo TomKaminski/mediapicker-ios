@@ -121,6 +121,6 @@ public struct Config {
   public struct CartButton {
     public static var textColor = UIColor.white
     public static var font = UIFont.systemFont(ofSize: 18, weight: .light)
-    public static var cartExpandedImage = MediaPickerBundle.image("gallery_close")
+    public static var cartExpandedImage = MediaPickerBundle.image("arrowDownIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7))
   }
 }

@@ -32,7 +32,6 @@
 		761E0B532313C3730072B5BE /* ColorsCollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B522313C3730072B5BE /* ColorsCollectionViewDelegate.swift */; };
 		761E0B552313C4C90072B5BE /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B542313C4C90072B5BE /* ColorCollectionViewCell.swift */; };
 		761E0B582313C6030072B5BE /* ColorCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 761E0B562313C6030072B5BE /* ColorCollectionViewCell.xib */; };
-		761E0B592313C6030072B5BE /* PhotoEditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 761E0B572313C6030072B5BE /* PhotoEditorViewController.xib */; };
 		761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5A2313C6430072B5BE /* UIImageView+Alpha.swift */; };
 		761E0B5D2313C65F0072B5BE /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5C2313C65F0072B5BE /* UIView+Image.swift */; };
 		761E0B5F2313C67B0072B5BE /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5E2313C67B0072B5BE /* UIImage+Size.swift */; };
@@ -90,6 +89,10 @@
 		76C0CFFA2302996A00E25900 /* CartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF92302996900E25900 /* CartCollectionView.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
+		F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B05277231E498D00558428 /* PhotoEditorController.swift */; };
+		F3B0527B231E54B200558428 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527A231E54B200558428 /* EditorView.swift */; };
+		F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527C231E5E8200558428 /* TopToolbarView.swift */; };
+		F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527E231E67CA00558428 /* CircularBorderButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,7 +145,6 @@
 		761E0B522313C3730072B5BE /* ColorsCollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsCollectionViewDelegate.swift; sourceTree = "<group>"; };
 		761E0B542313C4C90072B5BE /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		761E0B562313C6030072B5BE /* ColorCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ColorCollectionViewCell.xib; sourceTree = "<group>"; };
-		761E0B572313C6030072B5BE /* PhotoEditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoEditorViewController.xib; sourceTree = "<group>"; };
 		761E0B5A2313C6430072B5BE /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		761E0B5C2313C65F0072B5BE /* UIView+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
 		761E0B5E2313C67B0072B5BE /* UIImage+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
@@ -204,6 +206,10 @@
 		ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPickerExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
+		F3B05277231E498D00558428 /* PhotoEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorController.swift; sourceTree = "<group>"; };
+		F3B0527A231E54B200558428 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
+		F3B0527C231E5E8200558428 /* TopToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopToolbarView.swift; sourceTree = "<group>"; };
+		F3B0527E231E67CA00558428 /* CircularBorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularBorderButton.swift; sourceTree = "<group>"; };
 		FA94D9087C7678EE5522FFBC /* Pods-MediaPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPicker.debug.xcconfig"; path = "Target Support Files/Pods-MediaPicker/Pods-MediaPicker.debug.xcconfig"; sourceTree = "<group>"; };
 		FE4D8B78D91B51251B188524 /* Pods-MediaPicker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPicker.release.xcconfig"; path = "Target Support Files/Pods-MediaPicker/Pods-MediaPicker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -305,6 +311,7 @@
 		761E0B492313BAF20072B5BE /* PhotoEditor */ = {
 			isa = PBXGroup;
 			children = (
+				F3B05279231E499700558428 /* Controllers */,
 				761E0B502313C0420072B5BE /* Delegates */,
 				761E0B4F2313C03A0072B5BE /* Extensions */,
 				761E0B4E2313BB780072B5BE /* Resources */,
@@ -332,6 +339,7 @@
 			isa = PBXGroup;
 			children = (
 				761E0B542313C4C90072B5BE /* ColorCollectionViewCell.swift */,
+				F3B0527E231E67CA00558428 /* CircularBorderButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -340,7 +348,6 @@
 			isa = PBXGroup;
 			children = (
 				761E0B562313C6030072B5BE /* ColorCollectionViewCell.xib */,
-				761E0B572313C6030072B5BE /* PhotoEditorViewController.xib */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -516,6 +523,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F3B05279231E499700558428 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F3B05277231E498D00558428 /* PhotoEditorController.swift */,
+				F3B0527A231E54B200558428 /* EditorView.swift */,
+				F3B0527C231E5E8200558428 /* TopToolbarView.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -614,7 +631,6 @@
 			files = (
 				761E0B582313C6030072B5BE /* ColorCollectionViewCell.xib in Resources */,
 				76B8E4F422EAD55700D99495 /* MediaPicker.bundle in Resources */,
-				761E0B592313C6030072B5BE /* PhotoEditorViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -695,6 +711,7 @@
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,
 				76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */,
+				F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */,
 				7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */,
 				7618EE1422F477F70051C287 /* EventHub.swift in Sources */,
 				76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */,
@@ -705,6 +722,7 @@
 				761E0B692313C6B50072B5BE /* PhotoEditor+UITextView.swift in Sources */,
 				768A03E42306767D00C9B65F /* CameraController.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
+				F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */,
 				76B8E4F022EAD3A200D99495 /* String+Extensions.swift in Sources */,
 				7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */,
 				761E0B5D2313C65F0072B5BE /* UIView+Image.swift in Sources */,
@@ -715,6 +733,7 @@
 				76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */,
 				76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */,
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
+				F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */,
 				76C0CFF62302987800E25900 /* CartItemType.swift in Sources */,
 				761E0B552313C4C90072B5BE /* ColorCollectionViewCell.swift in Sources */,
 				761E0B6E2313C6B50072B5BE /* PhotoEditor+Controls.swift in Sources */,
@@ -726,6 +745,7 @@
 				7639065A22F2DDD3007CD4CE /* Utils.swift in Sources */,
 				7639064922F2CA73007CD4CE /* PagesController.swift in Sources */,
 				76B8E4F822EADA5F00D99495 /* UIViewController+Extensions.swift in Sources */,
+				F3B0527B231E54B200558428 /* EditorView.swift in Sources */,
 				7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */,
 				76B8E4ED22EAD23100D99495 /* Once.swift in Sources */,
 				7618EE1622F489C50051C287 /* ShutterButton.swift in Sources */,

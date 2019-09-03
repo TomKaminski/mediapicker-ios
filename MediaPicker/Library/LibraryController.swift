@@ -56,8 +56,6 @@ class LibraryController: UIViewController {
     dropdownController.expandedTopConstraint?.isActive = false
     dropdownController.collapsedTopConstraint = dropdownController.view.g_pin(on: .top, on: .bottom)
 
-
-    gridView.shuffleStateTestButton.addTarget(self, action: #selector(shuffleButtonTouched), for: .touchUpInside)
     gridView.arrowButton.addTarget(self, action: #selector(arrowButtonTouched(_:)), for: .touchUpInside)
 
     gridView.collectionView.dataSource = self
@@ -71,10 +69,6 @@ class LibraryController: UIViewController {
   @objc func arrowButtonTouched(_ button: ArrowButton) {
     dropdownController.toggle()
     button.toggle(dropdownController.expanding)
-  }
-
-  @objc func shuffleButtonTouched() {
-    EventHub.shared.changeMediaPickerState?(.Audio)
   }
 
   // MARK: - Logic

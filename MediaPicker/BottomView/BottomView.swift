@@ -13,7 +13,7 @@ protocol BottomViewDelegate: AnyObject {
 class BottomView: UIView {
   weak var delegate: BottomViewDelegate?
 
-  var backButton: UIImageView?
+  var backButton: CircularBorderButton?
   var filenameInputView: FilenameInputView?
   var cartView: CartCollectionView?
   var saveButton: GalleryFloatingButton?
@@ -57,11 +57,11 @@ class BottomView: UIView {
     //TODO: Setup layout delegates!!
   }
 
-  func makeBackButton() -> UIImageView {
-    let imageView = UIImageView(image: MediaPickerBundle.image("gallery_close"))
-    imageView.isUserInteractionEnabled = true
-    imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onBackButtonTap)))
-    return imageView
+  func makeBackButton() -> CircularBorderButton {
+    let btn = CircularBorderButton(frame: .zero)
+    btn.setImage(MediaPickerBundle.image("arrowLeftIcon"), for: .normal)
+    btn.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
+    return btn
   }
 
   @objc private func onBackButtonTap() {
@@ -70,7 +70,7 @@ class BottomView: UIView {
 
   func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
-    button.imageView.image = MediaPickerBundle.image("gallery_close")
+    button.imageView.image = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
 
     return button
   }
@@ -140,6 +140,7 @@ class BottomView: UIView {
   func setupCameraLayout() {
     clearSubviews()
     insertShutterButton(recording: false)
+    insertSaveButton()
     insertBackButton()
   }
 
@@ -195,6 +196,9 @@ class BottomView: UIView {
     addSubview(backButton)
     Constraint.on(
       backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: 16),
+      backButton.heightAnchor.constraint(equalToConstant: 40),
+      backButton.widthAnchor.constraint(equalToConstant: 40),
+
       backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }

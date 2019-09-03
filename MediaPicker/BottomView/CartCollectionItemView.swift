@@ -20,7 +20,7 @@ public class CartCollectionItemView: UIView {
     self.addSubview(imageView)
     self.addSubview(deleteButon)
 
-    deleteButon.g_pin(size: CGSize(width: 15, height: 15))
+    deleteButon.g_pin(size: CGSize(width: 24, height: 24))
     imageView.g_pinEdges()
 
     Constraint.on(
@@ -32,7 +32,9 @@ public class CartCollectionItemView: UIView {
   }
   
   fileprivate func setupDeleteButton() {
-    deleteButon = UIImageView(image: MediaPickerBundle.image("gallery_close"))
+    deleteButon = UIImageView(image: MediaPickerBundle.image("trashIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
+    deleteButon.backgroundColor = .red
+    deleteButon.layer.cornerRadius = 12
     deleteButon.isUserInteractionEnabled = true
     deleteButon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDeleteTapped)))
   }

@@ -11,7 +11,6 @@ class GridView: UIView {
   lazy var bottomBlurView: UIVisualEffectView = self.makeBottomBlurView()
   lazy var arrowButton: ArrowButton = self.makeArrowButton()
   lazy var collectionView: UICollectionView = self.makeCollectionView()
-  lazy var shuffleStateTestButton: UIButton = self.makeShuffelStateButton()
   lazy var doneButton: UIButton = self.makeDoneButton()
   lazy var emptyView: UIView = self.makeEmptyView()
   lazy var loadingIndicator: UIActivityIndicatorView = self.makeLoadingIndicator()
@@ -36,7 +35,7 @@ class GridView: UIView {
       addSubview($0)
     }
     
-    [shuffleStateTestButton, arrowButton].forEach {
+    [arrowButton].forEach {
       topView.addSubview($0)
     }
     
@@ -73,10 +72,6 @@ class GridView: UIView {
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 100, right: 0)
     
     bottomBlurView.g_pinEdges()
-    
-    shuffleStateTestButton.g_pin(on: .top)
-    shuffleStateTestButton.g_pin(on: .left)
-    shuffleStateTestButton.g_pin(size: CGSize(width: 40, height: 40))
     
     arrowButton.g_pinCenter()
     arrowButton.g_pin(height: 40)
@@ -118,15 +113,7 @@ class GridView: UIView {
     
     return view
   }
-  
-  private func makeShuffelStateButton() -> UIButton {
-    let button = UIButton(type: .custom)
-    button.setImage(MediaPickerBundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
-    button.tintColor = Config.Grid.CloseButton.tintColor
     
-    return button
-  }
-  
   private func makeDoneButton() -> UIButton {
     let button = UIButton(type: .system)
     button.setTitleColor(UIColor.white, for: UIControl.State())
