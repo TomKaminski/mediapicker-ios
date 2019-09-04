@@ -1,9 +1,15 @@
+protocol EditorViewControllerDelegate: class {
+  func saveAndAddAnotherMedia()
+}
+
 public class EditorView: UIView {
   lazy var topToolbarView: TopToolbarView = TopToolbarView()
-  lazy var centerView: UIImageView = UIImageView()
+  lazy var centerView: EditorCanvasView = EditorCanvasView()
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
   lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "addPhotoIcon")
 
+  weak var controllerDelegate: EditorViewControllerDelegate?
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -19,6 +25,12 @@ public class EditorView: UIView {
     [topToolbarView, centerView, bottomToolbarView, addPhotoButton].forEach { self.addSubview($0) }
     
     centerView.contentMode = .scaleAspectFit
+    
+    addPhotoButton.addTarget(self, action: #selector(saveAndAddAnotherMedia), for: .touchUpInside)
+  }
+  
+  @objc private func saveAndAddAnotherMedia() {
+    controllerDelegate?.saveAndAddAnotherMedia()
   }
   
   private func makeCircularButton(with imageName: String) -> CircularBorderButton {
@@ -63,6 +75,6 @@ public class EditorView: UIView {
   }
   
   public func setImage(_ image: UIImage) {
-    self.centerView.image = image
+    self.centerView.setImage(image)
   }
 }

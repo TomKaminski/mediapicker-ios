@@ -90,6 +90,9 @@
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
 		F358F616231EE2CF008BD8C0 /* BottomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */; };
+		F3761049231F9E9800BC47D1 /* EditorCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3761048231F9E9800BC47D1 /* EditorCanvasView.swift */; };
+		F376104B231FA48100BC47D1 /* PhotoEditorController+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */; };
+		F376104D231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376104C231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift */; };
 		F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B05277231E498D00558428 /* PhotoEditorController.swift */; };
 		F3B0527B231E54B200558428 /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527A231E54B200558428 /* EditorView.swift */; };
 		F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527C231E5E8200558428 /* TopToolbarView.swift */; };
@@ -208,6 +211,9 @@
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
 		F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomToolbarView.swift; sourceTree = "<group>"; };
+		F3761048231F9E9800BC47D1 /* EditorCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorCanvasView.swift; sourceTree = "<group>"; };
+		F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+Drawing.swift"; sourceTree = "<group>"; };
+		F376104C231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+Gestures.swift"; sourceTree = "<group>"; };
 		F3B05277231E498D00558428 /* PhotoEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorController.swift; sourceTree = "<group>"; };
 		F3B0527A231E54B200558428 /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 		F3B0527C231E5E8200558428 /* TopToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopToolbarView.swift; sourceTree = "<group>"; };
@@ -532,6 +538,9 @@
 				F3B0527A231E54B200558428 /* EditorView.swift */,
 				F3B0527C231E5E8200558428 /* TopToolbarView.swift */,
 				F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */,
+				F3761048231F9E9800BC47D1 /* EditorCanvasView.swift */,
+				F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */,
+				F376104C231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -756,6 +765,7 @@
 				76B8E4EA22EACE2900D99495 /* PermissionSentry.swift in Sources */,
 				76511DFF22FC10F300F4F32E /* Cart.swift in Sources */,
 				761E0B612313C6930072B5BE /* UIImage+Crop.swift in Sources */,
+				F3761049231F9E9800BC47D1 /* EditorCanvasView.swift in Sources */,
 				761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */,
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
 				761E0B6C2313C6B50072B5BE /* PhotoEditor+Keyboard.swift in Sources */,
@@ -769,6 +779,8 @@
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,
+				F376104D231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift in Sources */,
+				F376104B231FA48100BC47D1 /* PhotoEditorController+Drawing.swift in Sources */,
 				761E0B4B2313BB2B0072B5BE /* Protocols.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
 				760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */,

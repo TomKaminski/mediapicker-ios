@@ -1,4 +1,29 @@
-public final class PhotoEditorController: UIViewController {
+public final class PhotoEditorController: UIViewController, EditorViewControllerDelegate {
+  
+  var drawColor = UIColor.red
+  var textColor = UIColor.white
+  var swiped = false
+  var lastPoint: CGPoint!
+  var lastPanPoint: CGPoint?
+  var lastTextViewTransform: CGAffineTransform?
+  var lastTextViewTransCenter: CGPoint?
+  var lastTextViewFont: UIFont?
+  var activeTextView: UITextView?
+  var imageViewToPan: UIImageView?
+  var isTyping = false
+  
+  var canvasView: UIView {
+    return self.editorView.centerView.canvasView
+  }
+  
+  var canvasImageView: UIImageView {
+    return self.editorView.centerView.imageView
+  }
+  
+  func saveAndAddAnotherMedia() {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
   lazy var editorView: EditorView = self.makeEditorView()
   
   private let originalImage: UIImage
@@ -13,7 +38,9 @@ public final class PhotoEditorController: UIViewController {
   }
   
   private func makeEditorView() -> EditorView {
-    return EditorView(frame: CGRect.zero)
+    let editorView = EditorView(frame: CGRect.zero)
+    editorView.controllerDelegate = self
+    return editorView
   }
   
   override public func viewDidLoad() {
