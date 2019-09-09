@@ -1,5 +1,4 @@
 extension PhotoEditorController: UIGestureRecognizerDelegate {
-  
   /**
    UIPanGestureRecognizer - Moving Objects
    Selecting transparent parts of the imageview won't move the object
@@ -153,8 +152,18 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
     
     recognizer.setTranslation(CGPoint.zero, in: canvasImageView)
     
-    
     lastPanPoint = pointToSuperView
+    
+    if recognizer.state == .ended {
+      imageViewToPan = nil
+      lastPanPoint = nil
+
+      if !canvasImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
+        UIView.animate(withDuration: 0.3, animations: {
+          view.center = CGPoint(x: view.center.x, y: self.canvasImageView.bounds.height/2)
+        })
+      }
+    }
   }
   
   func subImageViews(view: UIView) -> [UIImageView] {
