@@ -36,12 +36,6 @@
 		761E0B5D2313C65F0072B5BE /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5C2313C65F0072B5BE /* UIView+Image.swift */; };
 		761E0B5F2313C67B0072B5BE /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5E2313C67B0072B5BE /* UIImage+Size.swift */; };
 		761E0B612313C6930072B5BE /* UIImage+Crop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B602313C6930072B5BE /* UIImage+Crop.swift */; };
-		761E0B692313C6B50072B5BE /* PhotoEditor+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B622313C6B40072B5BE /* PhotoEditor+UITextView.swift */; };
-		761E0B6A2313C6B50072B5BE /* PhotoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B632313C6B40072B5BE /* PhotoEditorViewController.swift */; };
-		761E0B6B2313C6B50072B5BE /* PhotoEditor+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B642313C6B40072B5BE /* PhotoEditor+Gestures.swift */; };
-		761E0B6C2313C6B50072B5BE /* PhotoEditor+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B652313C6B40072B5BE /* PhotoEditor+Keyboard.swift */; };
-		761E0B6D2313C6B50072B5BE /* PhotoEditor+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B662313C6B40072B5BE /* PhotoEditor+Drawing.swift */; };
-		761E0B6E2313C6B50072B5BE /* PhotoEditor+Controls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B672313C6B50072B5BE /* PhotoEditor+Controls.swift */; };
 		7639064922F2CA73007CD4CE /* PagesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639064822F2CA73007CD4CE /* PagesController.swift */; };
 		7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639064A22F2CA8C007CD4CE /* PageIndicator.swift */; };
 		7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639064C22F2D6D0007CD4CE /* PermissionControllerDelegate.swift */; };
@@ -153,12 +147,6 @@
 		761E0B5C2313C65F0072B5BE /* UIView+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
 		761E0B5E2313C67B0072B5BE /* UIImage+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 		761E0B602313C6930072B5BE /* UIImage+Crop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Crop.swift"; sourceTree = "<group>"; };
-		761E0B622313C6B40072B5BE /* PhotoEditor+UITextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+UITextView.swift"; sourceTree = "<group>"; };
-		761E0B632313C6B40072B5BE /* PhotoEditorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoEditorViewController.swift; sourceTree = "<group>"; };
-		761E0B642313C6B40072B5BE /* PhotoEditor+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Gestures.swift"; sourceTree = "<group>"; };
-		761E0B652313C6B40072B5BE /* PhotoEditor+Keyboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Keyboard.swift"; sourceTree = "<group>"; };
-		761E0B662313C6B40072B5BE /* PhotoEditor+Drawing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Drawing.swift"; sourceTree = "<group>"; };
-		761E0B672313C6B50072B5BE /* PhotoEditor+Controls.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PhotoEditor+Controls.swift"; sourceTree = "<group>"; };
 		7639064822F2CA73007CD4CE /* PagesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagesController.swift; sourceTree = "<group>"; };
 		7639064A22F2CA8C007CD4CE /* PageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		7639064C22F2D6D0007CD4CE /* PermissionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionControllerDelegate.swift; sourceTree = "<group>"; };
@@ -324,23 +312,9 @@
 				761E0B4F2313C03A0072B5BE /* Extensions */,
 				761E0B4E2313BB780072B5BE /* Resources */,
 				761E0B4D2313BB730072B5BE /* Views */,
-				761E0B4C2313BB690072B5BE /* PhotoEditorController */,
 				761E0B4A2313BB2B0072B5BE /* Protocols.swift */,
 			);
 			path = PhotoEditor;
-			sourceTree = "<group>";
-		};
-		761E0B4C2313BB690072B5BE /* PhotoEditorController */ = {
-			isa = PBXGroup;
-			children = (
-				761E0B672313C6B50072B5BE /* PhotoEditor+Controls.swift */,
-				761E0B662313C6B40072B5BE /* PhotoEditor+Drawing.swift */,
-				761E0B642313C6B40072B5BE /* PhotoEditor+Gestures.swift */,
-				761E0B652313C6B40072B5BE /* PhotoEditor+Keyboard.swift */,
-				761E0B622313C6B40072B5BE /* PhotoEditor+UITextView.swift */,
-				761E0B632313C6B40072B5BE /* PhotoEditorViewController.swift */,
-			);
-			path = PhotoEditorController;
 			sourceTree = "<group>";
 		};
 		761E0B4D2313BB730072B5BE /* Views */ = {
@@ -715,11 +689,9 @@
 				7639066822F2E7CD007CD4CE /* UIImageView+Extensions.swift in Sources */,
 				7639065322F2DD34007CD4CE /* LibraryAlbum.swift in Sources */,
 				7639066122F2E40F007CD4CE /* ImageCell.swift in Sources */,
-				761E0B6B2313C6B50072B5BE /* PhotoEditor+Gestures.swift in Sources */,
 				7639066C22F2E8FB007CD4CE /* Library.swift in Sources */,
 				7639066E22F2EB84007CD4CE /* Array+Extensions.swift in Sources */,
 				7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */,
-				761E0B6D2313C6B50072B5BE /* PhotoEditor+Drawing.swift in Sources */,
 				F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */,
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,
@@ -732,7 +704,6 @@
 				76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */,
 				760D17C0230A90B900D5E192 /* CameraView.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
-				761E0B692313C6B50072B5BE /* PhotoEditor+UITextView.swift in Sources */,
 				768A03E42306767D00C9B65F /* CameraController.swift in Sources */,
 				7639065622F2DD5D007CD4CE /* Image.swift in Sources */,
 				F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */,
@@ -750,7 +721,6 @@
 				F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */,
 				76C0CFF62302987800E25900 /* CartItemType.swift in Sources */,
 				761E0B552313C4C90072B5BE /* ColorCollectionViewCell.swift in Sources */,
-				761E0B6E2313C6B50072B5BE /* PhotoEditor+Controls.swift in Sources */,
 				76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */,
 				768A03EB2306C5A400C9B65F /* AudioPreviewController.swift in Sources */,
 				7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */,
@@ -768,7 +738,6 @@
 				761E0B612313C6930072B5BE /* UIImage+Crop.swift in Sources */,
 				761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */,
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
-				761E0B6C2313C6B50072B5BE /* PhotoEditor+Keyboard.swift in Sources */,
 				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
 				76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */,
 				768A03E7230676A100C9B65F /* AudioController.swift in Sources */,
@@ -784,7 +753,6 @@
 				761E0B4B2313BB2B0072B5BE /* Protocols.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
 				760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */,
-				761E0B6A2313C6B50072B5BE /* PhotoEditorViewController.swift in Sources */,
 				768A03E923067C4D00C9B65F /* AudioView.swift in Sources */,
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 				761E0B532313C3730072B5BE /* ColorsCollectionViewDelegate.swift in Sources */,

@@ -1,32 +1,4 @@
 public final class PhotoEditorController: UIViewController, TopToolbarViewDelegate {
-  func textButtonTapped(_ sender: Any) {
-    isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: 0,
-                                            width: UIScreen.main.bounds.width, height: 30))
-    
-    textView.textAlignment = .center
-    textView.font = UIFont(name: "Helvetica", size: 30)
-    textView.textColor = textColor
-    textView.layer.shadowColor = UIColor.black.cgColor
-    textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
-    textView.layer.shadowOpacity = 0.2
-    textView.layer.shadowRadius = 1.0
-    textView.layer.backgroundColor = UIColor.clear.cgColor
-    textView.autocorrectionType = .no
-    textView.isScrollEnabled = false
-    textView.delegate = self
-    textView.returnKeyType = .done
-    self.canvasImageView.addSubview(textView)
-    addGestures(view: textView)
-    textView.becomeFirstResponder()
-  }
-  
-  @IBAction func doneButtonTapped(_ sender: Any) {
-    view.endEditing(true)
-    canvasImageView.isUserInteractionEnabled = true
-    isTyping = false
-  }
-  
   private let originalImage: UIImage
   
   lazy var topToolbarView: TopToolbarView = TopToolbarView()
@@ -50,24 +22,11 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   var imageViewToPan: UIImageView?
   var isTyping = false
   
-  func saveAndAddAnotherMedia() {
-    self.dismiss(animated: true, completion: nil)
-  }
+  public var photoEditorDelegate: PhotoEditorDelegate?
   
   init(image: UIImage) {
     self.originalImage = image
     super.init(nibName: nil, bundle: nil)
-  }
-  
-  private func makeCircularButton(with imageName: String) -> CircularBorderButton {
-    let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
-    
-    btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    
-    return btn
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -82,6 +41,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
                                            name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     
     setup()
+    addPhotoButton.addTarget(self, action: #selector(saveAndAddAnotherMedia), for: .touchUpInside)
     self.topToolbarView.editorViewDelegate = self
     self.setImageView(image: self.originalImage)
   }
@@ -89,21 +49,21 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   private func setup() {
     view.addSubview(topToolbarView)
     view.addSubview(bottomToolbarView)
-    view.addSubview(addPhotoButton)
     view.addSubview(canvasView)
+    view.addSubview(addPhotoButton)
     
     canvasView.addSubview(imageView)
     canvasView.addSubview(canvasImageView)
     
     imageView.contentMode = .scaleAspectFit
-
+    
     topToolbarView.translatesAutoresizingMaskIntoConstraints = false
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     canvasImageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.translatesAutoresizingMaskIntoConstraints = false
     bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-
+    
     bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
     imageViewHeightConstraint = self.imageView.heightAnchor.constraint(equalToConstant: 680)
     
@@ -116,7 +76,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
       self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor),
       self.canvasView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
-
+      
       self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
       self.imageView.centerYAnchor.constraint(equalTo: self.canvasView.centerYAnchor),
@@ -143,6 +103,52 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     }
   }
   
+  private func makeCircularButton(with imageName: String) -> CircularBorderButton {
+    let btn = CircularBorderButton(frame: .zero)
+    btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
+    
+    btn.translatesAutoresizingMaskIntoConstraints = false
+    btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
+    btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    
+    return btn
+  }
+  
+  //Actions & delegates
+  
+  func textButtonTapped(_ sender: Any) {
+    isTyping = true
+    let textView = UITextView(frame: CGRect(x: 0, y: 0,
+                                            width: UIScreen.main.bounds.width, height: 30))
+    
+    textView.textAlignment = .center
+    textView.font = UIFont(name: "Helvetica", size: 24)
+    textView.textColor = textColor
+    textView.layer.shadowColor = UIColor.black.cgColor
+    textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
+    textView.layer.shadowOpacity = 0.2
+    textView.layer.shadowRadius = 1.0
+    textView.layer.backgroundColor = UIColor.clear.cgColor
+    textView.autocorrectionType = .no
+    textView.isScrollEnabled = false
+    textView.delegate = self
+    textView.returnKeyType = .done
+    self.canvasImageView.addSubview(textView)
+    addGestures(view: textView)
+    textView.becomeFirstResponder()
+  }
+  
+  @IBAction func doneButtonTapped(_ sender: Any) {
+    view.endEditing(true)
+    canvasImageView.isUserInteractionEnabled = true
+    isTyping = false
+  }
+  
+  @objc private func saveAndAddAnotherMedia() {
+    let img = self.canvasView.toImage()
+    photoEditorDelegate?.doneEditing(image: img, selfCtrl: self)
+  }
+  
   func addGestures(view: UIView) {
     //Gestures
     view.isUserInteractionEnabled = true
@@ -166,12 +172,21 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
 
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PhotoEditorController.tapGesture))
     view.addGestureRecognizer(tapGesture)
-
   }
   
   func setImageView(image: UIImage) {
     imageView.image = image
-    let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
+    let size = image.suitableSize(heightLimit: UIScreen.main.bounds.height - 200, widthLimit: UIScreen.main.bounds.width)
     imageViewHeightConstraint.constant = (size?.height)!
+  }
+}
+
+extension PhotoEditorController: ColorDelegate {
+  func didSelectColor(color: UIColor) {
+    self.drawColor = color
+    if activeTextView != nil {
+      activeTextView?.textColor = color
+      textColor = color
+    }
   }
 }

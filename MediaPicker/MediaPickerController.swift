@@ -1,5 +1,4 @@
 public class MediaPickerController: UIViewController, PermissionControllerDelegate {
-
   let cart = Cart()
   var pagesController: PagesController?
   
@@ -149,8 +148,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
             let photoEditor = PhotoEditorController(image: uiImage!)
-//            photoEditor.photoEditorDelegate = self
-//            photoEditor.image = uiImage
+            photoEditor.photoEditorDelegate = self
             self.present(photoEditor, animated: true, completion: nil)
           })
         }
@@ -174,8 +172,8 @@ extension MediaPickerController: CartMainDelegate {
 }
 
 extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorViewController, editedSomething: Bool) {
-    
+  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorController) {
+    selfCtrl.dismiss(animated: true, completion: nil)
   }
   
   public func canceledEditing() {

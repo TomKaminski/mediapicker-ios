@@ -1,5 +1,6 @@
 protocol TopToolbarViewDelegate: class {
- func textButtonTapped(_ sender: Any)
+  func textButtonTapped(_ sender: Any)
+  func didSelectColor(color: UIColor)
 }
 
 class TopToolbarView: UIView, ColorDelegate {
@@ -84,7 +85,7 @@ class TopToolbarView: UIView, ColorDelegate {
   }
   
   func didSelectColor(color: UIColor) {
-    
+    self.editorViewDelegate?.didSelectColor(color: color)
   }
   
   @objc func textButtonTapped(_ sender: Any) {

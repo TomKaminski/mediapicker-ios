@@ -161,7 +161,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //------
   
   @objc private func clearData() {
-    EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
+    //EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
 
     audioRecorder?.deleteRecording()
     audioRecorder = nil
