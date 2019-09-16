@@ -107,6 +107,19 @@ public class Video: Equatable, CartItemProtocol {
     
     return options
   }
+  
+  func getURL(completionHandler : @escaping ((_ responseURL : NSURL?) -> Void)){
+    let options: PHVideoRequestOptions = PHVideoRequestOptions()
+    options.version = .original
+    PHImageManager.default().requestAVAsset(forVideo: self.asset, options: options, resultHandler: {(asset: AVAsset?, audioMix: AVAudioMix?, info: [AnyHashable : Any]?) -> Void in
+      if let urlAsset = asset as? AVURLAsset {
+        let localVideoUrl: NSURL = urlAsset.url as NSURL
+        completionHandler(localVideoUrl)
+      } else {
+        completionHandler(nil)
+      }
+    })
+  }
 }
 
 // MARK: - Equatable

@@ -4,6 +4,7 @@ import Foundation
 import AVKit
 import QuartzCore
 import Photos
+import QuickLook
 
 class CameraController: UIViewController {
   lazy var cameraMan: CameraMan = self.makeCameraMan()
@@ -11,6 +12,8 @@ class CameraController: UIViewController {
   
   let once = Once()
   let cart: Cart
+  
+  var takenAssetUrl: NSURL?
   
   // MARK: - Init
   public required init(cart: Cart) {
@@ -199,9 +202,37 @@ extension CameraController: CameraManDelegate {
         self.cart.add(Image(asset: asset, guid: UUID().uuidString))
       }
     } else {
+      //TODO: CHECK
       if let asset = asset {
-        self.cart.add(Video(asset: asset, guid: UUID().uuidString))
+        let video = Video(asset: asset, guid: UUID().uuidString)
+        self.cart.add(video)
+        video.getURL { (url) in
+          guard let url = url else {
+            return
+          }
+          
+          self.takenAssetUrl = url
+          
+          let qlPreviewController = QLPreviewController()
+          qlPreviewController.delegate = self
+          qlPreviewController.dataSource = self
+          self.present(qlPreviewController, animated: true, completion: nil)
+        }
       }
+    }
+  }
+}
+
+extension CameraController: QLPreviewControllerDelegate, QLPreviewControllerDataSource {
+  func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+    return 1
+  }
+  
+  func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+    if let takenAssetUrl = takenAssetUrl, QLPreviewController.canPreview(takenAssetUrl) {
+      return takenAssetUrl
+    } else {
+      return NSURL()
     }
   }
 }
