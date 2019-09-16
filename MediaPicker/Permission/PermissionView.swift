@@ -47,7 +47,7 @@ class PermissionView: UIView {
     let label = UILabel()
     label.textColor = .black
     label.font = UIFont.systemFont(ofSize: 14)
-    label.text = "LandaxApp_Gallery_GaleryAndCamera_Permission".g_localize(fallback: "Please grant access to photos and the camera.")
+    label.text = Config.Permission.labelText
     
     label.textAlignment = .center
     label.numberOfLines = 0
@@ -58,8 +58,7 @@ class PermissionView: UIView {
   
   func makeSettingButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setTitle("LandaxApp_Gallery_Permission_Button".g_localize(fallback: "Go to Settings").uppercased(),
-                    for: UIControl.State())
+    button.setTitle(Config.Permission.goToSettingsText, for: UIControl.State())
     button.backgroundColor = .blue
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     button.setTitleColor(.white, for: UIControl.State())
@@ -71,14 +70,14 @@ class PermissionView: UIView {
   
   func makeCloseButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(MediaPickerBundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
-    button.tintColor = UIColor(red: 109 / 255, green: 107 / 255, blue: 132 / 255, alpha: 1)
+    button.setImage(Config.Permission.closeImage?.withRenderingMode(.alwaysTemplate), for: UIControl.State())
+    button.tintColor = Config.Permission.closeImageTint
     return button
   }
   
   func makeImageView() -> UIImageView {
     let view = UIImageView()
-    view.image = MediaPickerBundle.image("gallery_permission_view_camera")
+    view.image = Config.Permission.image
     
     return view
   }

@@ -21,22 +21,22 @@ class BottomToolbarView: UIView {
     btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
     
     btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
+    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
     
     return btn
   }
   
   func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
-    button.imageView.image = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    button.imageView.image = Config.BottomView.SaveButton.icon
     
     return button
   }
   
   func makeInputView() -> FilenameInputView {
     let inputView = FilenameInputView()
-    inputView.attributedPlaceholder = NSAttributedString(string: "Filename here..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    inputView.attributedPlaceholder = NSAttributedString(string: Config.PhotoEditor.filenameInputPlaceholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     return inputView
   }
   

@@ -60,7 +60,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     audioView.resetButton.addGestureRecognizer(resetButtonGestureRecognizer)
     
     self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_StartRecording".g_localize(fallback: "Tap to start recording"))
+    self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
   }
   
   private func makeAudioView() -> AudioView {
@@ -102,9 +102,9 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       audioRecorder.record()
       
       self.audioView.toogleDoneButtonVisibility(isHidden: false)
-      self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording"))
+      self.audioView.setInfoLabelText(Config.Audio.tapToPauseLabel)
       
-      self.audioView.setResetInfoLabelText("LandaxApp_Media_Gallery_Audio_ResetRecording".g_localize(fallback: "Tap to reset"))
+      self.audioView.setResetInfoLabelText(Config.Audio.tapToResetLabel)
       
       self.recordTimer = Timer.scheduledTimer(
         timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
@@ -127,7 +127,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     isPaused = true
     self.audioView.togglePlayStopButton(isRecording: false)
     audioRecorder?.pause()
-    self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_ContinueRecording".g_localize(fallback: "Tap to continue recording"))
+    self.audioView.setInfoLabelText(Config.Audio.tapToContinueLabel)
     
     self.recordTimer?.invalidate()
     self.recordTimer = nil
@@ -138,7 +138,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     
     self.audioView.togglePlayStopButton(isRecording: true)
     audioRecorder?.record()
-    self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording"))
+    self.audioView.setInfoLabelText(Config.Audio.tapToPauseLabel)
     self.recordTimer = Timer.scheduledTimer(
       timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
   }
@@ -173,7 +173,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     self.audioView.togglePlayStopButton(isRecording: false, reset: true)
     self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
     self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText("LandaxApp_Media_Gallery_Audio_StartRecording".g_localize(fallback: "Tap to start recording"))
+    self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
   }
   
   

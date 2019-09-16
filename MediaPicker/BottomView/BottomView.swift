@@ -1,15 +1,5 @@
 import UIKit
 
-protocol BottomViewDelegate: AnyObject {
-  var itemsInCart: Int { get }
-  var cartItems: [String:CartItemProtocol] { get }
-
-  func bottomView(_ changedStateTo: MediaToolbarState)
-  func shutterButtonTouched()
-  func shutterButtonHeld()
-  func shutterButtonReleased()
-}
-
 class BottomView: UIView {
   weak var delegate: BottomViewDelegate?
 
@@ -26,7 +16,7 @@ class BottomView: UIView {
 
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = .black
+    self.backgroundColor = Config.BottomView.backgroundColor
     setup()
   }
 
@@ -59,7 +49,7 @@ class BottomView: UIView {
 
   func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerBundle.image("arrowLeftIcon"), for: .normal)
+    btn.setImage(Config.BottomView.BackButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
     return btn
   }
@@ -70,7 +60,7 @@ class BottomView: UIView {
 
   func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
-    button.imageView.image = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    button.imageView.image = Config.BottomView.SaveButton.icon
 
     return button
   }
@@ -161,8 +151,8 @@ class BottomView: UIView {
     self.shutterButton?.isUserInteractionEnabled = true
     shutterButton.recording = recording
     addSubview(shutterButton)
-    shutterButton.g_pin(width: 65)
-    shutterButton.g_pin(height: 65)
+    shutterButton.g_pin(width: Config.BottomView.ShutterButton.size)
+    shutterButton.g_pin(height: Config.BottomView.ShutterButton.size)
     Constraint.on(
       shutterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
       shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
@@ -174,7 +164,7 @@ class BottomView: UIView {
     self.saveButton = saveButton
     addSubview(saveButton)
     Constraint.on(
-      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: -16),
+      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: Config.BottomView.SaveButton.rightMargin),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
@@ -183,7 +173,7 @@ class BottomView: UIView {
     let filenameInputView = self.filenameInputView ?? FilenameInputView()
     self.filenameInputView = filenameInputView
     addSubview(filenameInputView)
-    self.filenameInputView?.attributedPlaceholder = NSAttributedString(string: "Filename here..", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    self.filenameInputView?.attributedPlaceholder = NSAttributedString(string: Config.PhotoEditor.filenameInputPlaceholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     Constraint.on(
       filenameInputView.leadingAnchor.constraint(equalTo: self.backButton!.trailingAnchor, constant: 8),
       filenameInputView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
@@ -194,11 +184,11 @@ class BottomView: UIView {
     let backButton = self.backButton ?? self.makeBackButton()
     self.backButton = backButton
     addSubview(backButton)
+    
     Constraint.on(
-      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: 16),
-      backButton.heightAnchor.constraint(equalToConstant: 40),
-      backButton.widthAnchor.constraint(equalToConstant: 40),
-
+      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: Config.BottomView.BackButton.leftMargin),
+      backButton.heightAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
+      backButton.widthAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
       backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }

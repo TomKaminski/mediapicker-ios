@@ -35,8 +35,8 @@ class TopToolbarView: UIView, ColorDelegate {
     btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
     
     btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
+    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
     
     return btn
   }

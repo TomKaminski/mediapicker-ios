@@ -1,3 +1,5 @@
+import Photos
+
 public class MediaPickerController: UIViewController, PermissionControllerDelegate {
   let cart = Cart()
   var pagesController: PagesController?
@@ -5,6 +7,62 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
   var pagesBottomContraint: NSLayoutConstraint?
   var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
 
+  public override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    setupEventHub()
+    self.cart.cartMainDelegate = self
+    
+    if let pagesController = makePagesController() {
+      addChildController(pagesController)
+      addChild(pagesController)
+      view.addSubview(pagesController.view)
+      pagesController.didMove(toParent: self)
+      
+      pagesController.view.g_pin(on: .topMargin)
+      pagesBottomContraint = pagesController.view.g_pin(on: .bottom)
+      pagesController.view.g_pin(on: .left)
+      pagesController.view.g_pin(on: .right)
+    } else {
+      let permissionController = makePermissionController()
+      addChildController(permissionController)
+    }
+    
+    let ntCenter = NotificationCenter.default
+    ntCenter.addObserver(self, selector: #selector(keyboardWillBeShown(note:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+    ntCenter.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+  }
+  
+  func setupEventHub() {
+    EventHub.shared.close = { [weak self] in
+      if let strongSelf = self {
+        strongSelf.dismiss(animated: true, completion: nil)
+      }
+    }
+    
+    EventHub.shared.doneWithMedia = { [weak self] in
+      //TODO
+      print(self!)
+    }
+    
+    EventHub.shared.executeCustomAction = { guid in
+      if let item = self.cart.getItem(by: guid) {
+        if item.type == .Image {
+          let image = item as! Image
+          image.resolve(completion: { (uiImage) in
+            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
+            photoEditor.photoEditorDelegate = self
+            self.present(photoEditor, animated: true, completion: nil)
+          })
+        }
+      }
+    }
+    
+    EventHub.shared.selfDeleteFromCart = { guid in
+      self.cart.remove(guidToRemove: guid)
+    }
+  }
+  
   public override var shouldAutorotate: Bool {
     return true
   }
@@ -12,6 +70,10 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
   public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
     return [.portrait, .portraitUpsideDown]
   }
+
+  //-------------
+  //PERMISSION CONTROLLER
+  //-------------
 
   func permissionControllerDidFinish(_ controller: PermissionController, closeTapped: Bool) {
     if closeTapped {
@@ -28,15 +90,23 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
 
     return controller
   }
-
+  
+  //-------------
+  //END PERMISSION CONTROLLER
+  //-------------
+  
+  
+  
+  //-------------
+  //PAGES CONTROLLERS
+  //-------------
+  
   func makePagesController() -> PagesController? {
     guard Permission.Photos.status == .authorized else {
       return nil
     }
 
-    let tabsToShow = [Config.GalleryTab.libraryTab, Config.GalleryTab.cameraTab, Config.GalleryTab.audioTab]
-
-    let controllers: [UIViewController] = tabsToShow.compactMap { tab in
+    let controllers: [UIViewController] = Config.tabsToShow.compactMap { tab in
       if tab == .libraryTab {
         return createLibraryController()
       } else if tab == .cameraTab {
@@ -65,7 +135,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
 
     let ctrl = CameraController(cart: self.cart)
-    ctrl.title = "CAMERA"
+    ctrl.title = Config.Camera.title
     return ctrl
   }
 
@@ -75,41 +145,19 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
 
     let ctrl = AudioController(cart: self.cart)
-    ctrl.title = "AUDIO"
+    ctrl.title = Config.Audio.title
     return ctrl
   }
 
   func createLibraryController() -> LibraryController {
     let ctrl = LibraryController(cart: cart)
-    ctrl.title = "LIBRARY"
+    ctrl.title = Config.Library.title
     return ctrl
   }
-
-
-  public override func viewDidLoad() {
-    super.viewDidLoad()
-
-    setup()
-    self.cart.cartMainDelegate = self
-    if let pagesController = makePagesController() {
-      addChildController(pagesController)
-      addChild(pagesController)
-      view.addSubview(pagesController.view)
-      pagesController.didMove(toParent: self)
-      
-      pagesController.view.g_pin(on: .topMargin)
-      pagesBottomContraint = pagesController.view.g_pin(on: .bottom)
-      pagesController.view.g_pin(on: .left)
-      pagesController.view.g_pin(on: .right)
-    } else {
-      let permissionController = makePermissionController()
-      addChildController(permissionController)
-    }
-    
-    let ntCenter = NotificationCenter.default
-    ntCenter.addObserver(self, selector: #selector(keyboardWillBeShown(note:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    ntCenter.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-  }
+  
+  //-------------
+  //END PAGES CONTROLLERS
+  //-------------
 
   @objc func keyboardWillBeShown(note: Notification) {
     let userInfo = note.userInfo
@@ -128,37 +176,6 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
     self.pagesBottomContraint?.isActive = true
   }
-  
-  func setup() {
-    EventHub.shared.close = { [weak self] in
-      if let strongSelf = self {
-        strongSelf.dismiss(animated: true, completion: nil)
-      }
-    }
-
-    EventHub.shared.doneWithMedia = { [weak self] in
-//      if let strongSelf = self {
-//
-//      }
-    }
-    
-    EventHub.shared.executeCustomAction = { guid in
-      if let item = self.cart.getItem(by: guid) {
-        if item.type == .Image {
-          let image = item as! Image
-          image.resolve(completion: { (uiImage) in
-            let photoEditor = PhotoEditorController(image: uiImage!)
-            photoEditor.photoEditorDelegate = self
-            self.present(photoEditor, animated: true, completion: nil)
-          })
-        }
-      }
-    }
-    
-    EventHub.shared.selfDeleteFromCart = { guid in
-      self.cart.remove(guidToRemove: guid)
-    }
-  }
 }
 
 extension MediaPickerController: CartMainDelegate {
@@ -172,8 +189,28 @@ extension MediaPickerController: CartMainDelegate {
 }
 
 extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorController) {
-    selfCtrl.dismiss(animated: true, completion: nil)
+  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorController, editedSomething: Bool) {
+    guard editedSomething else {
+      selfCtrl.dismiss(animated: true, completion: nil)
+      return
+    }
+    
+    var localId: String?
+    PHPhotoLibrary.shared().performChanges({
+      let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+      localId = request.placeholderForCreatedAsset?.localIdentifier
+    }) { (success, error) in
+      DispatchQueue.main.async {
+        if let localId = localId {
+          let result = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil)
+          let newAsset = result.object(at: 0)
+          
+          self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
+          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString))
+          selfCtrl.dismiss(animated: true, completion: nil)
+        }
+      }
+    }
   }
   
   public func canceledEditing() {

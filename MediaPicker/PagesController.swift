@@ -1,20 +1,5 @@
 import UIKit
 
-protocol PageAware: AnyObject {
-  func pageDidShow()
-  func pageDidHide()
-  
-  var initialBottomViewState: MediaToolbarState { get }
-  
-  func switchedToState(state: MediaToolbarState)
-}
-
-protocol CameraPageAware: PageAware {
-  func shutterButtonTapped()
-  func shutterButtonHeld()
-  func shutterButtonReleased()
-}
-
 class PagesController: UIViewController {
 
   let controllers: [UIViewController]
@@ -25,13 +10,8 @@ class PagesController: UIViewController {
   lazy var cartButton: CartButton = self.makeCartButton()
   lazy var bottomView: BottomView = self.makeBottomView()
   
-  var state = MediaToolbarState.Camera
-  var selectedIndex: Int = 0
-  var blockPageIndicator: Bool = false {
-    didSet {
-      scrollView.isScrollEnabled = false
-    }
-  }
+  var state: MediaToolbarState!
+  var selectedIndex: Int!
   
   let once = Once()
 
@@ -53,9 +33,25 @@ class PagesController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    setupStartTab()
 
     view.backgroundColor = .black
     setup()
+  }
+  
+  private func setupStartTab() {
+    let startTab = Config.PageIndicator.initialTab
+    selectedIndex = Config.tabsToShow.firstIndex(of: startTab) ?? 0
+    
+    switch startTab {
+    case .libraryTab:
+      state = .Library
+    case .cameraTab:
+      state = .Camera
+    case .audioTab:
+      state = .Audio
+    }
   }
 
   override func viewDidLayoutSubviews() {
@@ -75,10 +71,9 @@ class PagesController: UIViewController {
   }
 
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-    let index = selectedIndex
 
     coordinator.animate(alongsideTransition: { context in
-      self.scrollToAndSelect(index: index, animated: context.isAnimated)
+      self.scrollToAndSelect(index: self.selectedIndex, animated: context.isAnimated)
     }) { _ in }
 
     super.viewWillTransition(to: size, with: coordinator)
@@ -176,17 +171,17 @@ class PagesController: UIViewController {
     Constraint.on(
       bottomView.leadingAnchor.constraint(equalTo: bottomView.superview!.leadingAnchor),
       bottomView.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor),
-      bottomView.heightAnchor.constraint(equalToConstant: 100),
+      bottomView.heightAnchor.constraint(equalToConstant: Config.BottomView.height),
       bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor)
     )
     
     view.addSubview(cartButton)
     cartButton.delegate = self
     Constraint.on(
-      cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -16),
-      cartButton.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor, constant: -16),
-      cartButton.heightAnchor.constraint(equalToConstant: 40),
-      cartButton.widthAnchor.constraint(equalToConstant: 40)
+      cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: Config.BottomView.CartButton.bottomMargin),
+      cartButton.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor, constant: Config.BottomView.CartButton.rightMargin),
+      cartButton.heightAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size),
+      cartButton.widthAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size)
     )
 
     EventHub.shared.changeMediaPickerState = {
@@ -194,24 +189,11 @@ class PagesController: UIViewController {
       self.changeBottomViewState(stateFromEvent)
       self.bottomView.setup()
       self.activeController?.switchedToState(state: stateFromEvent)
-      print("Changing state to.. \(self.state)")
     }
   }
   
   fileprivate var activeController: PageAware? {
     return self.controllers[self.selectedIndex] as? PageAware
-  }
-
-  fileprivate func showPageIndicator() {
-    pageIndicatorHeightConstraint.constant = 40
-    pageIndicator.isHidden = false
-    blockPageIndicator = false
-  }
-  
-  fileprivate func hidePageIndicator() {
-    pageIndicatorHeightConstraint.constant = 0
-    pageIndicator.isHidden = true
-    blockPageIndicator = true
   }
 
   // MARK: - Index
@@ -261,7 +243,6 @@ class PagesController: UIViewController {
 }
 
 extension PagesController: PageIndicatorDelegate {
-
   fileprivate func executePageSelect(index: Int) {
     self.pageIndicator.select(index: index)
     self.scrollTo(index: index, animated: false)
@@ -277,12 +258,7 @@ extension PagesController: PageIndicatorDelegate {
 }
 
 extension PagesController: UIScrollViewDelegate {
-
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    guard !blockPageIndicator else {
-      return
-    }
-    
     let index = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
     pageIndicator.select(index: index)
     updateAndNotify(index)

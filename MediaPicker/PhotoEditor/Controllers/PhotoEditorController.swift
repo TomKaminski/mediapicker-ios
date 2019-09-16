@@ -1,6 +1,7 @@
 public final class PhotoEditorController: UIViewController, TopToolbarViewDelegate {
   private let originalImage: UIImage
-  
+  public let originalImageGuid: String
+
   lazy var topToolbarView: TopToolbarView = TopToolbarView()
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
   lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "addPhotoIcon")
@@ -24,8 +25,9 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   public var photoEditorDelegate: PhotoEditorDelegate?
   
-  init(image: UIImage) {
+  init(image: UIImage, guid: String) {
     self.originalImage = image
+    self.originalImageGuid = guid
     super.init(nibName: nil, bundle: nil)
   }
   
@@ -70,7 +72,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.topToolbarView.heightAnchor.constraint(equalToConstant: 60),
+      self.topToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.topToolbarHeight),
       
       self.canvasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
@@ -90,7 +92,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
       self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: 120),
+      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight),
       
       self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
       self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8)
@@ -108,8 +110,8 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
     
     btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: 40).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
+    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
     
     return btn
   }
@@ -122,7 +124,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
                                             width: UIScreen.main.bounds.width, height: 30))
     
     textView.textAlignment = .center
-    textView.font = UIFont(name: "Helvetica", size: 24)
+    textView.font = Config.PhotoEditor.textFont
     textView.textColor = textColor
     textView.layer.shadowColor = UIColor.black.cgColor
     textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
@@ -146,7 +148,8 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   @objc private func saveAndAddAnotherMedia() {
     let img = self.canvasView.toImage()
-    photoEditorDelegate?.doneEditing(image: img, selfCtrl: self)
+    //TODO: Check if really edited sth..!!
+    photoEditorDelegate?.doneEditing(image: img, selfCtrl: self, editedSomething: true)
   }
   
   func addGestures(view: UIView) {
@@ -176,7 +179,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   func setImageView(image: UIImage) {
     imageView.image = image
-    let size = image.suitableSize(heightLimit: UIScreen.main.bounds.height - 200, widthLimit: UIScreen.main.bounds.width)
+    let size = image.suitableSize(heightLimit: UIScreen.main.bounds.height - (Config.PhotoEditor.topToolbarHeight + Config.PhotoEditor.bottomToolbarHeight), widthLimit: UIScreen.main.bounds.width)
     imageViewHeightConstraint.constant = (size?.height)!
   }
 }

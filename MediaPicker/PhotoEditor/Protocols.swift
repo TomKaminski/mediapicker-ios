@@ -17,7 +17,7 @@ public protocol PhotoEditorDelegate {
   /**
    - Parameter image: edited Image
    */
-  func doneEditing(image: UIImage, selfCtrl: PhotoEditorController)
+  func doneEditing(image: UIImage, selfCtrl: PhotoEditorController, editedSomething: Bool)
   func canceledEditing()
 }
 

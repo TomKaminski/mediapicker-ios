@@ -91,6 +91,8 @@
 		F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B05277231E498D00558428 /* PhotoEditorController.swift */; };
 		F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527C231E5E8200558428 /* TopToolbarView.swift */; };
 		F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527E231E67CA00558428 /* CircularBorderButton.swift */; };
+		F3EDDC23232F6D0800BCD975 /* PageAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EDDC22232F6D0800BCD975 /* PageAware.swift */; };
+		F3EDDC25232F710700BCD975 /* BottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EDDC24232F710700BCD975 /* BottomViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +208,8 @@
 		F3B05277231E498D00558428 /* PhotoEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorController.swift; sourceTree = "<group>"; };
 		F3B0527C231E5E8200558428 /* TopToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopToolbarView.swift; sourceTree = "<group>"; };
 		F3B0527E231E67CA00558428 /* CircularBorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularBorderButton.swift; sourceTree = "<group>"; };
+		F3EDDC22232F6D0800BCD975 /* PageAware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAware.swift; sourceTree = "<group>"; };
+		F3EDDC24232F710700BCD975 /* BottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomViewDelegate.swift; sourceTree = "<group>"; };
 		FA94D9087C7678EE5522FFBC /* Pods-MediaPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPicker.debug.xcconfig"; path = "Target Support Files/Pods-MediaPicker/Pods-MediaPicker.debug.xcconfig"; sourceTree = "<group>"; };
 		FE4D8B78D91B51251B188524 /* Pods-MediaPicker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPicker.release.xcconfig"; path = "Target Support Files/Pods-MediaPicker/Pods-MediaPicker.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -274,13 +278,14 @@
 		761B9FD622E9BAB9004D494E /* MediaPicker */ = {
 			isa = PBXGroup;
 			children = (
+				76B8E4F322EAD55700D99495 /* MediaPicker.bundle */,
+				F3EDDC21232F6CFB00BCD975 /* Protocols */,
 				761E0B492313BAF20072B5BE /* PhotoEditor */,
 				768A03E52306768F00C9B65F /* Audio */,
 				76AFCBE822F81DF900E1B7CB /* BottomView */,
 				7639065422F2DD55007CD4CE /* Core */,
 				7639064F22F2DC66007CD4CE /* Library */,
 				7639064E22F2DC46007CD4CE /* Camera */,
-				76B8E4F322EAD55700D99495 /* MediaPicker.bundle */,
 				76B8E4E322EACDF200D99495 /* Permission */,
 				761B9FD722E9BAB9004D494E /* MediaPicker.h */,
 				761B9FD822E9BAB9004D494E /* Info.plist */,
@@ -519,6 +524,15 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		F3EDDC21232F6CFB00BCD975 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F3EDDC22232F6D0800BCD975 /* PageAware.swift */,
+				F3EDDC24232F710700BCD975 /* BottomViewDelegate.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -737,6 +751,7 @@
 				76511DFF22FC10F300F4F32E /* Cart.swift in Sources */,
 				761E0B612313C6930072B5BE /* UIImage+Crop.swift in Sources */,
 				761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */,
+				F3EDDC23232F6D0800BCD975 /* PageAware.swift in Sources */,
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
 				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
 				76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */,
@@ -753,6 +768,7 @@
 				761E0B4B2313BB2B0072B5BE /* Protocols.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
 				760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */,
+				F3EDDC25232F710700BCD975 /* BottomViewDelegate.swift in Sources */,
 				768A03E923067C4D00C9B65F /* AudioView.swift in Sources */,
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 				761E0B532313C3730072B5BE /* ColorsCollectionViewDelegate.swift in Sources */,

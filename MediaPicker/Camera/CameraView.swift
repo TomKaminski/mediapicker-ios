@@ -117,13 +117,6 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   // MARK: - Controls
 
-  func makeChangeModeButton() -> UIButton {
-    let button = UIButton(type: .custom)
-    button.setTitle("LandaxApp_Gallery_ChangeMode_Button".g_localize(fallback: "Change mode"), for: .normal)
-
-    return button
-  }
-
   func makeFlashButton() -> TripleButton {
     let states: [TripleButton.GalleryState] = [
       TripleButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Off".g_localize(fallback: "OFF"), image: MediaPickerBundle.image("gallery_camera_flash_off")!),

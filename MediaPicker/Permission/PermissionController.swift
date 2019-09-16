@@ -35,7 +35,7 @@ class PermissionController: UIViewController {
   // MARK: - Logic
   
   func check() {
-    if Permission.Photos.status == .notDetermined {
+    if Permission.Photos.needsPermission && Permission.Photos.status == .notDetermined {
       Permission.Photos.request { [weak self] in
         self?.check()
       }
@@ -43,7 +43,7 @@ class PermissionController: UIViewController {
       return
     }
     
-    if Permission.Camera.status == .notDetermined {
+    if Permission.Camera.needsPermission && Permission.Camera.status == .notDetermined {
       Permission.Camera.request { [weak self] in
         self?.check()
       }
@@ -51,7 +51,7 @@ class PermissionController: UIViewController {
       return
     }
     
-    if Permission.Microphone.status == .notDetermined {
+    if Permission.Microphone.needsPermission && Permission.Microphone.status == .notDetermined {
       Permission.Microphone.request { [weak self] in
         self?.check()
       }

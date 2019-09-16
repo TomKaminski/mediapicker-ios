@@ -13,6 +13,10 @@ struct Permission {
   }
   
   struct Photos {
+    static var needsPermission: Bool {
+      return Config.tabsToShow.firstIndex(of: .libraryTab) != nil
+    }
+    
     static var status: Status {
       switch PHPhotoLibrary.authorizationStatus() {
       case .notDetermined:
@@ -36,6 +40,10 @@ struct Permission {
   }
   
   struct Camera {
+    static var needsPermission: Bool {
+      return Config.tabsToShow.firstIndex(of: .cameraTab) != nil
+    }
+    
     static var status: Status {
       switch AVCaptureDevice.authorizationStatus(for: .video) {
       case .notDetermined:
@@ -59,6 +67,10 @@ struct Permission {
   }
   
   struct Microphone {
+    static var needsPermission: Bool {
+      return Config.tabsToShow.firstIndex(of: .cameraTab) != nil
+    }
+    
     static var status: Status {
       switch AVCaptureDevice.authorizationStatus(for: .audio) {
       case .notDetermined:
