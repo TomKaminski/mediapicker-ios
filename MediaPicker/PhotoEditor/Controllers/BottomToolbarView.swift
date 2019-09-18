@@ -1,8 +1,17 @@
-class BottomToolbarView: UIView {
+class BottomToolbarView: UIView, UITextFieldDelegate {
   lazy var backButton: CircularBorderButton = self.makeCircularButton(with: "arrowLeftIcon")
   lazy var saveButton: GalleryFloatingButton = self.makeSaveButton()
   lazy var filenameInput: FilenameInputView = self.makeInputView()
 
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    return true
+  }
+  
+  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.endEditing(true)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     
@@ -14,6 +23,8 @@ class BottomToolbarView: UIView {
     self.addSubview(backButton)
     self.addSubview(filenameInput)
     self.addSubview(saveButton)
+    
+    self.filenameInput.delegate = self
   }
   
   private func makeCircularButton(with imageName: String) -> CircularBorderButton {

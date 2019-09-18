@@ -5,6 +5,7 @@ import AVKit
 import QuartzCore
 import Photos
 import QuickLook
+import PhotosUI
 
 class CameraController: UIViewController {
   lazy var cameraMan: CameraMan = self.makeCameraMan()
@@ -102,6 +103,7 @@ extension CameraController: CameraViewDelegate {
 
 extension CameraController: CameraPageAware {
   func shutterButtonHeld() {
+    Config.Camera.recordMode = .video
     self.cameraView.rotateButton.isHidden = true
     self.cameraView.flashButton.isHidden = true
     self.cameraMan.startVideoRecord(location: nil, startCompletion: { result in })
@@ -202,22 +204,13 @@ extension CameraController: CameraManDelegate {
         self.cart.add(Image(asset: asset, guid: UUID().uuidString))
       }
     } else {
-      //TODO: CHECK
+      Config.Camera.recordMode = .photo
       if let asset = asset {
         let video = Video(asset: asset, guid: UUID().uuidString)
         self.cart.add(video)
-        video.getURL { (url) in
-          guard let url = url else {
-            return
-          }
-          
-          self.takenAssetUrl = url
-          
-          let qlPreviewController = QLPreviewController()
-          qlPreviewController.delegate = self
-          qlPreviewController.dataSource = self
-          self.present(qlPreviewController, animated: true, completion: nil)
-        }
+        let assetCtrl = AudioVideoAssetPreviewController()
+        assetCtrl.asset = asset
+        self.present(assetCtrl, animated: true, completion: nil)
       }
     }
   }

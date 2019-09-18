@@ -8,6 +8,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   var bottomToolbarConstraint: NSLayoutConstraint!
   var imageViewHeightConstraint: NSLayoutConstraint!
+  var canvasViewWidthConstraint: NSLayoutConstraint!
 
   lazy var imageView: UIImageView = UIImageView()
   lazy var canvasView: UIView = UIView()
@@ -48,11 +49,17 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     self.setImageView(image: self.originalImage)
   }
   
+  @objc private func onBackPressed() {
+    self.dismiss(animated: true, completion: nil)
+  }
+  
   private func setup() {
+    view.addSubview(canvasView)
     view.addSubview(topToolbarView)
     view.addSubview(bottomToolbarView)
-    view.addSubview(canvasView)
     view.addSubview(addPhotoButton)
+    
+    self.bottomToolbarView.backButton.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
     
     canvasView.addSubview(imageView)
     canvasView.addSubview(canvasImageView)
@@ -68,16 +75,17 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     
     bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
     imageViewHeightConstraint = self.imageView.heightAnchor.constraint(equalToConstant: 680)
-    
+    canvasViewWidthConstraint = self.canvasView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.topToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.topToolbarHeight),
       
-      self.canvasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
       self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor),
       self.canvasView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
+      canvasViewWidthConstraint,
       
       self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
@@ -120,7 +128,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   func textButtonTapped(_ sender: Any) {
     isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: 0,
+    let textView = UITextView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height/4,
                                             width: UIScreen.main.bounds.width, height: 30))
     
     textView.textAlignment = .center
@@ -181,6 +189,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     imageView.image = image
     let size = image.suitableSize(heightLimit: UIScreen.main.bounds.height - (Config.PhotoEditor.topToolbarHeight + Config.PhotoEditor.bottomToolbarHeight), widthLimit: UIScreen.main.bounds.width)
     imageViewHeightConstraint.constant = (size?.height)!
+    canvasViewWidthConstraint.constant = (size?.width)!
   }
 }
 

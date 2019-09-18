@@ -9,7 +9,7 @@ extension PhotoEditorController {
       if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
         self.bottomToolbarConstraint?.constant = 0.0
       } else {
-        self.bottomToolbarConstraint?.constant = endFrame?.size.height ?? 0.0
+        self.bottomToolbarConstraint?.constant = -(endFrame?.size.height ?? 0.0)
       }
       UIView.animate(withDuration: duration,
                      delay: TimeInterval(0),

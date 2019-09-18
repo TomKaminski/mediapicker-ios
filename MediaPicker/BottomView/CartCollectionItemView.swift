@@ -1,5 +1,6 @@
 public class CartCollectionItemView: UIView {
   var imageView: UIImageView!
+  var bottomView: UIView!
   var deleteButon: UIImageView!
   var guid: String!
 
@@ -16,16 +17,23 @@ public class CartCollectionItemView: UIView {
 
     setupImageView()
     setupDeleteButton()
+    setupBottomView()
     
     self.addSubview(imageView)
     self.addSubview(deleteButon)
-
+    self.addSubview(bottomView)
+    
+    bottomView.g_pin(height: 16)
     deleteButon.g_pin(size: CGSize(width: 24, height: 24))
     imageView.g_pinEdges()
 
     Constraint.on(
       deleteButon.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
-      deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2)
+      deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2),
+      
+      bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+      bottomView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
     )
     
     self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapped)))
@@ -37,6 +45,11 @@ public class CartCollectionItemView: UIView {
     deleteButon.layer.cornerRadius = 12
     deleteButon.isUserInteractionEnabled = true
     deleteButon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDeleteTapped)))
+  }
+  
+  fileprivate func setupBottomView() {
+    bottomView = UIView()
+    bottomView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
   }
   
   fileprivate func setupImageView() {
@@ -66,7 +79,6 @@ public class CartCollectionItemView: UIView {
     imageCompletion(self.imageView)
   }
 
-  //TO I TAK JEST BEZ SENSU BO DESIGN NIE MA SENSU TUTAJ
   private func setupBorder() {
     if selected {
       self.layer.borderColor = UIColor.blue.cgColor
