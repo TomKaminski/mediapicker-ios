@@ -8,7 +8,7 @@ public class Image: Equatable, CartItemProtocol {
   public var guid: String
 
   public var cartView: CartCollectionItemView {
-    return CartCollectionItemView(guid: guid, imageCompletion: { (imageView) in
+    return CartCollectionItemView(type: .Image, guid: guid, imageCompletion: { (imageView) in
       self.resolve(completion: { (image) in
         imageView.image = image
       })

@@ -4,8 +4,7 @@ import AVFoundation
 public class Audio: Equatable, CartItemProtocol {
 
   public var cartView: CartCollectionItemView {
-    
-    let tempCartView = CartCollectionItemView(guid: self.guid, image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
+    let tempCartView = CartCollectionItemView(type: .Audio, guid: self.guid, image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
     tempCartView.backgroundColor = .green
     return tempCartView
   }

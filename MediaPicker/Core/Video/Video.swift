@@ -5,7 +5,7 @@ public class Video: Equatable, CartItemProtocol {
   public var guid: String
   
   public var cartView: CartCollectionItemView {
-    return CartCollectionItemView(guid: guid, imageCompletion: { (imageView) in
+    return CartCollectionItemView(type: .Video, guid: guid, imageCompletion: { (imageView) in
       self.fetchThumbnail(completion: { (image) in
         imageView.image = image
       })

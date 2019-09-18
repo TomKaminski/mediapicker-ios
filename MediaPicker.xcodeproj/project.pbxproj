@@ -83,6 +83,7 @@
 		76C0CFFA2302996A00E25900 /* CartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF92302996900E25900 /* CartCollectionView.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
+		F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */; };
 		F32591472330B10F00A11090 /* AudioVideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* AudioVideoAssetPreviewController.swift */; };
 		F358F616231EE2CF008BD8C0 /* BottomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */; };
 		F376104B231FA48100BC47D1 /* PhotoEditorController+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */; };
@@ -201,6 +202,7 @@
 		ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPickerExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
+		F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTypeEnum.swift; sourceTree = "<group>"; };
 		F32591452330B10F00A11090 /* AudioVideoAssetPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoAssetPreviewController.swift; sourceTree = "<group>"; };
 		F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomToolbarView.swift; sourceTree = "<group>"; };
 		F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+Drawing.swift"; sourceTree = "<group>"; };
@@ -401,6 +403,7 @@
 				7639065922F2DDD3007CD4CE /* Utils.swift */,
 				7639066522F2E65B007CD4CE /* Config.swift */,
 				760D17BD230A907A00D5E192 /* Fetcher.swift */,
+				F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				761E0B5F2313C67B0072B5BE /* UIImage+Size.swift in Sources */,
 				7639065A22F2DDD3007CD4CE /* Utils.swift in Sources */,
 				F358F616231EE2CF008BD8C0 /* BottomToolbarView.swift in Sources */,
+				F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */,
 				7639064922F2CA73007CD4CE /* PagesController.swift in Sources */,
 				76B8E4F822EADA5F00D99495 /* UIViewController+Extensions.swift in Sources */,
 				7618EE1222F475AC0051C287 /* GalleryFloatingButton.swift in Sources */,

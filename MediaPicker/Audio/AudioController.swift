@@ -183,15 +183,25 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   @objc func doneButtonTouched() {
     pauseRecording()
-    self.audioView.setResetInfoLabelText(nil)
-    isPaused = false
     audioRecorder?.stop()
-    self.audioView.toogleDoneButtonVisibility(isHidden: true)
     if let url = audioRecorder?.url {
       try? self.cart.add(Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString))
-      self.addAudioTakenChildrenController(url: url)
+      
+      audioRecorder = nil
+      self.recordTimer?.invalidate()
+      self.recordTimer = nil
+      isPaused = false
+      
+      self.audioView.setResetInfoLabelText(nil)
+      self.audioView.togglePlayStopButton(isRecording: false, reset: true)
+      self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
+      self.audioView.toogleDoneButtonVisibility(isHidden: true)
+      self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
+      
+
     } else {
       EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
+      clearData()
     }
   }
   
