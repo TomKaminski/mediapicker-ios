@@ -1,6 +1,6 @@
 import QuickLook
 
-class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, CartButtonDelegate {
+class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, CartButtonDelegate, CircularButtonConformance {
   
   weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
   
@@ -118,17 +118,6 @@ class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLP
   
   @objc private func onBackPressed() {
     self.dismiss(animated: true, completion: nil)
-  }
-  
-  private func makeCircularButton(with imageName: String) -> CircularBorderButton {
-    let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
-    
-    btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    
-    return btn
   }
 }
 

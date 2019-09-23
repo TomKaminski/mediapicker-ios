@@ -1,4 +1,4 @@
-class BottomToolbarView: UIView, UITextFieldDelegate {
+class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance {
   weak var delegate: BottomViewCartItemsDelegate?
 
   lazy var backButton: CircularBorderButton = self.makeCircularButton(with: "arrowLeftIcon")
@@ -27,17 +27,6 @@ class BottomToolbarView: UIView, UITextFieldDelegate {
     self.addSubview(saveButton)
     
     self.filenameInput.delegate = self
-  }
-  
-  private func makeCircularButton(with imageName: String) -> CircularBorderButton {
-    let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
-    
-    btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    
-    return btn
   }
   
   func makeSaveButton() -> GalleryFloatingButton {

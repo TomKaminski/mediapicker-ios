@@ -4,7 +4,7 @@ protocol TopToolbarViewDelegate: class {
   func didSelectColor(color: UIColor)
 }
 
-class TopToolbarView: UIView, ColorDelegate {
+class TopToolbarView: UIView, ColorDelegate, CircularButtonConformance {
   var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
   weak var editorViewDelegate: TopToolbarViewDelegate?
   
@@ -30,17 +30,6 @@ class TopToolbarView: UIView, ColorDelegate {
     
     textButton.addTarget(self, action: #selector(textButtonTapped(_:)), for: .touchUpInside)
     undoButton.addTarget(self, action: #selector(clearButtonTapped(_:)), for: .touchUpInside)
-  }
-  
-  private func makeCircularButton(with imageName: String) -> CircularBorderButton {
-    let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
-    
-    btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    
-    return btn
   }
   
   override func updateConstraints() {
