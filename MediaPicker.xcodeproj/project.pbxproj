@@ -84,7 +84,7 @@
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
 		F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */; };
-		F32591472330B10F00A11090 /* AudioVideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* AudioVideoAssetPreviewController.swift */; };
+		F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */; };
 		F358F616231EE2CF008BD8C0 /* BottomToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */; };
 		F376104B231FA48100BC47D1 /* PhotoEditorController+Drawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */; };
 		F376104D231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = F376104C231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift */; };
@@ -203,7 +203,7 @@
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
 		F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaTypeEnum.swift; sourceTree = "<group>"; };
-		F32591452330B10F00A11090 /* AudioVideoAssetPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVideoAssetPreviewController.swift; sourceTree = "<group>"; };
+		F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoAssetPreviewController.swift; sourceTree = "<group>"; };
 		F358F615231EE2CF008BD8C0 /* BottomToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomToolbarView.swift; sourceTree = "<group>"; };
 		F376104A231FA48100BC47D1 /* PhotoEditorController+Drawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+Drawing.swift"; sourceTree = "<group>"; };
 		F376104C231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+Gestures.swift"; sourceTree = "<group>"; };
@@ -519,7 +519,7 @@
 		F32591442330AF1000A11090 /* AssetPreview */ = {
 			isa = PBXGroup;
 			children = (
-				F32591452330B10F00A11090 /* AudioVideoAssetPreviewController.swift */,
+				F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */,
 			);
 			path = AssetPreview;
 			sourceTree = "<group>";
@@ -719,7 +719,7 @@
 				7639066122F2E40F007CD4CE /* ImageCell.swift in Sources */,
 				7639066C22F2E8FB007CD4CE /* Library.swift in Sources */,
 				7639066E22F2EB84007CD4CE /* Array+Extensions.swift in Sources */,
-				F32591472330B10F00A11090 /* AudioVideoAssetPreviewController.swift in Sources */,
+				F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */,
 				7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */,
 				F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */,
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,

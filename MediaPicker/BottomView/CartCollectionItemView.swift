@@ -1,7 +1,8 @@
 public class CartCollectionItemView: UIView {
   
   var type: MediaTypeEnum!
-  var bottomText: String? = "0:05"
+  var bottomText: String?
+  var bottomTextFunc: ((UILabel) -> Void)?
   
   var imageView: UIImageView!
   var bottomView: UIView!
@@ -63,17 +64,19 @@ public class CartCollectionItemView: UIView {
     EventHub.shared.executeCustomAction?(guid)
   }
 
-  convenience init(type: MediaTypeEnum, guid: String,image: UIImage) {
+  convenience init(type: MediaTypeEnum, guid: String, image: UIImage, bottomTextFunc: ((UILabel) -> Void)? = nil) {
     self.init(frame: .zero)
     self.type = type
     self.guid = guid
+    self.bottomTextFunc = bottomTextFunc
+    
     setupBottom(type)
 
     imageView.image = image
   }
 
   fileprivate func setupBottom(_ type: MediaTypeEnum) {
-    if type != .Image || self.bottomText != nil {
+    if type != .Image || (self.bottomText != nil || self.bottomTextFunc != nil) {
       setupBottomView()
       self.addSubview(bottomView)
       bottomView.g_pin(height: 16)
@@ -99,11 +102,13 @@ public class CartCollectionItemView: UIView {
       ])
     }
     
-    if let bottomText = self.bottomText {
+    if self.bottomText != nil || self.bottomTextFunc != nil {
       let label = UILabel()
       label.text = bottomText
       label.textColor = .white
       label.font = UIFont.systemFont(ofSize: 9)
+      
+      self.bottomTextFunc?(label)
       
       bottomView.addSubview(label)
       label.g_pin(height: 12)
@@ -119,10 +124,11 @@ public class CartCollectionItemView: UIView {
     return type == .Video ? MediaPickerBundle.image("gallery_video_cell_camera") : MediaPickerBundle.image("recordingMiniatureIcon")
   }
   
-  convenience init(type: MediaTypeEnum, guid: String, imageCompletion: (UIImageView) -> Void) {
+  convenience init(type: MediaTypeEnum, guid: String, imageCompletion: (UIImageView) -> Void, bottomTextFunc: ((UILabel) -> Void)? = nil) {
     self.init(frame: .zero)
     self.guid = guid
     self.type = type
+    self.bottomTextFunc = bottomTextFunc
     
     imageCompletion(self.imageView)
     

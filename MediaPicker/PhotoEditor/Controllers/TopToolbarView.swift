@@ -1,5 +1,6 @@
 protocol TopToolbarViewDelegate: class {
   func textButtonTapped(_ sender: Any)
+  func clearButtonTapped(_ sender: Any)
   func didSelectColor(color: UIColor)
 }
 
@@ -28,6 +29,7 @@ class TopToolbarView: UIView, ColorDelegate {
     self.buttonsContainerView.addSubview(textButton)
     
     textButton.addTarget(self, action: #selector(textButtonTapped(_:)), for: .touchUpInside)
+    undoButton.addTarget(self, action: #selector(clearButtonTapped(_:)), for: .touchUpInside)
   }
   
   private func makeCircularButton(with imageName: String) -> CircularBorderButton {
@@ -90,5 +92,9 @@ class TopToolbarView: UIView, ColorDelegate {
   
   @objc func textButtonTapped(_ sender: Any) {
     self.editorViewDelegate?.textButtonTapped(sender)
+  }
+  
+  @objc func clearButtonTapped(_ sender: Any) {
+    self.editorViewDelegate?.clearButtonTapped(sender)
   }
 }

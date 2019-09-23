@@ -3,4 +3,5 @@ public protocol CartItemProtocol {
   
   var cartView: CartCollectionItemView { get }
   var type: CartItemType { get }
+  var customFileName: String? { get set }
 }

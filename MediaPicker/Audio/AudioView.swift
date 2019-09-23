@@ -53,7 +53,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
     
     super.updateConstraints()
     
-    mainStackView.spacing = 8
+    mainStackView.spacing = 12
   }
   
   func setup() {
@@ -108,7 +108,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   
   func toogleDoneButtonVisibility(isHidden: Bool) {
     UIView.animate(withDuration: 0.2) {
-      self.doneBigButton.isHidden = isHidden
+      self.doneBigButton.isHiddenInStackView = isHidden
     }
   }
   
@@ -160,10 +160,10 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   }
   
   private func makeDoneButton() -> UIButton {
-    let button = UIButton(type: .system)
-    button.setTitleColor(UIColor.white, for: UIControl.State())
+    let button = UIButton(type: .custom)
+    button.setTitleColor(UIColor.white, for: .normal)
     button.titleLabel?.font = Config.Font.Text.regular.withSize(16)
-    button.setTitle("LandaxApp_Gallery_DoneAndSave".g_localize(fallback: "Done and save"), for: UIControl.State())
+    button.setTitle("LandaxApp_Gallery_DoneAndSave".g_localize(fallback: "Done and save"), for: .normal)
     
     return button
   }

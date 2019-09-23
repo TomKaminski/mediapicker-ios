@@ -208,8 +208,8 @@ extension CameraController: CameraManDelegate {
       if let asset = asset {
         let video = Video(asset: asset, guid: UUID().uuidString)
         self.cart.add(video)
-        let assetCtrl = AudioVideoAssetPreviewController()
-        assetCtrl.asset = asset
+        let assetCtrl = VideoAssetPreviewController()
+        assetCtrl.video = video
         self.present(assetCtrl, animated: true, completion: nil)
       }
     }

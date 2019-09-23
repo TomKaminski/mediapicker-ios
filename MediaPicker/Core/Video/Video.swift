@@ -2,12 +2,24 @@ import UIKit
 import Photos
 
 public class Video: Equatable, CartItemProtocol {
+  public var customFileName: String?
+  
   public var guid: String
+  
+  func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+  }
   
   public var cartView: CartCollectionItemView {
     return CartCollectionItemView(type: .Video, guid: guid, imageCompletion: { (imageView) in
       self.fetchThumbnail(completion: { (image) in
         imageView.image = image
+      })
+    }, bottomTextFunc: { label in
+      self.fetchDuration({ (seconds) in
+        let result = self.secondsToHoursMinutesSeconds(seconds: Int(seconds))
+        let seconds = result.2 < 10 ? "0\(result.2)" : "\(result.2)"
+        label.text = "\(result.1):\(seconds)"
       })
     })
   }
@@ -16,7 +28,7 @@ public class Video: Equatable, CartItemProtocol {
     return .Video
   }
 
-  public let asset: PHAsset
+  public var asset: PHAsset
   
   var durationRequestID: Int = 0
   var duration: Double = 0

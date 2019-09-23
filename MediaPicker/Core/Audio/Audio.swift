@@ -2,10 +2,19 @@ import UIKit
 import AVFoundation
 
 public class Audio: Equatable, CartItemProtocol {
-
+  func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
+    return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
+  }
+  
   public var cartView: CartCollectionItemView {
-    let tempCartView = CartCollectionItemView(type: .Audio, guid: self.guid, image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
-    tempCartView.backgroundColor = .green
+    let tempCartView = CartCollectionItemView(type: .Audio, guid: self.guid, image: MediaPickerBundle.image("musicIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!, bottomTextFunc: { label in
+      self.fetchDuration({ (seconds) in
+        let result = self.secondsToHoursMinutesSeconds(seconds: Int(seconds))
+        let seconds = result.2 < 10 ? "0\(result.2)" : "\(result.2)"
+        label.text = "\(result.1):\(seconds)"
+      })
+    })
+    tempCartView.backgroundColor = .white
     return tempCartView
   }
 
@@ -15,7 +24,7 @@ public class Audio: Equatable, CartItemProtocol {
 
   public let audioFile: AVAudioFile
   public let fileName: String
-  public let newFileName: String?
+  public var customFileName: String?
   public var guid: String
 
   public var duration: Double = 0
@@ -23,7 +32,7 @@ public class Audio: Equatable, CartItemProtocol {
   init(audioFile: AVAudioFile, fileName: String, newFileName: String?, guid: String) {
     self.audioFile = audioFile
     self.fileName = fileName
-    self.newFileName = newFileName
+    self.customFileName = newFileName
     self.guid = guid
   }
 

@@ -27,10 +27,6 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
       let permissionController = makePermissionController()
       addChildController(permissionController)
     }
-    
-    let ntCenter = NotificationCenter.default
-    ntCenter.addObserver(self, selector: #selector(keyboardWillBeShown(note:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-    ntCenter.addObserver(self, selector: #selector(keyboardWillBeHidden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil)
   }
   
   func setupEventHub() {
@@ -51,9 +47,18 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
             let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
+            photoEditor.customFileName = image.customFileName
             photoEditor.photoEditorDelegate = self
             self.present(photoEditor, animated: true, completion: nil)
           })
+        } else if item.type == .Audio {
+          let ctrl = AudioPreviewController(audio: item as! Audio)
+          ctrl.mediaPickerControllerDelegate = self.pagesController
+          self.present(ctrl, animated: true, completion: nil)
+        } else if item.type == .Video {
+          let assetCtrl = VideoAssetPreviewController()
+          assetCtrl.video = (item as! Video)
+          self.present(assetCtrl, animated: true, completion: nil)
         }
       }
     }
@@ -158,24 +163,6 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
   //-------------
   //END PAGES CONTROLLERS
   //-------------
-
-  @objc func keyboardWillBeShown(note: Notification) {
-    let userInfo = note.userInfo
-    let keyboardFrame = userInfo?[UIWindow.keyboardFrameEndUserInfoKey] as! CGRect
-    self.pagesBottomContraint?.isActive = false
-    if self.pagesBottomActiveKeyboardContraint == nil {
-      pagesBottomActiveKeyboardContraint = pagesController?.view.g_pin(on: .bottom, constant: keyboardFrame.height)
-    }
-    self.pagesBottomActiveKeyboardContraint?.isActive = true
-  }
-  
-  @objc func keyboardWillBeHidden(note: Notification) {
-    self.pagesBottomActiveKeyboardContraint?.isActive = false
-    if self.pagesBottomContraint == nil {
-      pagesBottomContraint = pagesController?.view.g_pin(on: .bottom)
-    }
-    self.pagesBottomContraint?.isActive = true
-  }
 }
 
 extension MediaPickerController: CartMainDelegate {
@@ -189,7 +176,7 @@ extension MediaPickerController: CartMainDelegate {
 }
 
 extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, selfCtrl: PhotoEditorController, editedSomething: Bool) {
+  public func doneEditing(image: UIImage, customFileName: String?, selfCtrl: PhotoEditorController, editedSomething: Bool) {
     guard editedSomething else {
       selfCtrl.dismiss(animated: true, completion: nil)
       return
@@ -206,7 +193,7 @@ extension MediaPickerController: PhotoEditorDelegate {
           let newAsset = result.object(at: 0)
           
           self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
-          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString))
+          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString, customFileName: customFileName))
           selfCtrl.dismiss(animated: true, completion: nil)
         }
       }

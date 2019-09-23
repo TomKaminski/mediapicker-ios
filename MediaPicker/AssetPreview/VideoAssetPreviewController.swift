@@ -9,10 +9,12 @@ import UIKit
 import Photos
 import PhotosUI
 
-class AudioVideoAssetPreviewController: UIViewController {
+class VideoAssetPreviewController: UIViewController {
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
+  
+  weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
 
-  var asset: PHAsset!
+  var video: Video!
   var assetCollection: PHAssetCollection!
   
   var imageView = UIImageView()
@@ -62,6 +64,20 @@ class AudioVideoAssetPreviewController: UIViewController {
       self?.playerLayer?.player?.seek(to: CMTime.zero)
       self?.playerLayer?.player?.play()
     }
+    
+    addPhotoButton.addTarget(self, action: #selector(saveAndAddAnotherMedia), for: .touchUpInside)
+    
+    self.bottomToolbarView.filenameInput.text = video.customFileName
+  }
+  
+  @objc private func saveAndAddAnotherMedia() {
+    addOrUpdateCartItem()
+    self.dismiss(animated: true, completion: nil)
+  }
+  
+  private func addOrUpdateCartItem() {
+    video.customFileName = self.bottomToolbarView.filenameInput.text
+    mediaPickerControllerDelegate?.addUpdateCartItem(item: video)
   }
   
   @objc private func onBackPressed() {
@@ -133,7 +149,7 @@ class AudioVideoAssetPreviewController: UIViewController {
       options.deliveryMode = .automatic
       // Request an AVPlayerItem for the displayed PHAsset.
       // Then configure a layer for playing it.
-      PHImageManager.default().requestPlayerItem(forVideo: asset, options: options, resultHandler: { playerItem, info in
+      PHImageManager.default().requestPlayerItem(forVideo: video.asset, options: options, resultHandler: { playerItem, info in
         DispatchQueue.main.sync {
           // Create an AVPlayer and AVPlayerLayer with the AVPlayerItem.
           let player = AVPlayer(playerItem: playerItem)
@@ -179,7 +195,7 @@ class AudioVideoAssetPreviewController: UIViewController {
     options.deliveryMode = .highQualityFormat
     options.isNetworkAccessAllowed = true
     
-    PHImageManager.default().requestImage(for: asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
+    PHImageManager.default().requestImage(for: video.asset, targetSize: targetSize, contentMode: .aspectFit, options: options,
                                           resultHandler: { image, _ in
                                             
                                             // If the request succeeded, show the image view.
@@ -193,15 +209,15 @@ class AudioVideoAssetPreviewController: UIViewController {
 }
 
 // MARK: PHPhotoLibraryChangeObserver
-extension AudioVideoAssetPreviewController: PHPhotoLibraryChangeObserver {
+extension VideoAssetPreviewController: PHPhotoLibraryChangeObserver {
   func photoLibraryDidChange(_ changeInstance: PHChange) {
     // The call might come on any background queue. Re-dispatch to the main queue to handle it.
     DispatchQueue.main.sync {
       // Check if there are changes to the displayed asset.
-      guard let details = changeInstance.changeDetails(for: asset) else { return }
+      guard let details = changeInstance.changeDetails(for: video.asset) else { return }
       
       // Get the updated asset.
-      asset = details.objectAfterChanges
+      video.asset = details.objectAfterChanges ?? details.objectBeforeChanges
       
       // If the asset's content changes, update the image and stop any video playback.
       if details.assetContentChanged {
@@ -214,7 +230,7 @@ extension AudioVideoAssetPreviewController: PHPhotoLibraryChangeObserver {
   }
 }
 
-extension AudioVideoAssetPreviewController {
+extension VideoAssetPreviewController {
   @objc func keyboardWillChangeFrame(_ notification: NSNotification) {
     if let userInfo = notification.userInfo {
       let endFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue

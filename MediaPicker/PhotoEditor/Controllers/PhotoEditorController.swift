@@ -1,6 +1,7 @@
 public final class PhotoEditorController: UIViewController, TopToolbarViewDelegate {
   private let originalImage: UIImage
   public let originalImageGuid: String
+  public var customFileName: String?
 
   lazy var topToolbarView: TopToolbarView = TopToolbarView()
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
@@ -60,6 +61,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     view.addSubview(addPhotoButton)
     
     self.bottomToolbarView.backButton.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
+    self.bottomToolbarView.filenameInput.text = customFileName
     
     canvasView.addSubview(imageView)
     canvasView.addSubview(canvasImageView)
@@ -73,19 +75,22 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
-    bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+    bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 5)
     imageViewHeightConstraint = self.imageView.heightAnchor.constraint(equalToConstant: 680)
-    canvasViewWidthConstraint = self.canvasView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+    canvasViewWidthConstraint = self.canvasView.widthAnchor.constraint(lessThanOrEqualToConstant: UIScreen.main.bounds.width)
 
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.topToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.topToolbarHeight),
       
-      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      //self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
       self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor),
       self.canvasView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
-      canvasViewWidthConstraint,
+      self.canvasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+      self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+
+      //canvasViewWidthConstraint,
       
       self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
@@ -148,6 +153,15 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
     textView.becomeFirstResponder()
   }
   
+  func clearButtonTapped(_ sender: Any) {
+    //clear drawing
+    canvasImageView.image = nil
+    //clear stickers and textviews
+    for subview in canvasImageView.subviews {
+      subview.removeFromSuperview()
+    }
+  }
+  
   @IBAction func doneButtonTapped(_ sender: Any) {
     view.endEditing(true)
     canvasImageView.isUserInteractionEnabled = true
@@ -157,7 +171,7 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   @objc private func saveAndAddAnotherMedia() {
     let img = self.canvasView.toImage()
     //TODO: Check if really edited sth..!!
-    photoEditorDelegate?.doneEditing(image: img, selfCtrl: self, editedSomething: true)
+    photoEditorDelegate?.doneEditing(image: img, customFileName: self.bottomToolbarView.filenameInput.text, selfCtrl: self, editedSomething: true)
   }
   
   func addGestures(view: UIView) {
@@ -187,9 +201,8 @@ public final class PhotoEditorController: UIViewController, TopToolbarViewDelega
   
   func setImageView(image: UIImage) {
     imageView.image = image
-    let size = image.suitableSize(heightLimit: UIScreen.main.bounds.height - (Config.PhotoEditor.topToolbarHeight + Config.PhotoEditor.bottomToolbarHeight), widthLimit: UIScreen.main.bounds.width)
+    let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
     imageViewHeightConstraint.constant = (size?.height)!
-    canvasViewWidthConstraint.constant = (size?.width)!
   }
 }
 

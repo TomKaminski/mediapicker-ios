@@ -1,6 +1,19 @@
 import AVFoundation
 import UIKit
 
+extension UIView {
+  var isHiddenInStackView: Bool {
+    get {
+      return isHidden
+    }
+    set {
+      if isHidden != newValue {
+        isHidden = newValue
+      }
+    }
+  }
+}
+
 class AudioController: UIViewController, AVAudioRecorderDelegate {
   lazy var audioView: AudioView = self.makeAudioView()
   let cart: Cart
@@ -10,8 +23,6 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   var isPaused: Bool = false
   var recordTimer: Timer?
   var fileName: String!
-  
-  var audioTakenChildrenController: AudioPreviewController?
   
   public required init(cart: Cart) {
     self.cart = cart
@@ -74,6 +85,10 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   @objc private func playButtonTouched() {
     if audioRecorder == nil {
       EventHub.shared.changeMediaPickerState?(.AudioRecording)
+      if pagesController.cartButton.cartOpened {
+        self.pagesController.cartButtonTapped()
+      }
+      
       startRecording()
     } else if isPaused {
       resumeRecording()
@@ -84,7 +99,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    clearData()
+    clearDataFunc()
   }
   
   private func startRecording() {
@@ -161,8 +176,11 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //------
   
   @objc private func clearData() {
-    //EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
-
+    clearDataFunc()
+    EventHub.shared.changeMediaPickerState?(.Audio)
+  }
+  
+  private func clearDataFunc() {
     audioRecorder?.deleteRecording()
     audioRecorder = nil
     self.recordTimer?.invalidate()
@@ -184,8 +202,9 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   @objc func doneButtonTouched() {
     pauseRecording()
     audioRecorder?.stop()
-    if let url = audioRecorder?.url {
-      try? self.cart.add(Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString))
+
+    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString) {
+      self.cart.add(audio)
       
       audioRecorder = nil
       self.recordTimer?.invalidate()
@@ -197,18 +216,18 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
       self.audioView.toogleDoneButtonVisibility(isHidden: true)
       self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
-      
+      EventHub.shared.changeMediaPickerState?(.Audio)
 
+      self.addAudioTakenChildrenController(audio: audio)
     } else {
-      EventHub.shared.changeMediaPickerState?(self.basicBottomViewState)
       clearData()
     }
   }
   
-  private func addAudioTakenChildrenController(url: URL) {
-    EventHub.shared.changeMediaPickerState?(.AudioTaken)
-    audioTakenChildrenController = AudioPreviewController(takenAudioUrl: url)
-    self.addChildController(audioTakenChildrenController!)
+  private func addAudioTakenChildrenController(audio: Audio) {
+    let audioTakenChildrenController = AudioPreviewController(audio: audio)
+    audioTakenChildrenController.mediaPickerControllerDelegate = self.pagesController
+    self.present(audioTakenChildrenController, animated: true, completion: nil)
   }
   
   var pagesController: PagesController {
@@ -221,10 +240,7 @@ extension AudioController: PageAware {
   
   func pageDidShow() {}
   
-  func pageDidHide() {
-    audioTakenChildrenController?.removeFromParentController()
-    clearData()
-  }
+  func pageDidHide() {}
 
   var initialBottomViewState: MediaToolbarState {
     return .Audio

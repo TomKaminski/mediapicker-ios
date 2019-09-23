@@ -6,7 +6,8 @@ import Photos
 /// Wrap a PHAsset
 public class Image: Equatable, CartItemProtocol {
   public var guid: String
-
+  public var customFileName: String?
+  
   public var cartView: CartCollectionItemView {
     return CartCollectionItemView(type: .Image, guid: guid, imageCompletion: { (imageView) in
       self.resolve(completion: { (image) in
@@ -23,9 +24,10 @@ public class Image: Equatable, CartItemProtocol {
 
   // MARK: - Initialization
 
-  init(asset: PHAsset, guid: String) {
+  init(asset: PHAsset, guid: String, customFileName: String? = nil) {
     self.asset = asset
     self.guid = guid
+    self.customFileName = customFileName
   }
 }
 

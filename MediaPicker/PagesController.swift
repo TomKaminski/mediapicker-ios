@@ -266,6 +266,14 @@ extension PagesController: UIScrollViewDelegate {
 }
 
 extension PagesController: BottomViewDelegate {
+  func addUpdateCartItem(item: CartItemProtocol) {
+    if self.mediaPickerController.cart.items[item.guid] != nil {
+      self.mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
+    } else {
+      self.mediaPickerController.cart.items[item.guid] = item
+    }
+  }
+  
   func shutterButtonHeld() {
     (self.activeController as? CameraPageAware)?.shutterButtonHeld()
     self.cartButton.isHidden = true

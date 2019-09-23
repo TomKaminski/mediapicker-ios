@@ -4,7 +4,6 @@ class BottomView: UIView {
   weak var delegate: BottomViewDelegate?
 
   var backButton: CircularBorderButton?
-  var filenameInputView: FilenameInputView?
   var cartView: CartCollectionView?
   var saveButton: GalleryFloatingButton?
   var shutterButton: ShutterButton?
@@ -32,14 +31,10 @@ class BottomView: UIView {
       setupCameraLayout()
     case .CartExpanded:
       setupCartCollectionLayout()
-    case .VideoTaken:
-      setupFilenameInputLayout()
     case .Library:
       setupLibraryLayout()
     case .Audio:
       setupLibraryLayout()
-    case .AudioTaken:
-      setupFilenameInputLayout()
     case .AudioRecording:
       setupAudioRecording()
     }
@@ -105,16 +100,6 @@ class BottomView: UIView {
 
     self.cartView?.removeFromSuperview()
     self.cartView = nil
-
-    self.filenameInputView?.removeFromSuperview()
-    self.filenameInputView = nil
-  }
-
-  func setupFilenameInputLayout() {
-    clearSubviews()
-    insertBackButton()
-    insertSaveButton()
-    insertFileNameInput()
   }
 
   func setupCartCollectionLayout() {
@@ -166,17 +151,6 @@ class BottomView: UIView {
     Constraint.on(
       saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: Config.BottomView.SaveButton.rightMargin),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-    )
-  }
-
-  fileprivate func insertFileNameInput() {
-    let filenameInputView = self.filenameInputView ?? FilenameInputView()
-    self.filenameInputView = filenameInputView
-    addSubview(filenameInputView)
-    self.filenameInputView?.attributedPlaceholder = NSAttributedString(string: Config.PhotoEditor.filenameInputPlaceholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-    Constraint.on(
-      filenameInputView.leadingAnchor.constraint(equalTo: self.backButton!.trailingAnchor, constant: 8),
-      filenameInputView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
 

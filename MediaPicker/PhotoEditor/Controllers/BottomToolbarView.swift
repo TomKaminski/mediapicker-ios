@@ -1,4 +1,6 @@
 class BottomToolbarView: UIView, UITextFieldDelegate {
+  weak var delegate: BottomViewCartItemsDelegate?
+
   lazy var backButton: CircularBorderButton = self.makeCircularButton(with: "arrowLeftIcon")
   lazy var saveButton: GalleryFloatingButton = self.makeSaveButton()
   lazy var filenameInput: FilenameInputView = self.makeInputView()
