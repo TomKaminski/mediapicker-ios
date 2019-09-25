@@ -1,12 +1,10 @@
 import UIKit
 import Photos
 
-
-
-/// Wrap a PHAsset
 public class Image: Equatable, CartItemProtocol {
+  public var newlyTaken: Bool
   public var guid: String
-  public var customFileName: String?
+  public var customFileName: String
   
   public var cartView: CartCollectionItemView {
     return CartCollectionItemView(type: .Image, guid: guid, imageCompletion: { (imageView) in
@@ -24,7 +22,8 @@ public class Image: Equatable, CartItemProtocol {
 
   // MARK: - Initialization
 
-  init(asset: PHAsset, guid: String, customFileName: String? = nil) {
+  init(asset: PHAsset, guid: String, newlyTaken: Bool, customFileName: String) {
+    self.newlyTaken = newlyTaken
     self.asset = asset
     self.guid = guid
     self.customFileName = customFileName

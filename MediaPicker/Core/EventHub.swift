@@ -13,4 +13,5 @@ class EventHub {
   var changeMediaPickerState: ((MediaToolbarState) -> Void)?
   var selfDeleteFromCart: GuidAction?
   var executeCustomAction: GuidAction?
+  var modalDismissed: Action?
 }

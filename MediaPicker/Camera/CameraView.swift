@@ -13,7 +13,8 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   lazy var tapGR: UITapGestureRecognizer = self.makeTapGR()
   lazy var blurView: UIVisualEffectView = self.makeBlurView()
   lazy var shutterOverlayView: UIView = self.makeShutterOverlayView()
-
+  lazy var elapsedVideoRecordingTimeLabel: UILabel = self.makeVideoRecordingElapsedTimeLabel()
+  
   var timer: Timer?
   var videoRecordingTimer: Timer?
   var previewLayer: AVCaptureVideoPreviewLayer?
@@ -33,11 +34,19 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   }
 
   // MARK: - Setup
+  
+  func showTimer() {
+    let userInfo = ["start": Date().timeIntervalSince1970]
+    self.videoRecordingTimer = Timer.scheduledTimer(
+      timeInterval: 0.5, target: self, selector: #selector(CameraView.videoRecodringTimerFired(_:)), userInfo: userInfo, repeats: true)
+    self.elapsedVideoRecordingTimeLabel.isHidden = false
+    self.elapsedVideoRecordingTimeLabel.text = self.videoRecordingLabelPlaceholder()
+  }
 
   func setup() {
     addGestureRecognizer(tapGR)
 
-    [flashButton, rotateButton].forEach {
+    [flashButton, rotateButton, elapsedVideoRecordingTimeLabel].forEach {
       addSubview($0)
     }
 
@@ -45,6 +54,8 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     insertSubview(rotateOverlayView, belowSubview: rotateButton)
     insertSubview(shutterOverlayView, belowSubview: blurView)
 
+    elapsedVideoRecordingTimeLabel.g_pin(on: .centerX)
+    elapsedVideoRecordingTimeLabel.g_pin(size: CGSize(width: 100, height: 44))
     rotateButton.g_pin(on: .right)
     rotateButton.g_pin(size: CGSize(width: 44, height: 44))
     flashButton.g_pin(on: .left)
@@ -53,13 +64,15 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     if #available(iOS 11, *) {
       Constraint.on(constraints: [
         rotateButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-        flashButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)]
-      )
+        flashButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+        elapsedVideoRecordingTimeLabel.topAnchor.constraint(equalTo: elapsedVideoRecordingTimeLabel.topAnchor),
+      ])
     } else {
       Constraint.on(constraints: [
         rotateButton.topAnchor.constraint(equalTo: topAnchor),
-        flashButton.topAnchor.constraint(equalTo: topAnchor)]
-      )
+        flashButton.topAnchor.constraint(equalTo: topAnchor),
+        elapsedVideoRecordingTimeLabel.topAnchor.constraint(equalTo: topAnchor),
+      ])
     }
 
     rotateOverlayView.g_pinEdges()
@@ -173,5 +186,29 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     view.backgroundColor = UIColor.black
 
     return view
+  }
+  
+  func makeVideoRecordingElapsedTimeLabel() -> UILabel {
+    let label = UILabel()
+    label.text = self.videoRecordingLabelPlaceholder()
+    label.textAlignment = .center
+    label.textColor = .white
+    label.isHidden = true
+    label.font = UIFont.systemFont(ofSize: 14)
+    return label
+  }
+
+  func videoRecordingLabelPlaceholder() -> String {
+    return "--:--"
+  }
+  
+  @objc func videoRecodringTimerFired(_ timer: Timer) {
+    guard let dictionary = timer.userInfo as? [String: Any], let start = dictionary["start"] as? TimeInterval else {
+      return
+    }
+    let now = Date().timeIntervalSince1970
+    let minutes = Int(now - start) / 60
+    let seconds = Int(now - start) % 60
+    self.elapsedVideoRecordingTimeLabel.text = String(format: "%0.2d:%0.2d", minutes, seconds)
   }
 }

@@ -25,6 +25,8 @@ class CartButton: UIView {
     self.addSubview(cartItemsLabel)
     
     toggleVisibility()
+    
+    self.isHidden = true
   }
   
   override func updateConstraints() {
@@ -36,6 +38,8 @@ class CartButton: UIView {
   
   public func updateCartItemsLabel(_ items: Int) {
     cartItemsLabel.text = "\(items)"
+    self.isHidden = items == 0
+    self.cartOpened = false
   }
   
   @objc private func tapped() {

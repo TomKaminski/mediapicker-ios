@@ -1,4 +1,15 @@
-class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView> {
+protocol CartCollectionViewDelegate: class {
+  func reselectItem()
+}
+
+protocol BottomViewCartDelegate: class {
+  func closeCartView()
+}
+
+class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, CartCollectionViewDelegate {
+  
+  weak var bottomViewCartDelegate: BottomViewCartDelegate?
+  
   var views = [CartCollectionItemView]()
   
   init(frame: CGRect, cartItems: [String: CartItemProtocol]) {
@@ -20,6 +31,10 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView> {
       _ = self.removeItemAtIndex(itemIndex)
       _ = self.views.remove(at: itemIndex)
     }
+    
+    if self.views.isEmpty {
+      self.bottomViewCartDelegate?.closeCartView()
+    }
   }
   
   public func removeItem(by guid: String) {
@@ -29,12 +44,25 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView> {
       _ = self.removeItemAtIndex(itemIndex)
       _ = self.views.remove(at: itemIndex)
     }
+    
+    if self.views.isEmpty {
+      self.bottomViewCartDelegate?.closeCartView()
+    }
+  }
+  
+  public func reselectItem() {
+    self.views.forEach { (view) in
+      view.selected = view.guid == Config.BottomView.Cart.selectedGuid
+    }
   }
   
   private func buildScrollView(cartItems: [String: CartItemProtocol]) {
     _ = self.removeAllItems()
     self.views = cartItems.compactMap { (cartItem) -> CartCollectionItemView in
-      return cartItem.value.cartView
+      let view = cartItem.value.cartView
+      view.delegate = self
+      view.selected = view.guid == Config.BottomView.Cart.selectedGuid
+      return view
     }
     self.addItems(self.views)
   }

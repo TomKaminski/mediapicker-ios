@@ -1,18 +1,6 @@
 import QuickLook
 
-class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, CartButtonDelegate, CircularButtonConformance {
-  
-  weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
-  
-  func cartButtonTapped() {
-    self.cartButton.cartOpened = !self.cartButton.cartOpened
-  }
-  
-  lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
-  lazy var cartButton: CartButton = CartButton()
-
-  lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "addPhotoIcon")
-  var bottomToolbarConstraint: NSLayoutConstraint!
+class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
   
   var previewCtrl: QLPreviewController!
   
@@ -29,62 +17,30 @@ class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLP
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    newlyTaken = audio.newlyTaken
     
-    self.view.backgroundColor = UIColor.init(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
-    
-    self.addPreviewChild()
-    self.view.addSubview(bottomToolbarView)
-    self.view.addSubview(addPhotoButton)
-    self.view.addSubview(cartButton)
-    
-    cartButton.delegate = self
-    
-    self.bottomToolbarView.backButton.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
-    
-    bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
-    addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-    previewCtrl.view.translatesAutoresizingMaskIntoConstraints = false
-    setupConstraints()
-    
-    self.cartButton.updateCartItemsLabel(mediaPickerControllerDelegate?.itemsInCart ?? 0)
-    
-    addPhotoButton.addTarget(self, action: #selector(saveAndAddAnotherMedia), for: .touchUpInside)
-    
-    self.view.backgroundColor = UIColor.init(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
-    
-    self.bottomToolbarView.filenameInput.text = audio.customFileName
+    self.bottomToolbarView.lastFileName = audio.customFileName
   }
   
-  @objc private func saveAndAddAnotherMedia() {
-    addOrUpdateCartItem()
+  override func addSubviews() {
+    self.addPreviewChild()
+    super.addSubviews()
+  }
+  
+  override func customOnAddNexTap() {
+    audio.customFileName = self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getAudioFileName()
+    audio.newlyTaken = false
+    mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
     self.dismiss(animated: true, completion: nil)
   }
   
-  private func addOrUpdateCartItem() {
-    audio.customFileName = self.bottomToolbarView.filenameInput.text
-    mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
-  }
-  
-  private func setupConstraints() {
-    bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+  internal override func setupConstraints() {
+    super.setupConstraints()
     
     Constraint.on(constraints: [
       previewCtrl.view.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
       previewCtrl.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      previewCtrl.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      
-      self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight),
-      
-      self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
-      self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8),
-      
-      cartButton.centerYAnchor.constraint(equalTo: addPhotoButton.centerYAnchor),
-      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: Config.BottomView.CartButton.rightMargin),
-      cartButton.heightAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size),
-      cartButton.widthAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size)
+      previewCtrl.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
     ])
     
     if #available(iOS 11.0, *) {
@@ -98,7 +54,8 @@ class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLP
     previewCtrl = QLPreviewController()
     previewCtrl.dataSource = self
     previewCtrl.delegate = self
-    
+    previewCtrl.view.translatesAutoresizingMaskIntoConstraints = false
+
     addChild(previewCtrl)
     view.addSubview(previewCtrl.view)
     previewCtrl.didMove(toParent: self)
@@ -114,10 +71,6 @@ class AudioPreviewController: UIViewController, QLPreviewControllerDelegate, QLP
     } else {
       return NSURL()
     }
-  }
-  
-  @objc private func onBackPressed() {
-    self.dismiss(animated: true, completion: nil)
   }
 }
 
@@ -136,11 +89,9 @@ extension AudioPreviewController {
         self.bottomToolbarConstraint?.constant = -(endFrame?.size.height ?? 0.0)
       }
       
-      UIView.animate(withDuration: duration,
-                     delay: TimeInterval(0),
-                     options: animationCurve,
-                     animations: { self.view.layoutIfNeeded() },
-                     completion: nil)
+      UIView.animate(withDuration: duration, delay: TimeInterval(0), options: animationCurve, animations: {
+        self.view.layoutIfNeeded()
+      }, completion: nil)
     }
   }
 }

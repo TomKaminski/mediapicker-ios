@@ -2,7 +2,7 @@ import UIKit
 
 class ColorsCollectionViewDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
   
-  var colorDelegate: ColorDelegate?
+  var colorDelegate: ColorSelectedDelegate?
   
   /**
    Array of Colors that will show while drawing or typing

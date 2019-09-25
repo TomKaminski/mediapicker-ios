@@ -1,6 +1,16 @@
 import UIKit
 
-class BottomView: UIView {
+class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelegate {
+  func closeCartView() {
+    setupForActiveTab()
+  }
+  
+  func tapped() {
+    EventHub.shared.doneWithMedia?()
+  }
+  
+  // MARK: Properties
+  
   weak var delegate: BottomViewDelegate?
 
   var backButton: CircularBorderButton?
@@ -11,7 +21,7 @@ class BottomView: UIView {
   var state: MediaToolbarState = .Camera
   var activeTab: Config.GalleryTab = .libraryTab
 
-  // MARK: - Initialization
+  // MARK: Initialization
 
   required init() {
     super.init(frame: .zero)
@@ -23,7 +33,7 @@ class BottomView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
 
-  // MARK: - Setup
+  // MARK: Setup
 
   func setup() {
     switch state {
@@ -38,29 +48,39 @@ class BottomView: UIView {
     case .AudioRecording:
       setupAudioRecording()
     }
-
-    //TODO: Setup layout delegates!!
+  }
+  
+  func setupForActiveTab() {
+    switch activeTab {
+    case .cameraTab:
+      setupCameraLayout()
+    case .libraryTab:
+      setupLibraryLayout()
+    case .audioTab:
+      setupLibraryLayout()
+    }
   }
 
-  func makeBackButton() -> CircularBorderButton {
+  fileprivate func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
     btn.setImage(Config.BottomView.BackButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
     return btn
   }
 
-  @objc private func onBackButtonTap() {
+  @objc fileprivate func onBackButtonTap() {
     EventHub.shared.close?()
   }
 
-  func makeSaveButton() -> GalleryFloatingButton {
+  fileprivate func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
+    button.tapDelegate = self
     button.imageView.image = Config.BottomView.SaveButton.icon
 
     return button
   }
 
-  func makeShutterButton() -> ShutterButton {
+  fileprivate func makeShutterButton() -> ShutterButton {
     let shutterBtn = ShutterButton()
     shutterBtn.addTarget(self, action: #selector(onShutterButtonTapped), for: .touchUpInside)
 
@@ -69,7 +89,7 @@ class BottomView: UIView {
     return shutterBtn
   }
   
-  @objc func shutterLongTap(sender: UIGestureRecognizer) {
+  @objc fileprivate func shutterLongTap(sender: UIGestureRecognizer) {
     if sender.state == .began {
       self.setupRecordingLayout()
       self.delegate?.shutterButtonHeld()
@@ -79,16 +99,16 @@ class BottomView: UIView {
     }
   }
   
-  private func setupRecordingLayout() {
+  fileprivate func setupRecordingLayout() {
     self.shutterButton?.recording = true
     self.backButton?.isHidden = true
   }
   
-  @objc private func onShutterButtonTapped() {
+  @objc fileprivate func onShutterButtonTapped() {
     self.delegate?.shutterButtonTouched()
   }
 
-  func clearSubviews() {
+  fileprivate func clearSubviews() {
     self.shutterButton?.removeFromSuperview()
     self.shutterButton = nil
 
@@ -102,29 +122,30 @@ class BottomView: UIView {
     self.cartView = nil
   }
 
-  func setupCartCollectionLayout() {
+  fileprivate func setupCartCollectionLayout() {
     clearSubviews()
 
     let cartView = CartCollectionView(frame: .zero, cartItems: self.delegate!.cartItems)
     self.cartView = cartView
+    cartView.bottomViewCartDelegate = self
     cartView.backgroundColor = .black
     addSubview(cartView)
     cartView.g_pinEdges()
   }
 
-  func setupCameraLayout() {
+  fileprivate func setupCameraLayout() {
     clearSubviews()
     insertShutterButton(recording: false)
     insertSaveButton()
     insertBackButton()
   }
 
-  func setupAudioRecording() {
+  fileprivate func setupAudioRecording() {
     clearSubviews()
     insertBackButton()
   }
 
-  func setupLibraryLayout() {
+  fileprivate func setupLibraryLayout() {
     clearSubviews()
     insertBackButton()
     insertSaveButton()

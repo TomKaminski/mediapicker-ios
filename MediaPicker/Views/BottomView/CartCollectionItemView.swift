@@ -1,4 +1,5 @@
 public class CartCollectionItemView: UIView {
+  weak var delegate: CartCollectionViewDelegate?
   
   var type: MediaTypeEnum!
   var bottomText: String?
@@ -61,7 +62,11 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onTapped() {
-    EventHub.shared.executeCustomAction?(guid)
+    if Config.BottomView.Cart.selectedGuid != guid {
+      Config.BottomView.Cart.selectedGuid = guid
+      delegate?.reselectItem()
+      EventHub.shared.executeCustomAction?(guid)
+    }
   }
 
   convenience init(type: MediaTypeEnum, guid: String, image: UIImage, bottomTextFunc: ((UILabel) -> Void)? = nil) {
@@ -139,7 +144,7 @@ public class CartCollectionItemView: UIView {
     if selected {
       self.layer.borderColor = UIColor.blue.cgColor
     } else {
-      self.layer.borderColor = UIColor.white.cgColor
+      self.layer.borderColor = UIColor.clear.cgColor
     }
   }
 

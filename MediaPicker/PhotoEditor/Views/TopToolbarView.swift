@@ -4,7 +4,7 @@ protocol TopToolbarViewDelegate: class {
   func didSelectColor(color: UIColor)
 }
 
-class TopToolbarView: UIView, ColorDelegate, CircularButtonConformance {
+class TopToolbarView: UIView, ColorSelectedDelegate, CircularButtonConformance {
   var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
   weak var editorViewDelegate: TopToolbarViewDelegate?
   
@@ -68,9 +68,7 @@ class TopToolbarView: UIView, ColorDelegate, CircularButtonConformance {
     colorsCollectionViewDelegate.colorDelegate = self
     colView.delegate = colorsCollectionViewDelegate
     colView.dataSource = colorsCollectionViewDelegate
-    
-    colView.register(UINib(nibName: "ColorCollectionViewCell", bundle: Bundle(for: ColorCollectionViewCell.self)),
-                                  forCellWithReuseIdentifier: "ColorCollectionViewCell")
+    colView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: "ColorCollectionViewCell")
     
     return colView
   }

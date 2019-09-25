@@ -33,19 +33,18 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
     bottomContainer.translatesAutoresizingMaskIntoConstraints = false
     bottomView.translatesAutoresizingMaskIntoConstraints = false
     
-    self.resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
-    self.resetButton.centerXAnchor.constraint(equalTo: self.resetInfolabel.centerXAnchor).isActive = true
-    self.resetInfolabel.topAnchor.constraint(equalTo: self.resetButton.bottomAnchor, constant: 6).isActive = true
-    self.resetInfolabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8).isActive = true
-    
-    self.mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -40).isActive = true
-    self.mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-    self.mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-    
-    self.playStopButton.heightAnchor.constraint(equalToConstant: 100).isActive = true
-    self.doneBigButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
-    
-    self.resetButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    NSLayoutConstraint.activate([
+      self.resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
+      self.resetButton.centerXAnchor.constraint(equalTo: self.resetInfolabel.centerXAnchor),
+      self.resetInfolabel.topAnchor.constraint(equalTo: self.resetButton.bottomAnchor, constant: 6),
+      self.resetInfolabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
+      self.mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -40),
+      self.mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      self.mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+      self.playStopButton.heightAnchor.constraint(equalToConstant: 100),
+      self.doneBigButton.heightAnchor.constraint(equalToConstant: 60),
+      self.resetButton.heightAnchor.constraint(equalToConstant: 40)
+    ])
     
     bottomContainer.g_pinDownward()
     bottomContainer.g_pin(height: 80)

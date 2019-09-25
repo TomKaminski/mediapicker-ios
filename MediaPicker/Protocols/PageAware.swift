@@ -6,9 +6,3 @@ protocol PageAware: AnyObject {
   
   func switchedToState(state: MediaToolbarState)
 }
-
-protocol CameraPageAware: PageAware {
-  func shutterButtonTapped()
-  func shutterButtonHeld()
-  func shutterButtonReleased()
-}

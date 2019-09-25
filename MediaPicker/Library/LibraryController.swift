@@ -2,7 +2,6 @@ import UIKit
 import Photos
 
 class LibraryController: UIViewController {
-
   lazy var dropdownController: DropdownController = self.makeDropdownController()
   lazy var gridView: GridView = self.makeGridView()
 
@@ -14,7 +13,6 @@ class LibraryController: UIViewController {
   let once = Once()
 
   let cart: Cart
-
 
   // MARK: - Init
 

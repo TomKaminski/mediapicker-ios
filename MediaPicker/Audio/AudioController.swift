@@ -203,9 +203,10 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     pauseRecording()
     audioRecorder?.stop()
 
-    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), fileName: self.fileName, newFileName: nil, guid: UUID().uuidString) {
+    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString) {
       self.cart.add(audio)
-      
+      Config.BottomView.Cart.selectedGuid = audio.guid
+
       audioRecorder = nil
       self.recordTimer?.invalidate()
       self.recordTimer = nil
@@ -225,9 +226,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   }
   
   private func addAudioTakenChildrenController(audio: Audio) {
-    let audioTakenChildrenController = AudioPreviewController(audio: audio)
-    audioTakenChildrenController.mediaPickerControllerDelegate = self.pagesController
-    self.present(audioTakenChildrenController, animated: true, completion: nil)
+    EventHub.shared.executeCustomAction?(audio.guid)
   }
   
   var pagesController: PagesController {

@@ -6,7 +6,6 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
   @objc func panGesture(_ recognizer: UIPanGestureRecognizer) {
     if let view = recognizer.view {
       if view is UIImageView {
-        //Tap only on visible parts on the image
         if recognizer.state == .began {
           for imageView in subImageViews(view: canvasImageView) {
             let location = recognizer.location(in: imageView)
@@ -38,15 +37,11 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
         if textView.font!.pointSize * recognizer.scale < 90 {
           let font = UIFont(name: textView.font!.fontName, size: textView.font!.pointSize * recognizer.scale)
           textView.font = font
-          let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width,
-                                                       height: CGFloat.greatestFiniteMagnitude))
-          textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
-                                        height: sizeToFit.height)
+          let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
+          textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width, height: sizeToFit.height)
         } else {
-          let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width,
-                                                       height: CGFloat.greatestFiniteMagnitude))
-          textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width,
-                                        height: sizeToFit.height)
+          let sizeToFit = textView.sizeThatFits(CGSize(width: UIScreen.main.bounds.size.width, height: CGFloat.greatestFiniteMagnitude))
+          textView.bounds.size = CGSize(width: textView.intrinsicContentSize.width, height: sizeToFit.height)
         }
         
         
@@ -76,7 +71,6 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
   @objc func tapGesture(_ recognizer: UITapGestureRecognizer) {
     if let view = recognizer.view {
       if view is UIImageView {
-        //Tap only on visible parts on the image
         for imageView in subImageViews(view: canvasImageView) {
           let location = recognizer.location(in: imageView)
           let alpha = imageView.alphaAtPoint(location)
@@ -121,15 +115,14 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
       let generator = UIImpactFeedbackGenerator(style: .heavy)
       generator.impactOccurred()
     }
+    
     let previouTransform = view.transform
-    UIView.animate(withDuration: 0.2,
-                   animations: {
-                    view.transform = view.transform.scaledBy(x: 1.2, y: 1.2)
-    },
-                   completion: { _ in
-                    UIView.animate(withDuration: 0.2) {
-                      view.transform = previouTransform
-                    }
+    UIView.animate(withDuration: 0.2, animations: {
+      view.transform = view.transform.scaledBy(x: 1.2, y: 1.2)
+    }, completion: { _ in
+      UIView.animate(withDuration: 0.2) {
+        view.transform = previouTransform
+      }
     })
   }
   
@@ -147,8 +140,7 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
     view.superview?.bringSubviewToFront(view)
     let pointToSuperView = recognizer.location(in: self.view)
     
-    view.center = CGPoint(x: view.center.x + recognizer.translation(in: canvasImageView).x,
-                          y: view.center.y + recognizer.translation(in: canvasImageView).y)
+    view.center = CGPoint(x: view.center.x + recognizer.translation(in: canvasImageView).x, y: view.center.y + recognizer.translation(in: canvasImageView).y)
     
     recognizer.setTranslation(CGPoint.zero, in: canvasImageView)
     
@@ -158,7 +150,7 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
       imageViewToPan = nil
       lastPanPoint = nil
 
-      if !canvasImageView.bounds.contains(view.center) { //Snap the view back to canvasImageView
+      if !canvasImageView.bounds.contains(view.center) {
         UIView.animate(withDuration: 0.3, animations: {
           view.center = CGPoint(x: view.center.x, y: self.canvasImageView.bounds.height/2)
         })

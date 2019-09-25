@@ -227,6 +227,7 @@ class PagesController: UIViewController {
   }
   
   func notifyShow() {
+    self.bottomView.activeTab = Config.tabsToShow[selectedIndex]
     if let controller = controllers[selectedIndex] as? PageAware {
       controller.pageDidShow()
       if bottomView.state != .CartExpanded {

@@ -1,11 +1,23 @@
 import Photos
 
+public protocol MediaPickerControllerDelegate: AnyObject {
+
+  func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol])
+
+  func galleryControllerDidCancel(_ controller: MediaPickerController)
+}
+
 public class MediaPickerController: UIViewController, PermissionControllerDelegate {
+  
+  public weak var delegate: MediaPickerControllerDelegate?
+  
   let cart = Cart()
   var pagesController: PagesController?
   
   var pagesBottomContraint: NSLayoutConstraint?
   var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
+  
+  var currentlyPresentedModalController: MediaModalBaseController?
 
   public override func viewDidLoad() {
     super.viewDidLoad()
@@ -29,38 +41,93 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
   }
   
+  fileprivate func presentNewModal(_ modalCtrl: MediaModalBaseController?, _ newGuid: String) {
+    if let modalCtrl = modalCtrl {
+      if let currentModalCtrl = self.currentlyPresentedModalController {
+        currentModalCtrl.dismiss(animated: true) {
+          self.present(modalCtrl, animated: true, completion: {
+            self.currentlyPresentedModalController = modalCtrl
+          })
+        }
+      } else {
+        self.present(modalCtrl, animated: true, completion: {
+          self.currentlyPresentedModalController = modalCtrl
+        })
+      }
+    }
+  }
+  
   func setupEventHub() {
+    EventHub.shared.modalDismissed = {
+      if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken {
+        self.cart.remove(cartItem)
+      }
+      Config.BottomView.Cart.selectedGuid = nil
+      self.currentlyPresentedModalController = nil
+      self.pagesController?.bottomView.cartView?.reselectItem()
+    }
+    
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
-        strongSelf.dismiss(animated: true, completion: nil)
+        if !strongSelf.cart.items.isEmpty {
+          let alertController = UIAlertController(title: "Discard elements", message: "Are you sure you want to discard \(strongSelf.cart.items.count) elements?", preferredStyle: .alert)
+          alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+            alertController.dismiss(animated: true) {
+              strongSelf.dismiss(animated: true, completion: nil)
+            }
+          }))
+          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+            alertController.dismiss(animated: true, completion: nil)
+          }))
+          strongSelf.present(alertController, animated: true, completion: nil)
+        } else {
+          strongSelf.dismiss(animated: true, completion: nil)
+        }
       }
     }
     
     EventHub.shared.doneWithMedia = { [weak self] in
-      //TODO
-      print(self!)
+      if let strongSelf = self {
+        if let modalCtrl = strongSelf.currentlyPresentedModalController {
+          modalCtrl.dismiss(animated: false) {
+            strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
+          }
+        } else {
+          strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
+        }
+      }
     }
     
     EventHub.shared.executeCustomAction = { guid in
       if let item = self.cart.getItem(by: guid) {
+        print(item.type)
         if item.type == .Image {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
-            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
+            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
+            photoEditor.modalPresentationStyle = .overFullScreen
             photoEditor.customFileName = image.customFileName
             photoEditor.photoEditorDelegate = self
-            self.present(photoEditor, animated: true, completion: nil)
+            photoEditor.mediaPickerControllerDelegate = self.pagesController
+            self.pagesController?.bottomView.cartView?.reselectItem()
+            self.presentNewModal(photoEditor, guid)
           })
         } else if item.type == .Audio {
           let ctrl = AudioPreviewController(audio: item as! Audio)
           ctrl.mediaPickerControllerDelegate = self.pagesController
-          self.present(ctrl, animated: true, completion: nil)
+          ctrl.customFileName = item.customFileName
+          self.pagesController?.bottomView.cartView?.reselectItem()
+          self.presentNewModal(ctrl, guid)
         } else if item.type == .Video {
           let assetCtrl = VideoAssetPreviewController()
           assetCtrl.video = (item as! Video)
-          self.present(assetCtrl, animated: true, completion: nil)
+          assetCtrl.customFileName = item.customFileName
+          assetCtrl.mediaPickerControllerDelegate = self.pagesController
+          self.pagesController?.bottomView.cartView?.reselectItem()
+          self.presentNewModal(assetCtrl, guid)
         }
       }
+      
     }
     
     EventHub.shared.selfDeleteFromCart = { guid in
@@ -140,7 +207,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
 
     let ctrl = CameraController(cart: self.cart)
-    ctrl.title = Config.Camera.title
+    ctrl.title = Config.Camera.title.g_localize(fallback: "CAMERA")
     return ctrl
   }
 
@@ -150,13 +217,13 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
 
     let ctrl = AudioController(cart: self.cart)
-    ctrl.title = Config.Audio.title
+    ctrl.title = Config.Audio.title.g_localize(fallback: "AUDIO")
     return ctrl
   }
 
   func createLibraryController() -> LibraryController {
     let ctrl = LibraryController(cart: cart)
-    ctrl.title = Config.Library.title
+    ctrl.title = Config.Library.title.g_localize(fallback: "LIBRARY")
     return ctrl
   }
   
@@ -176,7 +243,7 @@ extension MediaPickerController: CartMainDelegate {
 }
 
 extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, customFileName: String?, selfCtrl: PhotoEditorController, editedSomething: Bool) {
+  public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool) {
     guard editedSomething else {
       selfCtrl.dismiss(animated: true, completion: nil)
       return
@@ -193,7 +260,7 @@ extension MediaPickerController: PhotoEditorDelegate {
           let newAsset = result.object(at: 0)
           
           self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
-          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString, customFileName: customFileName))
+          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString, newlyTaken: false, customFileName: customFileName))
           selfCtrl.dismiss(animated: true, completion: nil)
         }
       }

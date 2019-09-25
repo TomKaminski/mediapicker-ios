@@ -2,16 +2,12 @@ import UIKit
 import Photos
 import PhotosUI
 
-class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
+class VideoAssetPreviewController: MediaModalBaseController {
   
   // ----------------
   // MARK: Properties
   // ----------------
 
-  weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
-
-  lazy var bottomToolbarView = self.makeBottomView()
-  lazy var addPhotoButton = self.makeCircularButton(with: "addPhotoIcon")
   lazy var imageView = self.makeImageView()
 
   var video: Video!
@@ -23,25 +19,24 @@ class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
   var playerPaused = true
   
   fileprivate var playerLayer: AVPlayerLayer!
-    
-  var bottomToolbarConstraint: NSLayoutConstraint!
-  
+      
   // ----------------
   // MARK: UIViewController Life Cycle
   // ----------------
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .black
-    
-    self.view.addSubview(imageView)
-    self.view.addSubview(bottomToolbarView)
-    self.view.addSubview(addPhotoButton)
-    
+    newlyTaken = video.newlyTaken
+
     setupConstraints()
     setupNotifications()
 
     PHPhotoLibrary.shared().register(self)
+  }
+  
+  override func addSubviews() {
+    self.view.addSubview(imageView)
+    super.addSubviews()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -57,13 +52,9 @@ class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
   // ----------------
   // MARK: Interaction
   // ----------------
-  
-  @objc private func saveAndAddAnotherMedia() {
+
+  override func customOnAddNexTap() {
     addOrUpdateCartItem()
-    self.dismiss(animated: true, completion: nil)
-  }
-  
-  @objc private func onBackPressed() {
     self.dismiss(animated: true, completion: nil)
   }
   
@@ -146,7 +137,8 @@ class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
   }
   
   private func addOrUpdateCartItem() {
-    video.customFileName = self.bottomToolbarView.filenameInput.text
+    video.customFileName = self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getVideoFileName()
+    video.newlyTaken = false
     mediaPickerControllerDelegate?.addUpdateCartItem(item: video)
   }
 
@@ -159,21 +151,13 @@ class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
   }
   
-  private func setupConstraints() {
-    bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-    
+  internal override func setupConstraints() {
+    super.setupConstraints()
+
     Constraint.on(constraints: [
       imageView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
       imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      
-      self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight),
-      
-      self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
-      self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8)
     ])
     
     if #available(iOS 11.0, *) {
@@ -181,22 +165,6 @@ class VideoAssetPreviewController: UIViewController, CircularButtonConformance {
     } else {
       imageView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor).isActive = true
     }
-  }
-  
-  private func makeBottomView() -> BottomToolbarView {
-    let view = BottomToolbarView()
-    
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.backButton.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
-    view.filenameInput.text = video.customFileName
-
-    return view
-  }
-  
-  private func makeAddPhotoButton() -> CircularBorderButton {
-    let view = self.makeCircularButton(with: "addPhotoIcon")
-    view.addTarget(self, action: #selector(saveAndAddAnotherMedia), for: .touchUpInside)
-    return view
   }
   
   private func makeImageView() -> UIImageView {

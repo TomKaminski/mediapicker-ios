@@ -106,12 +106,16 @@ extension CameraController: CameraPageAware {
     Config.Camera.recordMode = .video
     self.cameraView.rotateButton.isHidden = true
     self.cameraView.flashButton.isHidden = true
+    
+    self.cameraView.showTimer()
     self.cameraMan.startVideoRecord(location: nil, startCompletion: { result in })
   }
   
   func shutterButtonReleased() {
     self.cameraView.rotateButton.isHidden = false
     self.cameraView.flashButton.isHidden = false
+    self.cameraView.videoRecordingTimer?.invalidate()
+    self.cameraView.elapsedVideoRecordingTimeLabel.isHidden = true
     self.cameraMan.stopVideoRecording()
   }
   
@@ -132,7 +136,11 @@ extension CameraController: CameraPageAware {
   
   func switchedToState(state: MediaToolbarState) { }
   
-  func pageDidHide() { }
+  func pageDidHide() {
+    self.cameraView.rotateButton.isHidden = false
+    self.cameraView.flashButton.isHidden = false
+    self.pagesController.cartButton.isHidden = self.pagesController.cartItems.count == 0
+  }
   
   func pageDidShow() {
     once.run {
@@ -201,16 +209,18 @@ extension CameraController: CameraManDelegate {
       self.pagesController.bottomView.shutterButton?.isEnabled = true
 
       if let asset = asset {
-        self.cart.add(Image(asset: asset, guid: UUID().uuidString))
+        let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName())
+        Config.BottomView.Cart.selectedGuid = image.guid
+        self.cart.add(image)
+        EventHub.shared.executeCustomAction?(image.guid)
       }
     } else {
       Config.Camera.recordMode = .photo
       if let asset = asset {
-        let video = Video(asset: asset, guid: UUID().uuidString)
+        let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true)
+        Config.BottomView.Cart.selectedGuid = video.guid
         self.cart.add(video)
-        let assetCtrl = VideoAssetPreviewController()
-        assetCtrl.video = video
-        self.present(assetCtrl, animated: true, completion: nil)
+        EventHub.shared.executeCustomAction?(video.guid)
       }
     }
   }

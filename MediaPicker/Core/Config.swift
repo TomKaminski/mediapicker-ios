@@ -7,7 +7,7 @@ public struct Config {
   public struct PageIndicator {
     public static var backgroundColor: UIColor = UIColor(red: 0, green: 3 / 255, blue: 10 / 255, alpha: 1)
     public static var textColor: UIColor = UIColor.white
-    public static var initialTab = GalleryTab.audioTab
+    public static var initialTab = GalleryTab.cameraTab
   }
   
   public struct BottomView {
@@ -18,6 +18,10 @@ public struct Config {
       public static var size: CGFloat = 40
       public static var leftMargin: CGFloat = 16
       public static var icon = MediaPickerBundle.image("arrowLeftIcon")
+    }
+    
+    public struct Cart {
+      public static var selectedGuid: String?
     }
     
     public struct SaveButton {
@@ -51,11 +55,14 @@ public struct Config {
       public static var numberColor: UIColor = UIColor(red: 54 / 255, green: 56 / 255, blue: 62 / 255, alpha: 1)
     }
     
-    public static var title = "KAMERA"
+    public static var title = "LandaxApp_Gallery_Camera_Title"
+    public static var pictureTitleKey = "LandaxApp_Gallery_Media_Type_Picture"
+    public static var videoTitleKey = "LandaxApp_Gallery_Media_Type_Video"
   }
   
   public struct Audio {
-    public static var title = "AUDIO"
+    public static var autioTitleKey = "LandaxApp_Gallery_Media_Type_VoiceNote"
+    public static var title = "LandaxApp_Gallery_Audio_Title"
     public static var tapToPauseLabel = "LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording")
     public static var tapToResetLabel = "LandaxApp_Media_Gallery_Audio_ResetRecording".g_localize(fallback: "Tap to reset")
     public static var tapToContinueLabel = "LandaxApp_Media_Gallery_Audio_ContinueRecording".g_localize(fallback: "Tap to continue recording")
@@ -64,7 +71,7 @@ public struct Config {
   }
   
   public struct Library {
-    public static var title = "BIBLIOTEKA"
+    public static var title = "LandaxApp_Gallery_Library_Title"
   }
   
   public struct Grid {
@@ -138,5 +145,6 @@ public struct Config {
     public static var bottomToolbarHeight: CGFloat = 120
     public static var editorCircularButtonSize: CGFloat = 40
     public static var textFont = UIFont(name: "Helvetica", size: 24)
+    public static var lineWidth: CGFloat = 4.0
   }
 }

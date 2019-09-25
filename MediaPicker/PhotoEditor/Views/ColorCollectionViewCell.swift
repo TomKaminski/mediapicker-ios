@@ -2,15 +2,22 @@ import UIKit
 
 class ColorCollectionViewCell: UICollectionViewCell {
   
-  @IBOutlet weak var colorView: UIView!
+  var colorView: UIView!
   
-  override func awakeFromNib() {
-    super.awakeFromNib()
-  }
-  
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    colorView.layer.cornerRadius = colorView.frame.width / 2
+  override init(frame: CGRect) {
+    super.init(frame: .zero)
+    
+    colorView = UIView()
+    self.contentView.addSubview(colorView)
+    
+    Constraint.on(constraints: [
+      colorView.widthAnchor.constraint(equalToConstant: 20),
+      colorView.heightAnchor.constraint(equalToConstant: 20),
+      colorView.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor),
+      colorView.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor)
+    ])
+    
+    colorView.layer.cornerRadius = 10
     colorView.clipsToBounds = true
     colorView.layer.borderWidth = 1.0
     colorView.layer.borderColor = UIColor.white.cgColor
@@ -20,18 +27,18 @@ class ColorCollectionViewCell: UICollectionViewCell {
     didSet {
       if isSelected {
         let previouTransform = colorView.transform
-        UIView.animate(withDuration: 0.2,
-                       animations: {
-                        self.colorView.transform = self.colorView.transform.scaledBy(x: 1.3, y: 1.3)
-        },
-                       completion: { _ in
-                        UIView.animate(withDuration: 0.2) {
-                          self.colorView.transform = previouTransform
-                        }
+        UIView.animate(withDuration: 0.2, animations: {
+          self.colorView.transform = self.colorView.transform.scaledBy(x: 1.3, y: 1.3)
+        }, completion: { _ in
+          UIView.animate(withDuration: 0.2) {
+            self.colorView.transform = previouTransform
+          }
         })
-      } else {
-        // animate deselection
       }
     }
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

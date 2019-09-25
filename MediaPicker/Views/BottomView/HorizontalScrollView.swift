@@ -1,7 +1,6 @@
 import UIKit
 
 struct MarginSettings {
-  
   public var mainMargin: CGFloat = 15.0
   public var marginBetweenItems: CGFloat  = 5.0
   
@@ -11,15 +10,9 @@ struct MarginSettings {
   }
 }
 
-enum ArrangeType {
-  case byFrame
-  case byNumber
-}
-
 class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
   override open var frame: CGRect{
     didSet{
-      //if width changes, then need to get new margin and reset all views
       if(frame.width != oldValue.width){
         self.refreshSubView()
       }
