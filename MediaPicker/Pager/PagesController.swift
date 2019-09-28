@@ -17,7 +17,7 @@ class PagesController: UIViewController {
 
   var pageIndicatorHeightConstraint: NSLayoutConstraint!
 
-  // MARK: - Initialization
+  // MARK: Initialization
 
   required init(controllers: [UIViewController]) {
     self.controllers = controllers
@@ -29,7 +29,7 @@ class PagesController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  // MARK: - Life cycle
+  // MARK: Life cycle
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -192,13 +192,13 @@ class PagesController: UIViewController {
     }
   }
   
-  fileprivate var activeController: PageAware? {
+  var activeController: PageAware? {
     return self.controllers[self.selectedIndex] as? PageAware
   }
 
-  // MARK: - Index
+  // MARK: Index
 
-  fileprivate func scrollTo(index: Int, animated: Bool) {
+  internal func scrollTo(index: Int, animated: Bool) {
     guard !scrollView.isTracking && !scrollView.isDragging && !scrollView.isZooming else {
       return
     }
@@ -220,7 +220,7 @@ class PagesController: UIViewController {
     notifyShow()
   }
 
-  fileprivate func changeBottomViewState(_ newState: MediaToolbarState) {
+  internal func changeBottomViewState(_ newState: MediaToolbarState) {
     self.state = newState
     self.bottomView.state = self.state
     self.bottomView.setup()
@@ -243,81 +243,8 @@ class PagesController: UIViewController {
   }
 }
 
-extension PagesController: PageIndicatorDelegate {
-  fileprivate func executePageSelect(index: Int) {
-    self.pageIndicator.select(index: index)
-    self.scrollTo(index: index, animated: false)
-    self.updateAndNotify(index)
-  }
 
-  func pageIndicator(_ pageIndicator: PageIndicator, didSelect index: Int) {
-    guard index != selectedIndex else {
-      return
-    }
-    self.executePageSelect(index: index)
-  }
-}
 
-extension PagesController: UIScrollViewDelegate {
-  func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let index = Int(round(scrollView.contentOffset.x / scrollView.frame.size.width))
-    pageIndicator.select(index: index)
-    updateAndNotify(index)
-  }
-}
 
-extension PagesController: BottomViewDelegate {
-  func addUpdateCartItem(item: CartItemProtocol) {
-    if self.mediaPickerController.cart.items[item.guid] != nil {
-      self.mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
-    } else {
-      self.mediaPickerController.cart.items[item.guid] = item
-    }
-  }
-  
-  func shutterButtonHeld() {
-    (self.activeController as? CameraPageAware)?.shutterButtonHeld()
-    self.cartButton.isHidden = true
-  }
-  
-  func shutterButtonReleased() {
-    (self.activeController as? CameraPageAware)?.shutterButtonReleased()
-    self.cartButton.isHidden = false
-  }
-  
-  func shutterButtonTouched() {
-    (self.activeController as? CameraPageAware)?.shutterButtonTapped()
-  }
-  
-  var cartItems: [String: CartItemProtocol] {
-    return self.mediaPickerController.cart.items
-  }
-  
-  var mediaPickerController: MediaPickerController {
-    return self.parent as! MediaPickerController
-  }
-  
-  var itemsInCart: Int {
-    return self.mediaPickerController.cart.items.count
-  }
-  
-  func bottomView(_ changedStateTo: MediaToolbarState) {
-    
-  }
-}
 
-extension PagesController: CartButtonDelegate {
-  func cartButtonTapped() {
-    
-    self.cartButton.cartOpened = !self.cartButton.cartOpened
-    if self.cartButton.cartOpened {
-      self.changeBottomViewState(.CartExpanded)
-    } else {
-      if let controller = controllers[selectedIndex] as? CartDelegate {
-        self.changeBottomViewState(controller.basicBottomViewState);
-      }
-    }
-    
-    self.bottomView.setup()
-  }
-}
+

@@ -25,7 +25,7 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     }
   }
   
-  func galleryControllerDidCancel(_ controller: MediaPickerController) {
+  func mediaPickerDidCancel(_ controller: MediaPickerController) {
     //none
   }
   

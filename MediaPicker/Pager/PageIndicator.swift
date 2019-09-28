@@ -1,16 +1,15 @@
 import UIKit
 
-protocol PageIndicatorDelegate: AnyObject {
-  func pageIndicator(_ pageIndicator: PageIndicator, didSelect index: Int)
-}
-
 class PageIndicator: UIView {
+  
+  // MARK: Properties
+  
   let items: [String]
   var buttons: [UIButton]!
   lazy var indicator: UIImageView = self.makeIndicator()
   weak var delegate: PageIndicatorDelegate?
   
-  // MARK: - Initialization
+  // MARK: Initialization
   
   required init(items: [String]) {
     self.items = items
@@ -24,7 +23,7 @@ class PageIndicator: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
-  // MARK: - Layout
+  // MARK: Layout
   
   override func layoutSubviews() {
     super.layoutSubviews()
@@ -33,10 +32,7 @@ class PageIndicator: UIView {
     
     for (i, button) in buttons.enumerated() {
       
-      button.frame = CGRect(x: width * CGFloat(i),
-                            y: 0,
-                            width: width,
-                            height: bounds.size.height)
+      button.frame = CGRect(x: width * CGFloat(i), y: 0, width: width, height: bounds.size.height)
     }
     
     indicator.frame.size = CGSize(width: width / 1.5, height: 4)
@@ -47,11 +43,7 @@ class PageIndicator: UIView {
     }
   }
   
-  override func didMoveToSuperview() {
-    super.didMoveToSuperview()
-  }
-  
-  // MARK: - Setup
+  // MARK: Setup
   
   func setup() {
     buttons = items.map {
@@ -64,7 +56,7 @@ class PageIndicator: UIView {
     addSubview(indicator)
   }
   
-  // MARK: - Controls
+  // MARK: Controls
   
   func makeButton(_ title: String) -> UIButton {
     let button = UIButton(type: .custom)
@@ -91,25 +83,19 @@ class PageIndicator: UIView {
     delegate?.pageIndicator(self, didSelect: index)
   }
   
-  // MARK: - Logic
+  // MARK: Logic
   
   func select(index: Int, animated: Bool = true) {
     for (i, b) in buttons.enumerated() {
       b.titleLabel?.font = buttonFont(i == index)
     }
     
-    UIView.animate(withDuration: animated ? 0.25 : 0.0,
-                   delay: 0,
-                   usingSpringWithDamping: 0.7,
-                   initialSpringVelocity: 0.5,
-                   options: .beginFromCurrentState,
-                   animations: {
-                    self.indicator.center.x = self.buttons[index].center.x
-    },
-                   completion: nil)
+    UIView.animate(withDuration: animated ? 0.25 : 0.0, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {
+          self.indicator.center.x = self.buttons[index].center.x
+    }, completion: nil)
   }
   
-  // MARK: - Helper
+  // MARK: Helper
   
   func buttonFont(_ selected: Bool) -> UIFont {
     return selected ? UIFont.boldSystemFont(ofSize: 14) : UIFont.systemFont(ofSize: 14)

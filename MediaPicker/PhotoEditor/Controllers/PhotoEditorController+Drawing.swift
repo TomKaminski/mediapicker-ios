@@ -27,7 +27,7 @@ extension PhotoEditorController {
     }
   }
   
-  func drawLineFrom(_ fromPoint: CGPoint, toPoint: CGPoint) {
+  private func drawLineFrom(_ fromPoint: CGPoint, toPoint: CGPoint) {
     let canvasSize = canvasImageView.frame.integral.size
     UIGraphicsBeginImageContextWithOptions(canvasSize, false, 0)
     if let context = UIGraphicsGetCurrentContext() {

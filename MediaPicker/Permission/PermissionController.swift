@@ -25,10 +25,8 @@ class PermissionController: UIViewController {
   
   func setup() {
     view.addSubview(permissionView)
-    permissionView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)),
-                                         for: .touchUpInside)
-    permissionView.settingButton.addTarget(self, action: #selector(settingButtonTouched(_:)),
-                                           for: .touchUpInside)
+    permissionView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)), for: .touchUpInside)
+    permissionView.settingButton.addTarget(self, action: #selector(settingButtonTouched(_:)), for: .touchUpInside)
     permissionView.g_pinEdges()
   }
 

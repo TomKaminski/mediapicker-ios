@@ -1,11 +1,15 @@
-public final class PhotoEditorController: MediaModalBaseController, TopToolbarViewDelegate {
+public final class PhotoEditorController: MediaModalBaseController, TopToolbarViewDelegate, ColorSelectedDelegate {
+  
+  // ----------------
+  // MARK: Properties
+  // ----------------
+
   private let originalImage: UIImage
   public let originalImageGuid: String
 
   lazy var topToolbarView = makeTopToolbarView()
   
   var imageViewHeightConstraint: NSLayoutConstraint!
-  var canvasViewWidthConstraint: NSLayoutConstraint!
 
   lazy var imageView = UIImageView()
   lazy var canvasView = UIView()
@@ -34,6 +38,11 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     fatalError("init(coder:) has not been implemented")
   }
   
+  
+  // ----------------
+  // MARK: Controller cycles
+  // ----------------
+  
   override public func viewDidLoad() {
     super.viewDidLoad()
 
@@ -44,26 +53,15 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     self.bottomToolbarView.lastFileName = customFileName
   }
   
-  override func customOnAddNexTap() {
-    let img = self.canvasView.toImage()
-    
-    //TODO: Check if really edited sth..!!
-    photoEditorDelegate?.doneEditing(image: img, customFileName: self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getImageFileName(), selfCtrl: self, editedSomething: true)
+  func setImageView(image: UIImage) {
+    imageView.image = image
+    let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
+    imageViewHeightConstraint.constant = (size?.height)!
   }
   
-  private func makeTopToolbarView() -> TopToolbarView {
-    let view = TopToolbarView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }
-  
-  private func makeBottomToolbarView() -> BottomToolbarView {
-    let view = BottomToolbarView()
-
-    view.lastFileName = customFileName
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }
+  // ----------------
+  // MARK: MediaModalBaseController overrides
+  // ----------------
   
   override func addSubviews() {
     view.addSubview(canvasView)
@@ -85,7 +83,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     imageView.translatesAutoresizingMaskIntoConstraints = false
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
-    imageViewHeightConstraint = self.imageView.heightAnchor.constraint(lessThanOrEqualToConstant: 680)
+    imageViewHeightConstraint = self.imageView.heightAnchor.constraint(equalToConstant: 680)
 
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
@@ -94,19 +92,18 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
       
       self.canvasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.canvasView.topAnchor.constraint(greaterThanOrEqualTo: self.topToolbarView.bottomAnchor),
       self.canvasView.heightAnchor.constraint(equalTo: self.imageView.heightAnchor),
-      
+      self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+
       self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
-      self.imageView.topAnchor.constraint(greaterThanOrEqualTo: self.topToolbarView.bottomAnchor),
-      self.imageView.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomToolbarView.topAnchor),
+      self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
       imageViewHeightConstraint,
       
       self.canvasImageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.canvasImageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
-      self.canvasImageView.centerYAnchor.constraint(equalTo: self.canvasView.centerYAnchor),
-      self.canvasImageView.heightAnchor.constraint(equalTo: self.imageView.heightAnchor),
+      self.canvasImageView.topAnchor.constraint(equalTo: self.canvasView.topAnchor),
+      self.canvasImageView.bottomAnchor.constraint(equalTo: self.canvasView.bottomAnchor),
     ])
     
     if #available(iOS 11, *) {
@@ -116,25 +113,28 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     }
   }
   
-  //Actions & delegates
+  override func customOnAddNexTap() {
+    let img = self.canvasView.toImage()
+    
+    //TODO: Check if really edited sth..!!
+    photoEditorDelegate?.doneEditing(image: img, customFileName: self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getImageFileName(), selfCtrl: self, editedSomething: true)
+  }
+  
+  private func makeTopToolbarView() -> TopToolbarView {
+    let view = TopToolbarView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }
+
+  // ----------------
+  // MARK: TopToolbarViewDelegate
+  // ----------------
   
   func textButtonTapped(_ sender: Any) {
     isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height/4,
-                                            width: UIScreen.main.bounds.width, height: 30))
+    let textView = UITextView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height/4, width: UIScreen.main.bounds.width, height: 30))
     
-    textView.textAlignment = .center
-    textView.font = Config.PhotoEditor.textFont
-    textView.textColor = textColor
-    textView.layer.shadowColor = UIColor.black.cgColor
-    textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
-    textView.layer.shadowOpacity = 0.2
-    textView.layer.shadowRadius = 1.0
-    textView.layer.backgroundColor = UIColor.clear.cgColor
-    textView.autocorrectionType = .no
-    textView.isScrollEnabled = false
-    textView.delegate = self
-    textView.returnKeyType = .done
+    setupTextView(textView)
     self.canvasImageView.addSubview(textView)
     addGestures(view: textView)
     textView.becomeFirstResponder()
@@ -147,13 +147,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     }
   }
   
-  func doneButtonTapped(_ sender: Any) {
-    view.endEditing(true)
-    canvasImageView.isUserInteractionEnabled = true
-    isTyping = false
-  }
-  
-  private func addGestures(view: UIView) {
+  fileprivate func addGestures(view: UIView) {
     view.isUserInteractionEnabled = true
 
     let panGesture = UIPanGestureRecognizer(target: self, action: #selector(PhotoEditorController.panGesture))
@@ -174,19 +168,30 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     view.addGestureRecognizer(tapGesture)
   }
   
-  func setImageView(image: UIImage) {
-    imageView.image = image
-    let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
-    imageViewHeightConstraint.constant = (size?.height)!
+  fileprivate func setupTextView(_ textView: UITextView) {
+    textView.textAlignment = .center
+    textView.font = Config.PhotoEditor.textFont
+    textView.textColor = textColor
+    textView.layer.shadowColor = UIColor.black.cgColor
+    textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
+    textView.layer.shadowOpacity = 0.2
+    textView.layer.shadowRadius = 1.0
+    textView.layer.backgroundColor = UIColor.clear.cgColor
+    textView.autocorrectionType = .no
+    textView.isScrollEnabled = false
+    textView.delegate = self
+    textView.returnKeyType = .done
   }
-}
-
-extension PhotoEditorController: ColorSelectedDelegate {
+  
+  // ----------------
+  // MARK: ColorSelectedDelegate
+  // ----------------
+  
   func didSelectColor(color: UIColor) {
-    self.drawColor = color
-    if activeTextView != nil {
-      activeTextView?.textColor = color
-      textColor = color
-    }
-  }
+     self.drawColor = color
+     if activeTextView != nil {
+       activeTextView?.textColor = color
+       textColor = color
+     }
+   }
 }

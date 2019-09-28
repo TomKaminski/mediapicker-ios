@@ -12,7 +12,7 @@ extension PhotoEditorController: UITextViewDelegate {
     isTyping = true
     activeTextView = textView
     textView.superview?.bringSubviewToFront(textView)
-    textView.font = UIFont(name: "Helvetica", size: 30)    
+    textView.font = Config.PhotoEditor.textFont
   }
   
   public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -25,5 +25,11 @@ extension PhotoEditorController: UITextViewDelegate {
   
   public func textViewDidEndEditing(_ textView: UITextView) {
     activeTextView = nil
+  }
+  
+  private func doneButtonTapped(_ sender: Any) {
+    view.endEditing(true)
+    canvasImageView.isUserInteractionEnabled = true
+    isTyping = false
   }
 }

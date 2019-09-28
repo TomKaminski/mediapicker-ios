@@ -76,7 +76,7 @@ class VideoAssetPreviewController: MediaModalBaseController {
       // Request an AVPlayerItem for the displayed PHAsset.
       // Then configure a layer for playing it.
       PHImageManager.default().requestPlayerItem(forVideo: video.asset, options: options, resultHandler: { playerItem, info in
-        DispatchQueue.main.sync {
+        DispatchQueue.main.async {
           // Create an AVPlayer and AVPlayerLayer with the AVPlayerItem.
           let player = AVPlayer(playerItem: playerItem)
           

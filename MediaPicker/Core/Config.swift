@@ -142,7 +142,7 @@ public struct Config {
   public struct PhotoEditor {
     public static var filenameInputPlaceholder = "Filename.."
     public static var topToolbarHeight: CGFloat = 60
-    public static var bottomToolbarHeight: CGFloat = 120
+    public static var bottomToolbarHeight: CGFloat = 110
     public static var editorCircularButtonSize: CGFloat = 40
     public static var textFont = UIFont(name: "Helvetica", size: 24)
     public static var lineWidth: CGFloat = 4.0

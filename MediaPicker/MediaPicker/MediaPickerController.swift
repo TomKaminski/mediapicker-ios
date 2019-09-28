@@ -1,13 +1,8 @@
 import Photos
 
-public protocol MediaPickerControllerDelegate: AnyObject {
-
-  func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol])
-
-  func galleryControllerDidCancel(_ controller: MediaPickerController)
-}
-
-public class MediaPickerController: UIViewController, PermissionControllerDelegate {
+public class MediaPickerController: UIViewController {
+  
+  // MARK: Properties
   
   public weak var delegate: MediaPickerControllerDelegate?
   
@@ -18,6 +13,8 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
   var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
   
   var currentlyPresentedModalController: MediaModalBaseController?
+
+  // MARK: Life Cycle
 
   public override func viewDidLoad() {
     super.viewDidLoad()
@@ -116,6 +113,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
           let ctrl = AudioPreviewController(audio: item as! Audio)
           ctrl.mediaPickerControllerDelegate = self.pagesController
           ctrl.customFileName = item.customFileName
+          ctrl.modalPresentationStyle = .overFullScreen
           self.pagesController?.bottomView.cartView?.reselectItem()
           self.presentNewModal(ctrl, guid)
         } else if item.type == .Video {
@@ -123,6 +121,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
           assetCtrl.video = (item as! Video)
           assetCtrl.customFileName = item.customFileName
           assetCtrl.mediaPickerControllerDelegate = self.pagesController
+          assetCtrl.modalPresentationStyle = .overFullScreen
           self.pagesController?.bottomView.cartView?.reselectItem()
           self.presentNewModal(assetCtrl, guid)
         }
@@ -131,7 +130,16 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     }
     
     EventHub.shared.selfDeleteFromCart = { guid in
-      self.cart.remove(guidToRemove: guid)
+      let alertController = UIAlertController(title: "Discard element", message: "Are you sure you want to discard current element?", preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+        alertController.dismiss(animated: true) {
+          self.cart.remove(guidToRemove: guid)
+        }
+      }))
+      alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+        alertController.dismiss(animated: true, completion: nil)
+      }))
+      self.present(alertController, animated: true, completion: nil)
     }
   }
   
@@ -143,18 +151,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     return [.portrait, .portraitUpsideDown]
   }
 
-  //-------------
-  //PERMISSION CONTROLLER
-  //-------------
-
-  func permissionControllerDidFinish(_ controller: PermissionController, closeTapped: Bool) {
-    if closeTapped {
-      self.navigationController?.popViewController(animated: true)
-    } else if let pagesController = makePagesController() {
-      addChildController(pagesController)
-      controller.removeFromParentController()
-    }
-  }
+  // MARK: Permission Controller
 
   func makePermissionController() -> PermissionController {
     let controller = PermissionController()
@@ -163,15 +160,7 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     return controller
   }
   
-  //-------------
-  //END PERMISSION CONTROLLER
-  //-------------
-  
-  
-  
-  //-------------
-  //PAGES CONTROLLERS
-  //-------------
+  // MARK: Pagescontroller
   
   func makePagesController() -> PagesController? {
     guard Permission.Photos.status == .authorized else {
@@ -225,49 +214,5 @@ public class MediaPickerController: UIViewController, PermissionControllerDelega
     let ctrl = LibraryController(cart: cart)
     ctrl.title = Config.Library.title.g_localize(fallback: "LIBRARY")
     return ctrl
-  }
-  
-  //-------------
-  //END PAGES CONTROLLERS
-  //-------------
-}
-
-extension MediaPickerController: CartMainDelegate {
-  public func itemAdded(item: CartItemProtocol) {
-    self.pagesController?.bottomView.cartView?.addItem(item: item)
-  }
-  
-  public func itemRemoved(item: CartItemProtocol) {
-    self.pagesController?.bottomView.cartView?.removeItem(item: item)
-  }
-}
-
-extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool) {
-    guard editedSomething else {
-      selfCtrl.dismiss(animated: true, completion: nil)
-      return
-    }
-    
-    var localId: String?
-    PHPhotoLibrary.shared().performChanges({
-      let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
-      localId = request.placeholderForCreatedAsset?.localIdentifier
-    }) { (success, error) in
-      DispatchQueue.main.async {
-        if let localId = localId {
-          let result = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil)
-          let newAsset = result.object(at: 0)
-          
-          self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
-          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString, newlyTaken: false, customFileName: customFileName))
-          selfCtrl.dismiss(animated: true, completion: nil)
-        }
-      }
-    }
-  }
-  
-  public func canceledEditing() {
-    
   }
 }

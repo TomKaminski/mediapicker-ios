@@ -84,7 +84,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight),
+      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight - 20),
       
       self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
       self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8),
