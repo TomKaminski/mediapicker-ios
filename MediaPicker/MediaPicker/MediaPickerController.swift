@@ -55,6 +55,7 @@ public class MediaPickerController: UIViewController {
   }
   
   func setupEventHub() {
+    //TODO: Check onAddNextTap with newlyTaken
     EventHub.shared.modalDismissed = {
       if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken {
         self.cart.remove(cartItem)
@@ -69,13 +70,9 @@ public class MediaPickerController: UIViewController {
         if !strongSelf.cart.items.isEmpty {
           let alertController = UIAlertController(title: "Discard elements", message: "Are you sure you want to discard \(strongSelf.cart.items.count) elements?", preferredStyle: .alert)
           alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
-            alertController.dismiss(animated: true) {
-              strongSelf.dismiss(animated: true, completion: nil)
-            }
+            strongSelf.dismiss(animated: true, completion: nil)
           }))
-          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-            alertController.dismiss(animated: true, completion: nil)
-          }))
+          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
           strongSelf.present(alertController, animated: true, completion: nil)
         } else {
           strongSelf.dismiss(animated: true, completion: nil)
@@ -127,19 +124,6 @@ public class MediaPickerController: UIViewController {
         }
       }
       
-    }
-    
-    EventHub.shared.selfDeleteFromCart = { guid in
-      let alertController = UIAlertController(title: "Discard element", message: "Are you sure you want to discard current element?", preferredStyle: .alert)
-      alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
-        alertController.dismiss(animated: true) {
-          self.cart.remove(guidToRemove: guid)
-        }
-      }))
-      alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-        alertController.dismiss(animated: true, completion: nil)
-      }))
-      self.present(alertController, animated: true, completion: nil)
     }
   }
   

@@ -1,4 +1,17 @@
 extension PagesController: BottomViewDelegate {
+  func onModalItemRemove(guid: String) {
+    self.mediaPickerController.cart.remove(guidToRemove: guid)
+  }
+  
+  func onItemRemove(guid: String) {
+     let alertController = UIAlertController(title: "Discard element", message: "Are you sure you want to discard current element?", preferredStyle: .alert)
+     alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+        self.mediaPickerController.cart.remove(guidToRemove: guid)
+     }))
+     alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    self.mediaPickerController.present(alertController, animated: true, completion: nil)
+  }
+  
   func addUpdateCartItem(item: CartItemProtocol) {
     if self.mediaPickerController.cart.items[item.guid] != nil {
       self.mediaPickerController.cart.items.updateValue(item, forKey: item.guid)

@@ -36,10 +36,10 @@ class CartButton: UIView {
     super.updateConstraints()
   }
   
-  public func updateCartItemsLabel(_ items: Int) {
+  public func updateCartItemsLabel(_ items: Int, _ cartOpened: Bool = false) {
     cartItemsLabel.text = "\(items)"
     self.isHidden = items == 0
-    self.cartOpened = false
+    self.cartOpened = cartOpened
   }
   
   @objc private func tapped() {

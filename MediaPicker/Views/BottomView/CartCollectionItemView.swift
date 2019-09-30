@@ -58,7 +58,8 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onDeleteTapped() {
-    EventHub.shared.selfDeleteFromCart?(guid)
+    //EventHub.shared.selfDeleteFromCart?(guid)
+    self.delegate?.onItemDelete(guid: guid)
   }
   
   @objc private func onTapped() {

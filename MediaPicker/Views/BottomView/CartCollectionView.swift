@@ -1,13 +1,14 @@
 protocol CartCollectionViewDelegate: class {
   func reselectItem()
+  func onItemDelete(guid: String)
 }
 
 protocol BottomViewCartDelegate: class {
   func closeCartView()
+  func onItemDelete(guid: String)
 }
 
 class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, CartCollectionViewDelegate {
-  
   weak var bottomViewCartDelegate: BottomViewCartDelegate?
   
   var views = [CartCollectionItemView]()
@@ -16,6 +17,10 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
     super.init(frame: frame)
     
     self.buildScrollView(cartItems: cartItems)
+  }
+  
+  func onItemDelete(guid: String) {
+    self.bottomViewCartDelegate?.onItemDelete(guid: guid)
   }
   
   public func addItem(item: CartItemProtocol) {

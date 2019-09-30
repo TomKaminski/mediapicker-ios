@@ -1,4 +1,4 @@
-protocol BottomToolbarViewControllerDelegate: class {
+protocol BottomToolbarViewControllerDelegate: BottomViewCartDelegate {
   func onBackButtonTap()
 }
 
@@ -139,6 +139,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
 
     let cartView = CartCollectionView(frame: .zero, cartItems: self.delegate!.cartItems)
     self.cartView = cartView
+    self.cartView?.bottomViewCartDelegate = self.controllerDelegate
     cartView.backgroundColor = .black
     addSubview(cartView)
     cartView.g_pinEdges()

@@ -1,6 +1,10 @@
 import UIKit
 
 class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelegate {
+  func onItemDelete(guid: String) {
+    self.delegate?.onItemRemove(guid: guid)
+  }
+  
   func closeCartView() {
     setupForActiveTab()
   }
