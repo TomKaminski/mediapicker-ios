@@ -9,7 +9,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
 
   lazy var topToolbarView = makeTopToolbarView()
   
-  var imageViewHeightConstraint: NSLayoutConstraint!
+  var canvasImageViewWidthConstraint: NSLayoutConstraint!
 
   lazy var imageView = UIImageView()
   lazy var canvasView = UIView()
@@ -55,8 +55,6 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   
   func setImageView(image: UIImage) {
     imageView.image = image
-    let size = image.suitableSize(widthLimit: UIScreen.main.bounds.width)
-    imageViewHeightConstraint.constant = (size?.height)!
   }
   
   // ----------------
@@ -75,6 +73,11 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     imageView.contentMode = .scaleAspectFit
   }
   
+  public override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    canvasImageViewWidthConstraint.constant = imageView.contentClippingRect.width
+  }
+  
   override func setupConstraints() {
     super.setupConstraints()
     
@@ -83,27 +86,27 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     imageView.translatesAutoresizingMaskIntoConstraints = false
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
-    imageViewHeightConstraint = self.imageView.heightAnchor.constraint(equalToConstant: 680)
+    canvasImageViewWidthConstraint = self.canvasView.widthAnchor.constraint(equalToConstant: 680)
 
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.topToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.topToolbarHeight),
       
-      self.canvasView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.canvasView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.canvasView.heightAnchor.constraint(equalTo: self.imageView.heightAnchor),
-      self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      canvasImageViewWidthConstraint,
+      self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor),
+      self.canvasView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
 
       self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
       self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
-      self.imageView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
-      imageViewHeightConstraint,
+      self.imageView.topAnchor.constraint(equalTo: self.canvasView.topAnchor),
+      self.imageView.bottomAnchor.constraint(equalTo: self.canvasView.bottomAnchor),
       
-      self.canvasImageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
-      self.canvasImageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
       self.canvasImageView.topAnchor.constraint(equalTo: self.canvasView.topAnchor),
       self.canvasImageView.bottomAnchor.constraint(equalTo: self.canvasView.bottomAnchor),
+      self.canvasImageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
+      self.canvasImageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
     ])
     
     if #available(iOS 11, *) {

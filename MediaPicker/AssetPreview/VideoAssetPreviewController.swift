@@ -9,17 +9,21 @@ class VideoAssetPreviewController: MediaModalBaseController {
   // ----------------
 
   lazy var imageView = self.makeImageView()
-
+  lazy var playIcon = self.makePlayIcon()
   var video: Video!
   var assetCollection: PHAssetCollection!
   
   var editButton: UIBarButtonItem!
   var playButton: UIBarButtonItem!
   
-  var playerPaused = true
+  var playerPaused = true {
+    didSet {
+      self.playIcon.isHidden = !self.playerPaused
+    }
+  }
   
   fileprivate var playerLayer: AVPlayerLayer!
-      
+  
   // ----------------
   // MARK: UIViewController Life Cycle
   // ----------------
@@ -36,6 +40,7 @@ class VideoAssetPreviewController: MediaModalBaseController {
   
   override func addSubviews() {
     self.view.addSubview(imageView)
+    self.view.addSubview(playIcon)
     super.addSubviews()
   }
   
@@ -158,6 +163,11 @@ class VideoAssetPreviewController: MediaModalBaseController {
       imageView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
       imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+      
+      playIcon.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor),
+      playIcon.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor),
+      playIcon.heightAnchor.constraint(equalToConstant: 60),
+      playIcon.widthAnchor.constraint(equalToConstant: 60),
     ])
     
     if #available(iOS 11.0, *) {
@@ -173,6 +183,13 @@ class VideoAssetPreviewController: MediaModalBaseController {
     imageView.isUserInteractionEnabled = true
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleImageTap)))
+    return imageView
+  }
+  
+  private func makePlayIcon() -> UIImageView {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = MediaPickerBundle.image("playIcon")
     return imageView
   }
 }

@@ -36,7 +36,7 @@ class LibraryController: UIViewController {
   // MARK: - Setup
 
   func setup() {
-    view.backgroundColor = UIColor.white
+    view.backgroundColor = UIColor.black
 
     view.addSubview(gridView)
 

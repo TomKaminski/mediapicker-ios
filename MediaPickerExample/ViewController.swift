@@ -10,6 +10,10 @@ import UIKit
 import MediaPicker
 
 class ViewController: UIViewController, MediaPickerControllerDelegate {
+  override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
+  
   func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol]) {
     
     controller.dismiss(animated: true) {
@@ -32,6 +36,7 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    setNeedsStatusBarAppearanceUpdate()
     // Do any additional setup after loading the view.
   }
 

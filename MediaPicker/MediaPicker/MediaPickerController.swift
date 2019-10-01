@@ -13,6 +13,10 @@ public class MediaPickerController: UIViewController {
   var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
   
   var currentlyPresentedModalController: MediaModalBaseController?
+  
+  public override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
 
   // MARK: Life Cycle
 
@@ -36,6 +40,8 @@ public class MediaPickerController: UIViewController {
       let permissionController = makePermissionController()
       addChildController(permissionController)
     }
+    
+    setNeedsStatusBarAppearanceUpdate()
   }
   
   fileprivate func presentNewModal(_ modalCtrl: MediaModalBaseController?, _ newGuid: String) {

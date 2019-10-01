@@ -16,7 +16,7 @@ extension AudioController: CartDelegate {
   }
 
   func cart(_ cart: Cart, didRemove audio: Audio) {
-    pagesController.cartButton.updateCartItemsLabel(cart.items.count)
+    pagesController.cartButton.updateCartItemsLabel(cart.items.count, pagesController.cartButton.cartOpened)
   }
 
   func cart(_ cart: Cart, didRemove video: Video) {

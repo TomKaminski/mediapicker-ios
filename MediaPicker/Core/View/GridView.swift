@@ -84,7 +84,7 @@ class GridView: UIView {
   
   private func makeTopView() -> UIView {
     let view = UIView()
-    view.backgroundColor = UIColor.white
+    view.backgroundColor = UIColor.black
     
     return view
   }

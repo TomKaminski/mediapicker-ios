@@ -17,10 +17,6 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     self.present(alertController, animated: true, completion: nil)
   }
   
-  public override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .default
-  }
-  
   weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
 
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
@@ -32,6 +28,10 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   var customFileName: String?
   
   var newlyTaken: Bool = true
+  
+  public override var preferredStatusBarStyle: UIStatusBarStyle {
+    return .lightContent
+  }
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -53,6 +53,8 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     setupConstraints()
     
     bottomToolbarView.lastFileName = self.customFileName
+    
+    setNeedsStatusBarAppearanceUpdate()
   }
   
   internal func addSubviews() {
@@ -79,14 +81,10 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     if newlyTaken {
       let alertController = UIAlertController(title: "Discard element", message: "Are you sure you want to discard current element?", preferredStyle: .alert)
       alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
-        alertController.dismiss(animated: true) {
-          EventHub.shared.modalDismissed?()
-          self.dismiss(animated: true, completion: nil)
-        }
+        EventHub.shared.modalDismissed?()
+        self.dismiss(animated: true, completion: nil)
       }))
-      alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-        alertController.dismiss(animated: true, completion: nil)
-      }))
+      alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
       self.present(alertController, animated: true, completion: nil)
     } else {
       EventHub.shared.modalDismissed?()

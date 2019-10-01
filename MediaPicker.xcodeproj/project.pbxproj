@@ -1070,6 +1070,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FA94D9087C7678EE5522FFBC /* Pods-MediaPicker.debug.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -1099,6 +1100,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FE4D8B78D91B51251B188524 /* Pods-MediaPicker.release.xcconfig */;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
