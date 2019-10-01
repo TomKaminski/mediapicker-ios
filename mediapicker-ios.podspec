@@ -7,7 +7,8 @@ Pod::Spec.new do |spec|
   spec.license = "MIT"
   spec.author = { "Tomasz Kaminski" => "tkaminski93@gmail.com" }
   spec.source = { :git => "https://github.com/TomKaminski/mediapicker-ios.git", :tag => spec.version }
-  spec.source_files = "MediaPicker/**/*.{swift,png}"
+  spec.source_files = "MediaPicker/**/*.swift"
+  spec.resource = 'MediaPicker/MediaPicker.bundle'
   spec.requires_arc = true
   spec.ios.deployment_target = "10.0"
   spec.ios.frameworks = "UIKit", "Foundation"
