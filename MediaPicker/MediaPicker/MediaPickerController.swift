@@ -94,8 +94,7 @@ public class MediaPickerController: UIViewController {
     
     EventHub.shared.executeCustomAction = { guid in
       if let item = self.cart.getItem(by: guid) {
-        print(item.type)
-        if item.type == .Image {
+        if item.type == .Image && Config.Camera.allowPhotoEdit {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
             let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
@@ -106,14 +105,14 @@ public class MediaPickerController: UIViewController {
             self.pagesController?.bottomView.cartView?.reselectItem()
             self.presentNewModal(photoEditor, guid)
           })
-        } else if item.type == .Audio {
+        } else if item.type == .Audio && Config.Audio.allowAudioEdit {
           let ctrl = AudioPreviewController(audio: item as! Audio)
           ctrl.mediaPickerControllerDelegate = self.pagesController
           ctrl.customFileName = item.customFileName
           ctrl.modalPresentationStyle = .overFullScreen
           self.pagesController?.bottomView.cartView?.reselectItem()
           self.presentNewModal(ctrl, guid)
-        } else if item.type == .Video {
+        } else if item.type == .Video && Config.Camera.allowVideoEdit {
           let assetCtrl = VideoAssetPreviewController()
           assetCtrl.video = (item as! Video)
           assetCtrl.customFileName = item.customFileName

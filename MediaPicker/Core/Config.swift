@@ -47,6 +47,9 @@ public struct Config {
   }
   
   public struct Camera {
+    public static var allowVideoEdit = true
+    public static var allowPhotoEdit = true
+    
     public enum RecordMode { case photo, video }
     
     public static var recordMode = RecordMode.photo
@@ -61,6 +64,8 @@ public struct Config {
   }
   
   public struct Audio {
+    public static var allowAudioEdit = true
+
     public static var autioTitleKey = "LandaxApp_Gallery_Media_Type_VoiceNote"
     public static var title = "LandaxApp_Gallery_Audio_Title"
     public static var tapToPauseLabel = "LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording")

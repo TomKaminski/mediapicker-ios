@@ -58,15 +58,27 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onDeleteTapped() {
-    //EventHub.shared.selfDeleteFromCart?(guid)
     self.delegate?.onItemDelete(guid: guid)
   }
   
   @objc private func onTapped() {
-    if Config.BottomView.Cart.selectedGuid != guid {
+    if Config.BottomView.Cart.selectedGuid != guid && canTap() {
       Config.BottomView.Cart.selectedGuid = guid
       delegate?.reselectItem()
       EventHub.shared.executeCustomAction?(guid)
+    }
+  }
+  
+  private func canTap() -> Bool {
+    switch self.type {
+      case .Image:
+        return Config.Camera.allowPhotoEdit
+      case .Audio:
+        return Config.Audio.allowAudioEdit
+      case .Video:
+        return Config.Camera.allowVideoEdit
+      case .none:
+        return false
     }
   }
 

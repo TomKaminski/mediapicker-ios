@@ -6,7 +6,7 @@ protocol CameraViewDelegate: AnyObject {
 }
 
 class CameraView: UIView, UIGestureRecognizerDelegate {
-  lazy var flashButton: TripleButton = self.makeFlashButton()
+  lazy var flashButton: FlashButton = self.makeFlashButton()
   lazy var rotateButton: UIButton = self.makeRotateButton()
   lazy var rotateOverlayView: UIView = self.makeRotateOverlayView()
   lazy var focusImageView: UIImageView = self.makeFocusImageView()
@@ -130,14 +130,14 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   // MARK: - Controls
 
-  func makeFlashButton() -> TripleButton {
-    let states: [TripleButton.GalleryState] = [
-      TripleButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Off".g_localize(fallback: "OFF"), image: MediaPickerBundle.image("gallery_camera_flash_off")!),
-      TripleButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_On".g_localize(fallback: "ON"), image: MediaPickerBundle.image("gallery_camera_flash_on")!),
-      TripleButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Auto".g_localize(fallback: "AUTO"), image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
+  func makeFlashButton() -> FlashButton {
+    let states: [FlashButton.GalleryState] = [
+      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Off".g_localize(fallback: "OFF"), image: MediaPickerBundle.image("gallery_camera_flash_off")!),
+      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_On".g_localize(fallback: "ON"), image: MediaPickerBundle.image("gallery_camera_flash_on")!),
+      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Auto".g_localize(fallback: "AUTO"), image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
     ]
 
-    let button = TripleButton(states: states)
+    let button = FlashButton(states: states)
 
     return button
   }

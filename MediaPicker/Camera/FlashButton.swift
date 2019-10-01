@@ -1,6 +1,6 @@
 import UIKit
 
-class TripleButton: UIButton {
+class FlashButton: UIButton {
   
   struct GalleryState {
     let title: String

@@ -32,7 +32,7 @@ extension UIImageView {
 
 extension UIImage {
     
-    public func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
+    func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(
             CGSize(width: self.size.width + insets.left + insets.right,
                    height: self.size.height + insets.top + insets.bottom), false, self.scale)

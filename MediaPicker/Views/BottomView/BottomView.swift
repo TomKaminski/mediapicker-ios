@@ -1,18 +1,6 @@
 import UIKit
 
 class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelegate {
-  func onItemDelete(guid: String) {
-    self.delegate?.onItemRemove(guid: guid)
-  }
-  
-  func closeCartView() {
-    setupForActiveTab()
-  }
-  
-  func tapped() {
-    EventHub.shared.doneWithMedia?()
-  }
-  
   // MARK: Properties
   
   weak var delegate: BottomViewDelegate?
@@ -35,6 +23,20 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
 
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: Delegates implementation
+  
+  func onItemDelete(guid: String) {
+    self.delegate?.onItemRemove(guid: guid)
+  }
+  
+  func closeCartView() {
+    setupForActiveTab()
+  }
+  
+  func tapped() {
+    EventHub.shared.doneWithMedia?()
   }
 
   // MARK: Setup

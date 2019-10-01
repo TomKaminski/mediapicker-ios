@@ -76,7 +76,7 @@ class PageIndicator: UIView {
     return imageView
   }
   
-  // MARK: - Action
+  // MARK: Action
   
   @objc func buttonTouched(_ button: UIButton) {
     let index = buttons.firstIndex(of: button) ?? 0

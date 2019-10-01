@@ -39,7 +39,14 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     let picker = MediaPickerController()
     picker.modalPresentationStyle = .overFullScreen
     picker.delegate = self
+    
+    setupMediaPickerConfig()
+    
     self.present(picker, animated: true, completion: nil)
+  }
+  
+  private func setupMediaPickerConfig() {
+    MediaPicker.Config.Camera.allowPhotoEdit = true
   }
 }
 
