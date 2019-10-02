@@ -126,6 +126,10 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     photoEditorDelegate?.doneEditing(image: img, customFileName: self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getImageFileName(), selfCtrl: self, editedSomething: true)
   }
   
+  public override func updateNewlyTaken() {
+    customOnAddNexTap()
+  }
+  
   private func makeTopToolbarView() -> TopToolbarView {
     let view = TopToolbarView()
     view.translatesAutoresizingMaskIntoConstraints = false

@@ -47,6 +47,7 @@ public class MediaPickerController: UIViewController {
   fileprivate func presentNewModal(_ modalCtrl: MediaModalBaseController?, _ newGuid: String) {
     if let modalCtrl = modalCtrl {
       if let currentModalCtrl = self.currentlyPresentedModalController {
+        currentModalCtrl.updateNewlyTaken()
         currentModalCtrl.dismiss(animated: true) {
           self.present(modalCtrl, animated: true, completion: {
             self.currentlyPresentedModalController = modalCtrl

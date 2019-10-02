@@ -1,6 +1,5 @@
 extension PagesController: CartButtonDelegate {
   func cartButtonTapped() {
-    
     self.cartButton.cartOpened = !self.cartButton.cartOpened
     if self.cartButton.cartOpened {
       self.changeBottomViewState(.CartExpanded)
@@ -12,4 +11,14 @@ extension PagesController: CartButtonDelegate {
     
     self.bottomView.setup()
   }
+  
+  func hideCart() {
+    self.cartButton.cartOpened = false
+    if let controller = controllers[selectedIndex] as? CartDelegate {
+      self.changeBottomViewState(controller.basicBottomViewState);
+    }
+    
+    self.bottomView.setup()
+  }
+
 }

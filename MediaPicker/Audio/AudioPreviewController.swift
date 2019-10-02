@@ -27,11 +27,19 @@ class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDeleg
     super.addSubviews()
   }
   
-  override func customOnAddNexTap() {
+  private func addOrUpdateItem() {
     audio.customFileName = self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getAudioFileName()
     audio.newlyTaken = false
     mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
+  }
+  
+  override func customOnAddNexTap() {
+    addOrUpdateItem()
     self.dismiss(animated: true, completion: nil)
+  }
+  
+  override func updateNewlyTaken() {
+    addOrUpdateItem()
   }
   
   internal override func setupConstraints() {

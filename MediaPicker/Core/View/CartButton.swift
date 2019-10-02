@@ -39,7 +39,7 @@ class CartButton: UIView {
   public func updateCartItemsLabel(_ items: Int, _ cartOpened: Bool = false) {
     cartItemsLabel.text = "\(items)"
     self.isHidden = items == 0
-    self.cartOpened = cartOpened
+    //self.cartOpened = cartOpened
   }
   
   @objc private func tapped() {

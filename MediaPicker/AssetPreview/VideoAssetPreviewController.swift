@@ -126,6 +126,10 @@ class VideoAssetPreviewController: MediaModalBaseController {
     })
   }
   
+  override func updateNewlyTaken() {
+    addOrUpdateCartItem()
+  }
+  
   
   // --------------
   // MARK: Private methods

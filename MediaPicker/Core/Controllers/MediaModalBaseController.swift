@@ -70,6 +70,10 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     customOnAddNexTap()
   }
   
+  public func updateNewlyTaken() {
+    fatalError()
+  }
+  
   internal func customOnAddNexTap() {
     fatalError()
   }
