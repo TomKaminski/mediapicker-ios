@@ -18,6 +18,8 @@ extension PagesController: BottomViewDelegate {
     } else {
       self.mediaPickerController.cart.items[item.guid] = item
     }
+    
+    mediaPickerController.itemAdded(item: item)
   }
   
   func shutterButtonHeld() {
