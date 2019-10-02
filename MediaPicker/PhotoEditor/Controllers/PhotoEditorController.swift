@@ -46,11 +46,14 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   override public func viewDidLoad() {
     super.viewDidLoad()
 
-    NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-    
     self.topToolbarView.editorViewDelegate = self
     self.setImageView(image: self.originalImage)
     self.bottomToolbarView.lastFileName = customFileName
+  }
+  
+  public override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    
   }
   
   func setImageView(image: UIImage) {
