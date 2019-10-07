@@ -6,6 +6,7 @@ class FilenameInputView: UITextField {
     self.textColor = .gray
     self.font = UIFont.systemFont(ofSize: 18, weight: .bold)
     self.borderStyle = .none
+    self.returnKeyType = .done
   }
   
   required init?(coder aDecoder: NSCoder) {

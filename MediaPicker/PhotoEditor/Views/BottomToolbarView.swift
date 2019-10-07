@@ -98,7 +98,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     let view = FilenameInputView()
     view.text = self.lastFileName
     view.delegate = self
-    view.attributedPlaceholder = NSAttributedString(string: Config.PhotoEditor.filenameInputPlaceholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    view.attributedPlaceholder = NSAttributedString(string: Config.TranslationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     return view
   }
 

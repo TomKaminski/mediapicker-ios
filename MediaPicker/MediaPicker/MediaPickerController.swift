@@ -62,7 +62,6 @@ public class MediaPickerController: UIViewController {
   }
   
   func setupEventHub() {
-    //TODO: Check onAddNextTap with newlyTaken
     EventHub.shared.modalDismissed = {
       if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken {
         self.cart.remove(cartItem)
@@ -75,11 +74,11 @@ public class MediaPickerController: UIViewController {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
         if !strongSelf.cart.items.isEmpty {
-          let alertController = UIAlertController(title: "Discard elements", message: "Are you sure you want to discard \(strongSelf.cart.items.count) elements?", preferredStyle: .alert)
-          alertController.addAction(UIAlertAction(title: "Discard", style: .destructive, handler: { _ in
+          let alertController = UIAlertController(title: Config.TranslationKeys.discardCartItemsKey.g_localize(fallback: "Discard elements"), message: String(format: Config.TranslationKeys.discardCartItemsDescriptionKey.g_localize(fallback: "Are you sure you want to discard \(strongSelf.cart.items.count) elements?"),  strongSelf.cart.items.count), preferredStyle: .alert)
+          alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
             strongSelf.dismiss(animated: true, completion: nil)
           }))
-          alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+          alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
           strongSelf.present(alertController, animated: true, completion: nil)
         } else {
           strongSelf.dismiss(animated: true, completion: nil)
@@ -186,7 +185,7 @@ public class MediaPickerController: UIViewController {
     }
 
     let ctrl = CameraController(cart: self.cart)
-    ctrl.title = Config.Camera.title.g_localize(fallback: "CAMERA")
+    ctrl.title = Config.TranslationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA")
     return ctrl
   }
 
@@ -196,13 +195,13 @@ public class MediaPickerController: UIViewController {
     }
 
     let ctrl = AudioController(cart: self.cart)
-    ctrl.title = Config.Audio.title.g_localize(fallback: "AUDIO")
+    ctrl.title = Config.TranslationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
     return ctrl
   }
 
   func createLibraryController() -> LibraryController {
     let ctrl = LibraryController(cart: cart)
-    ctrl.title = Config.Library.title.g_localize(fallback: "LIBRARY")
+    ctrl.title = Config.TranslationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY")
     return ctrl
   }
 }

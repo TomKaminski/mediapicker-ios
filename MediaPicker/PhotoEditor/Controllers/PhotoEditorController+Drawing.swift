@@ -40,6 +40,8 @@ extension PhotoEditorController {
       context.setBlendMode(CGBlendMode.normal)
       context.strokePath()
       canvasImageView.image = UIGraphicsGetImageFromCurrentImageContext()
+      
+      editedSomething = true
     }
     UIGraphicsEndImageContext()
   }

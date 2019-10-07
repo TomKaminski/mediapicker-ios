@@ -57,26 +57,10 @@ public struct Config {
     public struct ShutterButton {
       public static var numberColor: UIColor = UIColor(red: 54 / 255, green: 56 / 255, blue: 62 / 255, alpha: 1)
     }
-    
-    public static var title = "LandaxApp_Gallery_Camera_Title"
-    public static var pictureTitleKey = "LandaxApp_Gallery_Media_Type_Picture"
-    public static var videoTitleKey = "LandaxApp_Gallery_Media_Type_Video"
   }
   
   public struct Audio {
     public static var allowAudioEdit = true
-
-    public static var autioTitleKey = "LandaxApp_Gallery_Media_Type_VoiceNote"
-    public static var title = "LandaxApp_Gallery_Audio_Title"
-    public static var tapToPauseLabel = "LandaxApp_Media_Gallery_Audio_PauseRecording".g_localize(fallback: "Tap to pause recording")
-    public static var tapToResetLabel = "LandaxApp_Media_Gallery_Audio_ResetRecording".g_localize(fallback: "Tap to reset")
-    public static var tapToContinueLabel = "LandaxApp_Media_Gallery_Audio_ContinueRecording".g_localize(fallback: "Tap to continue recording")
-    public static var tapToStartLabel = "LandaxApp_Media_Gallery_Audio_StartRecording".g_localize(fallback: "Tap to start recording")
-
-  }
-  
-  public struct Library {
-    public static var title = "LandaxApp_Gallery_Library_Title"
   }
   
   public struct Grid {
@@ -85,8 +69,8 @@ public struct Config {
     }
     
     public struct FrameView {
-      public static var fillColor: UIColor = UIColor(red: 50 / 255, green: 51 / 255, blue: 59 / 255, alpha: 1)
-      public static var borderColor: UIColor = UIColor(red: 0, green: 239 / 255, blue: 155 / 255, alpha: 1)
+      public static var fillColor: UIColor = UIColor(red: 32/255.0, green: 71/255.0, blue: 134/255.0, alpha: 1.0)
+      public static var borderColor: UIColor = UIColor(red: 32/255.0, green: 71/255.0, blue: 134/255.0, alpha: 1.0)
     }
     
     struct Dimension {
@@ -100,6 +84,41 @@ public struct Config {
     public static var textColor: UIColor = UIColor(red: 102 / 255, green: 118 / 255, blue: 138 / 255, alpha: 1)
   }
   
+  public struct TranslationKeys {
+    public static var permissionLabelKey = "LandaxApp_Gallery_GaleryAndCamera_Permission"
+    public static var goToSettingsKey = "LandaxApp_Gallery_Permission_Button"
+    public static var libraryTabTitleKey = "LandaxApp_Gallery_Library_Title"
+    public static var cameraTabTitleKey = "LandaxApp_Gallery_Camera_Title"
+    public static var audioTabTitleKey = "LandaxApp_Gallery_Audio_Title"
+    
+    public static var imageFileTitleKey = "LandaxApp_Gallery_Media_Type_Image"
+    public static var videoFileTitleKey = "LandaxApp_Gallery_Media_Type_Video"
+    public static var audioFileTitleKey = "LandaxApp_Gallery_Media_Type_VoiceNote"
+    
+    public static var tapToPauseLabelKey = "LandaxApp_Media_Gallery_Audio_PauseRecording"
+    public static var tapToResetLabelKey = "LandaxApp_Media_Gallery_Audio_ResetRecording"
+    public static var tapToContinueLabelKey = "LandaxApp_Media_Gallery_Audio_ContinueRecording"
+    public static var tapToStartLabelKey = "LandaxApp_Media_Gallery_Audio_StartRecording"
+    
+    public static var filenameInputPlaceholderKey = "LandaxApp_Gallery_FilenamePlaceholder"
+    
+    public static var cancelKey = "LandaxApp_Common_NavButton_Cancel"
+    public static var deleteKey = "LandaxApp_Common_Delete"
+    public static var discardKey = "LandaxApp_Common_NavButton_Discard"
+    
+    public static var discardElementKey = "LandaxApp_Media_Discard_Element"
+    public static var discardElementDescriptionKey = "LandaxApp_Media_Discard_Element_Description"
+    
+    public static var discardCartItemsKey = "LandaxApp_Media_Discard_Cart_Items"
+    public static var discardCartItemsDescriptionKey = "LandaxApp_Media_Discard_Cart_Items_Description"
+    
+    public static var deleteElementKey = "LandaxApp_Media_Delete_Element"
+    public static var deleteElementDescriptionKey = "LandaxApp_Media_Delete_Element_Description"
+    
+    public static var discardChangesKey = "LandaxApp_Media_Discard_Changes"
+    public static var discardChangesDescriptionKey = "LandaxApp_Media_Discard_Changes_Description"
+  }
+  
   public struct Permission {
     public static var shouldCheckPermission = true
     public static var image: UIImage? = MediaPickerBundle.image("gallery_permission_view_camera")
@@ -107,9 +126,6 @@ public struct Config {
     
     public static var closeImage: UIImage? = MediaPickerBundle.image("gallery_close")
     public static var closeImageTint: UIColor = UIColor(red: 109 / 255, green: 107 / 255, blue: 132 / 255, alpha: 1)
-    
-    public static var labelText = "LandaxApp_Gallery_GaleryAndCamera_Permission".g_localize(fallback: "Please grant access to photos and the camera.")
-    public static var goToSettingsText = "LandaxApp_Gallery_Permission_Button".g_localize(fallback: "Go to Settings").uppercased()
 
     public struct Button {
       public static var textColor: UIColor = UIColor.white
@@ -145,7 +161,6 @@ public struct Config {
   }
   
   public struct PhotoEditor {
-    public static var filenameInputPlaceholder = "Filename.."
     public static var topToolbarHeight: CGFloat = 60
     public static var bottomToolbarHeight: CGFloat = 110
     public static var editorCircularButtonSize: CGFloat = 40

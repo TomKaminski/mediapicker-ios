@@ -17,6 +17,7 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
     super.init(frame: frame)
     
     self.buildScrollView(cartItems: cartItems)
+    self.scrollToEnd()
   }
   
   func onItemDelete(guid: String) {
@@ -25,8 +26,17 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
   
   public func addItem(item: CartItemProtocol) {
     let itemView = item.cartView
-    self.views.append(itemView)
-    self.addItem(itemView)
+
+    if let sameItemIndex = self.views.firstIndex(where: { (collectionItem) -> Bool in
+      return item.guid == collectionItem.guid
+    }) {
+      self.views[sameItemIndex] = itemView
+      _ = self.removeAllItems()
+      self.addItems(self.views)
+    } else {
+      self.views.append(itemView)
+      self.addItem(itemView)
+    }
   }
   
   public func removeItem(item: CartItemProtocol) {

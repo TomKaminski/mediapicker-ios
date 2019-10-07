@@ -71,7 +71,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     audioView.resetButton.addGestureRecognizer(resetButtonGestureRecognizer)
     
     self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
+    self.audioView.setInfoLabelText(startRecordingLabelText)
   }
   
   private func makeAudioView() -> AudioView {
@@ -117,9 +117,9 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       audioRecorder.record()
       
       self.audioView.toogleDoneButtonVisibility(isHidden: false)
-      self.audioView.setInfoLabelText(Config.Audio.tapToPauseLabel)
+      self.audioView.setInfoLabelText(pauseRecordingLabelText)
       
-      self.audioView.setResetInfoLabelText(Config.Audio.tapToResetLabel)
+      self.audioView.setResetInfoLabelText(Config.TranslationKeys.tapToResetLabelKey.g_localize(fallback: "Tap to reset"))
       
       self.recordTimer = Timer.scheduledTimer(
         timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
@@ -142,7 +142,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     isPaused = true
     self.audioView.togglePlayStopButton(isRecording: false)
     audioRecorder?.pause()
-    self.audioView.setInfoLabelText(Config.Audio.tapToContinueLabel)
+    self.audioView.setInfoLabelText(Config.TranslationKeys.tapToContinueLabelKey.g_localize(fallback: "Tap to continue recording"))
     
     self.recordTimer?.invalidate()
     self.recordTimer = nil
@@ -153,7 +153,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     
     self.audioView.togglePlayStopButton(isRecording: true)
     audioRecorder?.record()
-    self.audioView.setInfoLabelText(Config.Audio.tapToPauseLabel)
+    self.audioView.setInfoLabelText(pauseRecordingLabelText)
     self.recordTimer = Timer.scheduledTimer(
       timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
   }
@@ -191,7 +191,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     self.audioView.togglePlayStopButton(isRecording: false, reset: true)
     self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
     self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
+    self.audioView.setInfoLabelText(startRecordingLabelText)
   }
   
   
@@ -216,13 +216,21 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       self.audioView.togglePlayStopButton(isRecording: false, reset: true)
       self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
       self.audioView.toogleDoneButtonVisibility(isHidden: true)
-      self.audioView.setInfoLabelText(Config.Audio.tapToStartLabel)
+      self.audioView.setInfoLabelText(startRecordingLabelText)
       EventHub.shared.changeMediaPickerState?(.Audio)
 
       self.addAudioTakenChildrenController(audio: audio)
     } else {
       clearData()
     }
+  }
+  
+  var startRecordingLabelText: String {
+    return Config.TranslationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
+  }
+  
+  var pauseRecordingLabelText: String {
+    return Config.TranslationKeys.tapToPauseLabelKey.g_localize(fallback: "Tap to pause recording")
   }
   
   private func addAudioTakenChildrenController(audio: Audio) {

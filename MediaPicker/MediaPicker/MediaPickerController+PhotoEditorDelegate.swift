@@ -17,8 +17,8 @@ extension MediaPickerController: PhotoEditorDelegate {
           let result = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil)
           let newAsset = result.object(at: 0)
           
-          self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
-          self.cart.add(Image(asset: newAsset, guid: UUID().uuidString, newlyTaken: false, customFileName: customFileName))
+          //self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
+          self.cart.add(Image(asset: newAsset, guid: selfCtrl.originalImageGuid, newlyTaken: false, customFileName: customFileName))
           selfCtrl.dismiss(animated: true, completion: nil)
         }
       }

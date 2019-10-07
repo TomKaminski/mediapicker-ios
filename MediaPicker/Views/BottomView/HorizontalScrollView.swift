@@ -52,6 +52,11 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     initView()
   }
   
+  public func scrollToEnd() {
+    let rightOffset = CGPoint(x: self.contentSize.width - self.bounds.size.width, y: 0)
+    self.setContentOffset(rightOffset, animated: false)
+  }
+  
   fileprivate func initView() {
     self.showsHorizontalScrollIndicator = false
     self.backgroundColor = .white
