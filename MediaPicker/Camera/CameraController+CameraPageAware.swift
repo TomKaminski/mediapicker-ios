@@ -3,16 +3,14 @@ extension CameraController: CameraPageAware {
     Config.Camera.recordMode = .video
     self.cameraView.rotateButton.isHidden = true
     self.cameraView.flashButton.isHidden = true
-    
-    self.cameraView.showTimer()
+    self.pagesController.bottomView.showTimer()
     self.cameraMan.startVideoRecord(location: nil, startCompletion: { result in })
   }
   
   func shutterButtonReleased() {
     self.cameraView.rotateButton.isHidden = false
     self.cameraView.flashButton.isHidden = false
-    self.cameraView.videoRecordingTimer?.invalidate()
-    self.cameraView.elapsedVideoRecordingTimeLabel.isHidden = true
+    self.pagesController.bottomView.hideTimer()
     self.cameraMan.stopVideoRecording()
   }
   

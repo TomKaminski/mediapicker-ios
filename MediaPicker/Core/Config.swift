@@ -117,6 +117,8 @@ public struct Config {
     
     public static var discardChangesKey = "LandaxApp_Media_Discard_Changes"
     public static var discardChangesDescriptionKey = "LandaxApp_Media_Discard_Changes_Description"
+    
+    public static var tapForImageHoldForVideoKey = "LandaxApp_Media_TapForImageHoldForVideo"
   }
   
   public struct Permission {

@@ -3,12 +3,15 @@ import UIKit
 class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelegate {
   // MARK: Properties
   
+  var videoRecordingTimer: Timer?
+
   weak var delegate: BottomViewDelegate?
 
   var backButton: CircularBorderButton?
   var cartView: CartCollectionView?
   var saveButton: GalleryFloatingButton?
   var shutterButton: ShutterButton?
+  var elapsedVideoRecordingTimeLabel: UILabel?
 
   var state: MediaToolbarState = .Camera
   var activeTab: Config.GalleryTab = .libraryTab
@@ -85,6 +88,19 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
 
     return button
   }
+  
+  fileprivate func makeVideoRecordingElapsedTimeLabel() -> UILabel {
+    let label = UILabel()
+    label.text = self.videoRecordingLabelPlaceholder()
+    label.textAlignment = .center
+    label.textColor = .white
+    label.font = UIFont.systemFont(ofSize: 10)
+    return label
+  }
+  
+  func videoRecordingLabelPlaceholder() -> String {
+    return Config.TranslationKeys.tapForImageHoldForVideoKey.g_localize(fallback: "Tap for image, hold for video")
+  }
 
   fileprivate func makeShutterButton() -> ShutterButton {
     let shutterBtn = ShutterButton()
@@ -123,6 +139,9 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
 
     self.saveButton?.removeFromSuperview()
     self.saveButton = nil
+    
+    self.elapsedVideoRecordingTimeLabel?.removeFromSuperview()
+    self.elapsedVideoRecordingTimeLabel = nil
 
     self.cartView?.removeFromSuperview()
     self.cartView = nil
@@ -158,6 +177,15 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
   }
 
   fileprivate func insertShutterButton(recording: Bool) {
+    let elapsedVideoRecordingTimeLabel = self.elapsedVideoRecordingTimeLabel ?? self.makeVideoRecordingElapsedTimeLabel()
+    self.elapsedVideoRecordingTimeLabel = elapsedVideoRecordingTimeLabel
+    addSubview(elapsedVideoRecordingTimeLabel)
+    Constraint.on(
+      elapsedVideoRecordingTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+      elapsedVideoRecordingTimeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
+    )
+    addSubview(elapsedVideoRecordingTimeLabel)
+    
     let shutterButton = self.shutterButton ?? self.makeShutterButton()
     self.shutterButton = shutterButton
     self.shutterButton?.isUserInteractionEnabled = true
@@ -167,7 +195,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
     shutterButton.g_pin(height: Config.BottomView.ShutterButton.size)
     Constraint.on(
       shutterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-      shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+      shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 8)
     )
   }
 
@@ -192,5 +220,28 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
       backButton.widthAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
       backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
+  }
+  
+  func showTimer() {
+    let userInfo = ["start": Date().timeIntervalSince1970]
+    self.videoRecordingTimer = Timer.scheduledTimer(
+      timeInterval: 0.5, target: self, selector: #selector(videoRecodringTimerFired(_:)), userInfo: userInfo, repeats: true)
+    self.elapsedVideoRecordingTimeLabel?.text = self.videoRecordingLabelPlaceholder()
+  }
+  
+  func hideTimer() {
+    self.videoRecordingTimer?.invalidate()
+    self.elapsedVideoRecordingTimeLabel?.text = self.videoRecordingLabelPlaceholder()
+  }
+  
+  @objc func videoRecodringTimerFired(_ timer: Timer) {
+    guard let dictionary = timer.userInfo as? [String: Any], let start = dictionary["start"] as? TimeInterval else {
+      return
+    }
+    
+    let now = Date().timeIntervalSince1970
+    let minutes = Int(now - start) / 60
+    let seconds = Int(now - start) % 60
+    self.elapsedVideoRecordingTimeLabel?.text = String(format: "%0.2d:%0.2d", minutes, seconds)
   }
 }
