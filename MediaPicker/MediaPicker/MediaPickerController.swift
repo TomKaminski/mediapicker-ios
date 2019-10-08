@@ -74,7 +74,7 @@ public class MediaPickerController: UIViewController {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
         if !strongSelf.cart.items.isEmpty {
-          let alertController = UIAlertController(title: Config.TranslationKeys.discardCartItemsKey.g_localize(fallback: "Discard elements"), message: String(format: Config.TranslationKeys.discardCartItemsDescriptionKey.g_localize(fallback: "Are you sure you want to discard \(strongSelf.cart.items.count) elements?"),  strongSelf.cart.items.count), preferredStyle: .alert)
+          let alertController = UIAlertController(title: Config.TranslationKeys.discardCartItemsKey.g_localize(fallback: "Discard elements"), message: String(format: Config.TranslationKeys.discardCartItemsDescriptionKey.g_localize(fallback: "Are you sure you want to discard this elements?"), strongSelf.cart.items.count), preferredStyle: .alert)
           alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
             strongSelf.dismiss(animated: true, completion: nil)
           }))
