@@ -2,6 +2,7 @@ import UIKit
 import Photos
 
 public class Image: Equatable, CartItemProtocol {
+  public var dateAdded: Date
   public var newlyTaken: Bool
   public var guid: String
   public var customFileName: String
@@ -22,11 +23,12 @@ public class Image: Equatable, CartItemProtocol {
 
   // MARK: - Initialization
 
-  init(asset: PHAsset, guid: String, newlyTaken: Bool, customFileName: String) {
+  init(asset: PHAsset, guid: String, newlyTaken: Bool, customFileName: String, dateAdded: Date) {
     self.newlyTaken = newlyTaken
     self.asset = asset
     self.guid = guid
     self.customFileName = customFileName
+    self.dateAdded = dateAdded
   }
 }
 

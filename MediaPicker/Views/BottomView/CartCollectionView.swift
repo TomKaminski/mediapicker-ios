@@ -73,7 +73,7 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
   
   private func buildScrollView(cartItems: [String: CartItemProtocol]) {
     _ = self.removeAllItems()
-    self.views = cartItems.compactMap { (cartItem) -> CartCollectionItemView in
+    self.views = cartItems.sorted(by: { $0.value.dateAdded < $1.value.dateAdded }).compactMap { (cartItem) -> CartCollectionItemView in
       let view = cartItem.value.cartView
       view.delegate = self
       view.selected = view.guid == Config.BottomView.Cart.selectedGuid

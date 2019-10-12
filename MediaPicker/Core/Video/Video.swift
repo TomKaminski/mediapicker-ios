@@ -2,6 +2,7 @@ import UIKit
 import Photos
 
 public class Video: Equatable, CartItemProtocol {
+  public var dateAdded: Date
   public var newlyTaken: Bool
   public var customFileName: String
   public var guid: String
@@ -35,11 +36,12 @@ public class Video: Equatable, CartItemProtocol {
   
   // MARK: - Initialization
   
-  init(asset: PHAsset, guid: String, customFileName: String, newlyTaken: Bool) {
+  init(asset: PHAsset, guid: String, customFileName: String, newlyTaken: Bool, dateAdded: Date) {
     self.asset = asset
     self.guid = guid
     self.newlyTaken = newlyTaken
     self.customFileName = customFileName
+    self.dateAdded = dateAdded
   }
   
   /// Fetch video duration asynchronously

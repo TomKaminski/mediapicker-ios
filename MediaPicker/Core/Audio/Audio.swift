@@ -2,7 +2,6 @@ import UIKit
 import AVFoundation
 
 public class Audio: Equatable, CartItemProtocol {
-  
   func secondsToHoursMinutesSeconds (seconds : Int) -> (Int, Int, Int) {
     return (seconds / 3600, (seconds % 3600) / 60, (seconds % 3600) % 60)
   }
@@ -27,14 +26,16 @@ public class Audio: Equatable, CartItemProtocol {
   public var customFileName: String
   public var guid: String
   public var newlyTaken: Bool
+  public var dateAdded: Date
 
   public var duration: Double = 0
 
-  init(audioFile: AVAudioFile, customFileName: String, guid: String) {
+  init(audioFile: AVAudioFile, customFileName: String, guid: String, dateAdded: Date) {
     self.audioFile = audioFile
     self.customFileName = customFileName
     self.guid = guid
     self.newlyTaken = true
+    self.dateAdded = dateAdded
   }
 
   static public func == (lhs: Audio, rhs: Audio) -> Bool {

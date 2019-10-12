@@ -18,7 +18,7 @@ extension CameraController: CameraManDelegate {
       self.pagesController.bottomView.shutterButton?.isEnabled = true
 
       if let asset = asset {
-        let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName())
+        let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())
         Config.BottomView.Cart.selectedGuid = image.guid
         self.cart.add(image)
         EventHub.shared.executeCustomAction?(image.guid)
@@ -26,7 +26,7 @@ extension CameraController: CameraManDelegate {
     } else {
       Config.Camera.recordMode = .photo
       if let asset = asset {
-        let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true)
+        let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true, dateAdded: Date())
         Config.BottomView.Cart.selectedGuid = video.guid
         self.cart.add(video)
         EventHub.shared.executeCustomAction?(video.guid)

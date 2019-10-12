@@ -203,7 +203,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     pauseRecording()
     audioRecorder?.stop()
 
-    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString) {
+    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
       self.cart.add(audio)
       Config.BottomView.Cart.selectedGuid = audio.guid
 
