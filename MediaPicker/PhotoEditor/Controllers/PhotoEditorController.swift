@@ -90,7 +90,8 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   private func rebuildCanvasConstraints() {
     let fixedSize = imageView.contentClippingRect
     canvasImageViewHeightConstraint = self.canvasView.heightAnchor.constraint(lessThanOrEqualToConstant: fixedSize.height)
-    canvasImageViewWidthConstraint.constant = fixedSize.width
+    canvasImageViewWidthConstraint.constant = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
+    
     NSLayoutConstraint.deactivate([canvasImageViewTopConstraint, canvasImageViewBottomConstraint])
     NSLayoutConstraint.activate([canvasImageViewHeightConstraint, self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
   }
