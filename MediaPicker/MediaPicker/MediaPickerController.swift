@@ -62,8 +62,8 @@ public class MediaPickerController: UIViewController {
   }
   
   func setupEventHub() {
-    EventHub.shared.modalDismissed = {
-      if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken {
+    EventHub.shared.modalDismissed = { onAddNextTapped in 
+      if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken, !onAddNextTapped {
         self.cart.remove(cartItem)
       }
       Config.BottomView.Cart.selectedGuid = nil

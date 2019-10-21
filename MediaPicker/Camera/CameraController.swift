@@ -46,12 +46,6 @@ class CameraController: UIViewController {
     super.viewWillTransition(to: size, with: coordinator)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    
-    
-  }
-  
   func setup() {
     view.addSubview(cameraView)
     cameraView.g_pinEdges()

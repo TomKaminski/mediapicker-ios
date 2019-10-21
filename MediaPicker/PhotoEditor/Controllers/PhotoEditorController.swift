@@ -93,7 +93,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     canvasImageViewWidthConstraint.constant = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
     
     NSLayoutConstraint.deactivate([canvasImageViewTopConstraint, canvasImageViewBottomConstraint])
-    NSLayoutConstraint.activate([canvasImageViewHeightConstraint, self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)])
+    NSLayoutConstraint.activate([canvasImageViewHeightConstraint, self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -15)])
   }
   
   override func setupConstraints() {
@@ -159,7 +159,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     } else if editedSomething {
       presentDiscardChangesAlert()
     } else {
-      EventHub.shared.modalDismissed?()
+      EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }
   }

@@ -14,8 +14,8 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   weak var delegate: CameraManDelegate?
   
   let session = AVCaptureSession()
-  let queue = DispatchQueue(label: "no.hyper.Gallery.Camera.SessionQueue", qos: .background)
-  let savingQueue = DispatchQueue(label: "no.hyper.Gallery.Camera.SavingQueue", qos: .background)
+  let queue = DispatchQueue(label: "pl.tomkaminski.MediaPicker.Camera.SessionQueue", qos: .background)
+  let savingQueue = DispatchQueue(label: "pl.tomkaminski.MediaPicker.Camera.SavingQueue", qos: .background)
   
   var backCamera: AVCaptureDeviceInput?
   var frontCamera: AVCaptureDeviceInput?

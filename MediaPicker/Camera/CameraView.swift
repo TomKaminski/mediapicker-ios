@@ -74,14 +74,9 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     layer.videoGravity = .resizeAspectFill
 
     self.layer.insertSublayer(layer, at: 0)
-    layer.frame = CGRect(x: 0, y: 60, width: self.frame.width, height: self.frame.height - 60)
+
+    layer.frame = CGRect(x: 0, y: 60, width: self.frame.width, height: self.frame.height - 160)
     previewLayer = layer
-  }
-
-  override func layoutSubviews() {
-    super.layoutSubviews()
-
-    previewLayer?.frame = self.layer.bounds
   }
 
   // MARK: - Action

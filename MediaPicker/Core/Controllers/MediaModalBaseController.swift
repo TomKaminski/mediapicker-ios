@@ -7,7 +7,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       self.mediaPickerControllerDelegate?.onModalItemRemove(guid: guid)
       if Config.BottomView.Cart.selectedGuid == guid {
         self.dismiss(animated: true, completion: nil)
-        EventHub.shared.modalDismissed?()
+        EventHub.shared.modalDismissed?(false)
       } else {
         self.bottomToolbarView.setup()
         self.cartButton.updateCartItemsLabel(self.mediaPickerControllerDelegate?.itemsInCart ?? 0, self.cartButton.cartOpened)
@@ -66,7 +66,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   }
   
   @objc func onAddNextTap() {
-    EventHub.shared.modalDismissed?()
+    EventHub.shared.modalDismissed?(true)
     customOnAddNexTap()
   }
   
@@ -86,7 +86,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   func presentDiscardElementAlert() {
     let alertController = UIAlertController(title: Config.TranslationKeys.discardElementKey.g_localize(fallback: "Discard element"), message: Config.TranslationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?"), preferredStyle: .alert)
     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
-      EventHub.shared.modalDismissed?()
+      EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }))
     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
@@ -96,7 +96,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   func presentDiscardChangesAlert() {
     let alertController = UIAlertController(title: Config.TranslationKeys.discardChangesKey.g_localize(fallback: "Discard changes"), message: Config.TranslationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?"), preferredStyle: .alert)
     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
-      EventHub.shared.modalDismissed?()
+      EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }))
     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
@@ -107,7 +107,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     if newlyTaken {
       presentDiscardElementAlert()
     } else {
-      EventHub.shared.modalDismissed?()
+      EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }
   }
