@@ -17,7 +17,7 @@ class TopToolbarView: UIView, ColorSelectedDelegate, CircularButtonConformance {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = .gray
+    self.backgroundColor = .black
     self.setup()
   }
   

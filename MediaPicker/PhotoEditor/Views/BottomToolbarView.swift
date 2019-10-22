@@ -39,7 +39,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = .gray
+    self.backgroundColor = .black
     self.setup()
   }
   
