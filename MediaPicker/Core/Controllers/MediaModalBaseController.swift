@@ -67,14 +67,14 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   
   @objc func onAddNextTap() {
     EventHub.shared.modalDismissed?(true)
-    customOnAddNexTap()
+    customOnAddNexTap(doneWithMediaTapped: false)
   }
   
   public func updateNewlyTaken() {
     fatalError()
   }
   
-  internal func customOnAddNexTap() {
+  internal func customOnAddNexTap(doneWithMediaTapped: Bool) {
     fatalError()
   }
   

@@ -62,7 +62,8 @@ public class MediaPickerController: UIViewController {
   }
   
   func setupEventHub() {
-    EventHub.shared.modalDismissed = { onAddNextTapped in 
+    EventHub.shared.modalDismissed = { onAddNextTapped in
+      self.currentlyPresentedModalController?.dismiss(animated: false, completion: nil)
       if let guid = Config.BottomView.Cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken, !onAddNextTapped {
         self.cart.remove(cartItem)
       }
@@ -89,8 +90,12 @@ public class MediaPickerController: UIViewController {
     EventHub.shared.doneWithMedia = { [weak self] in
       if let strongSelf = self {
         if let modalCtrl = strongSelf.currentlyPresentedModalController {
-          modalCtrl.dismiss(animated: false) {
-            strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
+          if modalCtrl is PhotoEditorController {
+            modalCtrl.customOnAddNexTap(doneWithMediaTapped: true)
+          } else {
+            modalCtrl.dismiss(animated: false) {
+              strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
+            }
           }
         } else {
           strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
@@ -100,6 +105,7 @@ public class MediaPickerController: UIViewController {
     
     EventHub.shared.executeCustomAction = { guid in
       if let item = self.cart.getItem(by: guid) {
+        Config.BottomView.Cart.selectedGuid = guid
         if item.type == .Image && Config.Camera.allowPhotoEdit {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in

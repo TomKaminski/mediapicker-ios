@@ -33,7 +33,7 @@ class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDeleg
     mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
   }
   
-  override func customOnAddNexTap() {
+  override func customOnAddNexTap(doneWithMediaTapped: Bool) {
     addOrUpdateItem()
     self.dismiss(animated: true, completion: nil)
   }

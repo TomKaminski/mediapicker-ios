@@ -1,9 +1,17 @@
 import Photos
 
 extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool) {
+  public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool, doneWithMedia: Bool) {
     guard editedSomething else {
-      selfCtrl.dismiss(animated: true, completion: nil)
+      if var item = self.cart.getItem(by: selfCtrl.originalImageGuid) {
+        item.customFileName = customFileName
+        self.cart.add(item)
+      }
+      selfCtrl.dismiss(animated: !doneWithMedia, completion: {
+        if doneWithMedia {
+          self.delegate?.mediaPicker(self, didSelectMedia: self.cart.items.values.compactMap { $0 })
+        }
+      })
       return
     }
     
@@ -19,7 +27,11 @@ extension MediaPickerController: PhotoEditorDelegate {
           
           //self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
           self.cart.add(Image(asset: newAsset, guid: selfCtrl.originalImageGuid, newlyTaken: false, customFileName: customFileName, dateAdded: Date()))
-          selfCtrl.dismiss(animated: true, completion: nil)
+          selfCtrl.dismiss(animated: !doneWithMedia, completion: {
+            if doneWithMedia {
+              self.delegate?.mediaPicker(self, didSelectMedia: self.cart.items.values.compactMap { $0 })
+            }
+          })
         }
       }
     }

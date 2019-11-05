@@ -58,7 +58,7 @@ class VideoAssetPreviewController: MediaModalBaseController {
   // MARK: Interaction
   // ----------------
 
-  override func customOnAddNexTap() {
+  override func customOnAddNexTap(doneWithMediaTapped: Bool) {
     addOrUpdateCartItem()
     self.dismiss(animated: true, completion: nil)
   }
