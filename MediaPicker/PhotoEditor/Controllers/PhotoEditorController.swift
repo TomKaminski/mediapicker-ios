@@ -140,7 +140,14 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   override func customOnAddNexTap(doneWithMediaTapped: Bool) {
     let img = self.canvasView.toImage()
     
-    photoEditorDelegate?.doneEditing(image: img, customFileName: self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getImageFileName(), selfCtrl: self, editedSomething: editedSomething, doneWithMedia: doneWithMediaTapped)
+    var customFileName = FileNameComposer.getImageFileName()
+    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
+      customFileName = fileNameFromInput
+    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
+      customFileName = lastFileName
+    }
+    
+    photoEditorDelegate?.doneEditing(image: img, customFileName: customFileName, selfCtrl: self, editedSomething: editedSomething, doneWithMedia: doneWithMediaTapped)
   }
   
   public override func updateNewlyTaken() {

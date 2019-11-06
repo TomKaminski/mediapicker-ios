@@ -28,7 +28,14 @@ class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDeleg
   }
   
   private func addOrUpdateItem() {
-    audio.customFileName = self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getAudioFileName()
+    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
+      audio.customFileName = fileNameFromInput
+    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
+      audio.customFileName = lastFileName
+    } else {
+      audio.customFileName = FileNameComposer.getAudioFileName()
+    }
+    
     audio.newlyTaken = false
     mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
   }

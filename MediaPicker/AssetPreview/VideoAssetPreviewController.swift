@@ -146,7 +146,14 @@ class VideoAssetPreviewController: MediaModalBaseController {
   }
   
   private func addOrUpdateCartItem() {
-    video.customFileName = self.bottomToolbarView.filenameInput?.text ?? self.bottomToolbarView.lastFileName ?? FileNameComposer.getVideoFileName()
+    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
+      video.customFileName = fileNameFromInput
+    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
+      video.customFileName = lastFileName
+    } else {
+      video.customFileName = FileNameComposer.getVideoFileName()
+    }
+    
     video.newlyTaken = false
     mediaPickerControllerDelegate?.addUpdateCartItem(item: video)
   }

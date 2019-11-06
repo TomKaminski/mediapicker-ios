@@ -63,7 +63,7 @@ public class CartCollectionItemView: UIView {
   
   @objc private func onTapped() {
     if Config.BottomView.Cart.selectedGuid != guid && canTap() {
-      EventHub.shared.modalDismissed?(false)
+      EventHub.shared.modalDismissed?(Config.BottomView.Cart.selectedGuid != nil)
       delegate?.reselectItem()
       EventHub.shared.executeCustomAction?(guid)
     }
