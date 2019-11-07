@@ -93,6 +93,7 @@ public class MediaPickerController: UIViewController {
           if modalCtrl is PhotoEditorController {
             modalCtrl.customOnAddNexTap(doneWithMediaTapped: true)
           } else {
+            modalCtrl.updateNewlyTaken()
             modalCtrl.dismiss(animated: false) {
               strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
             }
