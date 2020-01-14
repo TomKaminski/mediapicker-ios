@@ -117,8 +117,8 @@ class PagesController: UIViewController {
     if usePageIndicator {
       view.addSubview(pageIndicator)
       Constraint.on(
-        pageIndicator.leadingAnchor.constraint(equalTo: pageIndicator.superview!.leadingAnchor),
-        pageIndicator.trailingAnchor.constraint(equalTo: pageIndicator.superview!.trailingAnchor),
+        pageIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+        pageIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         pageIndicatorHeightConstraint
       )
 
@@ -128,7 +128,7 @@ class PagesController: UIViewController {
         )
       } else {
         Constraint.on(
-          pageIndicator.bottomAnchor.constraint(equalTo: pageIndicator.superview!.bottomAnchor)
+          pageIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         )
       }
     }
@@ -169,8 +169,8 @@ class PagesController: UIViewController {
     view.addSubview(bottomView)
     bottomView.delegate = self
     Constraint.on(
-      bottomView.leadingAnchor.constraint(equalTo: bottomView.superview!.leadingAnchor),
-      bottomView.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor),
+      bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       bottomView.heightAnchor.constraint(equalToConstant: Config.BottomView.height),
       bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor)
     )
@@ -179,7 +179,7 @@ class PagesController: UIViewController {
     cartButton.delegate = self
     Constraint.on(
       cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: Config.BottomView.CartButton.bottomMargin),
-      cartButton.trailingAnchor.constraint(equalTo: bottomView.superview!.trailingAnchor, constant: Config.BottomView.CartButton.rightMargin),
+      cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Config.BottomView.CartButton.rightMargin),
       cartButton.heightAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size),
       cartButton.widthAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size)
     )
