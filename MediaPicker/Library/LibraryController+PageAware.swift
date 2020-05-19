@@ -24,5 +24,11 @@ extension LibraryController: PageAware {
         }
       }
     }
+    
+    self.pagesController.mediaPickerController.rotateButtons()
+  }
+  
+  func setupForOrientation(angle: CGFloat) {
+    
   }
 }

@@ -42,8 +42,12 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-    let size = (collectionView.bounds.size.width - (Config.Grid.Dimension.columnCount - 1) * Config.Grid.Dimension.cellSpacing)
+    var size = (collectionView.bounds.size.width - (Config.Grid.Dimension.columnCount - 1) * Config.Grid.Dimension.cellSpacing)
     / Config.Grid.Dimension.columnCount
+    
+    if size > 200 {
+      size = 200
+    }
     return CGSize(width: size, height: size)
   }
 

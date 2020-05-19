@@ -20,7 +20,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
 
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = Config.BottomView.backgroundColor
+    self.backgroundColor = Config.BottomView.backgroundColor.withAlphaComponent(0.5)
     setup()
   }
 
@@ -182,7 +182,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
     addSubview(elapsedVideoRecordingTimeLabel)
     Constraint.on(
       elapsedVideoRecordingTimeLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-      elapsedVideoRecordingTimeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 4)
+      elapsedVideoRecordingTimeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 2)
     )
     addSubview(elapsedVideoRecordingTimeLabel)
     

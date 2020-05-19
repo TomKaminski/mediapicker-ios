@@ -75,7 +75,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
     self.layer.insertSublayer(layer, at: 0)
 
-    layer.frame = CGRect(x: 0, y: 60, width: self.frame.width, height: self.frame.height - 160)
+    layer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
     previewLayer = layer
   }
 

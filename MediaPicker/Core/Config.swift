@@ -12,7 +12,7 @@ public struct Config {
   
   public struct BottomView {
     public static var backgroundColor: UIColor = .black
-    public static var height: CGFloat = 100
+    public static var height: CGFloat = 90
     
     public struct BackButton {
       public static var size: CGFloat = 40
@@ -30,7 +30,7 @@ public struct Config {
     }
     
     public struct ShutterButton {
-      public static var size: CGFloat = 65
+      public static var size: CGFloat = 60
     }
     
     public struct CartButton {

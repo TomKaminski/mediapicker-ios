@@ -23,6 +23,8 @@ public class MediaPickerController: UIViewController {
   public override func viewDidLoad() {
     super.viewDidLoad()
     
+    NotificationCenter.default.addObserver(self, selector: #selector(rotateButtons), name: UIDevice.orientationDidChangeNotification, object: nil)
+    
     setupEventHub()
     self.cart.cartMainDelegate = self
     
@@ -32,7 +34,7 @@ public class MediaPickerController: UIViewController {
       view.addSubview(pagesController.view)
       pagesController.didMove(toParent: self)
       
-      pagesController.view.g_pin(on: .topMargin)
+      pagesController.view.g_pin(on: .top)
       pagesBottomContraint = pagesController.view.g_pin(on: .bottom)
       pagesController.view.g_pin(on: .left)
       pagesController.view.g_pin(on: .right)
@@ -42,6 +44,34 @@ public class MediaPickerController: UIViewController {
     }
     
     setNeedsStatusBarAppearanceUpdate()
+  }
+
+  @objc public func rotateButtons() {
+    guard UIDevice.current.userInterfaceIdiom != .pad else {
+      return
+    }
+    var angle: CGFloat = 0
+       
+    switch UIDevice.current.orientation {
+    case .landscapeLeft:
+      angle = (CGFloat(Double.pi) / 2)
+    case .landscapeRight:
+      angle = (CGFloat(-Double.pi) / 2)
+    case .portraitUpsideDown:
+      angle = CGFloat(Double.pi)
+    case .unknown, .portrait, .faceUp, .faceDown:
+      angle = 0
+    default:
+      angle = 0
+    }
+
+    self.pagesController?.activeController?.setupForOrientation(angle: angle)
+    
+    UIView.animate(withDuration: 0.2, animations: {
+      self.pagesController?.cartButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.bottomView.saveButton?.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.bottomView.backButton?.transform = CGAffineTransform(rotationAngle: angle)
+    }, completion: nil)
   }
   
   fileprivate func presentNewModal(_ modalCtrl: MediaModalBaseController?, _ newGuid: String) {

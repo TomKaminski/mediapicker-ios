@@ -41,6 +41,7 @@ extension CameraController: CameraPageAware {
     once.run {
       cameraMan.setup()
     }
+    self.pagesController.mediaPickerController.rotateButtons()
   }
 
   var initialBottomViewState: MediaToolbarState {
@@ -49,5 +50,12 @@ extension CameraController: CameraPageAware {
   
   var pagesController: PagesController {
     return self.parent as! PagesController
+  }
+  
+  func setupForOrientation(angle: CGFloat) {
+    UIView.animate(withDuration: 0.2, animations: {
+      self.cameraView.flashButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.cameraView.rotateButton.transform = CGAffineTransform(rotationAngle: angle)
+    }, completion: nil)
   }
 }
