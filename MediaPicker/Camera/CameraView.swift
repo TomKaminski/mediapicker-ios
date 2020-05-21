@@ -67,16 +67,18 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   }
 
   func setupPreviewLayer(_ session: AVCaptureSession) {
-    guard previewLayer == nil else { return }
+    let videoLayer = AVCaptureVideoPreviewLayer(session: session)
+    videoLayer.autoreverses = true
+    videoLayer.videoGravity = .resizeAspect
+    videoLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
-    let layer = AVCaptureVideoPreviewLayer(session: session)
-    layer.autoreverses = true
-    layer.videoGravity = .resizeAspectFill
-
-    self.layer.insertSublayer(layer, at: 0)
-
-    layer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-    previewLayer = layer
+    if previewLayer != nil  {
+      self.layer.replaceSublayer(previewLayer!, with: videoLayer)
+    } else {
+      self.layer.insertSublayer(videoLayer, at: 0)
+    }
+    
+    previewLayer = videoLayer
   }
 
   // MARK: - Action

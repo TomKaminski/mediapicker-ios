@@ -3,6 +3,11 @@ import Photos
 extension CameraController: CameraManDelegate {
   func cameraManDidStart(_ cameraMan: CameraMan) {
     cameraView.setupPreviewLayer(cameraMan.session)
+    
+    if let connection = self.cameraView.previewLayer?.connection,
+      connection.isVideoOrientationSupported {
+      connection.videoOrientation = Utils.videoOrientation()
+    }
   }
   
   func cameraManNotAvailable(_ cameraMan: CameraMan) {

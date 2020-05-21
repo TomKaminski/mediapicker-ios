@@ -43,6 +43,8 @@ class CameraController: UIViewController {
       }
     }, completion: nil)
     
+    cameraView.previewLayer?.frame = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+    
     super.viewWillTransition(to: size, with: coordinator)
   }
   
