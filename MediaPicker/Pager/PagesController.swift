@@ -112,36 +112,30 @@ class PagesController: UIViewController {
   // MARK: - Setup
 
   func setup() {
-    let usePageIndicator = controllers.count > 1
     pageIndicatorHeightConstraint = pageIndicator.heightAnchor.constraint(equalToConstant: 40)
-    if usePageIndicator {
-      view.addSubview(pageIndicator)
+    view.addSubview(pageIndicator)
+    Constraint.on(
+      pageIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      pageIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      pageIndicatorHeightConstraint
+    )
+
+    if #available(iOS 11, *) {
       Constraint.on(
-        pageIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        pageIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        pageIndicatorHeightConstraint
+        pageIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
       )
-
-      if #available(iOS 11, *) {
-        Constraint.on(
-          pageIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        )
-      } else {
-        Constraint.on(
-          pageIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        )
-      }
+    } else {
+      Constraint.on(
+        pageIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      )
     }
-
+    
     view.addSubview(scrollView)
     scrollView.addSubview(scrollViewContentView)
 
     scrollView.g_pinUpward()
-    if usePageIndicator {
-      scrollView.g_pin(on: .bottom, view: pageIndicator, on: .top)
-    } else {
-      scrollView.g_pinDownward()
-    }
+    scrollView.g_pin(on: .bottom, view: pageIndicator, on: .top)
+
 
     scrollViewContentView.g_pinEdges()
 
@@ -228,6 +222,10 @@ class PagesController: UIViewController {
   
   func notifyShow() {
     self.bottomView.activeTab = Config.tabsToShow[selectedIndex]
+    
+    if controllers.count <= selectedIndex {
+      selectedIndex = 0
+    }
     if let controller = controllers[selectedIndex] as? PageAware {
       controller.pageDidShow()
       if bottomView.state != .CartExpanded {
