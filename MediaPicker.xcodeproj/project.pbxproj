@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		269E963E28480018C354EB80 /* libPods-MediaPickerExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */; };
-		712C1213792289B0CC722CEB /* libPods-MediaPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */; };
+		055EAF89466E0E99A3F3EF27 /* libPods-MediaPicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */; };
+		15AF0B6D0A006ACF1A418812 /* libPods-MediaPickerExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 72484074F965E3DC8841269E /* libPods-MediaPickerExample.a */; };
 		760D17BA230A8F3100D5E192 /* CameraMan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17B9230A8F3100D5E192 /* CameraMan.swift */; };
 		760D17BC230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BB230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift */; };
 		760D17BE230A907A00D5E192 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BD230A907A00D5E192 /* Fetcher.swift */; };
@@ -143,6 +143,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		72484074F965E3DC8841269E /* libPods-MediaPickerExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPickerExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		760D17B9230A8F3100D5E192 /* CameraMan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraMan.swift; sourceTree = "<group>"; };
 		760D17BB230A8F9800D5E192 /* ClosuredAVCaptureMoveFileOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosuredAVCaptureMoveFileOutput.swift; sourceTree = "<group>"; };
 		760D17BD230A907A00D5E192 /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
@@ -215,8 +216,7 @@
 		76C0CFF92302996900E25900 /* CartCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CartCollectionView.swift; path = MediaPicker/BottomView/CartCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		76E7C0F423015CFC003A07B2 /* CartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartButton.swift; sourceTree = "<group>"; };
-		8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPickerExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
 		F3188FAD23391FFA00D91B1D /* CircularButtonConformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularButtonConformance.swift; sourceTree = "<group>"; };
@@ -266,7 +266,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				712C1213792289B0CC722CEB /* libPods-MediaPicker.a in Frameworks */,
+				055EAF89466E0E99A3F3EF27 /* libPods-MediaPicker.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +274,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				269E963E28480018C354EB80 /* libPods-MediaPickerExample.a in Frameworks */,
 				761BA01C22E9BFFE004D494E /* MediaPicker.framework in Frameworks */,
+				15AF0B6D0A006ACF1A418812 /* libPods-MediaPickerExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,8 +296,8 @@
 		285FE50200D02790CA93A6FB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8F35932C8FFABAA43732B847 /* libPods-MediaPicker.a */,
-				ABF928398A8A4467233BF92C /* libPods-MediaPickerExample.a */,
+				95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */,
+				72484074F965E3DC8841269E /* libPods-MediaPickerExample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
