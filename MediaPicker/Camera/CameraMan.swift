@@ -56,7 +56,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
     
     // Output
     photoOutput = AVCapturePhotoOutput()
-    photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecJPEG])
+    photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
     photoSettings.isAutoStillImageStabilizationEnabled = false
     movieOutput = ClosuredAVCaptureMovieFileOutput(sessionQueue: queue)
   }
@@ -221,7 +221,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   }
   
   func flash(_ mode: AVCaptureDevice.FlashMode) {
-    guard photoOutput?.supportedFlashModes.contains(mode) == true else { return }
+    guard let device = currentInput?.device, device.isFlashAvailable else { return }
     self.photoSettings.flashMode = mode
   }
   

@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "mediapicker-ios"
-  spec.version = "1.0.19"
+  spec.version = "1.1.0"
   spec.swift_version = "5.1"
   spec.summary = "Media picker plug-in written in Swift (Image, Video, Audio, Image editing)"
   spec.homepage = "https://github.com/TomKaminski/mediapicker-ios"
@@ -10,6 +10,6 @@ Pod::Spec.new do |spec|
   spec.source_files = "MediaPicker/**/*.swift"
   spec.resource = 'MediaPicker/MediaPicker.bundle'
   spec.requires_arc = true
-  spec.ios.deployment_target = "10.0"
+  spec.ios.deployment_target = "12.0"
   spec.ios.frameworks = "UIKit", "Foundation"
 end
