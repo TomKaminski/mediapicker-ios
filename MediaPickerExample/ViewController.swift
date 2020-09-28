@@ -30,7 +30,7 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
   }
   
   func mediaPickerDidCancel(_ controller: MediaPickerController) {
-    //none
+    controller.dismiss(animated: true, completion: nil)
   }
   
 

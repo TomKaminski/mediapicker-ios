@@ -28,7 +28,7 @@ struct Permission {
       case .authorized:
         return .authorized
       case .limited:
-        return .restricted
+        return .authorized
       @unknown default:
         return .notDetermined
       }

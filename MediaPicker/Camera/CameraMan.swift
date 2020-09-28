@@ -221,7 +221,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   }
   
   func flash(_ mode: AVCaptureDevice.FlashMode) {
-    guard let device = currentInput?.device, device.isFlashAvailable else { return }
+    guard photoOutput?.supportedFlashModes.contains(mode) == true else { return }
     self.photoSettings.flashMode = mode
   }
   
