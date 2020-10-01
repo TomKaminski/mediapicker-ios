@@ -62,8 +62,8 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onTapped() {
-    if Config.BottomView.Cart.selectedGuid != guid && canTap() {
-      EventHub.shared.modalDismissed?(Config.BottomView.Cart.selectedGuid != nil)
+    if MediaPickerConfig.instance.bottomView.cart.selectedGuid != guid && canTap() {
+      EventHub.shared.modalDismissed?(MediaPickerConfig.instance.bottomView.cart.selectedGuid != nil)
       delegate?.reselectItem()
       EventHub.shared.executeCustomAction?(guid)
     }
@@ -72,11 +72,11 @@ public class CartCollectionItemView: UIView {
   private func canTap() -> Bool {
     switch self.type {
       case .Image:
-        return Config.Camera.allowPhotoEdit
+        return MediaPickerConfig.instance.camera.allowPhotoEdit
       case .Audio:
-        return Config.Audio.allowAudioEdit
+        return MediaPickerConfig.instance.audio.allowAudioEdit
       case .Video:
-        return Config.Camera.allowVideoEdit
+        return MediaPickerConfig.instance.camera.allowVideoEdit
       case .none:
         return false
     }

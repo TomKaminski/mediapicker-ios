@@ -49,7 +49,7 @@ extension PhotoEditorController {
       context.move(to: CGPoint(x: fromPoint.x, y: fromPoint.y))
       context.addLine(to: CGPoint(x: toPoint.x, y: toPoint.y))
       context.setLineCap( CGLineCap.round)
-      context.setLineWidth(Config.PhotoEditor.lineWidth)
+      context.setLineWidth(MediaPickerConfig.instance.photoEditor.lineWidth)
       context.setStrokeColor(drawColor.cgColor)
       context.setBlendMode(CGBlendMode.normal)
       context.strokePath()

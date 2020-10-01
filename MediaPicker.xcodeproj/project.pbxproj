@@ -43,7 +43,7 @@
 		7639065C22F2E30A007CD4CE /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639065B22F2E30A007CD4CE /* Audio.swift */; };
 		7639066122F2E40F007CD4CE /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066022F2E40F007CD4CE /* ImageCell.swift */; };
 		7639066422F2E60E007CD4CE /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066322F2E60E007CD4CE /* FrameView.swift */; };
-		7639066622F2E65B007CD4CE /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066522F2E65B007CD4CE /* Config.swift */; };
+		7639066622F2E65B007CD4CE /* MediaPickerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066522F2E65B007CD4CE /* MediaPickerConfig.swift */; };
 		7639066822F2E7CD007CD4CE /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066722F2E7CD007CD4CE /* UIImageView+Extensions.swift */; };
 		7639066A22F2E7FE007CD4CE /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066922F2E7FE007CD4CE /* VideoCell.swift */; };
 		7639066C22F2E8FB007CD4CE /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066B22F2E8FB007CD4CE /* Library.swift */; };
@@ -180,7 +180,7 @@
 		7639065B22F2E30A007CD4CE /* Audio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
 		7639066022F2E40F007CD4CE /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		7639066322F2E60E007CD4CE /* FrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
-		7639066522F2E65B007CD4CE /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		7639066522F2E65B007CD4CE /* MediaPickerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPickerConfig.swift; sourceTree = "<group>"; };
 		7639066722F2E7CD007CD4CE /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		7639066922F2E7FE007CD4CE /* VideoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		7639066B22F2E8FB007CD4CE /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
@@ -444,7 +444,7 @@
 				76B8E4F522EAD5CB00D99495 /* MediaPickerBundle.swift */,
 				76B8E4F922EADCAA00D99495 /* Constraints.swift */,
 				7639065922F2DDD3007CD4CE /* Utils.swift */,
-				7639066522F2E65B007CD4CE /* Config.swift */,
+				7639066522F2E65B007CD4CE /* MediaPickerConfig.swift */,
 				760D17BD230A907A00D5E192 /* Fetcher.swift */,
 				F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */,
 				F38255FE233B557100CE30A6 /* FilenameComposer.swift */,
@@ -872,7 +872,7 @@
 				761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */,
 				F3EDDC23232F6D0800BCD975 /* PageAware.swift in Sources */,
 				76511E0122FC113400F4F32E /* CartItemProtocol.swift in Sources */,
-				7639066622F2E65B007CD4CE /* Config.swift in Sources */,
+				7639066622F2E65B007CD4CE /* MediaPickerConfig.swift in Sources */,
 				F3B2B4ED233F910500F2CCBE /* MediaPickerController+PermissionDelegate.swift in Sources */,
 				76AFCBEA22F81E1400E1B7CB /* CartCollectionView.swift in Sources */,
 				768A03E7230676A100C9B65F /* AudioController.swift in Sources */,
@@ -1086,7 +1086,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1119,7 +1119,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1143,7 +1143,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPickerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1165,7 +1165,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.3;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPickerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

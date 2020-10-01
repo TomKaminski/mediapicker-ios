@@ -67,7 +67,7 @@ class AlbumCell: UITableViewCell {
   private func makeAlbumTitleLabel() -> UILabel {
     let label = UILabel()
     label.numberOfLines = 1
-    label.font = Config.Font.Text.regular.withSize(14)
+    label.font = MediaPickerConfig.instance.font.text.regular.withSize(14)
     
     return label
   }
@@ -75,7 +75,7 @@ class AlbumCell: UITableViewCell {
   private func makeItemCountLabel() -> UILabel {
     let label = UILabel()
     label.numberOfLines = 1
-    label.font = Config.Font.Text.regular.withSize(10)
+    label.font = MediaPickerConfig.instance.font.text.regular.withSize(10)
     
     return label
   }

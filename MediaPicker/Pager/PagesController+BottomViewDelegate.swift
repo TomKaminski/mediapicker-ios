@@ -4,11 +4,11 @@ extension PagesController: BottomViewDelegate {
   }
   
   func onItemRemove(guid: String) {
-     let alertController = UIAlertController(title: Config.TranslationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: Config.TranslationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
-     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
+     let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
+     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
         self.mediaPickerController.cart.remove(guidToRemove: guid)
      }))
-     alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
+     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
     self.mediaPickerController.present(alertController, animated: true, completion: nil)
   }
   

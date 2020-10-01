@@ -1,6 +1,6 @@
 extension CameraController: CameraPageAware {
   func shutterButtonHeld() {
-    Config.Camera.recordMode = .video
+    MediaPickerConfig.instance.camera.recordMode = .video
     self.cameraView.rotateButton.isHidden = true
     self.cameraView.flashButton.isHidden = true
     self.pagesController.bottomView.showTimer()

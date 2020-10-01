@@ -14,13 +14,13 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
   var elapsedVideoRecordingTimeLabel: UILabel?
 
   var state: MediaToolbarState = .Camera
-  var activeTab: Config.GalleryTab = .libraryTab
+  var activeTab: GalleryTab = .libraryTab
 
   // MARK: Initialization
 
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = Config.BottomView.backgroundColor.withAlphaComponent(0.5)
+    self.backgroundColor = MediaPickerConfig.instance.bottomView.backgroundColor.withAlphaComponent(0.5)
     setup()
   }
 
@@ -72,7 +72,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
 
   fileprivate func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(Config.BottomView.BackButton.icon, for: .normal)
+    btn.setImage(MediaPickerConfig.instance.bottomView.backButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
     return btn
   }
@@ -84,7 +84,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
   fileprivate func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
     button.tapDelegate = self
-    button.imageView.image = Config.BottomView.SaveButton.icon
+    button.imageView.image = MediaPickerConfig.instance.bottomView.saveButton.icon
 
     return button
   }
@@ -99,7 +99,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
   }
   
   func videoRecordingLabelPlaceholder() -> String {
-    return Config.TranslationKeys.tapForImageHoldForVideoKey.g_localize(fallback: "Tap for image, hold for video")
+    return MediaPickerConfig.instance.translationKeys.tapForImageHoldForVideoKey.g_localize(fallback: "Tap for image, hold for video")
   }
 
   fileprivate func makeShutterButton() -> ShutterButton {
@@ -112,6 +112,13 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
   }
   
   @objc fileprivate func shutterLongTap(sender: UIGestureRecognizer) {
+    guard MediaPickerConfig.instance.videoRecording.allow else {
+      if sender.state == .ended {
+        onShutterButtonTapped()
+      }
+      return
+    }
+    
     if sender.state == .began {
       self.setupRecordingLayout()
       self.delegate?.shutterButtonHeld()
@@ -191,8 +198,8 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
     self.shutterButton?.isUserInteractionEnabled = true
     shutterButton.recording = recording
     addSubview(shutterButton)
-    shutterButton.g_pin(width: Config.BottomView.ShutterButton.size)
-    shutterButton.g_pin(height: Config.BottomView.ShutterButton.size)
+    shutterButton.g_pin(width: MediaPickerConfig.instance.bottomView.shutterButton.size)
+    shutterButton.g_pin(height: MediaPickerConfig.instance.bottomView.shutterButton.size)
     Constraint.on(
       shutterButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
       shutterButton.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 8)
@@ -204,7 +211,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
     self.saveButton = saveButton
     addSubview(saveButton)
     Constraint.on(
-      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: Config.BottomView.SaveButton.rightMargin),
+      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.saveButton.rightMargin),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
@@ -215,9 +222,9 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
     addSubview(backButton)
     
     Constraint.on(
-      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: Config.BottomView.BackButton.leftMargin),
-      backButton.heightAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
-      backButton.widthAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
+      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.backButton.leftMargin),
+      backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
+      backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
       backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }

@@ -19,20 +19,20 @@ extension CameraController: CameraManDelegate {
   }
   
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
-    if Config.Camera.recordMode == .photo {
+    if MediaPickerConfig.instance.camera.recordMode == .photo {
       self.pagesController.bottomView.shutterButton?.isEnabled = true
 
       if let asset = asset {
         let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())
-        Config.BottomView.Cart.selectedGuid = image.guid
+        MediaPickerConfig.instance.bottomView.cart.selectedGuid = image.guid
         self.cart.add(image)
         EventHub.shared.executeCustomAction?(image.guid)
       }
     } else {
-      Config.Camera.recordMode = .photo
+      MediaPickerConfig.instance.camera.recordMode = .photo
       if let asset = asset {
         let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true, dateAdded: Date())
-        Config.BottomView.Cart.selectedGuid = video.guid
+        MediaPickerConfig.instance.bottomView.cart.selectedGuid = video.guid
         self.cart.add(video)
         EventHub.shared.executeCustomAction?(video.guid)
       }

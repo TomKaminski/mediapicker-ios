@@ -63,7 +63,7 @@ class ImageCell: UICollectionViewCell {
   private func makeHighlightOverlay() -> UIView {
     let view = UIView()
     view.isUserInteractionEnabled = false
-    view.backgroundColor = Config.Grid.FrameView.borderColor.withAlphaComponent(0.3)
+    view.backgroundColor = MediaPickerConfig.instance.grid.frameView.borderColor.withAlphaComponent(0.3)
     view.isHidden = true
     
     return view

@@ -2,10 +2,10 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   func closeCartView() {}
   
   func onItemDelete(guid: String) {
-    let alertController = UIAlertController(title: Config.TranslationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: Config.TranslationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
+    let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
       self.mediaPickerControllerDelegate?.onModalItemRemove(guid: guid)
-      if Config.BottomView.Cart.selectedGuid == guid {
+      if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
         self.dismiss(animated: true, completion: nil)
         EventHub.shared.modalDismissed?(false)
       } else {
@@ -13,7 +13,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
         self.cartButton.updateCartItemsLabel(self.mediaPickerControllerDelegate?.itemsInCart ?? 0, self.cartButton.cartOpened)
       }
      }))
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
     self.present(alertController, animated: true, completion: nil)
   }
   
@@ -84,22 +84,22 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   }
   
   func presentDiscardElementAlert() {
-    let alertController = UIAlertController(title: Config.TranslationKeys.discardElementKey.g_localize(fallback: "Discard element"), message: Config.TranslationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?"), preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
+    let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.discardElementKey.g_localize(fallback: "Discard element"), message: MediaPickerConfig.instance.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?"), preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
       EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }))
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
     self.present(alertController, animated: true, completion: nil)
   }
   
   func presentDiscardChangesAlert() {
-    let alertController = UIAlertController(title: Config.TranslationKeys.discardChangesKey.g_localize(fallback: "Discard changes"), message: Config.TranslationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?"), preferredStyle: .alert)
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
+    let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.discardChangesKey.g_localize(fallback: "Discard changes"), message: MediaPickerConfig.instance.translationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?"), preferredStyle: .alert)
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
       EventHub.shared.modalDismissed?(false)
       self.dismiss(animated: true, completion: nil)
     }))
-    alertController.addAction(UIAlertAction(title: Config.TranslationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
+    alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
     self.present(alertController, animated: true, completion: nil)
   }
   
@@ -119,15 +119,15 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.bottomToolbarHeight),
+      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.bottomToolbarHeight),
       
       self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
       self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8),
       
       cartButton.centerYAnchor.constraint(equalTo: addPhotoButton.centerYAnchor),
-      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: Config.BottomView.CartButton.rightMargin),
-      cartButton.heightAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size),
-      cartButton.widthAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size)
+      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.rightMargin),
+      cartButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size),
+      cartButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size)
     ])
   }
   

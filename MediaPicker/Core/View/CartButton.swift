@@ -3,7 +3,7 @@ protocol CartButtonDelegate: AnyObject {
 }
 
 class CartButton: UIView {
-  var cartOpenedImage: UIImageView = UIImageView(image: Config.CartButton.cartExpandedImage)
+  var cartOpenedImage: UIImageView = UIImageView(image: MediaPickerConfig.instance.cartButton.cartExpandedImage)
   var cartItemsLabel: UILabel = UILabel()
   
   weak var delegate: CartButtonDelegate?
@@ -57,15 +57,15 @@ class CartButton: UIView {
   }
   
   fileprivate func setupCartItemsLabel() {
-    cartItemsLabel.textColor = Config.CartButton.textColor
+    cartItemsLabel.textColor = MediaPickerConfig.instance.cartButton.textColor
     cartItemsLabel.text = "0"
     cartItemsLabel.textAlignment = .center
-    cartItemsLabel.font = Config.CartButton.font
+    cartItemsLabel.font = MediaPickerConfig.instance.cartButton.font
   }
   
   fileprivate func setup() {
     self.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.53)
-    self.layer.borderColor = Config.CartButton.textColor.cgColor
+    self.layer.borderColor = MediaPickerConfig.instance.cartButton.textColor.cgColor
     self.layer.borderWidth = 1
     self.layer.cornerRadius = 20
     self.isUserInteractionEnabled = true

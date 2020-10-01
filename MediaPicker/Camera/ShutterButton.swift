@@ -22,7 +22,7 @@ class ShutterButton: UIButton {
     } else {
       UIView.animate(withDuration: 0.5) {
         self.overlayView.backgroundColor = .white
-        self.roundLayer.strokeColor = Config.Camera.ShutterButton.numberColor.cgColor
+        self.roundLayer.strokeColor = MediaPickerConfig.instance.camera.shutterButton.numberColor.cgColor
         self.backgroundColor = .white
       }
     }
@@ -73,7 +73,7 @@ class ShutterButton: UIButton {
   
   func makeRoundLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.strokeColor = Config.Camera.ShutterButton.numberColor.cgColor
+    layer.strokeColor = MediaPickerConfig.instance.camera.shutterButton.numberColor.cgColor
     layer.lineWidth = 2
     layer.fillColor = nil
     

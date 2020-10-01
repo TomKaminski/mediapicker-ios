@@ -33,8 +33,8 @@ class EmptyView: UIView {
   
   private func makeLabel() -> UILabel {
     let label = UILabel()
-    label.textColor = Config.EmptyView.textColor
-    label.font = Config.Font.Text.regular.withSize(14)
+    label.textColor = MediaPickerConfig.instance.emptyView.textColor
+    label.font = MediaPickerConfig.instance.font.text.regular.withSize(14)
     label.text = "LandaxApp_Gallery_EmptyView_Text".g_localize(fallback: "Nothing to show")
     
     return label
@@ -42,7 +42,7 @@ class EmptyView: UIView {
   
   private func makeImageView() -> UIImageView {
     let view = UIImageView()
-    view.image = Config.EmptyView.image
+    view.image = MediaPickerConfig.instance.emptyView.image
     
     return view
   }

@@ -41,8 +41,8 @@ class PagesController: UIViewController {
   }
   
   private func setupStartTab() {
-    let startTab = Config.PageIndicator.initialTab
-    selectedIndex = Config.tabsToShow.firstIndex(of: startTab) ?? 0
+    let startTab = MediaPickerConfig.instance.pageIndicator.initialTab
+    selectedIndex = MediaPickerConfig.instance.tabsToShow.firstIndex(of: startTab) ?? 0
     
     switch startTab {
     case .libraryTab:
@@ -165,17 +165,17 @@ class PagesController: UIViewController {
     Constraint.on(
       bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      bottomView.heightAnchor.constraint(equalToConstant: Config.BottomView.height),
+      bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height),
       bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor)
     )
     
     view.addSubview(cartButton)
     cartButton.delegate = self
     Constraint.on(
-      cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: Config.BottomView.CartButton.bottomMargin),
-      cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Config.BottomView.CartButton.rightMargin),
-      cartButton.heightAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size),
-      cartButton.widthAnchor.constraint(equalToConstant: Config.BottomView.CartButton.size)
+      cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.bottomMargin),
+      cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.rightMargin),
+      cartButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size),
+      cartButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size)
     )
 
     EventHub.shared.changeMediaPickerState = {
@@ -221,7 +221,7 @@ class PagesController: UIViewController {
   }
   
   func notifyShow() {
-    self.bottomView.activeTab = Config.tabsToShow[selectedIndex]
+    self.bottomView.activeTab = MediaPickerConfig.instance.tabsToShow[selectedIndex]
     
     if controllers.count <= selectedIndex {
       selectedIndex = 0

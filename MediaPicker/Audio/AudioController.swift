@@ -119,7 +119,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       self.audioView.toogleDoneButtonVisibility(isHidden: false)
       self.audioView.setInfoLabelText(pauseRecordingLabelText)
       
-      self.audioView.setResetInfoLabelText(Config.TranslationKeys.tapToResetLabelKey.g_localize(fallback: "Tap to reset"))
+      self.audioView.setResetInfoLabelText(MediaPickerConfig.instance.translationKeys.tapToResetLabelKey.g_localize(fallback: "Tap to reset"))
       
       self.recordTimer = Timer.scheduledTimer(
         timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
@@ -142,7 +142,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     isPaused = true
     self.audioView.togglePlayStopButton(isRecording: false)
     audioRecorder?.pause()
-    self.audioView.setInfoLabelText(Config.TranslationKeys.tapToContinueLabelKey.g_localize(fallback: "Tap to continue recording"))
+    self.audioView.setInfoLabelText(MediaPickerConfig.instance.translationKeys.tapToContinueLabelKey.g_localize(fallback: "Tap to continue recording"))
     
     self.recordTimer?.invalidate()
     self.recordTimer = nil
@@ -205,7 +205,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
 
     if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
       self.cart.add(audio)
-      Config.BottomView.Cart.selectedGuid = audio.guid
+      MediaPickerConfig.instance.bottomView.cart.selectedGuid = audio.guid
 
       audioRecorder = nil
       self.recordTimer?.invalidate()
@@ -226,11 +226,11 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   }
   
   var startRecordingLabelText: String {
-    return Config.TranslationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
+    return MediaPickerConfig.instance.translationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
   }
   
   var pauseRecordingLabelText: String {
-    return Config.TranslationKeys.tapToPauseLabelKey.g_localize(fallback: "Tap to pause recording")
+    return MediaPickerConfig.instance.translationKeys.tapToPauseLabelKey.g_localize(fallback: "Tap to pause recording")
   }
   
   private func addAudioTakenChildrenController(audio: Audio) {

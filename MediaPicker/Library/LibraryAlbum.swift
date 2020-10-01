@@ -21,7 +21,7 @@ class Album {
     itemsFetchResult.enumerateObjects({ (asset, count, stop) in
       if asset.mediaType == .image && !asset.mediaSubtypes.contains(.photoLive) {
         self.images.append(Image(asset: asset, guid: UUID().uuidString, newlyTaken: false, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date()))
-      } else if asset.mediaType == .video {
+      } else if asset.mediaType == .video && MediaPickerConfig.instance.videoRecording.allow {
         self.videos.append(Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getImageFileName(), newlyTaken: false, dateAdded: Date()))
       }
     })

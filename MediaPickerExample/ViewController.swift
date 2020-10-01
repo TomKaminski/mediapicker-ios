@@ -15,7 +15,6 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
   }
   
   func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol]) {
-    
     controller.dismiss(animated: true) {
       let images = media.compactMap { $0 as? Image }
       let audios = media.compactMap { $0 as? Audio }
@@ -33,7 +32,22 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     controller.dismiss(animated: true, completion: nil)
   }
   
+  @IBAction func onLeftAddTap(_ sender: Any) {
+    let picker = MediaPickerController()
+    picker.modalPresentationStyle = .overFullScreen
+    picker.delegate = self
+    
+    MediaPickerConfig.instance = MediaPickerConfig()
+    MediaPickerConfig.instance.camera.allowPhotoEdit = true
+    MediaPickerConfig.instance.tabsToShow = [.libraryTab, .cameraTab]
+    MediaPickerConfig.instance.camera.recordMode = .photo
+    MediaPickerConfig.instance.bottomView.cart.maxItems = 1
+    MediaPickerConfig.instance.videoRecording.allow = false
+    
 
+    self.present(picker, animated: true, completion: nil)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setNeedsStatusBarAppearanceUpdate()
@@ -45,13 +59,10 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     picker.modalPresentationStyle = .overFullScreen
     picker.delegate = self
     
-    setupMediaPickerConfig()
-    
+    MediaPickerConfig.instance = MediaPickerConfig()
+    MediaPickerConfig.instance.camera.allowPhotoEdit = true
+
     self.present(picker, animated: true, completion: nil)
-  }
-  
-  private func setupMediaPickerConfig() {
-    MediaPicker.Config.Camera.allowPhotoEdit = true
   }
 }
 

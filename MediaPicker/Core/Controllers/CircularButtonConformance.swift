@@ -8,8 +8,8 @@ extension CircularButtonConformance {
     
     btn.setImage(MediaPickerBundle.image(imageName), for: .normal)
     btn.translatesAutoresizingMaskIntoConstraints = false
-    btn.widthAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
-    btn.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.editorCircularButtonSize).isActive = true
+    btn.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.editorCircularButtonSize).isActive = true
+    btn.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.editorCircularButtonSize).isActive = true
     
     return btn
   }

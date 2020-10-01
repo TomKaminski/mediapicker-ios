@@ -51,9 +51,9 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     }
   }
   
-  func makeSaveButton() -> GalleryFloatingButton {
+  func makeSaveButton() -> GalleryFloatingButton {    
     let button = GalleryFloatingButton()
-    button.imageView.image = Config.BottomView.SaveButton.icon
+    button.imageView.image = MediaPickerConfig.instance.bottomView.saveButton.icon
     button.tapDelegate = self
     return button
   }
@@ -78,14 +78,14 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     self.saveButton = saveButton
     addSubview(saveButton)
     Constraint.on(
-      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: Config.BottomView.SaveButton.rightMargin),
+      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.saveButton.rightMargin),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }
   
   fileprivate func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(Config.BottomView.BackButton.icon, for: .normal)
+    btn.setImage(MediaPickerConfig.instance.bottomView.backButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
     return btn
   }
@@ -98,7 +98,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     let view = FilenameInputView()
     view.text = self.lastFileName
     view.delegate = self
-    view.attributedPlaceholder = NSAttributedString(string: Config.TranslationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    view.attributedPlaceholder = NSAttributedString(string: MediaPickerConfig.instance.translationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     return view
   }
 
@@ -108,9 +108,9 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     addSubview(backButton)
     
     Constraint.on(
-      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: Config.BottomView.BackButton.leftMargin),
-      backButton.heightAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
-      backButton.widthAnchor.constraint(equalToConstant: Config.BottomView.BackButton.size),
+      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.backButton.leftMargin),
+      backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
+      backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
       backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }

@@ -112,7 +112,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     NSLayoutConstraint.activate([
       self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
       self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.topToolbarView.heightAnchor.constraint(equalToConstant: Config.PhotoEditor.topToolbarHeight),
+      self.topToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.topToolbarHeight),
       
       self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
       canvasImageViewTopConstraint,
@@ -218,7 +218,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   
   fileprivate func setupTextView(_ textView: UITextView) {
     textView.textAlignment = .center
-    textView.font = Config.PhotoEditor.textFont
+    textView.font = MediaPickerConfig.instance.photoEditor.textFont
     textView.textColor = textColor
     textView.layer.shadowColor = UIColor.black.cgColor
     textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)

@@ -14,7 +14,7 @@ struct Permission {
   
   struct Photos {
     static var needsPermission: Bool {
-      return Config.tabsToShow.firstIndex(of: .libraryTab) != nil
+      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .libraryTab) != nil
     }
     
     static var status: Status {
@@ -43,7 +43,7 @@ struct Permission {
   
   struct Camera {
     static var needsPermission: Bool {
-      return Config.tabsToShow.firstIndex(of: .cameraTab) != nil
+      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .cameraTab) != nil
     }
     
     static var status: Status {
@@ -70,7 +70,7 @@ struct Permission {
   
   struct Microphone {
     static var needsPermission: Bool {
-      return Config.tabsToShow.firstIndex(of: .cameraTab) != nil
+      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .cameraTab) != nil
     }
     
     static var status: Status {
