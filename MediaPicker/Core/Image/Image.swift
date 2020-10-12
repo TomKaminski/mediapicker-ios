@@ -35,6 +35,15 @@ public class Image: Equatable, CartItemProtocol {
 // MARK: - UIImage
 
 extension Image {
+  public func resolveData(completion: @escaping (Data?) -> Void) {
+    let options = PHImageRequestOptions()
+    options.isNetworkAccessAllowed = true
+    options.deliveryMode = .highQualityFormat
+    
+    PHImageManager.default().requestImageData(for: asset, options: options) { (data, _, _, _) in
+      completion(data)
+    }
+  }
 
   /// Resolve UIImage synchronously
   ///
