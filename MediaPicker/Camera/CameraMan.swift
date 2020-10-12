@@ -141,37 +141,15 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
       return
     }
     
-    guard let uiImage = UIImage(data: imageData) else {
+    guard UIImage(data: imageData) != nil else {
       debugPrint("Unable to generate UIImage from image data.")
       self.delegate?.takenAsset(self, asset: nil)
       return
     }
-    
-    self.savePhoto(uiImage, location: lastLocation)
+        
+    self.savePhoto(imageData, location: lastLocation, metadata: photo.metadata)
   }
-  
-  @available(iOS, introduced: 10.0, deprecated: 11.0)
-  func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photoSampleBuffer: CMSampleBuffer?, previewPhoto previewPhotoSampleBuffer: CMSampleBuffer?, resolvedSettings: AVCaptureResolvedPhotoSettings, bracketSettings: AVCaptureBracketedStillImageSettings?, error: Error?) {
     
-    if let error = error {
-      debugPrint("error occured : \(error.localizedDescription)")
-    }
-    
-    if  let sampleBuffer = photoSampleBuffer,
-      let previewBuffer = previewPhotoSampleBuffer,
-      let dataImage =  AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer:  sampleBuffer, previewPhotoSampleBuffer: previewBuffer) {
-      debugPrint(UIImage(data: dataImage)?.size as Any)
-      
-      let dataProvider = CGDataProvider(data: dataImage as CFData)
-      let cgImageRef: CGImage! = CGImage(jpegDataProviderSource: dataProvider!, decode: nil, shouldInterpolate: true, intent: .defaultIntent)
-      let image = UIImage(cgImage: cgImageRef, scale: 1.0, orientation: UIImage.Orientation.right)
-      
-      self.savePhoto(image, location: lastLocation)
-    } else {
-      debugPrint("some error here")
-    }
-  }
-  
   var lastLocation: CLLocation?
   
   func takePhoto(_ previewLayer: AVCaptureVideoPreviewLayer, location: CLLocation?) {
@@ -185,9 +163,30 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
     }
   }
   
-  func savePhoto(_ image: UIImage, location: CLLocation?) {
+  func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data {
+      let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil)!
+      let UTI: CFString = CGImageSourceGetType(source)!
+      let newImageData =  NSMutableData()
+      let cgImage = UIImage(data: imageData)!.cgImage
+      let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil)!
+      CGImageDestinationAddImage(imageDestination, cgImage!, metadata as CFDictionary)
+      CGImageDestinationFinalize(imageDestination)
+
+      return newImageData as Data
+  }
+  
+  func savePhoto(_ image: Data, location: CLLocation?, metadata: [String: Any]) {
     self.save({
-      PHAssetChangeRequest.creationRequestForAsset(from: image)
+      var changeRequest: PHAssetChangeRequest
+      if !metadata.isEmpty {
+        let newImageData = self.mergeImageData(imageData: image, with: metadata)
+          changeRequest = PHAssetCreationRequest.forAsset()
+          (changeRequest as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
+      }
+      else {
+          changeRequest = PHAssetChangeRequest.creationRequestForAsset(from: UIImage(data: image)!)
+      }
+      return changeRequest
     }, location: location)
   }
   
