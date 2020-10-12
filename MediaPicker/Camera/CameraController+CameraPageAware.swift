@@ -26,7 +26,7 @@ extension CameraController: CameraPageAware {
       })
     })
     
-    cameraMan.takePhoto(previewLayer, location: nil)
+    cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation)
   }
   
   func switchedToState(state: MediaToolbarState) { }

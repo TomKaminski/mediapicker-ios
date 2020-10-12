@@ -87,6 +87,7 @@
 		F38255FD233A71E800CE30A6 /* MediaModalBaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38255FC233A71E800CE30A6 /* MediaModalBaseController.swift */; };
 		F38255FF233B557100CE30A6 /* FilenameComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38255FE233B557100CE30A6 /* FilenameComposer.swift */; };
 		F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3884B5A2320EB72003E987C /* PhotoEditorController+UITextView.swift */; };
+		F394A27F253440030002C5B7 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F394A27E253440030002C5B7 /* LocationManager.swift */; };
 		F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B05277231E498D00558428 /* PhotoEditorController.swift */; };
 		F3B0527D231E5E8200558428 /* TopToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527C231E5E8200558428 /* TopToolbarView.swift */; };
 		F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B0527E231E67CA00558428 /* CircularBorderButton.swift */; };
@@ -228,6 +229,7 @@
 		F38255FC233A71E800CE30A6 /* MediaModalBaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaModalBaseController.swift; sourceTree = "<group>"; };
 		F38255FE233B557100CE30A6 /* FilenameComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilenameComposer.swift; sourceTree = "<group>"; };
 		F3884B5A2320EB72003E987C /* PhotoEditorController+UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoEditorController+UITextView.swift"; sourceTree = "<group>"; };
+		F394A27E253440030002C5B7 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F3B05277231E498D00558428 /* PhotoEditorController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoEditorController.swift; sourceTree = "<group>"; };
 		F3B0527C231E5E8200558428 /* TopToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopToolbarView.swift; sourceTree = "<group>"; };
 		F3B0527E231E67CA00558428 /* CircularBorderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularBorderButton.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 				760D17BD230A907A00D5E192 /* Fetcher.swift */,
 				F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */,
 				F38255FE233B557100CE30A6 /* FilenameComposer.swift */,
+				F394A27E253440030002C5B7 /* LocationManager.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -880,6 +883,7 @@
 				7639067122F2ED5E007CD4CE /* DropdownController.swift in Sources */,
 				F3D8316C23422697006D161A /* LibraryController+DropdownControllerDelegate.swift in Sources */,
 				7618EE1022F4579C0051C287 /* BottomView.swift in Sources */,
+				F394A27F253440030002C5B7 /* LocationManager.swift in Sources */,
 				76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */,
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,

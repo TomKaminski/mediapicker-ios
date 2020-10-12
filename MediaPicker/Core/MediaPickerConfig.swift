@@ -72,6 +72,7 @@ public struct MediaPickerConfig {
     public var allowVideoRecording = true
     public var allowVideoEdit = true
     public var allowPhotoEdit = true
+    public var recordLocation = true
     
     public enum RecordMode { case photo, video }
     

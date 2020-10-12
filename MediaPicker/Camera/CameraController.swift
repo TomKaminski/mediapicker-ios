@@ -8,6 +8,8 @@ import QuickLook
 import PhotosUI
 
 class CameraController: UIViewController {
+  var locationManager: LocationManager?
+
   lazy var cameraMan: CameraMan = self.makeCameraMan()
   lazy var cameraView: CameraView = self.makeCameraView()
   
@@ -33,6 +35,24 @@ class CameraController: UIViewController {
     super.viewDidLoad()
     
     setup()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    locationManager?.start()
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+
+    locationManager?.stop()
+  }
+  
+  func setupLocation() {
+    if MediaPickerConfig.instance.camera.recordLocation {
+      locationManager = LocationManager()
+    }
   }
   
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
