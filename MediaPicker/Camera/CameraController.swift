@@ -35,6 +35,7 @@ class CameraController: UIViewController {
     super.viewDidLoad()
     
     setup()
+    setupLocation()
   }
   
   override func viewWillAppear(_ animated: Bool) {

@@ -24,6 +24,8 @@
 	<string>This app requires access to media library in order to select media stored on device</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app requires access to camera in order to take photos or record videos</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Test permission for location string</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires your micrphone for video or audio recording</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>

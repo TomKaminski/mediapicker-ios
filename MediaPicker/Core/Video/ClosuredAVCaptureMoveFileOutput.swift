@@ -18,7 +18,7 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     }
   }
   
-  private let output: AVCaptureMovieFileOutput
+  public let output: AVCaptureMovieFileOutput
   private let queue: DispatchQueue
   
   private var videoRecordStartedCompletion: ((Bool) -> Void)?
