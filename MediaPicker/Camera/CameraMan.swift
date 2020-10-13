@@ -232,6 +232,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
     queue.async {
       self.lock {
         device.focusPointOfInterest = point
+        device.focusMode = .autoFocus
       }
     }
   }

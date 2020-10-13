@@ -43,6 +43,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     rotateOverlayView.addSubview(blurView)
     insertSubview(rotateOverlayView, belowSubview: rotateButton)
     insertSubview(shutterOverlayView, belowSubview: blurView)
+    insertSubview(focusImageView, belowSubview: blurView)
 
     rotateButton.g_pin(on: .right)
     rotateButton.g_pin(size: CGSize(width: 44, height: 44))
@@ -85,10 +86,15 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   @objc func viewTapped(_ gr: UITapGestureRecognizer) {
     let point = gr.location(in: self)
+    let screenSize = self.bounds.size
+
+    let x = gr.location(in: self).y / screenSize.height
+    let y = 1.0 - gr.location(in: self).x / screenSize.width
+    let focusPoint = CGPoint(x: x, y: y)
 
     focusImageView.transform = CGAffineTransform.identity
     timer?.invalidate()
-    delegate?.cameraView(self, didTouch: point)
+    delegate?.cameraView(self, didTouch: focusPoint)
 
     focusImageView.center = point
 
