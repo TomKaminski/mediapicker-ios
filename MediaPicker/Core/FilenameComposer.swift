@@ -13,7 +13,7 @@ class FileNameComposer {
   
   private static func formatString(firstPart: String) -> String {
     let dateTimeFormatter = DateFormatter()
-    dateTimeFormatter.dateFormat = "dd.MM.yyyy HH:mm:ss"
+    dateTimeFormatter.dateFormat = "dd.MM.yyyy HH_mm_ss"
     return "\(firstPart) \(dateTimeFormatter.string(from: Date()))"
   }
 }
