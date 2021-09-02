@@ -20,8 +20,7 @@ extension MediaPickerController: PhotoEditorDelegate {
       PHPhotoLibrary.shared().performChanges({
         var request: PHAssetChangeRequest
         
-        if let metadata = metadata, !metadata.isEmpty, let imageData = image.jpegData(compressionQuality: 1) {
-          let newImageData = self.mergeImageData(imageData: imageData, with: metadata)
+        if let metadata = metadata, !metadata.isEmpty, let imageData = image.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, with: metadata) {
           request = PHAssetCreationRequest.forAsset()
           (request as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
         }
@@ -67,15 +66,16 @@ extension MediaPickerController: PhotoEditorDelegate {
     }
   }
   
-  internal func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data {
-    let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil)!
-    let UTI: CFString = CGImageSourceGetType(source)!
-    let newImageData =  NSMutableData()
-    let cgImage = UIImage(data: imageData)!.cgImage
-    let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil)!
-    CGImageDestinationAddImage(imageDestination, cgImage!, metadata as CFDictionary)
-    CGImageDestinationFinalize(imageDestination)
+  internal func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data? {
+    if let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil), let UTI: CFString = CGImageSourceGetType(source) {
+      let newImageData =  NSMutableData()
+      if let cgImage = UIImage(data: imageData)?.cgImage, let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil) {
+        CGImageDestinationAddImage(imageDestination, cgImage, metadata as CFDictionary)
+        CGImageDestinationFinalize(imageDestination)
+        return newImageData as Data
+      }
+    }
     
-    return newImageData as Data
+    return nil
   }
 }

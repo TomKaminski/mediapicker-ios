@@ -163,23 +163,23 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
     }
   }
   
-  func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data {
-      let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil)!
-      let UTI: CFString = CGImageSourceGetType(source)!
+  func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data? {
+    if let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil), let UTI: CFString = CGImageSourceGetType(source) {
       let newImageData =  NSMutableData()
-      let cgImage = UIImage(data: imageData)!.cgImage
-      let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil)!
-      CGImageDestinationAddImage(imageDestination, cgImage!, metadata as CFDictionary)
-      CGImageDestinationFinalize(imageDestination)
-
-      return newImageData as Data
+      if let cgImage = UIImage(data: imageData)?.cgImage, let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil) {
+        CGImageDestinationAddImage(imageDestination, cgImage, metadata as CFDictionary)
+        CGImageDestinationFinalize(imageDestination)
+        return newImageData as Data
+      }
+    }
+    
+    return nil
   }
   
   func savePhoto(_ image: Data, location: CLLocation?, metadata: [String: Any]) {
     self.save({
       var changeRequest: PHAssetChangeRequest
-      if !metadata.isEmpty {
-        let newImageData = self.mergeImageData(imageData: image, with: metadata)
+      if !metadata.isEmpty, let newImageData = self.mergeImageData(imageData: image, with: metadata) {
           changeRequest = PHAssetCreationRequest.forAsset()
           (changeRequest as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
       }
