@@ -52,8 +52,7 @@ extension MediaPickerController: PhotoEditorDelegate {
   }
   
   internal func getMetaData(originalImageGuid: String, completion: @escaping ([String: Any]?) -> Void ) {
-    if let item = self.cart.getItem(by: originalImageGuid), item.type == .Image {
-      let itemImage = item as! Image
+    if let item = self.cart.getItem(by: originalImageGuid), let itemImage = item as? Image {
       itemImage.resolveData(completion: { (data) in
         if let data = data, let sourceRef = CGImageSourceCreateWithData(data as CFData, nil), let metadata = CGImageSourceCopyPropertiesAtIndex(sourceRef, 0, nil) as? [String: Any] {
           completion(metadata)
