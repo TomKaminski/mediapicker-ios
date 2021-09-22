@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name = "mediapicker-ios"
-  spec.version = "1.12.0"
+  spec.version = "1.13.0"
   spec.swift_version = "5.3"
   spec.summary = "Media picker plug-in written in Swift (Image, Video, Audio, Image editing)"
   spec.homepage = "https://github.com/TomKaminski/mediapicker-ios"
