@@ -25,6 +25,7 @@ public struct MediaPickerConfig {
   public var cartButton = CartButton()
   public var photoEditor = PhotoEditor()
   public var permission = Permission()
+  public var currentLanguage: String = "en"
   
   public struct PageIndicator {
     public var backgroundColor: UIColor = UIColor(red: 0, green: 3 / 255, blue: 10 / 255, alpha: 1)
