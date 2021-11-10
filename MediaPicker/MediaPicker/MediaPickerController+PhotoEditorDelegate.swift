@@ -1,4 +1,5 @@
 import Photos
+import UIKit
 
 extension MediaPickerController: PhotoEditorDelegate {
   public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool, doneWithMedia: Bool) {
@@ -22,7 +23,7 @@ extension MediaPickerController: PhotoEditorDelegate {
       PHPhotoLibrary.shared().performChanges({
         var request: PHAssetChangeRequest
         
-        if let metadata = metadata, !metadata.isEmpty, let imageData = fixedImage.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, with: metadata) {
+        if let metadata = metadata, !metadata.isEmpty, let imageData = fixedImage.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, fixedCGImage: cgImage, with: metadata, scale: image.scale) {
           request = PHAssetCreationRequest.forAsset()
           (request as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
         }
@@ -67,10 +68,10 @@ extension MediaPickerController: PhotoEditorDelegate {
     }
   }
   
-  internal func mergeImageData(imageData: Data, with metadata: [String: Any]) -> Data? {
+  internal func mergeImageData(imageData: Data, fixedCGImage: CGImage, with metadata: [String: Any], scale: CGFloat) -> Data? {
     if let source: CGImageSource = CGImageSourceCreateWithData(imageData as NSData, nil), let UTI: CFString = CGImageSourceGetType(source) {
       let newImageData =  NSMutableData()
-      if let cgImage = UIImage(data: imageData)?.cgImage, let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil) {
+      if let cgImage = UIImage(cgImage: fixedCGImage, scale: scale, orientation: UIImage.Orientation.up).cgImage, let imageDestination: CGImageDestination = CGImageDestinationCreateWithData((newImageData as CFMutableData), UTI, 1, nil) {
         CGImageDestinationAddImage(imageDestination, cgImage, metadata as CFDictionary)
         CGImageDestinationFinalize(imageDestination)
         return newImageData as Data
