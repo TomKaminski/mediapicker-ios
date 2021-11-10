@@ -14,11 +14,17 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     return .lightContent
   }
   
+  @IBOutlet weak var imageView: UIImageView!
+  
   func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol]) {
     controller.dismiss(animated: true) {
       let images = media.compactMap { $0 as? Image }
       let audios = media.compactMap { $0 as? Audio }
       let videos = media.compactMap { $0 as? Video }
+      
+      images.first?.resolve(completion: { uiImage in
+        self.imageView.image = uiImage
+      })
 
       let alert = UIAlertController(title: "Media picker finished", message: "Selected images: \(images.count), selected video: \(videos.count), selected audio: \(audios.count)", preferredStyle: .alert)
       alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { (action) in
