@@ -69,6 +69,7 @@ class TopToolbarView: UIView, ColorSelectedDelegate, CircularButtonConformance {
     colView.delegate = colorsCollectionViewDelegate
     colView.dataSource = colorsCollectionViewDelegate
     colView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: "ColorCollectionViewCell")
+    colView.backgroundColor = .clear
     
     return colView
   }

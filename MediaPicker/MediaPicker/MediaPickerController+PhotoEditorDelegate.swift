@@ -2,7 +2,7 @@ import Photos
 
 extension MediaPickerController: PhotoEditorDelegate {
   public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool, doneWithMedia: Bool) {
-    guard editedSomething else {
+    guard editedSomething, let cgImage = image.cgImage else {
       if var item = self.cart.getItem(by: selfCtrl.originalImageGuid) {
         item.customFileName = customFileName
         self.cart.add(item)
@@ -15,17 +15,19 @@ extension MediaPickerController: PhotoEditorDelegate {
       return
     }
     
+    let fixedImage = UIImage(cgImage: cgImage, scale: image.scale, orientation: .up)
+    
     self.getMetaData(originalImageGuid: selfCtrl.originalImageGuid, completion: { (metadata) in
       var localId: String?
       PHPhotoLibrary.shared().performChanges({
         var request: PHAssetChangeRequest
         
-        if let metadata = metadata, !metadata.isEmpty, let imageData = image.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, with: metadata) {
+        if let metadata = metadata, !metadata.isEmpty, let imageData = fixedImage.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, with: metadata) {
           request = PHAssetCreationRequest.forAsset()
           (request as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
         }
         else {
-          request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+          request = PHAssetChangeRequest.creationRequestForAsset(from: fixedImage)
         }
         localId = request.placeholderForCreatedAsset?.localIdentifier
       }) { (success, error) in
