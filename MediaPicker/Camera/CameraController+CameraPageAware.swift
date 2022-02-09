@@ -26,6 +26,7 @@ extension CameraController: CameraPageAware {
       })
     })
     
+    self.pagesController.cartButton.startLoading()
     cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation)
   }
   
@@ -34,7 +35,6 @@ extension CameraController: CameraPageAware {
   func pageDidHide() {
     self.cameraView.rotateButton.isHidden = false
     self.cameraView.flashButton.isHidden = false
-    self.pagesController.cartButton.isHidden = self.pagesController.cartItems.count == 0
   }
   
   func pageDidShow() {

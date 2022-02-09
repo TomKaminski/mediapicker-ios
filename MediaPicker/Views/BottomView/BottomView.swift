@@ -214,6 +214,8 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate, BottomViewCartDelega
       saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.saveButton.rightMargin),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
+    
+    saveButton.isHidden = delegate?.cartItems.isEmpty == true
   }
 
   fileprivate func insertBackButton() {

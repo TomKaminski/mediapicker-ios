@@ -21,12 +21,13 @@ extension CameraController: CameraManDelegate {
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
     if MediaPickerConfig.instance.camera.recordMode == .photo {
       self.pagesController.bottomView.shutterButton?.isEnabled = true
+      self.pagesController.cartButton.stopLoading()
 
       if let asset = asset {
         let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())
         MediaPickerConfig.instance.bottomView.cart.selectedGuid = image.guid
         self.cart.add(image)
-        EventHub.shared.executeCustomAction?(image.guid)
+        //EventHub.shared.executeCustomAction?(image.guid)
       }
     } else {
       MediaPickerConfig.instance.camera.recordMode = .photo
@@ -34,7 +35,7 @@ extension CameraController: CameraManDelegate {
         let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true, dateAdded: Date())
         MediaPickerConfig.instance.bottomView.cart.selectedGuid = video.guid
         self.cart.add(video)
-        EventHub.shared.executeCustomAction?(video.guid)
+        //EventHub.shared.executeCustomAction?(video.guid)
       }
     }
   }

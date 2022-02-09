@@ -165,7 +165,6 @@ public class MediaPickerController: UIViewController {
           self.presentNewModal(assetCtrl, guid)
         }
       }
-      
     }
   }
   

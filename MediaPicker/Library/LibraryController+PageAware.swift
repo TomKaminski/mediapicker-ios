@@ -7,9 +7,7 @@ extension LibraryController: PageAware {
     return .Library
   }
 
-  func pageDidHide() {
-
-  }
+  func pageDidHide() {}
 
   func pageDidShow() {
     once.run {

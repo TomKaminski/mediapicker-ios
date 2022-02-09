@@ -26,11 +26,16 @@ public struct MediaPickerConfig {
   public var photoEditor = PhotoEditor()
   public var permission = Permission()
   public var currentLanguage: String = "en"
+  public var stackView = StackView()
   
   public struct PageIndicator {
     public var backgroundColor: UIColor = UIColor(red: 0, green: 3 / 255, blue: 10 / 255, alpha: 1)
     public var textColor: UIColor = UIColor.white
     public var initialTab = GalleryTab.cameraTab
+  }
+  
+  public struct StackView {
+    public let imageCount: Int = 4
   }
   
   public struct BottomView {
@@ -55,6 +60,7 @@ public struct MediaPickerConfig {
     
     public struct SaveButton {
       public var rightMargin: CGFloat = -16
+      public var backgroundColor: UIColor = UIColor.init(red: 68/255, green: 138/255, blue: 125/255, alpha: 1)
       public var icon = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
     }
     

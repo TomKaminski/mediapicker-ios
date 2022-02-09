@@ -200,11 +200,14 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //------
   
   @objc func doneButtonTouched() {
+    pagesController.cartButton.startLoading()
+
     pauseRecording()
     audioRecorder?.stop()
 
     if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
       self.cart.add(audio)
+      
       MediaPickerConfig.instance.bottomView.cart.selectedGuid = audio.guid
 
       audioRecorder = nil
@@ -219,7 +222,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       self.audioView.setInfoLabelText(startRecordingLabelText)
       EventHub.shared.changeMediaPickerState?(.Audio)
 
-      self.addAudioTakenChildrenController(audio: audio)
+      //self.addAudioTakenChildrenController(audio: audio)
     } else {
       clearData()
     }

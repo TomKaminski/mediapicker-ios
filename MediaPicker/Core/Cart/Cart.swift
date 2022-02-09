@@ -1,6 +1,12 @@
 public class Cart {
 
   public var items: [String:CartItemProtocol] = [:]
+  
+  public var itemsInArray: [CartItemProtocol] {
+    return Array(items.values.sorted(by: { item1, item2 in
+      return item1.dateAdded < item2.dateAdded
+    }))
+  }
 
   var delegates: NSHashTable<AnyObject> = NSHashTable.weakObjects()
   weak var cartMainDelegate: CartMainDelegate?

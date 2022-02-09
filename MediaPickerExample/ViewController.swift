@@ -61,13 +61,13 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
   }
 
   @IBAction func onTapAdd(_ sender: Any) {
+    MediaPickerConfig.instance = MediaPickerConfig()
+    MediaPickerConfig.instance.camera.allowPhotoEdit = true
+    
     let picker = MediaPickerController()
     picker.modalPresentationStyle = .overFullScreen
     picker.delegate = self
     
-    MediaPickerConfig.instance = MediaPickerConfig()
-    MediaPickerConfig.instance.camera.allowPhotoEdit = true
-
     self.present(picker, animated: true, completion: nil)
   }
 }

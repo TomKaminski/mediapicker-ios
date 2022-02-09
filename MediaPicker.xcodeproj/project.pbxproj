@@ -77,7 +77,6 @@
 		76C0CFF62302987800E25900 /* CartItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF52302987800E25900 /* CartItemType.swift */; };
 		76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF72302989800E25900 /* CartMainDelegate.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
-		76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F423015CFC003A07B2 /* CartButton.swift */; };
 		F3188FAE23391FFA00D91B1D /* CircularButtonConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3188FAD23391FFA00D91B1D /* CircularButtonConformance.swift */; };
 		F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */; };
 		F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */; };
@@ -115,6 +114,7 @@
 		F3D8316A23422672006D161A /* LibraryController+PageAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D8316923422672006D161A /* LibraryController+PageAware.swift */; };
 		F3D8316C23422697006D161A /* LibraryController+DropdownControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D8316B23422697006D161A /* LibraryController+DropdownControllerDelegate.swift */; };
 		F3D8316E234226B7006D161A /* LibraryController+DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D8316D234226B7006D161A /* LibraryController+DataSource.swift */; };
+		F3DAEEF227B3D6FC00C3E18D /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DAEEF127B3D6FC00C3E18D /* StackView.swift */; };
 		F3EDDC23232F6D0800BCD975 /* PageAware.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EDDC22232F6D0800BCD975 /* PageAware.swift */; };
 		F3EDDC25232F710700BCD975 /* BottomViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EDDC24232F710700BCD975 /* BottomViewDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -214,9 +214,7 @@
 		76B8E4F922EADCAA00D99495 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		76C0CFF52302987800E25900 /* CartItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemType.swift; sourceTree = "<group>"; };
 		76C0CFF72302989800E25900 /* CartMainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartMainDelegate.swift; sourceTree = "<group>"; };
-		76C0CFF92302996900E25900 /* CartCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CartCollectionView.swift; path = MediaPicker/BottomView/CartCollectionView.swift; sourceTree = SOURCE_ROOT; };
 		76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
-		76E7C0F423015CFC003A07B2 /* CartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartButton.swift; sourceTree = "<group>"; };
 		95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -257,6 +255,7 @@
 		F3D8316923422672006D161A /* LibraryController+PageAware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibraryController+PageAware.swift"; sourceTree = "<group>"; };
 		F3D8316B23422697006D161A /* LibraryController+DropdownControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibraryController+DropdownControllerDelegate.swift"; sourceTree = "<group>"; };
 		F3D8316D234226B7006D161A /* LibraryController+DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LibraryController+DataSource.swift"; sourceTree = "<group>"; };
+		F3DAEEF127B3D6FC00C3E18D /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
 		F3EDDC22232F6D0800BCD975 /* PageAware.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageAware.swift; sourceTree = "<group>"; };
 		F3EDDC24232F710700BCD975 /* BottomViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomViewDelegate.swift; sourceTree = "<group>"; };
 		FA94D9087C7678EE5522FFBC /* Pods-MediaPicker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPicker.debug.xcconfig"; path = "Target Support Files/Pods-MediaPicker/Pods-MediaPicker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -485,14 +484,13 @@
 		7639066222F2E601007CD4CE /* View */ = {
 			isa = PBXGroup;
 			children = (
-				76C0CFF92302996900E25900 /* CartCollectionView.swift */,
 				7639066322F2E60E007CD4CE /* FrameView.swift */,
 				7639067222F2ED91007CD4CE /* AlbumCell.swift */,
 				7639067422F2EE10007CD4CE /* EmptyView.swift */,
 				7639067622F2EE2D007CD4CE /* ArrowButton.swift */,
 				7639067822F2EE3B007CD4CE /* GridView.swift */,
 				7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */,
-				76E7C0F423015CFC003A07B2 /* CartButton.swift */,
+				F3DAEEF127B3D6FC00C3E18D /* StackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -828,11 +826,11 @@
 				F3B05278231E498D00558428 /* PhotoEditorController.swift in Sources */,
 				F3B2B4F7233F938200F2CCBE /* CameraController+CameraPageAware.swift in Sources */,
 				7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */,
+				F3DAEEF227B3D6FC00C3E18D /* StackView.swift in Sources */,
 				7618EE1422F477F70051C287 /* EventHub.swift in Sources */,
 				76511DFD22FC10C100F4F32E /* CartDelegate.swift in Sources */,
 				F3B2B4E4233F8DF200F2CCBE /* PagesController+PageIndicatorDelegate.swift in Sources */,
 				760D17C2230A91DE00D5E192 /* FlashButton.swift in Sources */,
-				76E7C0F523015CFC003A07B2 /* CartButton.swift in Sources */,
 				760D17C0230A90B900D5E192 /* CameraView.swift in Sources */,
 				7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */,
 				768A03E42306767D00C9B65F /* CameraController.swift in Sources */,

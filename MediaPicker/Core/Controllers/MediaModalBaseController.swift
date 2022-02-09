@@ -2,15 +2,20 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   func closeCartView() {}
   
   func onItemDelete(guid: String) {
+    guard let mediaPickerDelegate = mediaPickerControllerDelegate else {
+      return
+    }
+    
     let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
-      self.mediaPickerControllerDelegate?.onModalItemRemove(guid: guid)
+      mediaPickerDelegate.onModalItemRemove(guid: guid)
       if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
         self.dismiss(animated: true, completion: nil)
         EventHub.shared.modalDismissed?(false)
       } else {
         self.bottomToolbarView.setup()
-        self.cartButton.updateCartItemsLabel(self.mediaPickerControllerDelegate?.itemsInCart ?? 0, self.cartButton.cartOpened)
+        let values = Array(mediaPickerDelegate.cartItems.values)
+        self.cartButton.reload(values)
       }
      }))
     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
@@ -20,7 +25,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   weak var mediaPickerControllerDelegate: BottomViewCartItemsDelegate?
 
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
-  lazy var cartButton: CartButton = CartButton()
+  lazy var cartButton: StackView = StackView()
 
   lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "addPhotoIcon")
   var bottomToolbarConstraint: NSLayoutConstraint!
@@ -47,7 +52,6 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
-    self.cartButton.updateCartItemsLabel(mediaPickerControllerDelegate?.itemsInCart ?? 0)
     addPhotoButton.addTarget(self, action: #selector(onAddNextTap), for: .touchUpInside)
     
     setupConstraints()
@@ -57,6 +61,16 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     setNeedsStatusBarAppearanceUpdate()
     
     NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+  }
+  
+  public override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    if let mediaPickerDelegate = mediaPickerControllerDelegate {
+      self.cartButton.reload(Array(mediaPickerDelegate.cartItems.values.sorted(by: { item1, item2 in
+        return item1.dateAdded < item2.dateAdded
+      })))
+    }
   }
   
   internal func addSubviews() {

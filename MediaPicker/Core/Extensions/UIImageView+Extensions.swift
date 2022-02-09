@@ -21,6 +21,42 @@ extension UIImageView {
       return CGRect(x: x, y: y, width: size.width, height: size.height)
   }
   
+  func loadImageThumbnail(_ item: CartItemProtocol) {
+    if let imageImage = item as? Image {
+      guard frame.size != CGSize.zero else {
+        image = MediaPickerBundle.image("gallery_placeholder")
+        return
+      }
+      
+      if tag == 0 {
+        image = MediaPickerBundle.image("gallery_placeholder")
+      } else {
+        PHImageManager.default().cancelImageRequest(PHImageRequestID(tag))
+      }
+      
+      let options = PHImageRequestOptions()
+      options.isNetworkAccessAllowed = true
+      
+      let id = PHImageManager.default().requestImage(
+        for: imageImage.asset,
+        targetSize: frame.size,
+        contentMode: .aspectFill,
+        options: options) { [weak self] image, _ in
+          self?.image = image
+      }
+      
+      tag = Int(id)
+    } else if let videoImage = item as? Video {
+      videoImage.fetchThumbnail {  [weak self] fetchedImage in
+        self?.image = fetchedImage
+      }
+    } else if item is Audio {
+      self.backgroundColor = .white
+      self.image = MediaPickerBundle.image("musicIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!
+    }
+  }
+
+  
   func loadImage(_ asset: PHAsset) {
     guard frame.size != CGSize.zero else {
       image = MediaPickerBundle.image("gallery_placeholder")
@@ -49,7 +85,6 @@ extension UIImageView {
 }
 
 extension UIImage {
-    
     func imageWithInsets(insets: UIEdgeInsets) -> UIImage? {
         UIGraphicsBeginImageContextWithOptions(
             CGSize(width: self.size.width + insets.left + insets.right,

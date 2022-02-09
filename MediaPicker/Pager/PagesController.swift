@@ -7,7 +7,7 @@ class PagesController: UIViewController {
   lazy var scrollView: UIScrollView = self.makeScrollView()
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
-  lazy var cartButton: CartButton = self.makeCartButton()
+  lazy var cartButton: StackView = self.makeStackView()
   lazy var bottomView: BottomView = self.makeBottomView()
   
   var state: MediaToolbarState!
@@ -91,10 +91,10 @@ class PagesController: UIViewController {
 
     return scrollView
   }
-  
-  func makeCartButton() -> CartButton {
-    let button = CartButton()
-    return button
+
+  func makeStackView() -> StackView {
+    let stackView = StackView()
+    return stackView
   }
 
   func makePageIndicator() -> PageIndicator {
@@ -174,10 +174,10 @@ class PagesController: UIViewController {
     Constraint.on(
       cartButton.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.bottomMargin),
       cartButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.rightMargin),
-      cartButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size),
-      cartButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size)
+      cartButton.heightAnchor.constraint(equalToConstant: 56),
+      cartButton.widthAnchor.constraint(equalToConstant: 56)
     )
-
+    
     EventHub.shared.changeMediaPickerState = {
       stateFromEvent in
       self.changeBottomViewState(stateFromEvent)

@@ -52,7 +52,10 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    let newItem = getCartItem(indexPath: indexPath)
+    pagesController.cartButton.startLoading()
+
+    var newItem = getCartItem(indexPath: indexPath)
+    newItem.dateAdded = Date()
     if let itemFromCart = cart.getItem(by: newItem.guid) {
       cart.remove(itemFromCart)
     } else {
