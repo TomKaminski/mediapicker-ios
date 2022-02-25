@@ -50,7 +50,6 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     MediaPickerConfig.instance.bottomView.cart.maxItems = 1
     MediaPickerConfig.instance.videoRecording.allow = false
     
-
     self.present(picker, animated: true, completion: nil)
   }
   

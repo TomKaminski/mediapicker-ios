@@ -46,12 +46,14 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     addSubviews()
     
     cartButton.delegate = self
+    cartButton.isHidden = MediaPickerConfig.instance.bottomView.cart.maxItems == 1
+    
     bottomToolbarView.controllerDelegate = self
     bottomToolbarView.delegate = mediaPickerControllerDelegate
-    
     bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
-    addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
+    addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
+    addPhotoButton.isHidden = MediaPickerConfig.instance.bottomView.cart.maxItems == 1
     addPhotoButton.addTarget(self, action: #selector(onAddNextTap), for: .touchUpInside)
     
     setupConstraints()
