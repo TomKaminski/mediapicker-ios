@@ -208,8 +208,6 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
       self.cart.add(audio)
       
-      MediaPickerConfig.instance.bottomView.cart.selectedGuid = audio.guid
-
       audioRecorder = nil
       self.recordTimer?.invalidate()
       self.recordTimer = nil
