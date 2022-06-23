@@ -242,7 +242,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
     guard let device = currentInput?.device else { return }
 
-    func minMaxZoom(_ factor: CGFloat) -> CGFloat { return min(max(factor, 1.0), 5) }
+    func minMaxZoom(_ factor: CGFloat) -> CGFloat { return min(max(factor, 1.0), device.activeFormat.videoMaxZoomFactor) }
 
     func update(scale factor: CGFloat) {
       do {
