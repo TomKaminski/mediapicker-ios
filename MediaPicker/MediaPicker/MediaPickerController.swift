@@ -195,21 +195,12 @@ public class MediaPickerController: UIViewController {
     guard Permission.Photos.status == .authorized else {
       return nil
     }
-
-    let controllers: [UIViewController] = MediaPickerConfig.instance.tabsToShow.compactMap { tab in
-      if tab == .libraryTab {
-        return createLibraryController()
-      } else if tab == .cameraTab {
-        return createCameraController()
-      } else if tab == .audioTab {
-        return createAudioController()
-      }
-      return nil
-    }
-
-    guard !controllers.isEmpty else {
-      return nil
-    }
+    
+    let controllers = [
+      createLibraryController(),
+      createCameraController(),
+      createAudioController()
+    ]
 
     let controller = PagesController(controllers: controllers)
     self.pagesController = controller
@@ -219,9 +210,9 @@ public class MediaPickerController: UIViewController {
     return controller
   }
 
-  func createCameraController() -> UIViewController? {
+  func createCameraController() -> UIViewController {
     guard Permission.Camera.status == .authorized else {
-      return nil
+      return UIViewController()
     }
 
     let ctrl = CameraController(cart: self.cart)
@@ -229,9 +220,9 @@ public class MediaPickerController: UIViewController {
     return ctrl
   }
 
-  func createAudioController() -> UIViewController? {
+  func createAudioController() -> UIViewController {
     guard Permission.Microphone.status == .authorized else {
-      return nil
+      return UIViewController()
     }
 
     let ctrl = AudioController(cart: self.cart)

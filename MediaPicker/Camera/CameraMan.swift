@@ -23,6 +23,8 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   var movieOutput: ClosuredAVCaptureMovieFileOutput?
   var photoSettings: AVCapturePhotoSettings!
   
+  var zoomFactor: CGFloat = 1.0
+  
   deinit {
     stop()
   }
@@ -236,6 +238,33 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
       }
     }
   }
+  
+  func pinchToZoom(_ pinch: UIPinchGestureRecognizer) {
+    guard let device = currentInput?.device else { return }
+
+    func minMaxZoom(_ factor: CGFloat) -> CGFloat { return min(max(factor, 1.0), 5) }
+
+    func update(scale factor: CGFloat) {
+      do {
+        try device.lockForConfiguration()
+        defer { device.unlockForConfiguration() }
+        device.videoZoomFactor = factor
+      } catch {
+        debugPrint(error)
+      }
+    }
+
+    let newScaleFactor = minMaxZoom(pinch.scale * zoomFactor)
+
+    switch pinch.state {
+      case .began: fallthrough
+      case .changed: update(scale: newScaleFactor)
+      case .ended:
+        zoomFactor = minMaxZoom(newScaleFactor)
+        update(scale: zoomFactor)
+     default: break
+   }
+ }
   
   // MARK: - Lock
   

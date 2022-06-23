@@ -42,15 +42,20 @@ class PagesController: UIViewController {
   
   private func setupStartTab() {
     let startTab = MediaPickerConfig.instance.pageIndicator.initialTab
-    selectedIndex = MediaPickerConfig.instance.tabsToShow.firstIndex(of: startTab) ?? 0
     
-    switch startTab {
-    case .libraryTab:
+    if (checkPermissionForPage(index: startTab.rawValue)) {
+      selectedIndex = startTab.rawValue
+      switch startTab {
+      case .libraryTab:
+        state = .Library
+      case .cameraTab:
+        state = .Camera
+      case .audioTab:
+        state = .Audio
+      }
+    } else {
+      selectedIndex = GalleryTab.libraryTab.rawValue
       state = .Library
-    case .cameraTab:
-      state = .Camera
-    case .audioTab:
-      state = .Audio
     }
   }
 
@@ -83,6 +88,7 @@ class PagesController: UIViewController {
 
   func makeScrollView() -> UIScrollView {
     let scrollView = UIScrollView()
+    scrollView.isScrollEnabled = false
     scrollView.isPagingEnabled = true
     scrollView.showsHorizontalScrollIndicator = false
     scrollView.alwaysBounceHorizontal = false
@@ -98,7 +104,12 @@ class PagesController: UIViewController {
   }
 
   func makePageIndicator() -> PageIndicator {
-    let items = controllers.compactMap { $0.title }
+    let items = [
+      MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"),
+      MediaPickerConfig.instance.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA"),
+      MediaPickerConfig.instance.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
+    ]
+    
     let indicator = PageIndicator(items: items)
     indicator.delegate = self
 

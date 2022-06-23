@@ -3,6 +3,7 @@ import AVFoundation
 
 protocol CameraViewDelegate: AnyObject {
   func cameraView(_ cameraView: CameraView, didTouch point: CGPoint)
+  func cameraView(_ cameraView: CameraView, didPinched pinch: UIPinchGestureRecognizer)
 }
 
 class CameraView: UIView, UIGestureRecognizerDelegate {
@@ -11,6 +12,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   lazy var rotateOverlayView: UIView = self.makeRotateOverlayView()
   lazy var focusImageView: UIImageView = self.makeFocusImageView()
   lazy var tapGR: UITapGestureRecognizer = self.makeTapGR()
+  lazy var pinchGR: UIPinchGestureRecognizer = self.makePinchGR()
   lazy var blurView: UIVisualEffectView = self.makeBlurView()
   lazy var shutterOverlayView: UIView = self.makeShutterOverlayView()
   
@@ -35,7 +37,8 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func setup() {
     addGestureRecognizer(tapGR)
-
+    addGestureRecognizer(pinchGR)
+    
     [flashButton, rotateButton].forEach {
       addSubview($0)
     }
@@ -106,6 +109,10 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
                                         selector: #selector(CameraView.timerFired(_:)), userInfo: nil, repeats: false)
     })
   }
+  
+  @objc func viewPinched(_ gr: UIPinchGestureRecognizer) {
+    delegate?.cameraView(self, didPinched: gr)
+  }
 
   // MARK: - Timer
 
@@ -150,6 +157,13 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
 
   func makeTapGR() -> UITapGestureRecognizer {
     let gr = UITapGestureRecognizer(target: self, action: #selector(viewTapped(_:)))
+    gr.delegate = self
+
+    return gr
+  }
+  
+  func makePinchGR() -> UIPinchGestureRecognizer {
+    let gr = UIPinchGestureRecognizer(target: self, action: #selector(viewPinched(_:)))
     gr.delegate = self
 
     return gr

@@ -1,10 +1,10 @@
 import UIKit
 import AVFoundation
 
-public enum GalleryTab {
-  case libraryTab
-  case cameraTab
-  case audioTab
+public enum GalleryTab: Int {
+  case libraryTab = 0
+  case cameraTab = 1
+  case audioTab = 2
 }
 
 public struct MediaPickerConfig {
@@ -156,6 +156,8 @@ public struct MediaPickerConfig {
     public var discardChangesDescriptionKey = "LandaxApp_Media_Discard_Changes_Description"
     
     public var tapForImageHoldForVideoKey = "LandaxApp_Media_TapForImageHoldForVideo"
+    
+    public var missingPermissionKey = "LandaxApp_Permissions_NoAccess_GenericDescription"
   }
   
   public struct Permission {
