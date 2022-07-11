@@ -19,6 +19,8 @@ public class MediaPickerController: UIViewController {
   public override func viewDidLoad() {
     super.viewDidLoad()
     
+    self.view.backgroundColor = .white
+    
     NotificationCenter.default.addObserver(self, selector: #selector(rotateButtons), name: UIDevice.orientationDidChangeNotification, object: nil)
     
     setupEventHub()

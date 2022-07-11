@@ -15,10 +15,6 @@ class PagesController: UIViewController {
   
   let once = Once()
 
-  var pageIndicatorHeightConstraint: NSLayoutConstraint!
-
-  // MARK: Initialization
-
   required init(controllers: [UIViewController]) {
     self.controllers = controllers
 
@@ -29,14 +25,12 @@ class PagesController: UIViewController {
     fatalError("init(coder:) has not been implemented")
   }
 
-  // MARK: Life cycle
-
   override func viewDidLoad() {
     super.viewDidLoad()
     
     setupStartTab()
 
-    view.backgroundColor = .black
+    view.backgroundColor = .white
     setup()
   }
   
@@ -98,13 +92,7 @@ class PagesController: UIViewController {
   }
 
   func makePageIndicator() -> PageIndicator {
-    let items = [
-      MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"),
-      MediaPickerConfig.instance.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA"),
-      MediaPickerConfig.instance.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
-    ]
-    
-    let indicator = PageIndicator(items: items)
+    let indicator = PageIndicator(frame: .zero)
     indicator.delegate = self
 
     return indicator
@@ -117,12 +105,11 @@ class PagesController: UIViewController {
   // MARK: - Setup
 
   func setup() {
-    pageIndicatorHeightConstraint = pageIndicator.heightAnchor.constraint(equalToConstant: 40)
     view.addSubview(pageIndicator)
     Constraint.on(
-      pageIndicator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      pageIndicator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      pageIndicatorHeightConstraint
+      pageIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      pageIndicator.heightAnchor.constraint(equalToConstant: 70),
+      pageIndicator.widthAnchor.constraint(equalToConstant: 270)
     )
 
     if #available(iOS 11, *) {
