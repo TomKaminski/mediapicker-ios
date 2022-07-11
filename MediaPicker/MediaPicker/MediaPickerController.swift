@@ -1,9 +1,7 @@
 import Photos
 
 public class MediaPickerController: UIViewController {
-  
-  // MARK: Properties
-  
+    
   public weak var delegate: MediaPickerControllerDelegate?
   
   let cart = Cart()
@@ -17,8 +15,6 @@ public class MediaPickerController: UIViewController {
   public override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
-
-  // MARK: Life Cycle
 
   public override func viewDidLoad() {
     super.viewDidLoad()
@@ -180,19 +176,14 @@ public class MediaPickerController: UIViewController {
     return [.portrait, .portraitUpsideDown]
   }
 
-  // MARK: Permission Controller
-
   func makePermissionController() -> PermissionController {
     let controller = PermissionController()
     controller.delegate = self
-
     return controller
   }
-  
-  // MARK: Pagescontroller
-  
+    
   func makePagesController() -> PagesController? {
-    guard Permission.Photos.status == .authorized else {
+    guard Permission.anyAuthorized else {
       return nil
     }
     
@@ -204,8 +195,7 @@ public class MediaPickerController: UIViewController {
 
     let controller = PagesController(controllers: controllers)
     self.pagesController = controller
-    let useCamera = Permission.Camera.status == .authorized
-    controller.selectedIndex = useCamera ? 1 : 0
+    controller.selectedIndex = Permission.startIndex
 
     return controller
   }

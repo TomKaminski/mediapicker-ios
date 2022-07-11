@@ -4,6 +4,57 @@ import Photos
 import AVFoundation
 
 struct Permission {
+  public static var anyAuthorized: Bool {
+    return Camera.status == .authorized || Microphone.status == .authorized || (Photos.status == .authorized || Photos.status == .restricted)
+  }
+  
+  public static var startIndex: Int {
+    guard anyAuthorized else {
+      return 0
+    }
+    
+    if startTab.hasPermission {
+      return startTab.rawValue
+    }
+    
+    if Camera.status == .authorized {
+      return 1
+    }
+    
+    if Photos.status == .authorized || Photos.status == .restricted {
+      return 0
+    }
+    
+    if Microphone.status == .authorized {
+      return 2
+    }
+    
+    return 0
+  }
+  
+  public static var startTab: GalleryTab {
+    guard anyAuthorized else {
+      return .libraryTab
+    }
+    
+    if MediaPickerConfig.instance.pageIndicator.initialTab.hasPermission {
+      return MediaPickerConfig.instance.pageIndicator.initialTab
+    }
+    
+    if Camera.status == .authorized {
+      return .cameraTab
+    }
+    
+    if Photos.status == .authorized || Photos.status == .restricted {
+      return .libraryTab
+    }
+    
+    if Microphone.status == .authorized {
+      return .audioTab
+    }
+    
+    return .libraryTab
+  }
   
   enum Status {
     case notDetermined
@@ -13,10 +64,6 @@ struct Permission {
   }
   
   struct Photos {
-    static var needsPermission: Bool {
-      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .libraryTab) != nil
-    }
-    
     static var status: Status {
       switch PHPhotoLibrary.authorizationStatus() {
       case .notDetermined:
@@ -42,10 +89,6 @@ struct Permission {
   }
   
   struct Camera {
-    static var needsPermission: Bool {
-      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .cameraTab) != nil
-    }
-    
     static var status: Status {
       switch AVCaptureDevice.authorizationStatus(for: .video) {
       case .notDetermined:
@@ -69,10 +112,6 @@ struct Permission {
   }
   
   struct Microphone {
-    static var needsPermission: Bool {
-      return MediaPickerConfig.instance.tabsToShow.firstIndex(of: .cameraTab) != nil
-    }
-    
     static var status: Status {
       switch AVCaptureDevice.authorizationStatus(for: .audio) {
       case .notDetermined:

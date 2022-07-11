@@ -41,24 +41,18 @@ class PagesController: UIViewController {
   }
   
   private func setupStartTab() {
-    let startTab = MediaPickerConfig.instance.pageIndicator.initialTab
-    
-    if (checkPermissionForPage(index: startTab.rawValue)) {
-      selectedIndex = startTab.rawValue
-      switch startTab {
-      case .libraryTab:
-        state = .Library
-      case .cameraTab:
-        state = .Camera
-      case .audioTab:
-        state = .Audio
-      }
-    } else {
-      selectedIndex = GalleryTab.libraryTab.rawValue
+    let startTab = Permission.startTab
+    selectedIndex = startTab.rawValue
+    switch Permission.startTab {
+    case .libraryTab:
       state = .Library
+    case .cameraTab:
+      state = .Camera
+    case .audioTab:
+      state = .Audio
     }
   }
-
+  
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
 
