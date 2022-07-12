@@ -25,7 +25,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   override init(frame: CGRect) {
     super.init(frame: frame)
 
-    backgroundColor = UIColor.black
+    backgroundColor = .black
     setup()
   }
 
@@ -73,7 +73,7 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   func setupPreviewLayer(_ session: AVCaptureSession) {
     let videoLayer = AVCaptureVideoPreviewLayer(session: session)
     videoLayer.autoreverses = true
-    videoLayer.videoGravity = .resizeAspect
+    videoLayer.videoGravity = .resizeAspectFill
     videoLayer.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
 
     if previewLayer != nil  {

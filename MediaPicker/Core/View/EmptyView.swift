@@ -34,7 +34,7 @@ class EmptyView: UIView {
   private func makeLabel() -> UILabel {
     let label = UILabel()
     label.textColor = MediaPickerConfig.instance.emptyView.textColor
-    label.font = MediaPickerConfig.instance.font.text.regular.withSize(14)
+    label.font = UIFont.systemFont(ofSize: 14)
     label.text = "LandaxApp_Gallery_EmptyView_Text".g_localize(fallback: "Nothing to show")
     
     return label

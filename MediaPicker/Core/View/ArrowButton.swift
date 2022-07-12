@@ -44,7 +44,7 @@ class ArrowButton: UIButton {
   // MARK: - Logic
   
   func updateText(_ text: String) {
-    label.text = text.uppercased()
+    label.text = text
     arrow.alpha = text.isEmpty ? 0 : 1
     invalidateIntrinsicContentSize()
   }
@@ -63,7 +63,7 @@ class ArrowButton: UIButton {
   private func makeLabel() -> UILabel {
     let label = UILabel()
     label.textColor = MediaPickerConfig.instance.grid.arrowButton.tintColor
-    label.font = MediaPickerConfig.instance.font.main.regular.withSize(16)
+    label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
     label.textAlignment = .center
     
     return label

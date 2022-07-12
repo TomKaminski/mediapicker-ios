@@ -29,35 +29,28 @@ public struct MediaPickerConfig {
   public var camera = Camera()
   public var audio = Audio()
   public var grid = Grid()
+  public var colors = Colors()
   public var emptyView = EmptyView()
   public var translationKeys = TranslationKeys()
-  public var font = Font()
   public var videoRecording = VideoRecording()
-  public var cartButton = CartButton()
   public var photoEditor = PhotoEditor()
   public var permission = Permission()
   public var currentLanguage: String = "en"
-  public var stackView = StackView()
-  public var primaryColor = UIColor.init(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
+  
+  public struct Colors {
+    public var primary = UIColor.init(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
+    public var black = UIColor.init(red: 19/255, green: 7/255, blue: 0/255, alpha: 1)
+  }
   
   public struct PageIndicator {
-    public var backgroundColor = UIColor.white
-    public var textColor: UIColor = UIColor.init(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
     public var initialTab = GalleryTab.cameraTab
   }
   
-  public struct StackView {
-    public let imageCount: Int = 4
-  }
-  
   public struct BottomView {
-    public var backgroundColor: UIColor = .black
-    public var height: CGFloat = 90
+    public var height: CGFloat = 80
     public var backButton = BackButton()
     public var cart = Cart()
     public var saveButton = SaveButton()
-    public var shutterButton = ShutterButton()
-    public var cartButton = CartButton()
     
     public struct BackButton {
       public var size: CGFloat = 40
@@ -71,19 +64,7 @@ public struct MediaPickerConfig {
     }
     
     public struct SaveButton {
-      public var rightMargin: CGFloat = -16
-      public var backgroundColor: UIColor = UIColor.init(red: 68/255, green: 138/255, blue: 125/255, alpha: 1)
       public var icon = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
-    }
-    
-    public struct ShutterButton {
-      public var size: CGFloat = 60
-    }
-    
-    public struct CartButton {
-      public var size: CGFloat = 40
-      public var rightMargin: CGFloat = -16
-      public var bottomMargin: CGFloat = -16
     }
   }
   
@@ -96,12 +77,6 @@ public struct MediaPickerConfig {
     public enum RecordMode { case photo, video }
     
     public var recordMode = RecordMode.photo
-    
-    public var shutterButton = ShutterButton()
-    
-    public struct ShutterButton {
-      public var numberColor: UIColor = UIColor(red: 54 / 255, green: 56 / 255, blue: 62 / 255, alpha: 1)
-    }
   }
   
   public struct Audio {
@@ -110,16 +85,10 @@ public struct MediaPickerConfig {
   
   public struct Grid {
     public var arrowButton = ArrowButton()
-    public var frameView = FrameView()
     public var dimension = Dimension()
     
     public struct ArrowButton {
       public var tintColor: UIColor = .white
-    }
-    
-    public struct FrameView {
-      public var fillColor: UIColor = UIColor(red: 32/255.0, green: 71/255.0, blue: 134/255.0, alpha: 1.0)
-      public var borderColor: UIColor = UIColor(red: 32/255.0, green: 71/255.0, blue: 134/255.0, alpha: 1.0)
     }
     
     public struct Dimension {
@@ -189,34 +158,10 @@ public struct MediaPickerConfig {
     }
   }
   
-  public struct Font {
-    public var main = Main()
-    public var text = Text()
-    
-    public struct Main {
-      public var light: UIFont = UIFont.systemFont(ofSize: 1)
-      public var regular: UIFont = UIFont.systemFont(ofSize: 1)
-      public var bold: UIFont = UIFont.boldSystemFont(ofSize: 1)
-      public var medium: UIFont = UIFont.boldSystemFont(ofSize: 1)
-    }
-    
-    public struct Text {
-      public var regular: UIFont = UIFont.systemFont(ofSize: 1)
-      public var bold: UIFont = UIFont.boldSystemFont(ofSize: 1)
-      public var semibold: UIFont = UIFont.boldSystemFont(ofSize: 1)
-    }
-  }
-  
   public struct VideoRecording {
     public var allow = true
     public var maxBytesCount: Int64?
     public var maxLengthInSeconds: Int?
-  }
-  
-  public struct CartButton {
-    public var textColor = UIColor.white
-    public var font = UIFont.systemFont(ofSize: 18, weight: .light)
-    public var cartExpandedImage = MediaPickerBundle.image("arrowDownIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 7, left: 7, bottom: 7, right: 7))
   }
   
   public struct PhotoEditor {

@@ -1,20 +1,12 @@
 import Photos
 
 public class MediaPickerController: UIViewController {
-    
   public weak var delegate: MediaPickerControllerDelegate?
   
   let cart = Cart()
   var pagesController: PagesController?
   
-  var pagesBottomContraint: NSLayoutConstraint?
-  var pagesBottomActiveKeyboardContraint: NSLayoutConstraint?
-  
   var currentlyPresentedModalController: MediaModalBaseController?
-  
-  public override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
 
   public override func viewDidLoad() {
     super.viewDidLoad()
@@ -31,11 +23,7 @@ public class MediaPickerController: UIViewController {
       addChild(pagesController)
       view.addSubview(pagesController.view)
       pagesController.didMove(toParent: self)
-      
-      pagesController.view.g_pin(on: .top)
-      pagesBottomContraint = pagesController.view.g_pin(on: .bottom)
-      pagesController.view.g_pin(on: .left)
-      pagesController.view.g_pin(on: .right)
+      pagesController.view.g_pinEdges()
     } else {
       let permissionController = makePermissionController()
       addChildController(permissionController)
@@ -66,9 +54,8 @@ public class MediaPickerController: UIViewController {
     self.pagesController?.activeController?.setupForOrientation(angle: angle)
     
     UIView.animate(withDuration: 0.2, animations: {
-      self.pagesController?.cartButton.transform = CGAffineTransform(rotationAngle: angle)
-      self.pagesController?.bottomView.saveButton?.transform = CGAffineTransform(rotationAngle: angle)
-      self.pagesController?.bottomView.backButton?.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.bottomView.cartButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.bottomView.saveButton.transform = CGAffineTransform(rotationAngle: angle)
     }, completion: nil)
   }
   

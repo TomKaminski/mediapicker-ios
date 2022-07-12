@@ -161,7 +161,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   private func makeDoneButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.setTitleColor(UIColor.white, for: .normal)
-    button.titleLabel?.font = MediaPickerConfig.instance.font.text.regular.withSize(16)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     button.setTitle("LandaxApp_Gallery_DoneAndSave".g_localize(fallback: "Done and save"), for: .normal)
     
     return button

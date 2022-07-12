@@ -89,8 +89,6 @@ class LibraryController: UIViewController {
     }
   }
 
-  // MARK: - Controls
-
   func makeDropdownController() -> DropdownController {
     let controller = DropdownController()
     controller.delegate = self
@@ -101,7 +99,6 @@ class LibraryController: UIViewController {
   func makeGridView() -> GridView {
     let view = GridView()
     view.bottomView.alpha = 0
-
     return view
   }
 }

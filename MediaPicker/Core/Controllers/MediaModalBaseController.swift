@@ -31,13 +31,9 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   var bottomToolbarConstraint: NSLayoutConstraint!
   
   var customFileName: String?
-  
+  var cartOpened = false
   var newlyTaken: Bool = true
-  
-  public override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
-  
+
   override public func viewDidLoad() {
     super.viewDidLoad()
     
@@ -95,8 +91,8 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   }
   
   func cartButtonTapped() {
-    self.cartButton.cartOpened = !self.cartButton.cartOpened
-    self.bottomToolbarView.cartOpened = self.cartButton.cartOpened
+    cartOpened = !cartOpened
+    //TODO: Animate??
   }
   
   func presentDiscardElementAlert() {
@@ -141,9 +137,9 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8),
       
       cartButton.centerYAnchor.constraint(equalTo: addPhotoButton.centerYAnchor),
-      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.cartButton.rightMargin),
-      cartButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size),
-      cartButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.cartButton.size)
+      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: -16),
+      cartButton.heightAnchor.constraint(equalToConstant: 56),
+      cartButton.widthAnchor.constraint(equalToConstant: 56)
     ])
   }
   

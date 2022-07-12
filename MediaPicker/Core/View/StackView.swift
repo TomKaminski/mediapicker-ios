@@ -13,12 +13,6 @@ class StackView: UIControl {
   lazy var countLabel: UILabel = self.makeCountLabel()
   lazy var tapGR: UITapGestureRecognizer = self.makeTapGR()
   
-  var cartOpened: Bool = false {
-    didSet {
-//      toggleVisibility()
-    }
-  }
-
   // MARK: - Initialization
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -83,7 +77,7 @@ class StackView: UIControl {
   }
 
   func renderViews(_ assets: [CartItemProtocol]) {
-    let photos = Array(assets.suffix(MediaPickerConfig.instance.stackView.imageCount))
+    let photos = Array(assets.suffix(4))
 
     for (index, view) in imageViews.enumerated() {
       if index < photos.count {
@@ -115,21 +109,17 @@ class StackView: UIControl {
 
   // MARK: - Reload
   func reload(_ items: [CartItemProtocol], added: Bool = false) {
-//    // Animate empty view
     if added {
       if let emptyView = imageViews.filter({ $0.image == nil }).first {
         animate(imageView: emptyView)
       }
     }
 
-    // Update images into views
     renderViews(items)
 
-    // Update count label
     if let topVisibleView = imageViews.filter({ $0.alpha == 1.0 }).last , items.count > 1 {
       countLabel.text = "\(items.count)"
-      countLabel.sizeToFit()
-      countLabel.center = topVisibleView.center
+      countLabel.center = CGPoint(x: topVisibleView.frame.maxX - 5, y: topVisibleView.frame.minY + 5)
       countLabel.quickFade()
     } else {
       countLabel.alpha = 0
@@ -145,7 +135,7 @@ class StackView: UIControl {
   }
 
   func makeImageViews() -> [UIImageView] {
-    return Array(0..<MediaPickerConfig.instance.stackView.imageCount).map { _ in
+    return Array(0..<4).map { _ in
       let imageView = UIImageView()
 
       imageView.contentMode = .scaleAspectFill
@@ -157,12 +147,14 @@ class StackView: UIControl {
   }
 
   func makeCountLabel() -> UILabel {
-    let label = UILabel()
-    label.textColor = MediaPickerConfig.instance.cartButton.textColor
-    label.font = MediaPickerConfig.instance.cartButton.font
+    let label = UILabel(frame: CGRect.init(x: 0, y: 0, width: 22, height: 22))
+    label.textColor = .white
+    label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
     label.textAlignment = .center
-    label.addShadow()
+    label.backgroundColor = MediaPickerConfig.instance.colors.black
     label.alpha = 0
+    label.layer.cornerRadius = 11
+    label.clipsToBounds = true
 
     return label
   }

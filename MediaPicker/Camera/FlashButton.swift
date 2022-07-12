@@ -25,7 +25,7 @@ class FlashButton: UIButton {
   // MARK: - Setup
   
   func setup() {
-    titleLabel?.font = MediaPickerConfig.instance.font.text.semibold.withSize(12)
+    titleLabel?.font = UIFont.systemFont(ofSize: 12)
     imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
     setTitleColor(UIColor.gray, for: .highlighted)
     

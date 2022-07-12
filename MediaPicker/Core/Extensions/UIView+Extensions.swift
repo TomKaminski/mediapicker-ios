@@ -10,9 +10,7 @@ extension UIView {
   }
   
   func addRoundBorder() {
-    layer.borderWidth = 1
-    layer.borderColor = MediaPickerConfig.instance.grid.frameView.borderColor.cgColor
-    layer.cornerRadius = 3
+    layer.cornerRadius = 7
     clipsToBounds = true
   }
   

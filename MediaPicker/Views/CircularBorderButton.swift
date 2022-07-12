@@ -2,8 +2,8 @@ class CircularBorderButton: UIButton {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.53)
-    self.layer.borderColor = MediaPickerConfig.instance.cartButton.textColor.cgColor
+    self.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    self.layer.borderColor = UIColor.white.cgColor
     self.layer.borderWidth = 1
     self.layer.cornerRadius = 20
   }

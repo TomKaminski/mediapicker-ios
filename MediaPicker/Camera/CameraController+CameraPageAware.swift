@@ -3,21 +3,21 @@ extension CameraController: CameraPageAware {
     MediaPickerConfig.instance.camera.recordMode = .video
     self.cameraView.rotateButton.isHidden = true
     self.cameraView.flashButton.isHidden = true
-    self.pagesController.bottomView.showTimer()
+//    self.pagesController.bottomView.showTimer()
     self.cameraMan.startVideoRecord(location: locationManager?.latestLocation, startCompletion: { result in })
   }
   
   func shutterButtonReleased() {
     self.cameraView.rotateButton.isHidden = false
     self.cameraView.flashButton.isHidden = false
-    self.pagesController.bottomView.hideTimer()
+//    self.pagesController.bottomView.hideTimer()
     self.cameraMan.stopVideoRecording()
   }
   
   func shutterButtonTapped() {
     guard let previewLayer = cameraView.previewLayer else { return }
 
-    self.pagesController.bottomView.shutterButton?.isEnabled = false
+    self.pagesController.bottomView.shutterButton.isEnabled = false
     UIView.animate(withDuration: 0.1, animations: {
       self.cameraView.shutterOverlayView.alpha = 1
     }, completion: { _ in
@@ -26,7 +26,7 @@ extension CameraController: CameraPageAware {
       })
     })
     
-    self.pagesController.cartButton.startLoading()
+    self.pagesController.bottomView.cartButton.startLoading()
     cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation)
   }
   

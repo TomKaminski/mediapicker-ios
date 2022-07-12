@@ -78,7 +78,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     self.saveButton = saveButton
     addSubview(saveButton)
     Constraint.on(
-      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: MediaPickerConfig.instance.bottomView.saveButton.rightMargin),
+      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: -16),
       saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
     )
   }

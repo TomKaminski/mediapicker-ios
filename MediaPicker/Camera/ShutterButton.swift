@@ -12,19 +12,8 @@ class ShutterButton: UIButton {
   }
   
   private func recordingChanged() {
-    if recording {
-      
-      UIView.animate(withDuration: 0.5) {
-        self.overlayView.backgroundColor = .red
-        self.roundLayer.strokeColor = UIColor.red.cgColor
-        self.backgroundColor = .red
-      }
-    } else {
-      UIView.animate(withDuration: 0.5) {
-        self.overlayView.backgroundColor = .white
-        self.roundLayer.strokeColor = MediaPickerConfig.instance.camera.shutterButton.numberColor.cgColor
-        self.backgroundColor = .white
-      }
+    UIView.animate(withDuration: 0.5) {
+      self.overlayView.backgroundColor = self.recording ? .red : .white
     }
   }
   
@@ -45,10 +34,10 @@ class ShutterButton: UIButton {
   override func layoutSubviews() {
     super.layoutSubviews()
     
-    overlayView.frame = bounds.insetBy(dx: 3, dy: 3)
+    overlayView.frame = bounds.insetBy(dx: 4, dy: 4)
     overlayView.layer.cornerRadius = overlayView.frame.size.width / 2
     
-    roundLayer.path = UIBezierPath(ovalIn: bounds.insetBy(dx: 3, dy: 3)).cgPath
+    roundLayer.path = UIBezierPath(ovalIn: bounds.insetBy(dx: 6, dy: 6)).cgPath
     layer.cornerRadius = bounds.size.width / 2
   }
   
@@ -73,8 +62,8 @@ class ShutterButton: UIButton {
   
   func makeRoundLayer() -> CAShapeLayer {
     let layer = CAShapeLayer()
-    layer.strokeColor = MediaPickerConfig.instance.camera.shutterButton.numberColor.cgColor
-    layer.lineWidth = 2
+    layer.strokeColor = MediaPickerConfig.instance.colors.black.cgColor
+    layer.lineWidth = 5
     layer.fillColor = nil
     
     return layer

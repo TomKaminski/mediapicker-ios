@@ -1,24 +1,17 @@
 extension PagesController: CartButtonDelegate {
   func cartButtonTapped() {
-    self.cartButton.cartOpened = !self.cartButton.cartOpened
-    if self.cartButton.cartOpened {
-      self.changeBottomViewState(.CartExpanded)
+    cartOpened = !cartOpened
+    if cartOpened {
+      //TODO: Animate show cart
     } else {
-      if let controller = controllers[selectedIndex] as? CartDelegate {
-        self.changeBottomViewState(controller.basicBottomViewState);
-      }
+      //TODO: Aniamte hide cart
     }
     
     self.bottomView.setup()
   }
   
   func hideCart() {
-    self.cartButton.cartOpened = false
-    if let controller = controllers[selectedIndex] as? CartDelegate {
-      self.changeBottomViewState(controller.basicBottomViewState);
-    }
-    
-    self.bottomView.setup()
+    cartOpened = false
+    //TODO: Aniamte hide cart
   }
-
 }

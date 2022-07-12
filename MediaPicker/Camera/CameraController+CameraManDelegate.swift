@@ -20,8 +20,8 @@ extension CameraController: CameraManDelegate {
   
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
     if MediaPickerConfig.instance.camera.recordMode == .photo {
-      self.pagesController.bottomView.shutterButton?.isEnabled = true
-      self.pagesController.cartButton.stopLoading()
+      self.pagesController.bottomView.shutterButton.isEnabled = true
+      self.pagesController.bottomView.cartButton.stopLoading()
 
       if let asset = asset {
         let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())

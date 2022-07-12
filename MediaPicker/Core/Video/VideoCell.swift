@@ -2,7 +2,6 @@ import UIKit
 import Photos
 
 class VideoCell: ImageCell {
-  
   lazy var cameraImageView: UIImageView = self.makeCameraImageView()
   lazy var durationLabel: UILabel = self.makeDurationLabel()
   lazy var bottomOverlay: UIView = self.makeBottomOverlay()
@@ -51,7 +50,7 @@ class VideoCell: ImageCell {
   
   func makeDurationLabel() -> UILabel {
     let label = UILabel()
-    label.font = MediaPickerConfig.instance.font.text.bold.withSize(9)
+    label.font = UIFont.systemFont(ofSize: 9)
     label.textColor = UIColor.white
     label.textAlignment = .right
     

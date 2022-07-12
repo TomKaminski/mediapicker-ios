@@ -10,10 +10,6 @@ import UIKit
 import MediaPicker
 
 class ViewController: UIViewController, MediaPickerControllerDelegate {
-  override var preferredStatusBarStyle: UIStatusBarStyle {
-    return .lightContent
-  }
-  
   @IBOutlet weak var imageView: UIImageView!
   
   func mediaPicker(_ controller: MediaPickerController, didSelectMedia media: [CartItemProtocol]) {

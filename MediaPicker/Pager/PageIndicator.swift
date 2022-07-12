@@ -22,7 +22,7 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
       button.frame = CGRect(x: 90 * CGFloat(i), y: 0, width: 90, height: bounds.size.height)
     }
     
-    indicator.backgroundColor = MediaPickerConfig.instance.primaryColor
+    indicator.backgroundColor = MediaPickerConfig.instance.colors.primary
     indicator.layer.cornerRadius = 2
     indicator.frame.size = CGSize(width: 90, height: 4)
     indicator.frame.origin.y = bounds.size.height - indicator.frame.size.height
@@ -60,8 +60,8 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
   
   func select(index: Int, animated: Bool = true) {
     for (i, b) in buttons.enumerated() {
-      b.label.textColor = i == index ? MediaPickerConfig.instance.primaryColor : .black
-      b.imageView.image = b.imageView.image?.withTintColor(i == index ? MediaPickerConfig.instance.primaryColor : .black)
+      b.label.textColor = i == index ? MediaPickerConfig.instance.colors.primary : MediaPickerConfig.instance.colors.black
+      b.imageView.image = b.imageView.image?.withTintColor(i == index ? MediaPickerConfig.instance.colors.primary : MediaPickerConfig.instance.colors.black)
     }
     
     UIView.animate(withDuration: animated ? 0.25 : 0.0, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {

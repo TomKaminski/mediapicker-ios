@@ -4,7 +4,7 @@ struct MarginSettings {
   public var mainMargin: CGFloat = 15.0
   public var marginBetweenItems: CGFloat  = 5.0
   
-  public init(mainMargin: CGFloat = 15.0, marginBetweenItems: CGFloat  = 5.0) {
+  public init(mainMargin: CGFloat = 15.0, marginBetweenItems: CGFloat = 5.0) {
     self.mainMargin = mainMargin
     self.marginBetweenItems = marginBetweenItems
   }
@@ -19,7 +19,6 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     }
   }
   
-  /// y position of all items
   public var itemY: CGFloat = 10
   public var items: [TView] = []
   public var shouldCenterSubViews: Bool = false
@@ -27,10 +26,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
   open var singleItemHeight: CGFloat = 80
   
   public var defaultMarginSettings = MarginSettings()
-  
-  
-  /// the margin between left border and first item
-  public var mainMargin: CGFloat {
+    public var mainMargin: CGFloat {
     get {
       return self.defaultMarginSettings.mainMargin
     }
@@ -70,9 +66,8 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     return false
   }
   
-  open func addItem(_ item: TView)
-  {
-    if (self.items.count>0) {
+  open func addItem(_ item: TView) {
+    if self.items.count > 0 {
       let lastItem = self.items[self.items.count-1]
       let lastItemRect = lastItem.frame
       
@@ -85,31 +80,16 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     items.append(item)
     self.addSubview(item)
     
-    // set the content size of scroll view to fit new width and with the same margin as left margin
     self.contentSize = CGSize(width: item.frame.origin.x + 80 + self.mainMargin, height: self.frame.size.height)
   }
   
-  /**
-   This add multi new items into the scrollview
-   
-   - parameter items: the items in array you would like to add, it must not be nil.
-   */
-  open func addItems(_ items:[TView])
-  {
+  open func addItems(_ items:[TView]) {
     for item in items {
       self.addItem(item)
     }
   }
   
-  /**
-   It removes the specified item from scrollview
-   
-   - parameter item: the item you would like to remove.
-   
-   - returns: true if removing successfully.
-   */
-  open func removeItem(_ item: TView) -> Bool
-  {
+  open func removeItem(_ item: TView) -> Bool {
     guard let index = self.items.firstIndex(of: item) else {
       return false
     }
@@ -117,13 +97,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     return self.removeItemAtIndex(index)
   }
   
-  /**
-   It removes all items from scrollview
-   
-   - returns: true if removing successfully.
-   */
-  open func removeAllItems()->Bool
-  {
+  open func removeAllItems() -> Bool {
     if self.items.count == 0 {
       return false
     }
@@ -138,16 +112,8 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     return true
   }
   
-  /**
-   It removes the specified item at index from scrollview
-   
-   - parameter index: the index of item you would like to remove.
-   
-   - returns: true if removing successfully.
-   */
-  open func removeItemAtIndex(_ index:Int)->Bool
-  {
-    if (index < 0 || index > self.items.count-1) {return false}
+  open func removeItemAtIndex(_ index:Int) -> Bool {
+    if (index < 0 || index > self.items.count-1) { return false }
     //set new x position from index to the end
     
     let itemToRemove:UIView = self.items[index]
@@ -167,9 +133,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
     return true
   }
   
-  /// Refresh all subviews for changing size of current frame
-  public func refreshSubView()
-  {
+  public func refreshSubView() {
     var itemX = self.mainMargin
     if self.shouldCenterSubViews {
       itemX = centerSubviews()
@@ -182,8 +146,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
   
   private func reorderSubViews() -> CGFloat {
     var itemX = self.mainMargin
-    for item in self.items
-    {
+    for item in self.items {
       item.frame = CGRect(x: itemX, y: item.frame.origin.y, width: item.frame.width, height: item.frame.height)
       itemX += item.frame.width + self.marginBetweenItems
     }
@@ -192,7 +155,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
   }
   
   
-  public func centerSubviews() -> CGFloat{
+  public func centerSubviews() -> CGFloat {
     if let itemLastX = self.items.last?.frame.maxX {
       if itemLastX + self.mainMargin < self.frame.size.width {
         

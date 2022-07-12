@@ -85,7 +85,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   @objc private func playButtonTouched() {
     if audioRecorder == nil {
       EventHub.shared.changeMediaPickerState?(.AudioRecording)
-      if pagesController.cartButton.cartOpened {
+      if pagesController.cartOpened {
         self.pagesController.cartButtonTapped()
       }
       
@@ -200,7 +200,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //------
   
   @objc func doneButtonTouched() {
-    pagesController.cartButton.startLoading()
+    pagesController.bottomView.cartButton.startLoading()
 
     pauseRecording()
     audioRecorder?.stop()

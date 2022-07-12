@@ -24,14 +24,14 @@ extension PagesController: BottomViewDelegate {
   
   func shutterButtonHeld() {
     (self.activeController as? CameraPageAware)?.shutterButtonHeld()
-    self.cartButton.isHidden = true
-    self.bottomView.saveButton?.isHidden = true
+    self.bottomView.cartButton.isHidden = true
+    self.bottomView.saveButton.isHidden = true
   }
   
   func shutterButtonReleased() {
     (self.activeController as? CameraPageAware)?.shutterButtonReleased()
-    self.cartButton.isHidden = false
-    self.bottomView.saveButton?.isHidden = false
+    self.bottomView.cartButton.isHidden = false
+    self.bottomView.saveButton.isHidden = false
   }
   
   func shutterButtonTouched() {

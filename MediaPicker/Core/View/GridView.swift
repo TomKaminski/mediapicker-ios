@@ -2,9 +2,6 @@ import UIKit
 import Photos
 
 class GridView: UIView {
-  
-  // MARK: - Initialization
-  
   lazy var topView: UIView = self.makeTopView()
   lazy var bottomView: UIView = self.makeBottomView()
 
@@ -14,8 +11,6 @@ class GridView: UIView {
   lazy var doneButton: UIButton = self.makeDoneButton()
   lazy var emptyView: UIView = self.makeEmptyView()
   lazy var loadingIndicator: UIActivityIndicatorView = self.makeLoadingIndicator()
-  
-  // MARK: - Initialization
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -27,8 +22,6 @@ class GridView: UIView {
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-  
-  // MARK: - Setup
   
   private func setup() {
     [collectionView, bottomView, topView, emptyView, loadingIndicator].forEach {
@@ -47,20 +40,11 @@ class GridView: UIView {
       topView.leadingAnchor.constraint(equalTo: topView.superview!.leadingAnchor),
       topView.trailingAnchor.constraint(equalTo: topView.superview!.trailingAnchor),
       topView.heightAnchor.constraint(equalToConstant: 40),
-      
+      topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+
       loadingIndicator.centerXAnchor.constraint(equalTo: loadingIndicator.superview!.centerXAnchor),
       loadingIndicator.centerYAnchor.constraint(equalTo: loadingIndicator.superview!.centerYAnchor)
     )
-    
-    if #available(iOS 11, *) {
-      Constraint.on(
-        topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
-      )
-    } else {
-      Constraint.on(
-        topView.topAnchor.constraint(equalTo: topView.superview!.topAnchor)
-      )
-    }
     
     bottomView.g_pinDownward()
     bottomView.g_pin(height: 80)
@@ -79,8 +63,6 @@ class GridView: UIView {
     doneButton.g_pin(on: .centerY)
     doneButton.g_pin(on: .right, constant: -38)
   }
-  
-  // MARK: - Controls
   
   private func makeTopView() -> UIView {
     let view = UIView()
@@ -107,18 +89,12 @@ class GridView: UIView {
     
     return button
   }
-  
-  private func makeGridView() -> GridView {
-    let view = GridView()
-    
-    return view
-  }
     
   private func makeDoneButton() -> UIButton {
     let button = UIButton(type: .system)
     button.setTitleColor(UIColor.white, for: UIControl.State())
     button.setTitleColor(UIColor.lightGray, for: .disabled)
-    button.titleLabel?.font = MediaPickerConfig.instance.font.text.regular.withSize(16)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     button.setTitle("LandaxApp_Gallery_Done".g_localize(fallback: "Done"), for: UIControl.State())
     
     return button
@@ -143,7 +119,7 @@ class GridView: UIView {
   }
   
   private func makeLoadingIndicator() -> UIActivityIndicatorView {
-    let view = UIActivityIndicatorView(style: .whiteLarge)
+    let view = UIActivityIndicatorView(style: .large)
     view.color = .gray
     view.hidesWhenStopped = true
     

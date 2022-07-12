@@ -26,14 +26,17 @@ class PermissionController: UIViewController {
       Permission.Photos.request { [weak self] in
         self?.check()
       }
+      return
     } else if Permission.Camera.status == .notDetermined {
       Permission.Camera.request { [weak self] in
         self?.check()
       }
+      return
     } else if Permission.Microphone.status == .notDetermined {
       Permission.Microphone.request { [weak self] in
         self?.check()
       }
+      return
     }
     
     DispatchQueue.main.async {

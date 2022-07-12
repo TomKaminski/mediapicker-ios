@@ -59,7 +59,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
     // Output
     photoOutput = AVCapturePhotoOutput()
     photoSettings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
-    photoSettings.isAutoStillImageStabilizationEnabled = false
+    photoSettings.photoQualityPrioritization = .balanced
     movieOutput = ClosuredAVCaptureMovieFileOutput(sessionQueue: queue)
   }
   

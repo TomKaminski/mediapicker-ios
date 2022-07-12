@@ -71,7 +71,12 @@ class CameraController: UIViewController {
   
   func setup() {
     view.addSubview(cameraView)
-    cameraView.g_pinEdges()
+    cameraView.translatesAutoresizingMaskIntoConstraints = false
+    cameraView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+    cameraView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+    cameraView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
+    cameraView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
+
     
     cameraView.flashButton.addTarget(self, action: #selector(flashButtonTouched(_:)), for: .touchUpInside)
     cameraView.rotateButton.addTarget(self, action: #selector(rotateButtonTouched(_:)), for: .touchUpInside)

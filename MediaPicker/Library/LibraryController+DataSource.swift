@@ -52,7 +52,7 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    pagesController.cartButton.startLoading()
+    pagesController.bottomView.cartButton.startLoading()
 
     var newItem = getCartItem(indexPath: indexPath)
     newItem.dateAdded = Date()
