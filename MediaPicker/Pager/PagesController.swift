@@ -113,6 +113,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     let cartView = CartCollectionView(frame: .zero, cartItems: self.cartItems)
     cartView.bottomViewCartDelegate = self
     cartView.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    cartView.alpha = 0
     return cartView
   }
 
