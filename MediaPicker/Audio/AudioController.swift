@@ -20,10 +20,11 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
 
   var audioRecorder: AVAudioRecorder!
   var recordingSession: AVAudioSession!
-  var isPaused: Bool = false
-  var recordTimer: Timer?
   var fileName: String!
   
+  var recordTimer: Timer?
+  var waveformTimer: Timer?
+
   public required init(cart: Cart) {
     self.cart = cart
     super.init(nibName: nil, bundle: nil)
@@ -53,25 +54,11 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     audioView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     audioView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     audioView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    
-    if #available(iOS 11, *) {
-      audioView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-    } else {
-      audioView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-    }
-    
+    audioView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
     
     let playStopButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTouched))
     audioView.playStopButton.addGestureRecognizer(playStopButtonGestureRecognizer)
-    
-    let doneBigButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doneButtonTouched))
-    audioView.doneBigButton.addGestureRecognizer(doneBigButtonGestureRecognizer)
-    
-    let resetButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(clearData))
-    audioView.resetButton.addGestureRecognizer(resetButtonGestureRecognizer)
-    
-    self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText(startRecordingLabelText)
+    audioView.setInfoLabelText(startRecordingLabelText)
   }
   
   private func makeAudioView() -> AudioView {
@@ -90,10 +77,31 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       }
       
       startRecording()
-    } else if isPaused {
-      resumeRecording()
-    } else {
-      pauseRecording()
+    } else  {
+      pagesController.bottomView.cartButton.startLoading()
+
+      audioRecorder?.stop()
+
+      if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
+        self.cart.add(audio)
+        
+        audioRecorder = nil
+        
+        recordTimer?.invalidate()
+        recordTimer = nil
+        waveformTimer?.invalidate()
+        waveformTimer = nil
+        audioView.liveView.reset()
+                
+        self.audioView.togglePlayStopButton(isRecording: false)
+        self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
+        self.audioView.setInfoLabelText(startRecordingLabelText)
+        EventHub.shared.changeMediaPickerState?(.Audio)
+
+        //self.addAudioTakenChildrenController(audio: audio)
+      } else {
+        clearData()
+      }
     }
   }
   
@@ -115,15 +123,15 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
       audioRecorder = try AVAudioRecorder(url: tempPath, settings: settings)
       audioRecorder.delegate = self
       audioRecorder.record()
+      audioRecorder.isMeteringEnabled = true
+  
+      audioView.setInfoLabelText(pauseRecordingLabelText)
+      recordTimer = Timer.scheduledTimer(
+        timeInterval: 0.5, target: self, selector: #selector(audioRecordingTimerFired), userInfo: nil, repeats: true)
+      waveformTimer = Timer.scheduledTimer(
+        timeInterval: 0.015, target: self, selector: #selector(waveformTimerFired), userInfo: nil, repeats: true)
       
-      self.audioView.toogleDoneButtonVisibility(isHidden: false)
-      self.audioView.setInfoLabelText(pauseRecordingLabelText)
-      
-      self.audioView.setResetInfoLabelText(MediaPickerConfig.instance.translationKeys.tapToResetLabelKey.g_localize(fallback: "Tap to reset"))
-      
-      self.recordTimer = Timer.scheduledTimer(
-        timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
-      self.audioView.togglePlayStopButton(isRecording: true)
+      audioView.togglePlayStopButton(isRecording: true)
     } catch {
       debugPrint(error)
     }
@@ -138,36 +146,28 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     return URL.init(fileURLWithPath: "\(path)/\(fileName!).m4a")
   }
   
-  private func pauseRecording() {
-    isPaused = true
-    self.audioView.togglePlayStopButton(isRecording: false)
-    audioRecorder?.pause()
-    self.audioView.setInfoLabelText(MediaPickerConfig.instance.translationKeys.tapToContinueLabelKey.g_localize(fallback: "Tap to continue recording"))
-    
-    self.recordTimer?.invalidate()
-    self.recordTimer = nil
-  }
-  
-  private func resumeRecording() {
-    isPaused = false
-    
-    self.audioView.togglePlayStopButton(isRecording: true)
-    audioRecorder?.record()
-    self.audioView.setInfoLabelText(pauseRecordingLabelText)
-    self.recordTimer = Timer.scheduledTimer(
-      timeInterval: 0.5, target: self, selector: #selector(audioRecodringTimerFired), userInfo: nil, repeats: true)
-  }
-  
-  @objc private func audioRecodringTimerFired() {
-    guard let timeInterval = audioRecorder?.currentTime else {
+  @objc private func audioRecordingTimerFired() {
+    guard let recorder = audioRecorder else {
       return
     }
-    let ti = NSInteger(timeInterval)
+    
+    let ti = NSInteger(recorder.currentTime)
     let seconds = ti % 60
     let minutes = (ti / 60) % 60
     let hours = (ti / 3600)
     
-    self.audioView.elapsedAudioRecordingTimeLabel.text = String(format: "%0.2d:%0.2d:%0.2d", hours, minutes, seconds)
+    
+    audioView.elapsedAudioRecordingTimeLabel.text = String(format: "%0.2d:%0.2d:%0.2d", hours, minutes, seconds)
+  }
+  
+  @objc private func waveformTimerFired() {
+    guard let recorder = audioRecorder else {
+      return
+    }
+    
+    recorder.updateMeters()
+    let currentAmplitude = 1 - pow(10, recorder.averagePower(forChannel: 0) / 20)
+    audioView.liveView.add(sample: currentAmplitude)
   }
   
   
@@ -183,15 +183,16 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   private func clearDataFunc() {
     audioRecorder?.deleteRecording()
     audioRecorder = nil
-    self.recordTimer?.invalidate()
-    self.recordTimer = nil
-    isPaused = false
+    recordTimer?.invalidate()
+    recordTimer = nil
     
-    self.audioView.setResetInfoLabelText(nil)
-    self.audioView.togglePlayStopButton(isRecording: false, reset: true)
-    self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
-    self.audioView.toogleDoneButtonVisibility(isHidden: true)
-    self.audioView.setInfoLabelText(startRecordingLabelText)
+    waveformTimer?.invalidate()
+    waveformTimer = nil
+    audioView.liveView.reset()
+    
+    audioView.togglePlayStopButton(isRecording: false)
+    audioView.elapsedAudioRecordingTimeLabel.text = audioView.audioRecordingLabelPlaceholder()
+    audioView.setInfoLabelText(startRecordingLabelText)
   }
   
   
@@ -199,39 +200,12 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //Done button behavior
   //------
   
-  @objc func doneButtonTouched() {
-    pagesController.bottomView.cartButton.startLoading()
-
-    pauseRecording()
-    audioRecorder?.stop()
-
-    if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
-      self.cart.add(audio)
-      
-      audioRecorder = nil
-      self.recordTimer?.invalidate()
-      self.recordTimer = nil
-      isPaused = false
-      
-      self.audioView.setResetInfoLabelText(nil)
-      self.audioView.togglePlayStopButton(isRecording: false, reset: true)
-      self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
-      self.audioView.toogleDoneButtonVisibility(isHidden: true)
-      self.audioView.setInfoLabelText(startRecordingLabelText)
-      EventHub.shared.changeMediaPickerState?(.Audio)
-
-      //self.addAudioTakenChildrenController(audio: audio)
-    } else {
-      clearData()
-    }
-  }
-  
   var startRecordingLabelText: String {
     return MediaPickerConfig.instance.translationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
   }
   
   var pauseRecordingLabelText: String {
-    return MediaPickerConfig.instance.translationKeys.tapToPauseLabelKey.g_localize(fallback: "Tap to pause recording")
+    return MediaPickerConfig.instance.translationKeys.tapToStopLabelKey.g_localize(fallback: "Tap to stop recording")
   }
   
   private func addAudioTakenChildrenController(audio: Audio) {

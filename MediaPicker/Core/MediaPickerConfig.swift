@@ -38,8 +38,10 @@ public struct MediaPickerConfig {
   public var currentLanguage: String = "en"
   
   public struct Colors {
-    public var primary = UIColor.init(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
-    public var black = UIColor.init(red: 19/255, green: 7/255, blue: 0/255, alpha: 1)
+    public var primary = UIColor(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
+    public var black = UIColor(red: 19/255, green: 7/255, blue: 0/255, alpha: 1)
+    public var lightGray = UIColor(red: 176/255, green: 176/255, blue: 176/255, alpha: 1)
+    public var red = UIColor(red: 196/255, green: 60/255, blue: 53/255, alpha: 1)
   }
   
   public struct PageIndicator {
@@ -113,9 +115,7 @@ public struct MediaPickerConfig {
     public var videoFileTitleKey = "LandaxApp_Gallery_Media_Type_Video"
     public var audioFileTitleKey = "LandaxApp_Gallery_Media_Type_VoiceNote"
     
-    public var tapToPauseLabelKey = "LandaxApp_Media_Gallery_Audio_PauseRecording"
-    public var tapToResetLabelKey = "LandaxApp_Media_Gallery_Audio_ResetRecording"
-    public var tapToContinueLabelKey = "LandaxApp_Media_Gallery_Audio_ContinueRecording"
+    public var tapToStopLabelKey = "LandaxApp_Media_Gallery_Audio_StopRecording"
     public var tapToStartLabelKey = "LandaxApp_Media_Gallery_Audio_StartRecording"
     
     public var filenameInputPlaceholderKey = "LandaxApp_Gallery_FilenamePlaceholder"

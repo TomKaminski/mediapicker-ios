@@ -5,71 +5,49 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   lazy var mainStackView: UIStackView = self.makeMainStackView()
   
   lazy var playStopButton: UIImageView = self.makePlayStopButton()
+  lazy var liveView: WaveformLiveView = self.makeWaveformLiveView()
   lazy var infoLabel: UILabel = self.makeInfoLabel()
-  lazy var doneBigButton: UIImageView = self.makeBigDoneButton()
   
-  lazy var resetButton: UIImageView = self.makeResetButton()
-  lazy var resetInfolabel: UILabel = self.makeInfoLabel()
   lazy var elapsedAudioRecordingTimeLabel: UILabel = self.makeAudioRecordingElapsedTimeLabel()
-  
-  fileprivate lazy var bottomContainer: UIView = self.makeBottomContainer()
-  fileprivate lazy var bottomView: UIView = self.makeBottomView()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
-    backgroundColor = UIColor.init(red: 152/255, green: 152/255, blue: 152/255, alpha: 1)
     setup()
   }
   
   override func updateConstraints() {
     mainStackView.translatesAutoresizingMaskIntoConstraints = false
     playStopButton.translatesAutoresizingMaskIntoConstraints = false
-    resetButton.translatesAutoresizingMaskIntoConstraints = false
     elapsedAudioRecordingTimeLabel.translatesAutoresizingMaskIntoConstraints = false
-    resetInfolabel.translatesAutoresizingMaskIntoConstraints = false
-    doneBigButton.translatesAutoresizingMaskIntoConstraints = false
-    
-    bottomContainer.translatesAutoresizingMaskIntoConstraints = false
-    bottomView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      self.resetButton.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
-      self.resetButton.centerXAnchor.constraint(equalTo: self.resetInfolabel.centerXAnchor),
-      self.resetInfolabel.topAnchor.constraint(equalTo: self.resetButton.bottomAnchor, constant: 6),
-      self.resetInfolabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -8),
-      self.mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -40),
-      self.mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      self.mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      self.playStopButton.heightAnchor.constraint(equalToConstant: 100),
-      self.doneBigButton.heightAnchor.constraint(equalToConstant: 60),
-      self.resetButton.heightAnchor.constraint(equalToConstant: 40)
+      mainStackView.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
+      mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+      infoLabel.heightAnchor.constraint(equalToConstant: 80),
+      playStopButton.heightAnchor.constraint(equalToConstant: 120),
+      playStopButton.widthAnchor.constraint(equalToConstant: 120),
+      liveView.heightAnchor.constraint(equalToConstant: 50),
+      liveView.widthAnchor.constraint(equalToConstant: 120),
     ])
-    
-    bottomContainer.g_pinDownward()
-    bottomContainer.g_pin(height: 80)
-    bottomView.g_pinEdges()
-    
+
     super.updateConstraints()
     
     mainStackView.spacing = 12
   }
   
   func setup() {
-    [playStopButton, infoLabel, elapsedAudioRecordingTimeLabel, doneBigButton].forEach { mainStackView.addArrangedSubview($0) }
-    [resetButton, resetInfolabel, mainStackView, bottomContainer].forEach { addSubview($0) }
-    [bottomView].forEach { bottomContainer.addSubview($0) }
-    
-    resetButton.isHidden = true
-    resetInfolabel.isHidden = true
+    [infoLabel, playStopButton, liveView, elapsedAudioRecordingTimeLabel].forEach { mainStackView.addArrangedSubview($0) }
+    addSubview(mainStackView)
   }
   
   func makeAudioRecordingElapsedTimeLabel() -> UILabel {
     let label = UILabel(frame: CGRect.zero)
     label.text = self.audioRecordingLabelPlaceholder()
     label.textAlignment = .center
-    label.textColor = .white
-    label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+    label.textColor = MediaPickerConfig.instance.colors.lightGray
+    label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+    label.alpha = 0
     return label
   }
   
@@ -77,38 +55,14 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
     self.infoLabel.text = text
   }
   
-  func setResetInfoLabelText(_ text: String?) {
-    if let text = text {
-      self.resetInfolabel.text = text
-      UIView.animate(withDuration: 0.2) {
-        self.resetInfolabel.isHidden = false
-        self.resetButton.isHidden = false
-      }
-    } else {
-      UIView.animate(withDuration: 0.2) {
-        self.resetInfolabel.isHidden = true
-        self.resetButton.isHidden = true
-      }
-    }
-  }
-  
-  func togglePlayStopButton(isRecording: Bool, reset: Bool = false) {
-    let icon: UIImage?
-    if reset {
-      icon = MediaPickerBundle.image("recordingIconWhite")
-    } else {
-      icon = isRecording ? MediaPickerBundle.image("recordingIcon") : MediaPickerBundle.image("recordingIconWhite")
-    }
+  func togglePlayStopButton(isRecording: Bool) {
+    let icon = isRecording ? MediaPickerBundle.image("stopRecording") : MediaPickerBundle.image("startRecording")
     
-    UIView.transition(with: self.playStopButton, duration: 0.3, options: .transitionCrossDissolve, animations: {
+    liveView.fade(visible: isRecording)
+    elapsedAudioRecordingTimeLabel.fade(visible: isRecording)
+    UIView.transition(with: self.playStopButton, duration: 0.5, options: .transitionCrossDissolve, animations: {
       self.playStopButton.image = icon
     }, completion: nil)
-  }
-  
-  func toogleDoneButtonVisibility(isHidden: Bool) {
-    UIView.animate(withDuration: 0.2) {
-      self.doneBigButton.isHiddenInStackView = isHidden
-    }
   }
   
   func audioRecordingLabelPlaceholder() -> String {
@@ -116,63 +70,35 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   }
   
   private func makePlayStopButton() -> UIImageView {
-    let view = UIImageView(image: MediaPickerBundle.image("recordingIconWhite"))
+    let view = UIImageView(image: MediaPickerBundle.image("startRecording"))
     view.contentMode = .scaleAspectFit
     view.isUserInteractionEnabled = true
-    return view
-  }
-  
-  private func makeBigDoneButton() -> UIImageView {
-    let view = UIImageView(image: MediaPickerBundle.image("stopRecordingIcon"))
-    view.contentMode = .scaleAspectFit
-    view.isHidden = true
-    view.isUserInteractionEnabled = true
-    return view
-  }
-  
-  private func makeResetButton() -> UIImageView {
-    let view = UIImageView(image: MediaPickerBundle.image("recordingResetIcon"))
-    view.contentMode = .scaleAspectFit
-    view.isUserInteractionEnabled = true
+    view.layer.cornerRadius = 60
     return view
   }
   
   private func makeMainStackView() -> UIStackView {
     let view = UIStackView()
-    
     view.axis = .vertical
     view.distribution = .fill
-    view.alignment = .fill
+    view.alignment = .center
     view.spacing = 0
-    
     return view
-  }
-  
-  private func makeBottomContainer() -> UIView {
-    return UIView()
-  }
-  
-  private func makeBottomView() -> UIView {
-    let view = UIView()
-    view.backgroundColor = UIColor.init(red: 140/255, green: 140/255, blue: 140/255, alpha: 1)
-    return view
-  }
-  
-  private func makeDoneButton() -> UIButton {
-    let button = UIButton(type: .custom)
-    button.setTitleColor(UIColor.white, for: .normal)
-    button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-    button.setTitle("LandaxApp_Gallery_DoneAndSave".g_localize(fallback: "Done and save"), for: .normal)
-    
-    return button
   }
   
   private func makeInfoLabel() -> UILabel {
     let label = UILabel()
-    label.textColor = .white
+    label.textColor = MediaPickerConfig.instance.colors.black
     label.textAlignment = .center
-    label.font = UIFont.systemFont(ofSize: 14, weight: .light)
+    label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
     return label
+  }
+  
+  private func makeWaveformLiveView() -> WaveformLiveView {
+    let liveView = WaveformLiveView()
+    liveView.translatesAutoresizingMaskIntoConstraints = false
+    liveView.configuration = Waveform.Configuration(size: CGSize(width: 120, height: 50), backgroundColor: .white, style: .striped(.init(color: MediaPickerConfig.instance.colors.lightGray, width: 3, spacing: 3, lineCap: .round)), dampening: nil, position: .middle, verticalScalingFactor: 1.5, shouldAntialias: true)
+    return liveView
   }
   
   required init?(coder aDecoder: NSCoder) {

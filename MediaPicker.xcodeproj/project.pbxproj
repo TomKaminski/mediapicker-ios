@@ -77,6 +77,13 @@
 		76C0CFF62302987800E25900 /* CartItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF52302987800E25900 /* CartItemType.swift */; };
 		76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF72302989800E25900 /* CartMainDelegate.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
+		76EF9D1128856CE70007CB8F /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EF9D0828856CE70007CB8F /* DSWaveformImage.h */; };
+		76EF9D1228856CE70007CB8F /* WaveformLiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0A28856CE70007CB8F /* WaveformLiveView.swift */; };
+		76EF9D1328856CE70007CB8F /* WaveformImageDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0B28856CE70007CB8F /* WaveformImageDrawer.swift */; };
+		76EF9D1428856CE70007CB8F /* TempiFFT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0C28856CE70007CB8F /* TempiFFT.swift */; };
+		76EF9D1528856CE70007CB8F /* WaveformImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0D28856CE70007CB8F /* WaveformImageView.swift */; };
+		76EF9D1628856CE70007CB8F /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0E28856CE70007CB8F /* WaveformAnalyzer.swift */; };
+		76EF9D1728856CE70007CB8F /* WaveformImageTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0F28856CE70007CB8F /* WaveformImageTypes.swift */; };
 		F3188FAE23391FFA00D91B1D /* CircularButtonConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3188FAD23391FFA00D91B1D /* CircularButtonConformance.swift */; };
 		F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */; };
 		F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */; };
@@ -215,6 +222,13 @@
 		76C0CFF52302987800E25900 /* CartItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemType.swift; sourceTree = "<group>"; };
 		76C0CFF72302989800E25900 /* CartMainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartMainDelegate.swift; sourceTree = "<group>"; };
 		76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
+		76EF9D0828856CE70007CB8F /* DSWaveformImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
+		76EF9D0A28856CE70007CB8F /* WaveformLiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformLiveView.swift; sourceTree = "<group>"; };
+		76EF9D0B28856CE70007CB8F /* WaveformImageDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageDrawer.swift; sourceTree = "<group>"; };
+		76EF9D0C28856CE70007CB8F /* TempiFFT.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TempiFFT.swift; sourceTree = "<group>"; };
+		76EF9D0D28856CE70007CB8F /* WaveformImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageView.swift; sourceTree = "<group>"; };
+		76EF9D0E28856CE70007CB8F /* WaveformAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformAnalyzer.swift; sourceTree = "<group>"; };
+		76EF9D0F28856CE70007CB8F /* WaveformImageTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageTypes.swift; sourceTree = "<group>"; };
 		95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -326,6 +340,7 @@
 		761B9FD622E9BAB9004D494E /* MediaPicker */ = {
 			isa = PBXGroup;
 			children = (
+				76EF9D0728856CE70007CB8F /* DSWaveformImage */,
 				76B8E4F322EAD55700D99495 /* MediaPicker.bundle */,
 				F3B2B4E5233F900700F2CCBE /* MediaPicker */,
 				F3B2B4D8233F8D4C00F2CCBE /* Pager */,
@@ -563,6 +578,28 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		76EF9D0728856CE70007CB8F /* DSWaveformImage */ = {
+			isa = PBXGroup;
+			children = (
+				76EF9D0828856CE70007CB8F /* DSWaveformImage.h */,
+				76EF9D0928856CE70007CB8F /* DSWaveformImage */,
+			);
+			path = DSWaveformImage;
+			sourceTree = "<group>";
+		};
+		76EF9D0928856CE70007CB8F /* DSWaveformImage */ = {
+			isa = PBXGroup;
+			children = (
+				76EF9D0A28856CE70007CB8F /* WaveformLiveView.swift */,
+				76EF9D0B28856CE70007CB8F /* WaveformImageDrawer.swift */,
+				76EF9D0C28856CE70007CB8F /* TempiFFT.swift */,
+				76EF9D0D28856CE70007CB8F /* WaveformImageView.swift */,
+				76EF9D0E28856CE70007CB8F /* WaveformAnalyzer.swift */,
+				76EF9D0F28856CE70007CB8F /* WaveformImageTypes.swift */,
+			);
+			path = DSWaveformImage;
+			sourceTree = "<group>";
+		};
 		F3188FAC23391FCE00D91B1D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,6 +681,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76EF9D1128856CE70007CB8F /* DSWaveformImage.h in Headers */,
 				761B9FD922E9BAB9004D494E /* MediaPicker.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -813,6 +851,7 @@
 				F3D8316A23422672006D161A /* LibraryController+PageAware.swift in Sources */,
 				7639066C22F2E8FB007CD4CE /* Library.swift in Sources */,
 				7639066E22F2EB84007CD4CE /* Array+Extensions.swift in Sources */,
+				76EF9D1328856CE70007CB8F /* WaveformImageDrawer.swift in Sources */,
 				F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */,
 				F3B2B4F1233F92BF00F2CCBE /* AudioController+CartDelegate.swift in Sources */,
 				F3B2B4DE233F8D8B00F2CCBE /* PagesController+BottomViewDelegate.swift in Sources */,
@@ -847,6 +886,7 @@
 				760D17BE230A907A00D5E192 /* Fetcher.swift in Sources */,
 				F3B2B4F9233F93B900F2CCBE /* CameraController+CameraViewDelegate.swift in Sources */,
 				76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */,
+				76EF9D1728856CE70007CB8F /* WaveformImageTypes.swift in Sources */,
 				76AFCBEC22F81E6300E1B7CB /* HorizontalScrollView.swift in Sources */,
 				F3B2B4F5233F92FE00F2CCBE /* CameraController+CameraManDelegate.swift in Sources */,
 				76B8E4F622EAD5CB00D99495 /* MediaPickerBundle.swift in Sources */,
@@ -882,12 +922,15 @@
 				F3D8316C23422697006D161A /* LibraryController+DropdownControllerDelegate.swift in Sources */,
 				7618EE1022F4579C0051C287 /* BottomView.swift in Sources */,
 				F394A27F253440030002C5B7 /* LocationManager.swift in Sources */,
+				76EF9D1528856CE70007CB8F /* WaveformImageView.swift in Sources */,
+				76EF9D1428856CE70007CB8F /* TempiFFT.swift in Sources */,
 				76AFCBF022F8317600E1B7CB /* FilenameInputView.swift in Sources */,
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
 				F3B2B4EB233F90E300F2CCBE /* MediaPickerControllerDelegate.swift in Sources */,
 				7639067922F2EE3B007CD4CE /* GridView.swift in Sources */,
 				F376104D231FB3DA00BC47D1 /* PhotoEditorController+Gestures.swift in Sources */,
+				76EF9D1228856CE70007CB8F /* WaveformLiveView.swift in Sources */,
 				F376104B231FA48100BC47D1 /* PhotoEditorController+Drawing.swift in Sources */,
 				7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */,
 				F38255FF233B557100CE30A6 /* FilenameComposer.swift in Sources */,
@@ -899,6 +942,7 @@
 				76B8E4E822EACE0E00D99495 /* PermissionView.swift in Sources */,
 				761E0B532313C3730072B5BE /* ColorsCollectionViewDelegate.swift in Sources */,
 				F3B2B4EF233F92A300F2CCBE /* LibraryController+CartDelegate.swift in Sources */,
+				76EF9D1628856CE70007CB8F /* WaveformAnalyzer.swift in Sources */,
 				F3B2B4DA233F8D5F00F2CCBE /* PagesController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
