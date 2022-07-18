@@ -84,6 +84,7 @@
 		76EF9D1528856CE70007CB8F /* WaveformImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0D28856CE70007CB8F /* WaveformImageView.swift */; };
 		76EF9D1628856CE70007CB8F /* WaveformAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0E28856CE70007CB8F /* WaveformAnalyzer.swift */; };
 		76EF9D1728856CE70007CB8F /* WaveformImageTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0F28856CE70007CB8F /* WaveformImageTypes.swift */; };
+		76EF9D1B28858D0D0007CB8F /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D1A28858D0D0007CB8F /* TopView.swift */; };
 		F3188FAE23391FFA00D91B1D /* CircularButtonConformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3188FAD23391FFA00D91B1D /* CircularButtonConformance.swift */; };
 		F325136E2332157D00B11EA6 /* MediaTypeEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */; };
 		F32591472330B10F00A11090 /* VideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32591452330B10F00A11090 /* VideoAssetPreviewController.swift */; };
@@ -229,6 +230,7 @@
 		76EF9D0D28856CE70007CB8F /* WaveformImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageView.swift; sourceTree = "<group>"; };
 		76EF9D0E28856CE70007CB8F /* WaveformAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformAnalyzer.swift; sourceTree = "<group>"; };
 		76EF9D0F28856CE70007CB8F /* WaveformImageTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformImageTypes.swift; sourceTree = "<group>"; };
+		76EF9D1A28858D0D0007CB8F /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
 		95A2F5E5AC6773663012332B /* libPods-MediaPicker.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MediaPicker.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C93BBDA1741750E360652C5D /* Pods-MediaPickerExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.release.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.release.xcconfig"; sourceTree = "<group>"; };
 		EA1D1DAF60F604BFAFB7146E /* Pods-MediaPickerExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MediaPickerExample.debug.xcconfig"; path = "Target Support Files/Pods-MediaPickerExample/Pods-MediaPickerExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -600,6 +602,14 @@
 			path = DSWaveformImage;
 			sourceTree = "<group>";
 		};
+		76EF9D1928858D050007CB8F /* TopView */ = {
+			isa = PBXGroup;
+			children = (
+				76EF9D1A28858D0D0007CB8F /* TopView.swift */,
+			);
+			path = TopView;
+			sourceTree = "<group>";
+		};
 		F3188FAC23391FCE00D91B1D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -657,6 +667,7 @@
 		F3B5D411233A18F6001530F7 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				76EF9D1928858D050007CB8F /* TopView */,
 				76AFCBE822F81DF900E1B7CB /* BottomView */,
 				F3B0527E231E67CA00558428 /* CircularBorderButton.swift */,
 			);
@@ -857,6 +868,7 @@
 				F3B2B4DE233F8D8B00F2CCBE /* PagesController+BottomViewDelegate.swift in Sources */,
 				7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */,
 				F3B2B4DC233F8D6E00F2CCBE /* PagesController+CartButtonDelegate.swift in Sources */,
+				76EF9D1B28858D0D0007CB8F /* TopView.swift in Sources */,
 				F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */,
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,

@@ -7,6 +7,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
   lazy var bottomView: BottomView = self.makeBottomView()
+  lazy var topView: TopView = self.makeTopView()
   
   var cartView: CartCollectionView?
   
@@ -101,6 +102,13 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     bottomView.translatesAutoresizingMaskIntoConstraints = false
     return bottomView
   }
+  
+  func makeTopView() -> TopView {
+    let topView = TopView()
+//    topView.delegate = self
+    topView.translatesAutoresizingMaskIntoConstraints = false
+    return topView
+  }
 
   // MARK: - Setup
 
@@ -138,8 +146,13 @@ class PagesController: UIViewController, BottomViewCartDelegate {
       }
     }
 
+    view.addSubview(topView)
+    topView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    topView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    topView.heightAnchor.constraint(equalToConstant: 40 + (UIApplication.shared.windows.first(where: \.isKeyWindow)?.safeAreaInsets.top ?? 0) ).isActive = true
+    topView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+    
     view.addSubview(bottomView)
-
     bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height).isActive = true
