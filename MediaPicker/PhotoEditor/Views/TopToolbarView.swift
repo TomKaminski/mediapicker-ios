@@ -1,4 +1,4 @@
-protocol TopToolbarViewDelegate: class {
+protocol TopToolbarViewDelegate: AnyObject {
   func textButtonTapped(_ sender: Any)
   func clearButtonTapped(_ sender: Any)
   func didSelectColor(color: UIColor)

@@ -4,7 +4,6 @@ public class CartCollectionItemView: UIView {
   var type: MediaTypeEnum!
   var bottomText: String?
   var bottomTextFunc: ((UILabel) -> Void)?
-  
   var imageView: UIImageView!
   var bottomView: UIView!
   var deleteButon: UIImageView!
@@ -18,47 +17,49 @@ public class CartCollectionItemView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.layer.borderWidth = 1
+    layer.borderWidth = 1
+    layer.borderColor = UIColor.clear.cgColor
     backgroundColor = .white
 
     setupImageView()
     setupDeleteButton()
     
-    self.addSubview(imageView)
-    self.addSubview(deleteButon)
+    addSubview(imageView)
+    addSubview(deleteButon)
     
-    deleteButon.g_pin(size: CGSize(width: 24, height: 24))
+    deleteButon.g_pin(size: CGSize(width: 20, height: 20))
     imageView.g_pinEdges()
 
-    Constraint.on(
-      deleteButon.topAnchor.constraint(equalTo: self.topAnchor, constant: 2),
-      deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -2)
-    )
+    deleteButon.topAnchor.constraint(equalTo: self.topAnchor, constant: 3).isActive = true
+    deleteButon.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -3).isActive = true
     
-    self.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapped)))
+    addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onTapped)))
   }
   
   fileprivate func setupDeleteButton() {
     deleteButon = UIImageView(image: MediaPickerBundle.image("trashIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
-    deleteButon.backgroundColor = .red
-    deleteButon.layer.cornerRadius = 12
+    deleteButon.backgroundColor = UIColor(red: 196/255, green: 60/255, blue: 53/255, alpha: 1)
+    deleteButon.layer.cornerRadius = 10
     deleteButon.isUserInteractionEnabled = true
+    deleteButon.translatesAutoresizingMaskIntoConstraints = false
     deleteButon.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onDeleteTapped)))
   }
   
   fileprivate func setupBottomView() {
     bottomView = UIView()
+    bottomView.translatesAutoresizingMaskIntoConstraints = false
     bottomView.backgroundColor = UIColor.init(red: 0, green: 0, blue: 0, alpha: 0.7)
   }
   
   fileprivate func setupImageView() {
     imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFill
     imageView.clipsToBounds = true
   }
   
   @objc private func onDeleteTapped() {
-    self.delegate?.onItemDelete(guid: guid)
+    delegate?.onItemDelete(guid: guid)
   }
   
   @objc private func onTapped() {
@@ -96,14 +97,11 @@ public class CartCollectionItemView: UIView {
   fileprivate func setupBottom(_ type: MediaTypeEnum) {
     if type != .Image || (self.bottomText != nil || self.bottomTextFunc != nil) {
       setupBottomView()
-      self.addSubview(bottomView)
+      addSubview(bottomView)
       bottomView.g_pin(height: 16)
-      
-      Constraint.on(
-        bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-        bottomView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-        bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-      )
+      bottomView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+      bottomView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+      bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
     }
     
     if type != .Image {
@@ -113,11 +111,8 @@ public class CartCollectionItemView: UIView {
       
       bottomView.addSubview(bottomImageView)
       bottomImageView.g_pin(height: 12)
-
-      Constraint.on(constraints: [
-        bottomImageView.leftAnchor.constraint(equalTo: self.bottomView.leftAnchor, constant: 4),
-        bottomImageView.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor)
-      ])
+      bottomImageView.leftAnchor.constraint(equalTo: self.bottomView.leftAnchor, constant: 4).isActive = true
+      bottomImageView.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor).isActive = true
     }
     
     if self.bottomText != nil || self.bottomTextFunc != nil {
@@ -130,11 +125,8 @@ public class CartCollectionItemView: UIView {
       
       bottomView.addSubview(label)
       label.g_pin(height: 12)
-      
-      Constraint.on(constraints: [
-        label.rightAnchor.constraint(equalTo: self.bottomView.rightAnchor, constant: -4),
-        label.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor)
-      ])
+      label.rightAnchor.constraint(equalTo: self.bottomView.rightAnchor, constant: -4).isActive = true
+      label.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor).isActive = true
     }
   }
   
@@ -154,11 +146,7 @@ public class CartCollectionItemView: UIView {
   }
 
   private func setupBorder() {
-    if selected {
-      self.layer.borderColor = UIColor.blue.cgColor
-    } else {
-      self.layer.borderColor = UIColor.clear.cgColor
-    }
+    layer.borderColor = selected ? MediaPickerConfig.instance.colors.primary.cgColor : UIColor.clear.cgColor
   }
 
   required init?(coder aDecoder: NSCoder) {

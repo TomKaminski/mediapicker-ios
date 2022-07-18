@@ -43,6 +43,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     
     cartButton.delegate = self
     cartButton.isHidden = MediaPickerConfig.instance.bottomView.cart.maxItems == 1
+    cartButton.translatesAutoresizingMaskIntoConstraints = false
     
     bottomToolbarView.controllerDelegate = self
     bottomToolbarView.delegate = mediaPickerControllerDelegate
@@ -127,20 +128,18 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   internal func setupConstraints() {
     bottomToolbarConstraint = self.bottomToolbarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
     
-    Constraint.on(constraints: [
-      self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.bottomToolbarConstraint,
-      self.bottomToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.bottomToolbarHeight),
-      
-      self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12),
-      self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8),
-      
-      cartButton.centerYAnchor.constraint(equalTo: addPhotoButton.centerYAnchor),
-      cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: -16),
-      cartButton.heightAnchor.constraint(equalToConstant: 56),
-      cartButton.widthAnchor.constraint(equalToConstant: 56)
-    ])
+    self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+    self.bottomToolbarConstraint.isActive = true
+    self.bottomToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.bottomToolbarHeight).isActive = true
+    
+    self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12).isActive = true
+    self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8).isActive = true
+    
+    cartButton.centerYAnchor.constraint(equalTo: addPhotoButton.centerYAnchor).isActive = true
+    cartButton.trailingAnchor.constraint(equalTo: addPhotoButton.leadingAnchor, constant: -16).isActive = true
+    cartButton.heightAnchor.constraint(equalToConstant: 56).isActive = true
+    cartButton.widthAnchor.constraint(equalToConstant: 56).isActive = true
   }
   
   internal func setupBottomConstraintConstant(_ endFrame: CGRect?) {

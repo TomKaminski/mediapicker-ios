@@ -1,22 +1,32 @@
 extension MediaPickerController: CartMainDelegate {
   public func itemAdded(item: CartItemProtocol) {
-    self.pagesController?.bottomView.cartButton.isHidden = self.pagesController?.cartItems.count == 0
-    self.pagesController?.bottomView.saveButton.isHidden = self.pagesController?.cartItems.count == 0
-    self.pagesController?.bottomView.cartView?.addItem(item: item)
-    self.pagesController?.bottomView.cartButton.reload(cart.itemsInArray, added: true)
-    self.pagesController?.bottomView.cartButton.stopLoading()
+    guard let pagesController = pagesController else {
+      return
+    }
+    
+    let cartEmpty = pagesController.cartItems.count == 0
+    pagesController.bottomView.cartButton.isHidden = cartEmpty
+    pagesController.bottomView.saveButton.isHidden = cartEmpty
+    pagesController.bottomView.cartButton.reload(cart.itemsInArray, added: true)
+    pagesController.bottomView.cartButton.stopLoading()
+    pagesController.cartView?.addItem(item: item)
   }
   
   public func itemRemoved(item: CartItemProtocol) {
-    self.pagesController?.bottomView.cartButton.isHidden = self.pagesController?.cartItems.count == 0
-    self.pagesController?.bottomView.saveButton.isHidden = self.pagesController?.cartItems.count == 0
-    self.pagesController?.bottomView.cartView?.removeItem(item: item)
-    self.pagesController?.bottomView.cartButton.reload(cart.itemsInArray)
-
-    if self.cart.items.isEmpty {
-      self.pagesController?.hideCart()
+    guard let pagesController = pagesController else {
+      return
     }
     
-    self.pagesController?.bottomView.cartButton.stopLoading()
+    let cartEmpty = pagesController.cartItems.count == 0
+    pagesController.bottomView.cartButton.isHidden = cartEmpty
+    pagesController.bottomView.saveButton.isHidden = cartEmpty
+    pagesController.bottomView.cartButton.reload(cart.itemsInArray)
+    pagesController.bottomView.cartButton.stopLoading()
+
+    pagesController.cartView?.removeItem(item: item)
+
+    if cart.items.isEmpty {
+      pagesController.hideCart()
+    }
   }
 }

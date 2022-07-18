@@ -76,17 +76,17 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
   fileprivate func insertSaveButton() {
     let saveButton = self.saveButton ?? self.makeSaveButton()
     self.saveButton = saveButton
+    self.saveButton?.translatesAutoresizingMaskIntoConstraints = false
     addSubview(saveButton)
-    Constraint.on(
-      saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: -16),
-      saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-    )
+    saveButton.trailingAnchor.constraint(equalTo: saveButton.superview!.trailingAnchor, constant: -16).isActive = true
+    saveButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
   }
   
   fileprivate func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
     btn.setImage(MediaPickerConfig.instance.bottomView.backButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
+    btn.translatesAutoresizingMaskIntoConstraints = false
     return btn
   }
   
@@ -96,6 +96,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
   
   fileprivate func makeFilenameInput() -> FilenameInputView {
     let view = FilenameInputView()
+    view.translatesAutoresizingMaskIntoConstraints = false
     view.text = self.lastFileName
     view.delegate = self
     view.attributedPlaceholder = NSAttributedString(string: MediaPickerConfig.instance.translationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
@@ -107,24 +108,19 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     self.backButton = backButton
     addSubview(backButton)
     
-    Constraint.on(
-      backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.backButton.leftMargin),
-      backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
-      backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size),
-      backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-    )
+    backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.backButton.leftMargin).isActive = true
+    backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size).isActive = true
+    backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size).isActive = true
+    backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
   }
   
   fileprivate func insertFileNameInput() {
     let fileInputView = self.filenameInput ?? self.makeFilenameInput()
     self.filenameInput = fileInputView
     addSubview(fileInputView)
-    
-    Constraint.on(constraints: [
-      fileInputView.leadingAnchor.constraint(equalTo: self.backButton!.trailingAnchor, constant: 12),
-      fileInputView.trailingAnchor.constraint(equalTo: self.saveButton!.leadingAnchor, constant: -12),
-      fileInputView.centerYAnchor.constraint(equalTo: self.backButton!.centerYAnchor),
-    ])
+    fileInputView.leadingAnchor.constraint(equalTo: self.backButton!.trailingAnchor, constant: 12).isActive = true
+    fileInputView.trailingAnchor.constraint(equalTo: self.saveButton!.leadingAnchor, constant: -12).isActive = true
+    fileInputView.centerYAnchor.constraint(equalTo: self.backButton!.centerYAnchor).isActive = true
   }
   
   fileprivate func setupLayout() {

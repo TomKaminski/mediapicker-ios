@@ -1,9 +1,9 @@
-protocol CartCollectionViewDelegate: class {
+protocol CartCollectionViewDelegate: AnyObject {
   func reselectItem()
   func onItemDelete(guid: String)
 }
 
-protocol BottomViewCartDelegate: class {
+protocol BottomViewCartDelegate: AnyObject {
   func closeCartView()
   func onItemDelete(guid: String)
 }

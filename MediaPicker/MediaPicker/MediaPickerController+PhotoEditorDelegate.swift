@@ -4,9 +4,9 @@ import UIKit
 extension MediaPickerController: PhotoEditorDelegate {
   public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool, doneWithMedia: Bool) {
     guard editedSomething, let cgImage = image.cgImage else {
-      if var item = self.cart.getItem(by: selfCtrl.originalImageGuid) {
+      if var item = cart.getItem(by: selfCtrl.originalImageGuid) {
         item.customFileName = customFileName
-        self.cart.add(item)
+        cart.add(item)
       }
       selfCtrl.dismiss(animated: !doneWithMedia, completion: {
         if doneWithMedia {

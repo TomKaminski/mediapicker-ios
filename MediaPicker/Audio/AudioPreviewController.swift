@@ -52,12 +52,9 @@ class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDeleg
   internal override func setupConstraints() {
     super.setupConstraints()
     
-    Constraint.on(constraints: [
-      previewCtrl.view.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
-      previewCtrl.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      previewCtrl.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-    ])
-    
+    previewCtrl.view.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor).isActive = true
+    previewCtrl.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    previewCtrl.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     if #available(iOS 11.0, *) {
       previewCtrl.view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
     } else {

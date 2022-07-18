@@ -1,10 +1,10 @@
 import UIKit
 
 struct MarginSettings {
-  public var mainMargin: CGFloat = 15.0
-  public var marginBetweenItems: CGFloat  = 5.0
+  public var mainMargin: CGFloat = 10
+  public var marginBetweenItems: CGFloat = 7.0
   
-  public init(mainMargin: CGFloat = 15.0, marginBetweenItems: CGFloat = 5.0) {
+  public init(mainMargin: CGFloat = 10, marginBetweenItems: CGFloat = 7.0) {
     self.mainMargin = mainMargin
     self.marginBetweenItems = marginBetweenItems
   }
@@ -23,7 +23,7 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
   public var items: [TView] = []
   public var shouldCenterSubViews: Bool = false
   
-  open var singleItemHeight: CGFloat = 80
+  open var singleItemHeight: CGFloat = 60
   
   public var defaultMarginSettings = MarginSettings()
     public var mainMargin: CGFloat {
@@ -71,16 +71,16 @@ class GenericHorizontalScrollView<TView: UIView>: UIScrollView {
       let lastItem = self.items[self.items.count-1]
       let lastItemRect = lastItem.frame
       
-      item.frame = CGRect(x: lastItemRect.origin.x + lastItem.frame.width + self.marginBetweenItems, y: itemY, width: 80, height: self.singleItemHeight)
+      item.frame = CGRect(x: lastItemRect.origin.x + lastItem.frame.width + self.marginBetweenItems, y: itemY, width: self.singleItemHeight, height: self.singleItemHeight)
     }
     else {
-      item.frame = CGRect(x: self.mainMargin, y: itemY, width: 80, height: self.singleItemHeight)
+      item.frame = CGRect(x: self.mainMargin, y: itemY, width: self.singleItemHeight, height: self.singleItemHeight)
     }
     
     items.append(item)
     self.addSubview(item)
     
-    self.contentSize = CGSize(width: item.frame.origin.x + 80 + self.mainMargin, height: self.frame.size.height)
+    self.contentSize = CGSize(width: item.frame.origin.x + self.singleItemHeight + self.mainMargin, height: self.frame.size.height)
   }
   
   open func addItems(_ items:[TView]) {

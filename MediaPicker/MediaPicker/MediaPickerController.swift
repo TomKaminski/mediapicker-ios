@@ -4,19 +4,18 @@ public class MediaPickerController: UIViewController {
   public weak var delegate: MediaPickerControllerDelegate?
   
   let cart = Cart()
-  var pagesController: PagesController?
   
+  var pagesController: PagesController?
   var currentlyPresentedModalController: MediaModalBaseController?
 
   public override func viewDidLoad() {
     super.viewDidLoad()
-    
-    self.view.backgroundColor = .white
+    view.backgroundColor = .white
     
     NotificationCenter.default.addObserver(self, selector: #selector(rotateButtons), name: UIDevice.orientationDidChangeNotification, object: nil)
     
     setupEventHub()
-    self.cart.cartMainDelegate = self
+    cart.cartMainDelegate = self
     
     if let pagesController = makePagesController() {
       addChildController(pagesController)
@@ -183,7 +182,7 @@ public class MediaPickerController: UIViewController {
     ]
 
     let controller = PagesController(controllers: controllers)
-    self.pagesController = controller
+    pagesController = controller
     controller.selectedIndex = Permission.startIndex
 
     return controller
@@ -194,7 +193,7 @@ public class MediaPickerController: UIViewController {
       return UIViewController()
     }
 
-    let ctrl = CameraController(cart: self.cart)
+    let ctrl = CameraController(cart: cart)
     ctrl.title = MediaPickerConfig.instance.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA")
     return ctrl
   }
@@ -204,7 +203,7 @@ public class MediaPickerController: UIViewController {
       return UIViewController()
     }
 
-    let ctrl = AudioController(cart: self.cart)
+    let ctrl = AudioController(cart: cart)
     ctrl.title = MediaPickerConfig.instance.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
     return ctrl
   }

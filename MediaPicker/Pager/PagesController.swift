@@ -1,22 +1,14 @@
 import UIKit
 
 class PagesController: UIViewController, BottomViewCartDelegate {
-  func closeCartView() {
-    //TODO CLOSE
-  }
-  
-  func onItemDelete(guid: String) {
-    self.onItemRemove(guid: guid)
-  }
-  
-
   let controllers: [UIViewController]
 
   lazy var scrollView: UIScrollView = self.makeScrollView()
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
   lazy var bottomView: BottomView = self.makeBottomView()
-  lazy var cartView: CartCollectionView = self.makeCartCollectionView()
+  
+  var cartView: CartCollectionView?
   
   var state: MediaToolbarState!
   var selectedIndex: Int!
@@ -98,7 +90,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   func makePageIndicator() -> PageIndicator {
     let indicator = PageIndicator(frame: .zero)
     indicator.delegate = self
-
+    indicator.translatesAutoresizingMaskIntoConstraints = false
     return indicator
   }
 
@@ -106,44 +98,23 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     let bottomView = BottomView()
     bottomView.delegate = self
     bottomView.cartButton.delegate = self
+    bottomView.translatesAutoresizingMaskIntoConstraints = false
     return bottomView
-  }
-  
-  func makeCartCollectionView() -> CartCollectionView {
-    let cartView = CartCollectionView(frame: .zero, cartItems: self.cartItems)
-    cartView.bottomViewCartDelegate = self
-    cartView.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
-    cartView.alpha = 0
-    return cartView
   }
 
   // MARK: - Setup
 
   func setup() {
     view.addSubview(pageIndicator)
-    Constraint.on(
-      pageIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      pageIndicator.heightAnchor.constraint(equalToConstant: 70),
-      pageIndicator.widthAnchor.constraint(equalToConstant: 270)
-    )
-
-    if #available(iOS 11, *) {
-      Constraint.on(
-        pageIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-      )
-    } else {
-      Constraint.on(
-        pageIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-      )
-    }
+    pageIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+    pageIndicator.heightAnchor.constraint(equalToConstant: 70).isActive = true
+    pageIndicator.widthAnchor.constraint(equalToConstant: 270).isActive = true
+    pageIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     
     view.addSubview(scrollView)
     scrollView.addSubview(scrollViewContentView)
-
     scrollView.g_pinUpward()
     scrollView.g_pin(on: .bottom, view: pageIndicator, on: .top)
-
-
     scrollViewContentView.g_pinEdges()
 
     for (i, controller) in controllers.enumerated() {
@@ -167,20 +138,12 @@ class PagesController: UIViewController, BottomViewCartDelegate {
       }
     }
 
-    view.addSubview(cartView)
     view.addSubview(bottomView)
 
-    Constraint.on(
-      bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height),
-      bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor),
-      
-      cartView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      cartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      cartView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height),
-      cartView.bottomAnchor.constraint(equalTo: bottomView.topAnchor)
-    )
+    bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height).isActive = true
+    bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor).isActive = true
     
     EventHub.shared.changeMediaPickerState = {
       stateFromEvent in
@@ -219,9 +182,9 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   }
 
   internal func changeBottomViewState(_ newState: MediaToolbarState) {
-    self.state = newState
-    self.bottomView.state = self.state
-    self.bottomView.setup()
+    state = newState
+    bottomView.state = newState
+    bottomView.setup()
   }
   
   func notifyShow() {
@@ -233,7 +196,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     if let controller = controllers[selectedIndex] as? PageAware {
       controller.pageDidShow()
       if cartOpened {
-        closeCartView()
+        hideCart()
       }
     }
   }
@@ -242,6 +205,15 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     if let controller = controllers[selectedIndex] as? PageAware {
       controller.pageDidHide()
     }
+  }
+  
+  //Cart delegate
+  func closeCartView() {
+    self.hideCart()
+  }
+  
+  func onItemDelete(guid: String) {
+    onItemRemove(guid: guid)
   }
 }
 

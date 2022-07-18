@@ -53,17 +53,8 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     flashButton.g_pin(on: .left)
     flashButton.g_pin(size: CGSize(width: 80, height: 44))
 
-    if #available(iOS 11, *) {
-      Constraint.on(constraints: [
-        rotateButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-        flashButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
-      ])
-    } else {
-      Constraint.on(constraints: [
-        rotateButton.topAnchor.constraint(equalTo: topAnchor),
-        flashButton.topAnchor.constraint(equalTo: topAnchor)
-      ])
-    }
+    rotateButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
+    flashButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
 
     rotateOverlayView.g_pinEdges()
     blurView.g_pinEdges()
@@ -134,12 +125,13 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     ]
 
     let button = FlashButton(states: states)
-
+    button.translatesAutoresizingMaskIntoConstraints = false
     return button
   }
 
   func makeRotateButton() -> UIButton {
     let button = UIButton(type: .custom)
+    button.translatesAutoresizingMaskIntoConstraints = false
     button.setImage(MediaPickerBundle.image("cameraIcon"), for: UIControl.State())
 
     return button

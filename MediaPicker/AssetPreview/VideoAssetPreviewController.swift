@@ -168,22 +168,15 @@ class VideoAssetPreviewController: MediaModalBaseController {
   internal override func setupConstraints() {
     super.setupConstraints()
 
-    Constraint.on(constraints: [
-      imageView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor),
-      imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      
-      playIcon.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor),
-      playIcon.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor),
-      playIcon.heightAnchor.constraint(equalToConstant: 60),
-      playIcon.widthAnchor.constraint(equalToConstant: 60),
-    ])
-    
-    if #available(iOS 11.0, *) {
-      imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-    } else {
-      imageView.topAnchor.constraint(equalTo: self.view.layoutMarginsGuide.topAnchor).isActive = true
-    }
+    imageView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor).isActive = true
+    imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+    imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+    imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+
+    playIcon.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor).isActive = true
+    playIcon.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor).isActive = true
+    playIcon.heightAnchor.constraint(equalToConstant: 60).isActive = true
+    playIcon.widthAnchor.constraint(equalToConstant: 60).isActive = true
   }
   
   private func makeImageView() -> UIImageView {

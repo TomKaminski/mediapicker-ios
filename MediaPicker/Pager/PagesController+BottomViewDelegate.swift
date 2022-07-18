@@ -1,6 +1,6 @@
 extension PagesController: BottomViewDelegate {
   func onModalItemRemove(guid: String) {
-    self.mediaPickerController.cart.remove(guidToRemove: guid)
+    mediaPickerController.cart.remove(guidToRemove: guid)
   }
   
   func onItemRemove(guid: String) {
@@ -13,40 +13,40 @@ extension PagesController: BottomViewDelegate {
   }
   
   func addUpdateCartItem(item: CartItemProtocol) {
-    if self.mediaPickerController.cart.items[item.guid] != nil {
-      self.mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
+    if mediaPickerController.cart.items[item.guid] != nil {
+      mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
     } else {
-      self.mediaPickerController.cart.items[item.guid] = item
+      mediaPickerController.cart.items[item.guid] = item
     }
     
     mediaPickerController.itemAdded(item: item)
   }
   
   func shutterButtonHeld() {
-    (self.activeController as? CameraPageAware)?.shutterButtonHeld()
-    self.bottomView.cartButton.isHidden = true
-    self.bottomView.saveButton.isHidden = true
+    (activeController as? CameraPageAware)?.shutterButtonHeld()
+    bottomView.cartButton.isHidden = true
+    bottomView.saveButton.isHidden = true
   }
   
   func shutterButtonReleased() {
-    (self.activeController as? CameraPageAware)?.shutterButtonReleased()
-    self.bottomView.cartButton.isHidden = false
-    self.bottomView.saveButton.isHidden = false
+    (activeController as? CameraPageAware)?.shutterButtonReleased()
+    bottomView.cartButton.isHidden = false
+    bottomView.saveButton.isHidden = false
   }
   
   func shutterButtonTouched() {
-    (self.activeController as? CameraPageAware)?.shutterButtonTapped()
+    (activeController as? CameraPageAware)?.shutterButtonTapped()
   }
   
   var cartItems: [String: CartItemProtocol] {
-    return self.mediaPickerController.cart.items
+    return mediaPickerController.cart.items
   }
   
   var mediaPickerController: MediaPickerController {
-    return self.parent as! MediaPickerController
+    return parent as! MediaPickerController
   }
   
   var itemsInCart: Int {
-    return self.mediaPickerController.cart.items.count
+    return mediaPickerController.cart.items.count
   }
 }

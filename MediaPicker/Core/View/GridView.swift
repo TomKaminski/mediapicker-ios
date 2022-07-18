@@ -36,15 +36,13 @@ class GridView: UIView {
       bottomView.addSubview($0)
     }
     
-    Constraint.on(
-      topView.leadingAnchor.constraint(equalTo: topView.superview!.leadingAnchor),
-      topView.trailingAnchor.constraint(equalTo: topView.superview!.trailingAnchor),
-      topView.heightAnchor.constraint(equalToConstant: 40),
-      topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+    topView.leadingAnchor.constraint(equalTo: topView.superview!.leadingAnchor).isActive = true
+    topView.trailingAnchor.constraint(equalTo: topView.superview!.trailingAnchor).isActive = true
+    topView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    topView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
 
-      loadingIndicator.centerXAnchor.constraint(equalTo: loadingIndicator.superview!.centerXAnchor),
-      loadingIndicator.centerYAnchor.constraint(equalTo: loadingIndicator.superview!.centerYAnchor)
-    )
+    loadingIndicator.centerXAnchor.constraint(equalTo: loadingIndicator.superview!.centerXAnchor).isActive = true
+    loadingIndicator.centerYAnchor.constraint(equalTo: loadingIndicator.superview!.centerYAnchor).isActive = true
     
     bottomView.g_pinDownward()
     bottomView.g_pin(height: 80)
@@ -67,7 +65,7 @@ class GridView: UIView {
   private func makeTopView() -> UIView {
     let view = UIView()
     view.backgroundColor = UIColor.black
-    
+    view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }
   
@@ -122,7 +120,7 @@ class GridView: UIView {
     let view = UIActivityIndicatorView(style: .large)
     view.color = .gray
     view.hidesWhenStopped = true
-    
+    view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }
 }

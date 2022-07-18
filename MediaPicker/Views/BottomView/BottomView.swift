@@ -12,7 +12,11 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
   lazy var cartButton: StackView = self.makeStackView()
 
   var state: MediaToolbarState = .Camera
-  var activeTab: GalleryTab = .libraryTab
+  var activeTab: GalleryTab = .libraryTab {
+    didSet {
+      setupForActiveTab()
+    }
+  }
 
   required init() {
     super.init(frame: .zero)
