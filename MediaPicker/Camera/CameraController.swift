@@ -7,7 +7,7 @@ import Photos
 import QuickLook
 import PhotosUI
 
-class CameraController: UIViewController {
+class CameraController: UIViewController, CameraTabTopViewDelegate {
   var locationManager: LocationManager?
 
   lazy var cameraMan: CameraMan = self.makeCameraMan()
@@ -36,6 +36,8 @@ class CameraController: UIViewController {
     
     setup()
     setupLocation()
+    
+    pagesController.topView.cameraDelegate = self
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -76,21 +78,15 @@ class CameraController: UIViewController {
     cameraView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     cameraView.rightAnchor.constraint(equalTo: self.view.rightAnchor).isActive = true
     cameraView.leftAnchor.constraint(equalTo: self.view.leftAnchor).isActive = true
-
-    
-    cameraView.flashButton.addTarget(self, action: #selector(flashButtonTouched(_:)), for: .touchUpInside)
-    cameraView.rotateButton.addTarget(self, action: #selector(rotateButtonTouched(_:)), for: .touchUpInside)
   }
   
-  @objc func flashButtonTouched(_ button: UIButton) {
-    cameraView.flashButton.toggle()
-    
-    if let flashMode = AVCaptureDevice.FlashMode(rawValue: cameraView.flashButton.selectedIndex) {
+  func onFlashToggle(selectedIndex: Int) {
+    if let flashMode = AVCaptureDevice.FlashMode(rawValue: selectedIndex) {
       cameraMan.flash(flashMode)
     }
   }
   
-  @objc func rotateButtonTouched(_ button: UIButton) {
+  func onRotateToggle() {
     UIView.animate(withDuration: 0.3, animations: {
       self.cameraView.rotateOverlayView.alpha = 1
     }, completion: { _ in

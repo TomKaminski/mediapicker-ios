@@ -50,7 +50,6 @@
 		7639066E22F2EB84007CD4CE /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639066D22F2EB84007CD4CE /* Array+Extensions.swift */; };
 		7639067122F2ED5E007CD4CE /* DropdownController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067022F2ED5E007CD4CE /* DropdownController.swift */; };
 		7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067222F2ED91007CD4CE /* AlbumCell.swift */; };
-		7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067422F2EE10007CD4CE /* EmptyView.swift */; };
 		7639067722F2EE2D007CD4CE /* ArrowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067622F2EE2D007CD4CE /* ArrowButton.swift */; };
 		7639067922F2EE3B007CD4CE /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067822F2EE3B007CD4CE /* GridView.swift */; };
 		7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639067A22F2EF9B007CD4CE /* UIScrollView+Extensions.swift */; };
@@ -196,7 +195,6 @@
 		7639066D22F2EB84007CD4CE /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		7639067022F2ED5E007CD4CE /* DropdownController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownController.swift; sourceTree = "<group>"; };
 		7639067222F2ED91007CD4CE /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
-		7639067422F2EE10007CD4CE /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		7639067622F2EE2D007CD4CE /* ArrowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowButton.swift; sourceTree = "<group>"; };
 		7639067822F2EE3B007CD4CE /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		7639067A22F2EF9B007CD4CE /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
@@ -503,7 +501,6 @@
 			children = (
 				7639066322F2E60E007CD4CE /* FrameView.swift */,
 				7639067222F2ED91007CD4CE /* AlbumCell.swift */,
-				7639067422F2EE10007CD4CE /* EmptyView.swift */,
 				7639067622F2EE2D007CD4CE /* ArrowButton.swift */,
 				7639067822F2EE3B007CD4CE /* GridView.swift */,
 				7618EE1122F475AC0051C287 /* GalleryFloatingButton.swift */,
@@ -889,7 +886,6 @@
 				F38255FD233A71E800CE30A6 /* MediaModalBaseController.swift in Sources */,
 				F3B0527F231E67CA00558428 /* CircularBorderButton.swift in Sources */,
 				76B8E4F022EAD3A200D99495 /* String+Extensions.swift in Sources */,
-				7639067522F2EE10007CD4CE /* EmptyView.swift in Sources */,
 				761E0B5D2313C65F0072B5BE /* UIView+Image.swift in Sources */,
 				7639066422F2E60E007CD4CE /* FrameView.swift in Sources */,
 				F3B2B4E7233F902400F2CCBE /* MediaPickerController+PhotoEditorDelegate.swift in Sources */,

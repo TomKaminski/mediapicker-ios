@@ -1,7 +1,7 @@
 import UIKit
 import Photos
 
-class LibraryController: UIViewController {
+class LibraryController: UIViewController, LibraryTabTopViewDelegate {
   lazy var dropdownController: DropdownController = self.makeDropdownController()
   lazy var gridView: GridView = self.makeGridView()
 
@@ -14,47 +14,34 @@ class LibraryController: UIViewController {
 
   let cart: Cart
 
-  // MARK: - Init
-
   public required init(cart: Cart) {
     self.cart = cart
     super.init(nibName: nil, bundle: nil)
   }
 
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  // MARK: - Life cycle
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.cart.delegates.add(self)
+    view.backgroundColor = MediaPickerConfig.instance.colors.black
+    cart.delegates.add(self)
     setup()
+    pagesController.topView.libraryDelegate = self
   }
 
-  // MARK: - Setup
-
   func setup() {
-    view.backgroundColor = UIColor.black
-
     view.addSubview(gridView)
 
     addChild(dropdownController)
-    gridView.insertSubview(dropdownController.view, belowSubview: gridView.topView)
+    gridView.addSubview(dropdownController.view)
     dropdownController.didMove(toParent: self)
 
     gridView.g_pinEdges()
 
     dropdownController.view.g_pin(on: .left)
     dropdownController.view.g_pin(on: .right)
-    dropdownController.view.g_pin(on: .height, constant: -40) // subtract gridView.topView height
-
-    dropdownController.expandedTopConstraint = dropdownController.view.g_pin(on: .top, view: gridView.topView, on: .bottom, constant: 1)
+    dropdownController.view.g_pin(on: .height)
+    dropdownController.expandedTopConstraint = dropdownController.view.g_pin(on: .top, view: gridView, on: .top, constant: 40 + (UIApplication.shared.windows.first(where: \.isKeyWindow)?.safeAreaInsets.top ?? 0))
     dropdownController.expandedTopConstraint?.isActive = false
     dropdownController.collapsedTopConstraint = dropdownController.view.g_pin(on: .top, on: .bottom)
-
-    gridView.arrowButton.addTarget(self, action: #selector(arrowButtonTouched(_:)), for: .touchUpInside)
 
     gridView.collectionView.dataSource = self
     gridView.collectionView.delegate = self
@@ -62,24 +49,19 @@ class LibraryController: UIViewController {
     gridView.collectionView.register(VideoCell.self, forCellWithReuseIdentifier: String(describing: VideoCell.self))
   }
 
-  // MARK: - Action
-
-  @objc func arrowButtonTouched(_ button: ArrowButton) {
-    dropdownController.toggle()
-    button.toggle(dropdownController.expanding)
-  }
-
-  // MARK: - Logic
-
   func show(album: Album) {
-    gridView.arrowButton.updateText(album.collection.localizedTitle ?? "")
+    pagesController.topView.dropdownButton.updateText(album.collection.localizedTitle ?? "")
 
     images = album.images
     videos = album.videos
 
     gridView.collectionView.reloadData()
     gridView.collectionView.scrollToTop()
-    gridView.emptyView.isHidden = !images.isEmpty || !videos.isEmpty
+  }
+  
+  func onDropdownTap() {
+    dropdownController.toggle()
+    pagesController.topView.dropdownButton.toggle(dropdownController.expanding)
   }
 
   func refreshSelectedAlbum() {
@@ -92,14 +74,16 @@ class LibraryController: UIViewController {
   func makeDropdownController() -> DropdownController {
     let controller = DropdownController()
     controller.delegate = self
-
     return controller
   }
 
   func makeGridView() -> GridView {
     let view = GridView()
-    view.bottomView.alpha = 0
     return view
+  }
+  
+  public required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }
 

@@ -87,7 +87,7 @@ public class MediaPickerController: UIViewController {
       }
       MediaPickerConfig.instance.bottomView.cart.selectedGuid = nil
       self.currentlyPresentedModalController = nil
-      self.pagesController?.bottomView.cartView?.reselectItem()
+      self.pagesController?.cartView?.reselectItem()
     }
     
     EventHub.shared.close = { [weak self] in
@@ -133,7 +133,7 @@ public class MediaPickerController: UIViewController {
             photoEditor.customFileName = image.customFileName
             photoEditor.photoEditorDelegate = self
             photoEditor.mediaPickerControllerDelegate = self.pagesController
-            self.pagesController?.bottomView.cartView?.reselectItem()
+            self.pagesController?.cartView?.reselectItem()
             self.presentNewModal(photoEditor, guid)
           })
         } else if item.type == .Audio && MediaPickerConfig.instance.audio.allowAudioEdit {
@@ -141,7 +141,7 @@ public class MediaPickerController: UIViewController {
           ctrl.mediaPickerControllerDelegate = self.pagesController
           ctrl.customFileName = item.customFileName
           ctrl.modalPresentationStyle = .overFullScreen
-          self.pagesController?.bottomView.cartView?.reselectItem()
+          self.pagesController?.cartView?.reselectItem()
           self.presentNewModal(ctrl, guid)
         } else if item.type == .Video && MediaPickerConfig.instance.camera.allowVideoEdit {
           let assetCtrl = VideoAssetPreviewController()
@@ -149,7 +149,7 @@ public class MediaPickerController: UIViewController {
           assetCtrl.customFileName = item.customFileName
           assetCtrl.mediaPickerControllerDelegate = self.pagesController
           assetCtrl.modalPresentationStyle = .overFullScreen
-          self.pagesController?.bottomView.cartView?.reselectItem()
+          self.pagesController?.cartView?.reselectItem()
           self.presentNewModal(assetCtrl, guid)
         }
       }

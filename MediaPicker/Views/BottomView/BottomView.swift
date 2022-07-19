@@ -1,12 +1,6 @@
 import UIKit
 
 class BottomView: UIView, GalleryFloatingButtonTapDelegate {
-  var videoRecordingTimer: Timer?
-
-  weak var delegate: BottomViewDelegate?
-
-  var cartView: CartCollectionView?
-  
   lazy var shutterButton: ShutterButton = self.makeShutterButton()
   lazy var saveButton: GalleryFloatingButton = self.makeSaveButton()
   lazy var cartButton: StackView = self.makeStackView()
@@ -17,6 +11,9 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
       setupForActiveTab()
     }
   }
+  
+  weak var delegate: BottomViewDelegate?
+
 
   required init() {
     super.init(frame: .zero)
@@ -59,17 +56,6 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
     case .audioTab:
       setupLibraryLayout()
     }
-  }
-
-  fileprivate func makeBackButton() -> CircularBorderButton {
-    let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerConfig.instance.bottomView.backButton.icon, for: .normal)
-    btn.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
-    return btn
-  }
-
-  @objc fileprivate func onBackButtonTap() {
-    EventHub.shared.close?()
   }
 
   fileprivate func makeSaveButton() -> GalleryFloatingButton {
@@ -117,9 +103,6 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
 
   fileprivate func clearSubviews() {
     self.shutterButton.removeFromSuperview()
-
-    self.cartView?.removeFromSuperview()
-    self.cartView = nil
   }
 
   fileprivate func setupCameraLayout() {
@@ -161,27 +144,4 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
     cartButton.g_pin(on: .centerY, view: self, on: .centerY)
     cartButton.isHidden = delegate?.cartItems.isEmpty == true
   }
-  
-//  func showTimer() {
-//    let userInfo = ["start": Date().timeIntervalSince1970]
-//    self.videoRecordingTimer = Timer.scheduledTimer(
-//      timeInterval: 0.5, target: self, selector: #selector(videoRecodringTimerFired(_:)), userInfo: userInfo, repeats: true)
-//    self.elapsedVideoRecordingTimeLabel?.text = self.videoRecordingLabelPlaceholder()
-//  }
-//
-//  func hideTimer() {
-//    self.videoRecordingTimer?.invalidate()
-//    self.elapsedVideoRecordingTimeLabel?.text = self.videoRecordingLabelPlaceholder()
-//  }
-//
-//  @objc func videoRecodringTimerFired(_ timer: Timer) {
-//    guard let dictionary = timer.userInfo as? [String: Any], let start = dictionary["start"] as? TimeInterval else {
-//      return
-//    }
-//
-//    let now = Date().timeIntervalSince1970
-//    let minutes = Int(now - start) / 60
-//    let seconds = Int(now - start) % 60
-//    self.elapsedVideoRecordingTimeLabel?.text = String(format: "%0.2d:%0.2d", minutes, seconds)
-//  }
 }

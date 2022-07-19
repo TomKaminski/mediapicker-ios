@@ -105,7 +105,6 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   
   func makeTopView() -> TopView {
     let topView = TopView()
-//    topView.delegate = self
     topView.translatesAutoresizingMaskIntoConstraints = false
     return topView
   }
@@ -160,8 +159,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     
     EventHub.shared.changeMediaPickerState = {
       stateFromEvent in
-      self.changeBottomViewState(stateFromEvent)
-      self.bottomView.setup()
+      self.updateViewStates(stateFromEvent)
       self.activeController?.switchedToState(state: stateFromEvent)
     }
   }
@@ -194,14 +192,16 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     notifyShow()
   }
 
-  internal func changeBottomViewState(_ newState: MediaToolbarState) {
+  internal func updateViewStates(_ newState: MediaToolbarState) {
     state = newState
     bottomView.state = newState
-    bottomView.setup()
+    topView.state = newState
   }
   
   func notifyShow() {
-    self.bottomView.activeTab = MediaPickerConfig.instance.tabsToShow[selectedIndex]
+    let activeTab = MediaPickerConfig.instance.tabsToShow[selectedIndex]
+    self.bottomView.activeTab = activeTab
+    self.topView.activeTab = activeTab
     
     if controllers.count <= selectedIndex {
       selectedIndex = 0

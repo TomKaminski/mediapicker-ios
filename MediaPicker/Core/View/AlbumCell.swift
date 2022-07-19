@@ -68,7 +68,7 @@ class AlbumCell: UITableViewCell {
     let label = UILabel()
     label.numberOfLines = 1
     label.font = UIFont.systemFont(ofSize: 14)
-    
+    label.textColor = MediaPickerConfig.instance.colors.black
     return label
   }
   
@@ -76,7 +76,7 @@ class AlbumCell: UITableViewCell {
     let label = UILabel()
     label.numberOfLines = 1
     label.font = UIFont.systemFont(ofSize: 10)
-    
+    label.textColor = MediaPickerConfig.instance.colors.black
     return label
   }
 }

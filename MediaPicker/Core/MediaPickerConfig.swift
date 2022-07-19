@@ -86,12 +86,7 @@ public struct MediaPickerConfig {
   }
   
   public struct Grid {
-    public var arrowButton = ArrowButton()
     public var dimension = Dimension()
-    
-    public struct ArrowButton {
-      public var tintColor: UIColor = .white
-    }
     
     public struct Dimension {
       let columnCount: CGFloat = 4

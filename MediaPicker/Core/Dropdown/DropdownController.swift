@@ -6,10 +6,6 @@ protocol DropdownControllerDelegate: AnyObject {
 }
 
 class DropdownController: UIViewController {
-  
-  lazy var tableView: UITableView = self.makeTableView()
-  lazy var blurView: UIVisualEffectView = self.makeBlurView()
-  
   var animating: Bool = false
   var expanding: Bool = false
   var selectedIndex: Int = 0
@@ -25,18 +21,14 @@ class DropdownController: UIViewController {
   
   weak var delegate: DropdownControllerDelegate?
   
-  // MARK: - Initialization
-  
-  // MARK: - Life cycle
+  lazy var tableView: UITableView = self.makeTableView()
+  lazy var blurView: UIVisualEffectView = self.makeBlurView()
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
     setup()
   }
-  
-  // MARK: - Setup
-  
+    
   func setup() {
     view.backgroundColor = UIColor.clear
     tableView.backgroundColor = UIColor.clear
@@ -46,7 +38,7 @@ class DropdownController: UIViewController {
     tableView.register(AlbumCell.self, forCellReuseIdentifier: String(describing: AlbumCell.self))
     
     tableView.g_pinEdges()
-    tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 130, right: 0)
+    tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 200, right: 0)
   }
   
   // MARK: - Logic

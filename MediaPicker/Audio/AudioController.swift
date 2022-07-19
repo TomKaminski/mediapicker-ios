@@ -37,6 +37,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    view.backgroundColor = MediaPickerConfig.instance.colors.black
     recordingSession = AVAudioSession.sharedInstance()
     do {
       try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -49,12 +50,12 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   private func setup() {
     view.addSubview(audioView)
-    
+    audioView.backgroundColor = .white
     audioView.translatesAutoresizingMaskIntoConstraints = false
     audioView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     audioView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     audioView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    audioView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
+    audioView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 40).isActive = true
     
     let playStopButtonGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(playButtonTouched))
     audioView.playStopButton.addGestureRecognizer(playStopButtonGestureRecognizer)

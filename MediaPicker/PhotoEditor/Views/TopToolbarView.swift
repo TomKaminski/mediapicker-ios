@@ -11,8 +11,8 @@ class TopToolbarView: UIView, ColorSelectedDelegate, CircularButtonConformance {
   lazy var colorsCollectionView: UICollectionView = self.makeColorsCollectionView()
   lazy var buttonsContainerView: UIView = UIView()
   
-  lazy var undoButton: CircularBorderButton = self.makeCircularButton(with: "undoIcon")
-  lazy var textButton: CircularBorderButton = self.makeCircularButton(with: "textIcon")
+  lazy var undoButton: CircularBorderButton = self.makeCircularButton(with: "Undo")
+  lazy var textButton: CircularBorderButton = self.makeCircularButton(with: "Text")
 
   override init(frame: CGRect) {
     super.init(frame: frame)

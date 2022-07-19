@@ -7,8 +7,6 @@ protocol CameraViewDelegate: AnyObject {
 }
 
 class CameraView: UIView, UIGestureRecognizerDelegate {
-  lazy var flashButton: FlashButton = self.makeFlashButton()
-  lazy var rotateButton: UIButton = self.makeRotateButton()
   lazy var rotateOverlayView: UIView = self.makeRotateOverlayView()
   lazy var focusImageView: UIImageView = self.makeFocusImageView()
   lazy var tapGR: UITapGestureRecognizer = self.makeTapGR()
@@ -38,23 +36,12 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
   func setup() {
     addGestureRecognizer(tapGR)
     addGestureRecognizer(pinchGR)
-    
-    [flashButton, rotateButton].forEach {
-      addSubview($0)
-    }
 
     rotateOverlayView.addSubview(blurView)
-    insertSubview(rotateOverlayView, belowSubview: rotateButton)
+    addSubview(rotateOverlayView)
+    
     insertSubview(shutterOverlayView, belowSubview: blurView)
     insertSubview(focusImageView, belowSubview: blurView)
-
-    rotateButton.g_pin(on: .right)
-    rotateButton.g_pin(size: CGSize(width: 44, height: 44))
-    flashButton.g_pin(on: .left)
-    flashButton.g_pin(size: CGSize(width: 80, height: 44))
-
-    rotateButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
-    flashButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor).isActive = true
 
     rotateOverlayView.g_pinEdges()
     blurView.g_pinEdges()
@@ -113,28 +100,6 @@ class CameraView: UIView, UIGestureRecognizerDelegate {
     }, completion: { _ in
       self.focusImageView.transform = CGAffineTransform.identity
     })
-  }
-
-  // MARK: - Controls
-
-  func makeFlashButton() -> FlashButton {
-    let states: [FlashButton.GalleryState] = [
-      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Off".g_localize(fallback: "OFF"), image: MediaPickerBundle.image("gallery_camera_flash_off")!),
-      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_On".g_localize(fallback: "ON"), image: MediaPickerBundle.image("gallery_camera_flash_on")!),
-      FlashButton.GalleryState(title: "LandaxApp_Gallery_Camera_Flash_Auto".g_localize(fallback: "AUTO"), image: MediaPickerBundle.image("gallery_camera_flash_auto")!)
-    ]
-
-    let button = FlashButton(states: states)
-    button.translatesAutoresizingMaskIntoConstraints = false
-    return button
-  }
-
-  func makeRotateButton() -> UIButton {
-    let button = UIButton(type: .custom)
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("cameraIcon"), for: UIControl.State())
-
-    return button
   }
 
   func makeFocusImageView() -> UIImageView {

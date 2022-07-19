@@ -1,17 +1,15 @@
 extension CameraController: CameraPageAware {
   func shutterButtonHeld() {
     MediaPickerConfig.instance.camera.recordMode = .video
-    self.cameraView.rotateButton.isHidden = true
-    self.cameraView.flashButton.isHidden = true
-//    self.pagesController.bottomView.showTimer()
-    self.cameraMan.startVideoRecord(location: locationManager?.latestLocation, startCompletion: { result in })
+    pagesController.topView.toggleViewsVisibility()
+    pagesController.topView.showTimer()
+    cameraMan.startVideoRecord(location: locationManager?.latestLocation, startCompletion: { result in })
   }
   
   func shutterButtonReleased() {
-    self.cameraView.rotateButton.isHidden = false
-    self.cameraView.flashButton.isHidden = false
-//    self.pagesController.bottomView.hideTimer()
-    self.cameraMan.stopVideoRecording()
+    pagesController.topView.toggleViewsVisibility()
+    pagesController.topView.hideTimer()
+    cameraMan.stopVideoRecording()
   }
   
   func shutterButtonTapped() {
@@ -33,8 +31,11 @@ extension CameraController: CameraPageAware {
   func switchedToState(state: MediaToolbarState) { }
   
   func pageDidHide() {
-    self.cameraView.rotateButton.isHidden = false
-    self.cameraView.flashButton.isHidden = false
+    if cameraMan.isRecording() {
+      shutterButtonReleased()
+    }
+    pagesController.topView.rotateButton.isHidden = false
+    pagesController.topView.flashButton.isHidden = false
   }
   
   func pageDidShow() {
@@ -54,8 +55,8 @@ extension CameraController: CameraPageAware {
   
   func setupForOrientation(angle: CGFloat) {
     UIView.animate(withDuration: 0.2, animations: {
-      self.cameraView.flashButton.transform = CGAffineTransform(rotationAngle: angle)
-      self.cameraView.rotateButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController.topView.flashButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController.topView.rotateButton.transform = CGAffineTransform(rotationAngle: angle)
     }, completion: nil)
   }
 }

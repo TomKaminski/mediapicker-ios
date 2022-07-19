@@ -15,7 +15,7 @@ extension CameraController: CameraManDelegate {
   }
   
   func cameraMan(_ cameraMan: CameraMan, didChangeInput input: AVCaptureDeviceInput) {
-    cameraView.flashButton.isHidden = !input.device.hasFlash
+    pagesController.topView.flashButton.isHidden = !input.device.hasFlash
   }
   
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
