@@ -79,7 +79,7 @@ class TopView: UIView {
   func makeBackButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("addPhotoIcon"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Back"), for: UIControl.State())
     button.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
     return button
   }

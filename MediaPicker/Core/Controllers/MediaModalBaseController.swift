@@ -27,7 +27,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   lazy var bottomToolbarView: BottomToolbarView = BottomToolbarView()
   lazy var cartButton: StackView = StackView()
 
-  lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "addPhotoIcon")
+  lazy var addPhotoButton: CircularBorderButton = self.makeCircularButton(with: "Back")
   var bottomToolbarConstraint: NSLayoutConstraint!
   
   var customFileName: String?

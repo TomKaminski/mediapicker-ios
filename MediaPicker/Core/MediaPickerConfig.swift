@@ -66,7 +66,7 @@ public struct MediaPickerConfig {
     }
     
     public struct SaveButton {
-      public var icon = MediaPickerBundle.image("saveIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+      public var icon = MediaPickerBundle.image("Save")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
     }
   }
   
