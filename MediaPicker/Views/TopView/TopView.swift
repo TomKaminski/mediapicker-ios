@@ -88,7 +88,7 @@ class TopView: UIView {
     let states = [
       MediaPickerBundle.image("FlashOff")!,
       MediaPickerBundle.image("FlashOn")!,
-      MediaPickerBundle.image("gallery_camera_flash_auto")!
+      MediaPickerBundle.image("FlashAuto")!
     ]
 
     let button = FlashButton(states: states)

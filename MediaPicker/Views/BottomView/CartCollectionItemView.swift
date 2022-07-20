@@ -37,7 +37,7 @@ public class CartCollectionItemView: UIView {
   }
   
   fileprivate func setupDeleteButton() {
-    deleteButon = UIImageView(image: MediaPickerBundle.image("trashIcon")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
+    deleteButon = UIImageView(image: MediaPickerBundle.image("Delete")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
     deleteButon.backgroundColor = MediaPickerConfig.instance.colors.red
     deleteButon.layer.cornerRadius = 10
     deleteButon.isUserInteractionEnabled = true
