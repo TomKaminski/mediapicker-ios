@@ -4,12 +4,26 @@ extension PagesController: BottomViewDelegate {
   }
   
   func onItemRemove(guid: String) {
-     let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element"), message: MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?"), preferredStyle: .alert)
-     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete"), style: .destructive, handler: { _ in
+    let title = MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
+    let message = MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
+    let deleteBtnText = MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete")
+    let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    
+    if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (deleteBtnText, "delete", {
         self.mediaPickerController.cart.remove(guidToRemove: guid)
-     }))
-     alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
-    self.mediaPickerController.present(alertController, animated: true, completion: nil)
+      }),
+      (cancelBtnText, "cancel", nil)
+    ]) {
+      self.present(controller, animated: true, completion: nil)
+    } else {
+      let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
+        self.mediaPickerController.cart.remove(guidToRemove: guid)
+      }))
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
+      self.mediaPickerController.present(alertController, animated: true, completion: nil)
+    }
   }
   
   func addUpdateCartItem(item: CartItemProtocol) {

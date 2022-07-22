@@ -93,12 +93,24 @@ public class MediaPickerController: UIViewController {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
         if !strongSelf.cart.items.isEmpty {
-          let alertController = UIAlertController(title: MediaPickerConfig.instance.translationKeys.discardCartItemsKey.g_localize(fallback: "Discard elements"), message: String(format: MediaPickerConfig.instance.translationKeys.discardCartItemsDescriptionKey.g_localize(fallback: "Are you sure you want to discard this elements?"), strongSelf.cart.items.count), preferredStyle: .alert)
-          alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard"), style: .destructive, handler: { _ in
-            strongSelf.dismiss(animated: true, completion: nil)
-          }))
-          alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
-          strongSelf.present(alertController, animated: true, completion: nil)
+          let title = MediaPickerConfig.instance.translationKeys.discardElementKey.g_localize(fallback: "Discard element")
+          let message = MediaPickerConfig.instance.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?")
+          let discardBtnText = MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard")
+          let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+          
+          if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+            (discardBtnText, "delete", { strongSelf.dismiss(animated: true, completion: nil)  }),
+            (cancelBtnText, "cancel", nil)
+          ]) {
+            strongSelf.present(controller, animated: true, completion: nil)
+          } else {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: discardBtnText, style: .destructive, handler: { _ in
+              strongSelf.dismiss(animated: true, completion: nil)
+            }))
+            alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
+            strongSelf.present(alertController, animated: true, completion: nil)
+          }
         } else {
           strongSelf.dismiss(animated: true, completion: nil)
         }

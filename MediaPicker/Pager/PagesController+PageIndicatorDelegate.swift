@@ -13,16 +13,35 @@ extension PagesController: PageIndicatorDelegate {
     if checkPermissionForPage(index: index) {
       executePageSelect(index: index)
     } else {
-      let alertController = UIAlertController(title: nil, message: MediaPickerConfig.instance.translationKeys.missingPermissionKey.g_localize(fallback: "You do not have permission. Do you want to go to settings?"), preferredStyle: .alert)
-      alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.goToSettingsKey.g_localize(fallback: "Go to Settings"), style: .default, handler: { _ in
-        DispatchQueue.main.async {
-          if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+      let title = ""
+      let message = MediaPickerConfig.instance.translationKeys.missingPermissionKey.g_localize(fallback: "You do not have permission. Do you want to go to settings?")
+      let goToSettingsText = MediaPickerConfig.instance.translationKeys.goToSettingsKey.g_localize(fallback: "Go to Settings")
+      let cancelText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+      
+      
+      if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+        (goToSettingsText, "standard", {
+          DispatchQueue.main.async {
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+              UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
           }
-        }
-      }))
-      alertController.addAction(UIAlertAction(title: MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel"), style: .cancel, handler: nil))
-      present(alertController, animated: true, completion: nil)
+        }),
+        (cancelText, "cancel", nil)
+      ]) {
+        self.present(controller, animated: true, completion: nil)
+      } else {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: goToSettingsText, style: .default, handler: { _ in
+          DispatchQueue.main.async {
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+              UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+          }
+        }))
+        alertController.addAction(UIAlertAction(title: cancelText, style: .cancel, handler: nil))
+        present(alertController, animated: true, completion: nil)
+      }
     }
   }
   

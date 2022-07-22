@@ -23,6 +23,8 @@ public struct MediaPickerConfig {
   
   public static var instance = MediaPickerConfig()
   
+  public var dialogBuilder: ((String, String?, [(String, String, (() -> Void)?)]) -> UIViewController?)?
+  
   public var tabsToShow: [GalleryTab] = [.libraryTab, .cameraTab, .audioTab]
   public var pageIndicator = PageIndicator()
   public var bottomView = BottomView()
