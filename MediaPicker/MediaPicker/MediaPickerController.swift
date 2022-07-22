@@ -99,16 +99,16 @@ public class MediaPickerController: UIViewController {
           let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
           
           if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
-            (discardBtnText, "delete", { strongSelf.dismiss(animated: true, completion: nil)  }),
-            (cancelBtnText, "cancel", nil)
+            (cancelBtnText, "cancel", nil),
+            (discardBtnText, "delete", { strongSelf.dismiss(animated: true, completion: nil)  })
           ]) {
             strongSelf.present(controller, animated: true, completion: nil)
           } else {
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
             alertController.addAction(UIAlertAction(title: discardBtnText, style: .destructive, handler: { _ in
               strongSelf.dismiss(animated: true, completion: nil)
             }))
-            alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
             strongSelf.present(alertController, animated: true, completion: nil)
           }
         } else {

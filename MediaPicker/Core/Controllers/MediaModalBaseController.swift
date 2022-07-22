@@ -12,6 +12,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
     if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (cancelBtnText, "cancel", nil),
       (deleteBtnText, "delete", {
         mediaPickerDelegate.onModalItemRemove(guid: guid)
         if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
@@ -22,12 +23,12 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
           let values = Array(mediaPickerDelegate.cartItems.values)
           self.cartButton.reload(values)
         }
-      }),
-      (cancelBtnText, "cancel", nil)
+      })
     ]) {
       self.present(controller, animated: true, completion: nil)
     } else {
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
         mediaPickerDelegate.onModalItemRemove(guid: guid)
         if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
@@ -39,7 +40,6 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
           self.cartButton.reload(values)
         }
        }))
-      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       self.present(alertController, animated: true, completion: nil)
     }
   }
@@ -125,20 +125,20 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
     if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (cancelBtnText, "cancel", nil),
       (discardBtnText, "delete", {
         EventHub.shared.modalDismissed?(false)
         self.dismiss(animated: true, completion: nil)
-      }),
-      (cancelBtnText, "cancel", nil)
+      })
     ]) {
       self.present(controller, animated: true, completion: nil)
     } else {
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       alertController.addAction(UIAlertAction(title: discardBtnText, style: .destructive, handler: { _ in
         EventHub.shared.modalDismissed?(false)
         self.dismiss(animated: true, completion: nil)
       }))
-      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       self.present(alertController, animated: true, completion: nil)
     }
   }
@@ -150,20 +150,20 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
     if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (cancelBtnText, "cancel", nil),
       (discardBtnText, "delete", {
         EventHub.shared.modalDismissed?(false)
         self.dismiss(animated: true, completion: nil)
-      }),
-      (cancelBtnText, "cancel", nil)
+      })
     ]) {
       self.present(controller, animated: true, completion: nil)
     } else {
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       alertController.addAction(UIAlertAction(title: discardBtnText, style: .destructive, handler: { _ in
         EventHub.shared.modalDismissed?(false)
         self.dismiss(animated: true, completion: nil)
       }))
-      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       self.present(alertController, animated: true, completion: nil)
     }
   }
