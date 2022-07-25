@@ -27,16 +27,15 @@ class AudioPreviewController: MediaEditorBaseController, QLPreviewControllerDele
   }
   
   private func addOrUpdateItem() {
+    let filename: String
     if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-      audio.customFileName = fileNameFromInput
+      filename = fileNameFromInput
     } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-      audio.customFileName = lastFileName
+      filename = lastFileName
     } else {
-      audio.customFileName = FileNameComposer.getAudioFileName()
+      filename = FileNameComposer.getVideoFileName()
     }
-    
-    audio.newlyTaken = false
-    doneDelegate?.onSaveTapped(item: audio)
+    doneDelegate?.onFileRename(guid: audio.guid, newFileName: filename)
   }
   
   override func onSave() {

@@ -1,4 +1,4 @@
-extension PagesController: BottomViewDelegate, MediaEditorControllerDelegate {
+extension PagesController: BottomViewDelegate {
   func onModalItemRemove(guid: String) {
     mediaPickerController.cart.remove(guidToRemove: guid)
   }
@@ -24,16 +24,6 @@ extension PagesController: BottomViewDelegate, MediaEditorControllerDelegate {
       }))
       self.mediaPickerController.present(alertController, animated: true, completion: nil)
     }
-  }
-  
-  func onSaveTapped(item: CartItemProtocol) {
-    if mediaPickerController.cart.items[item.guid] != nil {
-      mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
-    } else {
-      mediaPickerController.cart.items[item.guid] = item
-    }
-    
-    mediaPickerController.itemAdded(item: item)
   }
   
   func shutterButtonHeld() {

@@ -1,3 +1,4 @@
 protocol MediaEditorControllerDelegate: AnyObject {
-  func onSaveTapped(item: CartItemProtocol)
+  func onFileRename(guid: String, newFileName: String)
+  func doneEditingPhoto(image: UIImage, customFileName: String, guid: String, editedSomething: Bool)
 }

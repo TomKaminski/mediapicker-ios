@@ -24,9 +24,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   var isTyping = false
   
   var editedSomething = false
-  
-  public var delegate: PhotoEditorDelegate?
-  
+    
   init(image: UIImage, guid: String, newlyTaken: Bool) {
     self.originalImage = image
     self.originalImageGuid = guid
@@ -118,7 +116,8 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
       customFileName = lastFileName
     }
     
-    delegate?.doneEditing(image: img, customFileName: customFileName, selfCtrl: self, editedSomething: editedSomething)
+    doneDelegate?.doneEditingPhoto(image: img, customFileName: customFileName, guid: originalImageGuid, editedSomething: editedSomething)
+    dismiss(animated: true, completion: nil)
   }
   
   private func makeTopToolbarView() -> TopToolbarView {

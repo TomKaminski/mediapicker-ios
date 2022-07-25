@@ -1,14 +1,21 @@
 import Photos
 import UIKit
 
-extension MediaPickerController: PhotoEditorDelegate {
-  public func doneEditing(image: UIImage, customFileName: String, selfCtrl: PhotoEditorController, editedSomething: Bool) {
+extension MediaPickerController: MediaEditorControllerDelegate {
+  func onFileRename(guid: String, newFileName: String) {
+    if var item = cart.items[guid] {
+      item.customFileName = newFileName
+      item.newlyTaken = false
+      itemAdded(item: item)
+    }
+  }
+  
+  func doneEditingPhoto(image: UIImage, customFileName: String, guid: String, editedSomething: Bool) {
     guard editedSomething, let cgImage = image.cgImage else {
-      if var item = cart.getItem(by: selfCtrl.originalImageGuid) {
+      if var item = cart.getItem(by: guid) {
         item.customFileName = customFileName
         cart.add(item)
       }
-      selfCtrl.dismiss(animated: true, completion: nil)
       return
     }
     
@@ -33,16 +40,11 @@ extension MediaPickerController: PhotoEditorDelegate {
           let result = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil)
           let newAsset = result.object(at: 0)
           
-          self.cart.remove(guidToRemove: selfCtrl.originalImageGuid)
-          self.cart.add(Image(asset: newAsset, guid: selfCtrl.originalImageGuid, newlyTaken: false, customFileName: customFileName, dateAdded: Date()))
-          selfCtrl.dismiss(animated: true, completion: nil)
+          self.cart.remove(guidToRemove: guid)
+          self.cart.add(Image(asset: newAsset, guid: guid, newlyTaken: false, customFileName: customFileName, dateAdded: Date()))
         }
       }
     }
-  }
-  
-  public func canceledEditing() {
-    
   }
   
   internal func getMetaData(image: UIImage) -> [String: Any]? {

@@ -141,16 +141,15 @@ class VideoAssetPreviewController: MediaEditorBaseController {
   }
   
   private func addOrUpdateCartItem() {
+    let filename: String
     if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-      video.customFileName = fileNameFromInput
+      filename = fileNameFromInput
     } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-      video.customFileName = lastFileName
+      filename = lastFileName
     } else {
-      video.customFileName = FileNameComposer.getVideoFileName()
+      filename = FileNameComposer.getVideoFileName()
     }
-    
-    video.newlyTaken = false
-    doneDelegate?.onSaveTapped(item: video)
+    doneDelegate?.onFileRename(guid: video.guid, newFileName: filename)
   }
 
   private func setupNotifications() {

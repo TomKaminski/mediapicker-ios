@@ -6,7 +6,6 @@ protocol BottomViewDelegate: AnyObject {
   var itemsInCart: Int { get }
   var cartItems: [String: CartItemProtocol] { get }
   
-  func onSaveTapped(item: CartItemProtocol)
   func onItemRemove(guid: String)
   func onModalItemRemove(guid: String)
 }
