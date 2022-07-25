@@ -45,7 +45,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
     let label = UILabel(frame: CGRect.zero)
     label.text = self.audioRecordingLabelPlaceholder()
     label.textAlignment = .center
-    label.textColor = MediaPickerConfig.instance.colors.lightGray
+    label.textColor = MediaPickerConfig.shared.colors.lightGray
     label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
     label.alpha = 0
     return label
@@ -88,7 +88,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   
   private func makeInfoLabel() -> UILabel {
     let label = UILabel()
-    label.textColor = MediaPickerConfig.instance.colors.black
+    label.textColor = MediaPickerConfig.shared.colors.black
     label.textAlignment = .center
     label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
     return label
@@ -97,7 +97,7 @@ class AudioView: UIView, UIGestureRecognizerDelegate {
   private func makeWaveformLiveView() -> WaveformLiveView {
     let liveView = WaveformLiveView()
     liveView.translatesAutoresizingMaskIntoConstraints = false
-    liveView.configuration = Waveform.Configuration(size: CGSize(width: 120, height: 50), backgroundColor: .white, style: .striped(.init(color: MediaPickerConfig.instance.colors.lightGray, width: 3, spacing: 3, lineCap: .round)), dampening: nil, position: .middle, verticalScalingFactor: 1.5, shouldAntialias: true)
+    liveView.configuration = Waveform.Configuration(size: CGSize(width: 120, height: 50), backgroundColor: .white, style: .striped(.init(color: MediaPickerConfig.shared.colors.lightGray, width: 3, spacing: 3, lineCap: .round)), dampening: nil, position: .middle, verticalScalingFactor: 1.5, shouldAntialias: true)
     return liveView
   }
   

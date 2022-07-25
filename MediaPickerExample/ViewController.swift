@@ -1,11 +1,3 @@
-//
-//  ViewController.swift
-//  MediaPickerExample
-//
-//  Created by Tomasz Kaminski on 7/25/19.
-//  Copyright © 2019 Tomasz Kaminski. All rights reserved.
-//
-
 import UIKit
 import MediaPicker
 
@@ -39,12 +31,12 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
     picker.modalPresentationStyle = .overFullScreen
     picker.delegate = self
     
-    MediaPickerConfig.instance = MediaPickerConfig()
-    MediaPickerConfig.instance.camera.allowPhotoEdit = true
-    MediaPickerConfig.instance.tabsToShow = [.libraryTab, .cameraTab]
-    MediaPickerConfig.instance.camera.recordMode = .photo
-    MediaPickerConfig.instance.bottomView.cart.maxItems = 1
-    MediaPickerConfig.instance.videoRecording.allow = false
+    MediaPickerConfig.shared = MediaPickerConfig()
+    MediaPickerConfig.shared.camera.allowPhotoEdit = true
+    MediaPickerConfig.shared.audio.includeAudioTab = false
+    MediaPickerConfig.shared.camera.recordMode = .photo
+    MediaPickerConfig.shared.cart.maxItems = 1
+    MediaPickerConfig.shared.videoRecording.allow = false
     
     self.present(picker, animated: true, completion: nil)
   }
@@ -56,8 +48,8 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
   }
 
   @IBAction func onTapAdd(_ sender: Any) {
-    MediaPickerConfig.instance = MediaPickerConfig()
-    MediaPickerConfig.instance.camera.allowPhotoEdit = true
+    MediaPickerConfig.shared = MediaPickerConfig()
+    MediaPickerConfig.shared.camera.allowPhotoEdit = true
     
     let picker = MediaPickerController()
     picker.modalPresentationStyle = .overFullScreen

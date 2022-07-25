@@ -115,7 +115,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     view.addSubview(pageIndicator)
     pageIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     pageIndicator.heightAnchor.constraint(equalToConstant: 70).isActive = true
-    pageIndicator.widthAnchor.constraint(equalToConstant: 270).isActive = true
+    pageIndicator.widthAnchor.constraint(equalToConstant: MediaPickerConfig.shared.audio.includeAudioTab ? 270 : 180).isActive = true
     pageIndicator.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     
     view.addSubview(scrollView)
@@ -154,7 +154,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     view.addSubview(bottomView)
     bottomView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     bottomView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height).isActive = true
+    bottomView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.bottomView.height).isActive = true
     bottomView.bottomAnchor.constraint(equalTo: pageIndicator.topAnchor).isActive = true
     
     EventHub.shared.changeMediaPickerState = {
@@ -199,7 +199,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   }
   
   func notifyShow() {
-    let activeTab = MediaPickerConfig.instance.tabsToShow[selectedIndex]
+    let activeTab = GalleryTab(rawValue: selectedIndex) ?? GalleryTab.libraryTab
     self.bottomView.activeTab = activeTab
     self.topView.activeTab = activeTab
     

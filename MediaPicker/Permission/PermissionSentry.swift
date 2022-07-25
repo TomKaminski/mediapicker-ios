@@ -25,7 +25,7 @@ struct Permission {
       return 0
     }
     
-    if Microphone.status == .authorized {
+    if Microphone.status == .authorized && MediaPickerConfig.shared.audio.includeAudioTab {
       return 2
     }
     
@@ -37,8 +37,8 @@ struct Permission {
       return .libraryTab
     }
     
-    if MediaPickerConfig.instance.pageIndicator.initialTab.hasPermission {
-      return MediaPickerConfig.instance.pageIndicator.initialTab
+    if MediaPickerConfig.shared.initialTab.hasPermission {
+      return MediaPickerConfig.shared.initialTab
     }
     
     if Camera.status == .authorized {
@@ -49,7 +49,7 @@ struct Permission {
       return .libraryTab
     }
     
-    if Microphone.status == .authorized {
+    if Microphone.status == .authorized && MediaPickerConfig.shared.audio.includeAudioTab {
       return .audioTab
     }
     

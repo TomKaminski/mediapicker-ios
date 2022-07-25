@@ -23,7 +23,7 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
       button.frame = CGRect(x: 90 * CGFloat(i), y: 0, width: 90, height: bounds.size.height)
     }
     
-    indicator.backgroundColor = MediaPickerConfig.instance.colors.primary
+    indicator.backgroundColor = MediaPickerConfig.shared.colors.primary
     indicator.layer.cornerRadius = 2
     indicator.frame.size = CGSize(width: 90, height: 4)
     indicator.frame.origin.y = bounds.size.height - indicator.frame.size.height
@@ -34,19 +34,22 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
   }
   
   func setup() {
-    let libButton = PageIndicatorUIView(icon: "Details", text: MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"), index: 0)
+    let libButton = PageIndicatorUIView(icon: "Details", text: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"), index: 0)
     libButton.delegate = self
     addSubview(libButton)
     
-    let cameraButton = PageIndicatorUIView(icon: "Camera", text: MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "CAMERA"), index: 1)
+    let cameraButton = PageIndicatorUIView(icon: "Camera", text: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "CAMERA"), index: 1)
     cameraButton.delegate = self
     addSubview(cameraButton)
-
-    let audioButton = PageIndicatorUIView(icon: "Recording", text: MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "AUDIO"), index: 2)
-    audioButton.delegate = self
-    addSubview(audioButton)
-
-    buttons = [libButton, cameraButton, audioButton]
+    
+    if (MediaPickerConfig.shared.audio.includeAudioTab) {
+      let audioButton = PageIndicatorUIView(icon: "Recording", text: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "AUDIO"), index: 2)
+      audioButton.delegate = self
+      addSubview(audioButton)
+      buttons = [libButton, cameraButton, audioButton]
+    } else {
+      buttons = [libButton, cameraButton]
+    }
     
     addSubview(indicator)
   }
@@ -61,8 +64,8 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
   
   func select(index: Int, animated: Bool = true) {
     for (i, b) in buttons.enumerated() {
-      b.label.textColor = i == index ? MediaPickerConfig.instance.colors.primary : MediaPickerConfig.instance.colors.black
-      b.imageView.image = b.imageView.image?.withTintColor(i == index ? MediaPickerConfig.instance.colors.primary : MediaPickerConfig.instance.colors.black)
+      b.label.textColor = i == index ? MediaPickerConfig.shared.colors.primary : MediaPickerConfig.shared.colors.black
+      b.imageView.image = b.imageView.image?.withTintColor(i == index ? MediaPickerConfig.shared.colors.primary : MediaPickerConfig.shared.colors.black)
     }
     
     UIView.animate(withDuration: animated ? 0.25 : 0.0, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .beginFromCurrentState, animations: {

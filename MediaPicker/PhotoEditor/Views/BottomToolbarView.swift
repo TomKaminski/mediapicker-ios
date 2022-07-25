@@ -53,7 +53,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
   
   func makeSaveButton() -> GalleryFloatingButton {    
     let button = GalleryFloatingButton()
-    button.imageView.image = MediaPickerConfig.instance.bottomView.saveButton.icon
+    button.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
     button.tapDelegate = self
     return button
   }
@@ -84,7 +84,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
   
   fileprivate func makeBackButton() -> CircularBorderButton {
     let btn = CircularBorderButton(frame: .zero)
-    btn.setImage(MediaPickerConfig.instance.bottomView.backButton.icon, for: .normal)
+    btn.setImage(MediaPickerConfig.shared.bottomView.backButton.icon, for: .normal)
     btn.addTarget(self, action: #selector(onBackPressed), for: .touchUpInside)
     btn.translatesAutoresizingMaskIntoConstraints = false
     return btn
@@ -99,7 +99,7 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     view.translatesAutoresizingMaskIntoConstraints = false
     view.text = self.lastFileName
     view.delegate = self
-    view.attributedPlaceholder = NSAttributedString(string: MediaPickerConfig.instance.translationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
+    view.attributedPlaceholder = NSAttributedString(string: MediaPickerConfig.shared.translationKeys.filenameInputPlaceholderKey.g_localize(fallback: "Filename.."), attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
     return view
   }
 
@@ -108,9 +108,9 @@ class BottomToolbarView: UIView, UITextFieldDelegate, CircularButtonConformance,
     self.backButton = backButton
     addSubview(backButton)
     
-    backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.instance.bottomView.backButton.leftMargin).isActive = true
-    backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size).isActive = true
-    backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.backButton.size).isActive = true
+    backButton.leadingAnchor.constraint(equalTo: backButton.superview!.leadingAnchor, constant: MediaPickerConfig.shared.bottomView.backButton.leftMargin).isActive = true
+    backButton.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.bottomView.backButton.size).isActive = true
+    backButton.widthAnchor.constraint(equalToConstant: MediaPickerConfig.shared.bottomView.backButton.size).isActive = true
     backButton.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
   }
   

@@ -2,7 +2,7 @@ class CircularBorderButton: UIButton {
   override init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
     self.layer.borderColor = UIColor.white.cgColor
     self.layer.borderWidth = 1
     self.layer.cornerRadius = 20

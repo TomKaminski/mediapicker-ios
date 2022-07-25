@@ -51,7 +51,7 @@ class ImageCell: UICollectionViewCell {
   private func makeHighlightOverlay() -> UIView {
     let view = UIView()
     view.isUserInteractionEnabled = false
-    view.backgroundColor = MediaPickerConfig.instance.colors.primary.withAlphaComponent(0.3)
+    view.backgroundColor = MediaPickerConfig.shared.colors.primary.withAlphaComponent(0.3)
     view.isHidden = true
     return view
   }

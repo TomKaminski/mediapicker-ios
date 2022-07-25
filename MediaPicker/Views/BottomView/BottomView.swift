@@ -17,7 +17,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
 
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
     setup()
   }
 
@@ -61,7 +61,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
   fileprivate func makeSaveButton() -> GalleryFloatingButton {
     let button = GalleryFloatingButton()
     button.tapDelegate = self
-    button.imageView.image = MediaPickerConfig.instance.bottomView.saveButton.icon
+    button.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
 
     return button
   }
@@ -77,7 +77,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
   }
   
   @objc fileprivate func shutterLongTap(sender: UIGestureRecognizer) {
-    guard MediaPickerConfig.instance.videoRecording.allow else {
+    guard MediaPickerConfig.shared.videoRecording.allow else {
       if sender.state == .ended {
         onShutterButtonTapped()
       }

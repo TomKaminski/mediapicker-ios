@@ -41,7 +41,7 @@ class PermissionView: UIView {
     let label = UILabel()
     label.textColor = .black
     label.font = UIFont.systemFont(ofSize: 14)
-    label.text = MediaPickerConfig.instance.translationKeys.permissionLabelKey.g_localize(fallback: "Please grant access to photos and the camera.")
+    label.text = MediaPickerConfig.shared.translationKeys.permissionLabelKey.g_localize(fallback: "Please grant access to photos and the camera.")
     
     label.textAlignment = .center
     label.numberOfLines = 0
@@ -52,7 +52,7 @@ class PermissionView: UIView {
   
   func makeSettingButton() -> UIButton {
     let button = UIButton()
-    button.setTitle(MediaPickerConfig.instance.translationKeys.goToSettingsKey.g_localize(fallback: "GO TO SETTINGS"), for: UIControl.State())
+    button.setTitle(MediaPickerConfig.shared.translationKeys.goToSettingsKey.g_localize(fallback: "GO TO SETTINGS"), for: UIControl.State())
     button.backgroundColor = UIColor.init(red: 97/255, green: 69/255, blue: 146/255, alpha: 1)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
     button.setTitleColor(.white, for: .normal)
@@ -64,14 +64,14 @@ class PermissionView: UIView {
   
   func makeCloseButton() -> UIButton {
     let button = UIButton(type: .custom)
-    button.setImage(MediaPickerConfig.instance.permission.closeImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-    button.tintColor = MediaPickerConfig.instance.permission.closeImageTint
+    button.setImage(MediaPickerBundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
+    button.tintColor = UIColor(red: 109 / 255, green: 107 / 255, blue: 132 / 255, alpha: 1)
     return button
   }
   
   func makeImageView() -> UIImageView {
     let view = UIImageView()
-    view.image = MediaPickerConfig.instance.permission.image
+    view.image = MediaPickerBundle.image("gallery_permission_view_camera")
     
     return view
   }

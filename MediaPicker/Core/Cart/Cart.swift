@@ -22,7 +22,7 @@ public class Cart {
   }
 
   public func add(_ item: CartItemProtocol) {
-    if let maxItems = MediaPickerConfig.instance.bottomView.cart.maxItems, maxItems == items.count {
+    if let maxItems = MediaPickerConfig.shared.cart.maxItems, maxItems == items.count {
       return
     }
     

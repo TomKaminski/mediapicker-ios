@@ -82,10 +82,10 @@ public class MediaPickerController: UIViewController {
       }
       
       self.currentlyPresentedModalController?.dismiss(animated: false, completion: nil)
-      if let guid = MediaPickerConfig.instance.bottomView.cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken, !onAddNextTapped {
+      if let guid = MediaPickerConfig.shared.cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken, !onAddNextTapped {
         self.cart.remove(cartItem)
       }
-      MediaPickerConfig.instance.bottomView.cart.selectedGuid = nil
+      MediaPickerConfig.shared.cart.selectedGuid = nil
       self.currentlyPresentedModalController = nil
       self.pagesController?.cartView?.reselectItem()
     }
@@ -93,12 +93,12 @@ public class MediaPickerController: UIViewController {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
         if !strongSelf.cart.items.isEmpty {
-          let title = MediaPickerConfig.instance.translationKeys.discardElementKey.g_localize(fallback: "Discard element")
-          let message = MediaPickerConfig.instance.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?")
-          let discardBtnText = MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard")
-          let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+          let title = MediaPickerConfig.shared.translationKeys.discardElementKey.g_localize(fallback: "Discard element")
+          let message = MediaPickerConfig.shared.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?")
+          let discardBtnText = MediaPickerConfig.shared.translationKeys.discardKey.g_localize(fallback: "Discard")
+          let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
           
-          if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+          if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
             (cancelBtnText, "cancel", nil),
             (discardBtnText, "delete", { strongSelf.dismiss(animated: true, completion: nil)  })
           ]) {
@@ -136,8 +136,8 @@ public class MediaPickerController: UIViewController {
     
     EventHub.shared.executeCustomAction = { guid in
       if let item = self.cart.getItem(by: guid) {
-        MediaPickerConfig.instance.bottomView.cart.selectedGuid = guid
-        if item.type == .Image && MediaPickerConfig.instance.camera.allowPhotoEdit {
+        MediaPickerConfig.shared.cart.selectedGuid = guid
+        if item.type == .Image && MediaPickerConfig.shared.camera.allowPhotoEdit {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
             let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
@@ -148,14 +148,14 @@ public class MediaPickerController: UIViewController {
             self.pagesController?.cartView?.reselectItem()
             self.presentNewModal(photoEditor, guid)
           })
-        } else if item.type == .Audio && MediaPickerConfig.instance.audio.allowAudioEdit {
+        } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit {
           let ctrl = AudioPreviewController(audio: item as! Audio)
           ctrl.mediaPickerControllerDelegate = self.pagesController
           ctrl.customFileName = item.customFileName
           ctrl.modalPresentationStyle = .overFullScreen
           self.pagesController?.cartView?.reselectItem()
           self.presentNewModal(ctrl, guid)
-        } else if item.type == .Video && MediaPickerConfig.instance.camera.allowVideoEdit {
+        } else if item.type == .Video && MediaPickerConfig.shared.camera.allowVideoEdit {
           let assetCtrl = VideoAssetPreviewController()
           assetCtrl.video = (item as! Video)
           assetCtrl.customFileName = item.customFileName
@@ -187,12 +187,16 @@ public class MediaPickerController: UIViewController {
       return nil
     }
     
-    let controllers = [
+    var controllers = [
       createLibraryController(),
       createCameraController(),
-      createAudioController()
     ]
-
+    
+    let showAudioTab = MediaPickerConfig.shared.audio.includeAudioTab
+    if (showAudioTab) {
+      controllers.append(createAudioController())
+    }
+    
     let controller = PagesController(controllers: controllers)
     pagesController = controller
     controller.selectedIndex = Permission.startIndex
@@ -206,7 +210,7 @@ public class MediaPickerController: UIViewController {
     }
 
     let ctrl = CameraController(cart: cart)
-    ctrl.title = MediaPickerConfig.instance.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA")
+    ctrl.title = MediaPickerConfig.shared.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA")
     return ctrl
   }
 
@@ -216,13 +220,13 @@ public class MediaPickerController: UIViewController {
     }
 
     let ctrl = AudioController(cart: cart)
-    ctrl.title = MediaPickerConfig.instance.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
+    ctrl.title = MediaPickerConfig.shared.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO")
     return ctrl
   }
 
   func createLibraryController() -> LibraryController {
     let ctrl = LibraryController(cart: cart)
-    ctrl.title = MediaPickerConfig.instance.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY")
+    ctrl.title = MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY")
     return ctrl
   }
 }

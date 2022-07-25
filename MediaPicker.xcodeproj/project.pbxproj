@@ -75,6 +75,7 @@
 		76B8E4FA22EADCAA00D99495 /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B8E4F922EADCAA00D99495 /* Constraints.swift */; };
 		76C0CFF62302987800E25900 /* CartItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF52302987800E25900 /* CartItemType.swift */; };
 		76C0CFF82302989800E25900 /* CartMainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C0CFF72302989800E25900 /* CartMainDelegate.swift */; };
+		76E60D16288E70800061FDD4 /* GalleryTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E60D15288E70800061FDD4 /* GalleryTab.swift */; };
 		76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */; };
 		76EF9D1128856CE70007CB8F /* DSWaveformImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 76EF9D0828856CE70007CB8F /* DSWaveformImage.h */; };
 		76EF9D1228856CE70007CB8F /* WaveformLiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76EF9D0A28856CE70007CB8F /* WaveformLiveView.swift */; };
@@ -220,6 +221,7 @@
 		76B8E4F922EADCAA00D99495 /* Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		76C0CFF52302987800E25900 /* CartItemType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemType.swift; sourceTree = "<group>"; };
 		76C0CFF72302989800E25900 /* CartMainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartMainDelegate.swift; sourceTree = "<group>"; };
+		76E60D15288E70800061FDD4 /* GalleryTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryTab.swift; sourceTree = "<group>"; };
 		76E7C0F22301317E003A07B2 /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		76EF9D0828856CE70007CB8F /* DSWaveformImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSWaveformImage.h; sourceTree = "<group>"; };
 		76EF9D0A28856CE70007CB8F /* WaveformLiveView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformLiveView.swift; sourceTree = "<group>"; };
@@ -465,6 +467,7 @@
 				F325136D2332157D00B11EA6 /* MediaTypeEnum.swift */,
 				F38255FE233B557100CE30A6 /* FilenameComposer.swift */,
 				F394A27E253440030002C5B7 /* LocationManager.swift */,
+				76E60D15288E70800061FDD4 /* GalleryTab.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -867,6 +870,7 @@
 				F3B2B4DC233F8D6E00F2CCBE /* PagesController+CartButtonDelegate.swift in Sources */,
 				76EF9D1B28858D0D0007CB8F /* TopView.swift in Sources */,
 				F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */,
+				76E60D16288E70800061FDD4 /* GalleryTab.swift in Sources */,
 				7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */,
 				7639067322F2ED91007CD4CE /* AlbumCell.swift in Sources */,
 				76E7C0F32301317E003A07B2 /* UIView+Extensions.swift in Sources */,

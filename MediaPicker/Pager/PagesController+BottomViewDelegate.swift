@@ -4,12 +4,12 @@ extension PagesController: BottomViewDelegate {
   }
   
   func onItemRemove(guid: String) {
-    let title = MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
-    let message = MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
-    let deleteBtnText = MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete")
-    let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    let title = MediaPickerConfig.shared.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
+    let message = MediaPickerConfig.shared.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
+    let deleteBtnText = MediaPickerConfig.shared.translationKeys.deleteKey.g_localize(fallback: "Delete")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
-    if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
       (cancelBtnText, "cancel", nil),
       (deleteBtnText, "delete", {
         self.mediaPickerController.cart.remove(guidToRemove: guid)

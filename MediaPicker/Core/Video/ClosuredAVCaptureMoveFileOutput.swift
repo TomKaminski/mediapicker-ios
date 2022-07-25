@@ -30,11 +30,11 @@ public class ClosuredAVCaptureMovieFileOutput: NSObject, AVCaptureFileOutputReco
     self.output.minFreeDiskSpaceLimit = 1024 * 1024
     self.output.movieFragmentInterval = CMTime.invalid
     
-    if let maxLengthInSecondsFound = MediaPickerConfig.instance.videoRecording.maxLengthInSeconds {
+    if let maxLengthInSecondsFound = MediaPickerConfig.shared.videoRecording.maxLengthInSeconds {
       self.output.maxRecordedDuration = CMTimeMakeWithSeconds(Float64(maxLengthInSecondsFound), preferredTimescale: Int32(30))
     }
     
-    if let maxBytesCountFound = MediaPickerConfig.instance.videoRecording.maxBytesCount {
+    if let maxBytesCountFound = MediaPickerConfig.shared.videoRecording.maxBytesCount {
       self.output.maxRecordedFileSize = maxBytesCountFound
     }
   }

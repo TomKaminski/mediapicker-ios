@@ -9,7 +9,7 @@ public class GalleryFloatingButton: UIView {
   override public init(frame: CGRect) {
     super.init(frame: frame)
     
-    self.backgroundColor = MediaPickerConfig.instance.colors.primary
+    self.backgroundColor = MediaPickerConfig.shared.colors.primary
     self.layer.cornerRadius = 28
     self.layer.masksToBounds = true
     self.isUserInteractionEnabled = true

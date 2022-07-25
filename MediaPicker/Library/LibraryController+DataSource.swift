@@ -42,8 +42,8 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-    var size = (collectionView.bounds.size.width - (MediaPickerConfig.instance.grid.dimension.columnCount - 1) * MediaPickerConfig.instance.grid.dimension.cellSpacing)
-    / MediaPickerConfig.instance.grid.dimension.columnCount
+    var size = (collectionView.bounds.size.width - (MediaPickerConfig.shared.grid.columnCount - 1) * MediaPickerConfig.shared.grid.cellSpacing)
+    / MediaPickerConfig.shared.grid.columnCount
     
     if size > 200 {
       size = 200

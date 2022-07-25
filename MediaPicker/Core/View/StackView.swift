@@ -151,7 +151,7 @@ class StackView: UIControl {
     label.textColor = .white
     label.font = UIFont.systemFont(ofSize: 11, weight: .semibold)
     label.textAlignment = .center
-    label.backgroundColor = MediaPickerConfig.instance.colors.black
+    label.backgroundColor = MediaPickerConfig.shared.colors.black
     label.alpha = 0
     label.layer.cornerRadius = 11
     label.clipsToBounds = true

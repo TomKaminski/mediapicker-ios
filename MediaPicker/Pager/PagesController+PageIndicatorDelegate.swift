@@ -14,12 +14,12 @@ extension PagesController: PageIndicatorDelegate {
       executePageSelect(index: index)
     } else {
       let title = ""
-      let message = MediaPickerConfig.instance.translationKeys.missingPermissionKey.g_localize(fallback: "You do not have permission. Do you want to go to settings?")
-      let goToSettingsText = MediaPickerConfig.instance.translationKeys.goToSettingsKey.g_localize(fallback: "Go to Settings")
-      let cancelText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+      let message = MediaPickerConfig.shared.translationKeys.missingPermissionKey.g_localize(fallback: "You do not have permission. Do you want to go to settings?")
+      let goToSettingsText = MediaPickerConfig.shared.translationKeys.goToSettingsKey.g_localize(fallback: "Go to Settings")
+      let cancelText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
       
       
-      if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+      if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
         (goToSettingsText, "standard", {
           DispatchQueue.main.async {
             if let settingsURL = URL(string: UIApplication.openSettingsURLString) {

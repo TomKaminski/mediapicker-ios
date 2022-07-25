@@ -35,7 +35,7 @@ class TopView: UIView {
   
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
     setup()
   }
   

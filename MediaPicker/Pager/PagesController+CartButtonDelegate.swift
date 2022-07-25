@@ -21,7 +21,7 @@ extension PagesController: CartButtonDelegate {
   internal func addCartCollectionView() {
     let cartView = CartCollectionView(frame: .zero, cartItems: self.cartItems)
     cartView.bottomViewCartDelegate = self
-    cartView.backgroundColor = MediaPickerConfig.instance.colors.black.withAlphaComponent(0.2)
+    cartView.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
     cartView.alpha = 0
     
     view.addSubview(cartView)
@@ -29,7 +29,7 @@ extension PagesController: CartButtonDelegate {
     cartView.translatesAutoresizingMaskIntoConstraints = false
     cartView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
     cartView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-    cartView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.bottomView.height).isActive = true
+    cartView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.bottomView.height).isActive = true
     cartView.bottomAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
     
     self.cartView = cartView

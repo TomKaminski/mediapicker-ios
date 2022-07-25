@@ -37,7 +37,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = MediaPickerConfig.instance.colors.black
+    view.backgroundColor = MediaPickerConfig.shared.colors.black
     recordingSession = AVAudioSession.sharedInstance()
     do {
       try recordingSession.setCategory(.playAndRecord, mode: .default)
@@ -202,11 +202,11 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   //------
   
   var startRecordingLabelText: String {
-    return MediaPickerConfig.instance.translationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
+    return MediaPickerConfig.shared.translationKeys.tapToStartLabelKey.g_localize(fallback: "Tap to start recording")
   }
   
   var pauseRecordingLabelText: String {
-    return MediaPickerConfig.instance.translationKeys.tapToStopLabelKey.g_localize(fallback: "Tap to stop recording")
+    return MediaPickerConfig.shared.translationKeys.tapToStopLabelKey.g_localize(fallback: "Tap to stop recording")
   }
   
   private func addAudioTakenChildrenController(audio: Audio) {

@@ -67,7 +67,7 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
   
   public func reselectItem() {
     self.views.forEach { (view) in
-      view.selected = view.guid == MediaPickerConfig.instance.bottomView.cart.selectedGuid
+      view.selected = view.guid == MediaPickerConfig.shared.cart.selectedGuid
     }
   }
   
@@ -76,7 +76,7 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
     self.views = cartItems.sorted(by: { $0.value.dateAdded < $1.value.dateAdded }).compactMap { (cartItem) -> CartCollectionItemView in
       let view = cartItem.value.cartView
       view.delegate = self
-      view.selected = view.guid == MediaPickerConfig.instance.bottomView.cart.selectedGuid
+      view.selected = view.guid == MediaPickerConfig.shared.cart.selectedGuid
       return view
     }
     self.addItems(self.views)

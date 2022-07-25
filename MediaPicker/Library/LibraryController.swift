@@ -21,7 +21,7 @@ class LibraryController: UIViewController, LibraryTabTopViewDelegate {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = MediaPickerConfig.instance.colors.black
+    view.backgroundColor = MediaPickerConfig.shared.colors.black
     cart.delegates.add(self)
     setup()
     pagesController.topView.libraryDelegate = self

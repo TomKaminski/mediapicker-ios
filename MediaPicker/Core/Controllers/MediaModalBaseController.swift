@@ -6,16 +6,16 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       return
     }
     
-    let title = MediaPickerConfig.instance.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
-    let message = MediaPickerConfig.instance.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
-    let deleteBtnText = MediaPickerConfig.instance.translationKeys.deleteKey.g_localize(fallback: "Delete")
-    let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    let title = MediaPickerConfig.shared.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
+    let message = MediaPickerConfig.shared.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
+    let deleteBtnText = MediaPickerConfig.shared.translationKeys.deleteKey.g_localize(fallback: "Delete")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
-    if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
       (cancelBtnText, "cancel", nil),
       (deleteBtnText, "delete", {
         mediaPickerDelegate.onModalItemRemove(guid: guid)
-        if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
+        if MediaPickerConfig.shared.cart.selectedGuid == guid {
           self.dismiss(animated: true, completion: nil)
           EventHub.shared.modalDismissed?(false)
         } else {
@@ -31,7 +31,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
       alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
         mediaPickerDelegate.onModalItemRemove(guid: guid)
-        if MediaPickerConfig.instance.bottomView.cart.selectedGuid == guid {
+        if MediaPickerConfig.shared.cart.selectedGuid == guid {
           self.dismiss(animated: true, completion: nil)
           EventHub.shared.modalDismissed?(false)
         } else {
@@ -64,7 +64,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     addSubviews()
     
     cartButton.delegate = self
-    cartButton.isHidden = MediaPickerConfig.instance.bottomView.cart.maxItems == 1
+    cartButton.isHidden = MediaPickerConfig.shared.cart.maxItems == 1
     cartButton.translatesAutoresizingMaskIntoConstraints = false
     
     bottomToolbarView.controllerDelegate = self
@@ -72,7 +72,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     bottomToolbarView.translatesAutoresizingMaskIntoConstraints = false
     
     addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
-    addPhotoButton.isHidden = MediaPickerConfig.instance.bottomView.cart.maxItems == 1
+    addPhotoButton.isHidden = MediaPickerConfig.shared.cart.maxItems == 1
     addPhotoButton.addTarget(self, action: #selector(onAddNextTap), for: .touchUpInside)
     
     setupConstraints()
@@ -119,12 +119,12 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   }
   
   func presentDiscardElementAlert() {
-    let title = MediaPickerConfig.instance.translationKeys.discardElementKey.g_localize(fallback: "Discard element")
-    let message = MediaPickerConfig.instance.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?")
-    let discardBtnText = MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard")
-    let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    let title = MediaPickerConfig.shared.translationKeys.discardElementKey.g_localize(fallback: "Discard element")
+    let message = MediaPickerConfig.shared.translationKeys.discardElementDescriptionKey.g_localize(fallback: "Are you sure you want to discard?")
+    let discardBtnText = MediaPickerConfig.shared.translationKeys.discardKey.g_localize(fallback: "Discard")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
-    if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
       (cancelBtnText, "cancel", nil),
       (discardBtnText, "delete", {
         EventHub.shared.modalDismissed?(false)
@@ -144,12 +144,12 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
   }
   
   func presentDiscardChangesAlert() {
-    let title = MediaPickerConfig.instance.translationKeys.discardChangesKey.g_localize(fallback: "Discard changes")
-    let message = MediaPickerConfig.instance.translationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?")
-    let discardBtnText = MediaPickerConfig.instance.translationKeys.discardKey.g_localize(fallback: "Discard")
-    let cancelBtnText = MediaPickerConfig.instance.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    let title = MediaPickerConfig.shared.translationKeys.discardChangesKey.g_localize(fallback: "Discard changes")
+    let message = MediaPickerConfig.shared.translationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?")
+    let discardBtnText = MediaPickerConfig.shared.translationKeys.discardKey.g_localize(fallback: "Discard")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
-    if let dialogBuilder = MediaPickerConfig.instance.dialogBuilder, let controller = dialogBuilder(title, message, [
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
       (cancelBtnText, "cancel", nil),
       (discardBtnText, "delete", {
         EventHub.shared.modalDismissed?(false)
@@ -183,7 +183,7 @@ public class MediaModalBaseController: UIViewController, CartButtonDelegate, Cir
     self.bottomToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
     self.bottomToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
     self.bottomToolbarConstraint.isActive = true
-    self.bottomToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.instance.photoEditor.bottomToolbarHeight).isActive = true
+    self.bottomToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.photoEditor.bottomToolbarHeight).isActive = true
     
     self.addPhotoButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -12).isActive = true
     self.addPhotoButton.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor, constant: -8).isActive = true

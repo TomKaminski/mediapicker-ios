@@ -38,7 +38,7 @@ public class CartCollectionItemView: UIView {
   
   fileprivate func setupDeleteButton() {
     deleteButon = UIImageView(image: MediaPickerBundle.image("Delete")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)))
-    deleteButon.backgroundColor = MediaPickerConfig.instance.colors.red
+    deleteButon.backgroundColor = MediaPickerConfig.shared.colors.red
     deleteButon.layer.cornerRadius = 10
     deleteButon.isUserInteractionEnabled = true
     deleteButon.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +63,8 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onTapped() {
-    if MediaPickerConfig.instance.bottomView.cart.selectedGuid != guid && canTap() {
-      EventHub.shared.modalDismissed?(MediaPickerConfig.instance.bottomView.cart.selectedGuid != nil)
+    if MediaPickerConfig.shared.cart.selectedGuid != guid && canTap() {
+      EventHub.shared.modalDismissed?(MediaPickerConfig.shared.cart.selectedGuid != nil)
       delegate?.reselectItem()
       EventHub.shared.executeCustomAction?(guid)
     }
@@ -73,11 +73,11 @@ public class CartCollectionItemView: UIView {
   private func canTap() -> Bool {
     switch self.type {
       case .Image:
-        return MediaPickerConfig.instance.camera.allowPhotoEdit
+        return MediaPickerConfig.shared.camera.allowPhotoEdit
       case .Audio:
-        return MediaPickerConfig.instance.audio.allowAudioEdit
+        return MediaPickerConfig.shared.audio.allowAudioEdit
       case .Video:
-        return MediaPickerConfig.instance.camera.allowVideoEdit
+        return MediaPickerConfig.shared.camera.allowVideoEdit
       case .none:
         return false
     }
@@ -146,7 +146,7 @@ public class CartCollectionItemView: UIView {
   }
 
   private func setupBorder() {
-    layer.borderColor = selected ? MediaPickerConfig.instance.colors.primary.cgColor : UIColor.clear.cgColor
+    layer.borderColor = selected ? MediaPickerConfig.shared.colors.primary.cgColor : UIColor.clear.cgColor
   }
 
   required init?(coder aDecoder: NSCoder) {

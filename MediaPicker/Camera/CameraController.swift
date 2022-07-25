@@ -53,7 +53,7 @@ class CameraController: UIViewController, CameraTabTopViewDelegate {
   }
   
   func setupLocation() {
-    if MediaPickerConfig.instance.camera.recordLocation {
+    if MediaPickerConfig.shared.camera.recordLocation {
       locationManager = LocationManager()
     }
   }

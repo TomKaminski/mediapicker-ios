@@ -14,7 +14,7 @@ class FrameView: UIView {
   
   private func setup() {
     layer.addSublayer(gradientLayer)
-    layer.borderColor = MediaPickerConfig.instance.colors.primary.cgColor
+    layer.borderColor = MediaPickerConfig.shared.colors.primary.cgColor
     layer.borderWidth = 2
     clipsToBounds = true
   }
@@ -30,8 +30,8 @@ class FrameView: UIView {
   private func makeGradientLayer() -> CAGradientLayer {
     let layer = CAGradientLayer()
     layer.colors = [
-      MediaPickerConfig.instance.colors.primary.withAlphaComponent(0.25).cgColor,
-      MediaPickerConfig.instance.colors.primary.withAlphaComponent(0.4).cgColor
+      MediaPickerConfig.shared.colors.primary.withAlphaComponent(0.25).cgColor,
+      MediaPickerConfig.shared.colors.primary.withAlphaComponent(0.4).cgColor
     ]
     
     return layer

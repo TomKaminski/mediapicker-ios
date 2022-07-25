@@ -1,6 +1,6 @@
 extension CameraController: CameraPageAware {
   func shutterButtonHeld() {
-    MediaPickerConfig.instance.camera.recordMode = .video
+    MediaPickerConfig.shared.camera.recordMode = .video
     pagesController.topView.toggleViewsVisibility()
     pagesController.topView.showTimer()
     cameraMan.startVideoRecord(location: locationManager?.latestLocation, startCompletion: { result in })
