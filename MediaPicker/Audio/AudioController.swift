@@ -98,8 +98,6 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
         self.audioView.elapsedAudioRecordingTimeLabel.text = self.audioView.audioRecordingLabelPlaceholder()
         self.audioView.setInfoLabelText(startRecordingLabelText)
         EventHub.shared.changeMediaPickerState?(.Audio)
-
-        //self.addAudioTakenChildrenController(audio: audio)
       } else {
         clearData()
       }
@@ -207,10 +205,6 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   
   var pauseRecordingLabelText: String {
     return MediaPickerConfig.shared.translationKeys.tapToStopLabelKey.g_localize(fallback: "Tap to stop recording")
-  }
-  
-  private func addAudioTakenChildrenController(audio: Audio) {
-    EventHub.shared.executeCustomAction?(audio.guid)
   }
   
   var pagesController: PagesController {

@@ -1,9 +1,4 @@
-public final class PhotoEditorController: MediaModalBaseController, TopToolbarViewDelegate, ColorSelectedDelegate {
-  
-  // ----------------
-  // MARK: Properties
-  // ----------------
-
+public final class PhotoEditorController: MediaEditorBaseController, TopToolbarViewDelegate, ColorSelectedDelegate {
   private let originalImage: UIImage
   public let originalImageGuid: String
 
@@ -11,9 +6,8 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   
   var canvasImageViewWidthConstraint: NSLayoutConstraint!
   var canvasImageViewHeightConstraint: NSLayoutConstraint!
-
-  var canvasImageViewTopConstraint: NSLayoutConstraint!
-  var canvasImageViewBottomConstraint: NSLayoutConstraint!
+  var canvasViewWidthConstraint: NSLayoutConstraint!
+  var canvasViewHeightConstraint: NSLayoutConstraint!
   
   lazy var imageView = UIImageView()
   lazy var canvasView = UIView()
@@ -31,7 +25,7 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   
   var editedSomething = false
   
-  public var photoEditorDelegate: PhotoEditorDelegate?
+  public var delegate: PhotoEditorDelegate?
   
   init(image: UIImage, guid: String, newlyTaken: Bool) {
     self.originalImage = image
@@ -39,15 +33,6 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     super.init(nibName: nil, bundle: nil)
     self.newlyTaken = newlyTaken
   }
-  
-  required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
-  
-  // ----------------
-  // MARK: Controller cycles
-  // ----------------
   
   override public func viewDidLoad() {
     super.viewDidLoad()
@@ -57,28 +42,18 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     self.bottomToolbarView.lastFileName = customFileName
   }
   
-  public override func viewDidDisappear(_ animated: Bool) {
-    super.viewDidDisappear(animated)
-    
-  }
-  
   func setImageView(image: UIImage) {
     imageView.image = image
   }
   
-  // ----------------
-  // MARK: MediaModalBaseController overrides
-  // ----------------
-  
   override func addSubviews() {
-    view.addSubview(canvasView)
+    view.addSubview(imageView)
     view.addSubview(topToolbarView)
     
     super.addSubviews()
     
-    canvasView.addSubview(imageView)
-    canvasView.addSubview(canvasImageView)
-        
+    imageView.addSubview(canvasView)
+    imageView.addSubview(canvasImageView)
     imageView.contentMode = .scaleAspectFit
   }
   
@@ -89,55 +64,51 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
   
   private func rebuildCanvasConstraints() {
     let fixedSize = imageView.contentClippingRect
-    canvasImageViewHeightConstraint = self.canvasView.heightAnchor.constraint(lessThanOrEqualToConstant: fixedSize.height)
-    canvasImageViewWidthConstraint.constant = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
+    let height = fixedSize.height
+    let width = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
     
-    NSLayoutConstraint.deactivate([canvasImageViewTopConstraint, canvasImageViewBottomConstraint])
-    NSLayoutConstraint.activate([canvasImageViewHeightConstraint, self.canvasView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -15)])
+    canvasImageViewHeightConstraint.constant = height
+    canvasImageViewWidthConstraint.constant = width
+    canvasViewHeightConstraint.constant = height
+    canvasViewWidthConstraint.constant = width
   }
   
   override func setupConstraints() {
     super.setupConstraints()
     
+    imageView.translatesAutoresizingMaskIntoConstraints = false
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     canvasImageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    addPhotoButton.translatesAutoresizingMaskIntoConstraints = false
     
-    canvasImageViewWidthConstraint = self.canvasView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
-    
-    canvasImageViewTopConstraint = self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor)
-    canvasImageViewBottomConstraint = self.canvasView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor)
+    canvasImageViewWidthConstraint = canvasImageView.widthAnchor.constraint(equalToConstant: 100)
+    canvasImageViewHeightConstraint = canvasImageView.heightAnchor.constraint(equalToConstant: 100)
+    canvasViewWidthConstraint = canvasView.widthAnchor.constraint(equalToConstant: 100)
+    canvasViewHeightConstraint = canvasView.heightAnchor.constraint(equalToConstant: 100)
     
     NSLayoutConstraint.activate([
-      self.topToolbarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-      self.topToolbarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-      self.topToolbarView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.photoEditor.topToolbarHeight),
+      topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      topToolbarView.heightAnchor.constraint(equalToConstant: 80),
+      topToolbarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       
-      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-      canvasImageViewTopConstraint,
-      canvasImageViewBottomConstraint,
+      imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      imageView.topAnchor.constraint(equalTo: topToolbarView.bottomAnchor, constant: -40),
+      imageView.bottomAnchor.constraint(equalTo: bottomToolbarView.topAnchor),
+      
+      canvasView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+      canvasView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+      canvasViewHeightConstraint,
+      canvasViewWidthConstraint,
+      
+      canvasImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+      canvasImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+      canvasImageViewHeightConstraint,
       canvasImageViewWidthConstraint,
-      
-      self.imageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
-      self.imageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
-      self.imageView.topAnchor.constraint(equalTo: self.canvasView.topAnchor),
-      self.imageView.bottomAnchor.constraint(equalTo: self.canvasView.bottomAnchor),
-      
-      self.canvasImageView.topAnchor.constraint(equalTo: self.canvasView.topAnchor),
-      self.canvasImageView.bottomAnchor.constraint(equalTo: self.canvasView.bottomAnchor),
-      self.canvasImageView.trailingAnchor.constraint(equalTo: self.canvasView.trailingAnchor),
-      self.canvasImageView.leadingAnchor.constraint(equalTo: self.canvasView.leadingAnchor),
     ])
-    
-    if #available(iOS 11, *) {
-      topToolbarView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-    } else {
-      topToolbarView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-    }
   }
   
-  override func customOnAddNexTap(doneWithMediaTapped: Bool) {
+  override func onSave() {
     let img = self.canvasView.toImage()
     
     var customFileName = FileNameComposer.getImageFileName()
@@ -147,52 +118,13 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
       customFileName = lastFileName
     }
     
-    photoEditorDelegate?.doneEditing(image: img, customFileName: customFileName, selfCtrl: self, editedSomething: editedSomething, doneWithMedia: doneWithMediaTapped)
-  }
-  
-  public override func updateNewlyTaken() {
-    customOnAddNexTap(doneWithMediaTapped: false)
+    delegate?.doneEditing(image: img, customFileName: customFileName, selfCtrl: self, editedSomething: editedSomething)
   }
   
   private func makeTopToolbarView() -> TopToolbarView {
     let view = TopToolbarView()
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
-  }
-  
-  override func onBackButtonTap() {
-    if newlyTaken {
-      presentDiscardElementAlert()
-    } else if editedSomething {
-      presentDiscardChangesAlert()
-    } else {
-      EventHub.shared.modalDismissed?(false)
-      self.dismiss(animated: true, completion: nil)
-    }
-  }
-
-  // ----------------
-  // MARK: TopToolbarViewDelegate
-  // ----------------
-  
-  func textButtonTapped(_ sender: Any) {
-    isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
-    
-    
-    setupTextView(textView)
-    self.canvasImageView.addSubview(textView)
-    addGestures(view: textView)
-    self.bottomToolbarConstraint?.constant = 0.0
-    textView.becomeFirstResponder()
-  }
-  
-  func clearButtonTapped(_ sender: Any) {
-    canvasImageView.image = nil
-    for subview in canvasImageView.subviews {
-      subview.removeFromSuperview()
-    }
-    editedSomething = false
   }
   
   fileprivate func addGestures(view: UIView) {
@@ -231,10 +163,6 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
     textView.returnKeyType = .done
   }
   
-  // ----------------
-  // MARK: ColorSelectedDelegate
-  // ----------------
-  
   func didSelectColor(color: UIColor) {
      self.drawColor = color
      if activeTextView != nil {
@@ -242,6 +170,37 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
        textColor = color
      }
    }
+  
+  func onTextTap() {
+    isTyping = true
+    let textView = UITextView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+    
+    setupTextView(textView)
+    self.canvasImageView.addSubview(textView)
+    addGestures(view: textView)
+    self.bottomToolbarConstraint?.constant = 0.0
+    textView.becomeFirstResponder()
+  }
+  
+  func onClearTap() {
+    canvasImageView.image = nil
+    for subview in canvasImageView.subviews {
+      subview.removeFromSuperview()
+    }
+    editedSomething = false
+  }
+  
+  override func onBackTap() {
+    if editedSomething {
+      presentDiscardChangesAlert()
+    } else {
+      self.dismiss(animated: true, completion: nil)
+    }
+  }
+  
+  func onPencilTap() {
+    
+  }
   
   override func setupBottomConstraintConstant(_ endFrame: CGRect?) {
     if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
@@ -251,5 +210,9 @@ public final class PhotoEditorController: MediaModalBaseController, TopToolbarVi
       self.bottomToolbarConstraint?.constant = -(endFrame?.size.height ?? 0.0)
       self.bottomToolbarView.saveButton?.isHidden = true
     }
+  }
+  
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }

@@ -6,7 +6,7 @@ public class MediaPickerController: UIViewController {
   let cart = Cart()
   
   var pagesController: PagesController?
-  var currentlyPresentedModalController: MediaModalBaseController?
+  var currentlyPresentedModalController: MediaEditorBaseController?
 
   public override func viewDidLoad() {
     super.viewDidLoad()
@@ -58,38 +58,7 @@ public class MediaPickerController: UIViewController {
     }, completion: nil)
   }
   
-  fileprivate func presentNewModal(_ modalCtrl: MediaModalBaseController?, _ newGuid: String) {
-    if let modalCtrl = modalCtrl {
-      if let currentModalCtrl = self.currentlyPresentedModalController {
-        currentModalCtrl.updateNewlyTaken()
-        currentModalCtrl.dismiss(animated: true) {
-          self.present(modalCtrl, animated: true, completion: {
-            self.currentlyPresentedModalController = modalCtrl
-          })
-        }
-      } else {
-        self.present(modalCtrl, animated: true, completion: {
-          self.currentlyPresentedModalController = modalCtrl
-        })
-      }
-    }
-  }
-  
   func setupEventHub() {
-    EventHub.shared.modalDismissed = { onAddNextTapped in
-      if onAddNextTapped {
-        self.currentlyPresentedModalController?.customOnAddNexTap(doneWithMediaTapped: false)
-      }
-      
-      self.currentlyPresentedModalController?.dismiss(animated: false, completion: nil)
-      if let guid = MediaPickerConfig.shared.cart.selectedGuid, let cartItem = self.cart.getItem(by: guid), cartItem.newlyTaken, !onAddNextTapped {
-        self.cart.remove(cartItem)
-      }
-      MediaPickerConfig.shared.cart.selectedGuid = nil
-      self.currentlyPresentedModalController = nil
-      self.pagesController?.cartView?.reselectItem()
-    }
-    
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
         if !strongSelf.cart.items.isEmpty {
@@ -117,20 +86,9 @@ public class MediaPickerController: UIViewController {
       }
     }
     
-    EventHub.shared.doneWithMedia = { [weak self] in
+    EventHub.shared.doneWithMediaPicker = { [weak self] in
       if let strongSelf = self {
-        if let modalCtrl = strongSelf.currentlyPresentedModalController {
-          if modalCtrl is PhotoEditorController {
-            modalCtrl.customOnAddNexTap(doneWithMediaTapped: true)
-          } else {
-            modalCtrl.updateNewlyTaken()
-            modalCtrl.dismiss(animated: false) {
-              strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
-            }
-          }
-        } else {
-          strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
-        }
+        strongSelf.delegate?.mediaPicker(strongSelf, didSelectMedia: strongSelf.cart.items.values.compactMap { $0 })
       }
     }
     
@@ -143,26 +101,29 @@ public class MediaPickerController: UIViewController {
             let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
             photoEditor.modalPresentationStyle = .overFullScreen
             photoEditor.customFileName = image.customFileName
-            photoEditor.photoEditorDelegate = self
-            photoEditor.mediaPickerControllerDelegate = self.pagesController
-            self.pagesController?.cartView?.reselectItem()
-            self.presentNewModal(photoEditor, guid)
+            photoEditor.delegate = self
+            photoEditor.doneDelegate = self.pagesController
+            self.present(photoEditor, animated: true, completion: {
+              self.currentlyPresentedModalController = photoEditor
+            })
           })
         } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit {
-          let ctrl = AudioPreviewController(audio: item as! Audio)
-          ctrl.mediaPickerControllerDelegate = self.pagesController
-          ctrl.customFileName = item.customFileName
-          ctrl.modalPresentationStyle = .overFullScreen
-          self.pagesController?.cartView?.reselectItem()
-          self.presentNewModal(ctrl, guid)
+          let audioCtrl = AudioPreviewController(audio: item as! Audio)
+          audioCtrl.doneDelegate = self.pagesController
+          audioCtrl.customFileName = item.customFileName
+          audioCtrl.modalPresentationStyle = .overFullScreen
+          self.present(audioCtrl, animated: true, completion: {
+            self.currentlyPresentedModalController = audioCtrl
+          })
         } else if item.type == .Video && MediaPickerConfig.shared.camera.allowVideoEdit {
-          let assetCtrl = VideoAssetPreviewController()
-          assetCtrl.video = (item as! Video)
-          assetCtrl.customFileName = item.customFileName
-          assetCtrl.mediaPickerControllerDelegate = self.pagesController
-          assetCtrl.modalPresentationStyle = .overFullScreen
-          self.pagesController?.cartView?.reselectItem()
-          self.presentNewModal(assetCtrl, guid)
+          let videoCtrl = VideoAssetPreviewController()
+          videoCtrl.video = (item as! Video)
+          videoCtrl.customFileName = item.customFileName
+          videoCtrl.doneDelegate = self.pagesController
+          videoCtrl.modalPresentationStyle = .overFullScreen
+          self.present(videoCtrl, animated: true, completion: {
+            self.currentlyPresentedModalController = videoCtrl
+          })
         }
       }
     }

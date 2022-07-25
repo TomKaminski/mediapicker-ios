@@ -1,7 +1,6 @@
 import QuickLook
 
-class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
-  
+class AudioPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource {
   var previewCtrl: QLPreviewController!
   
   let audio: Audio
@@ -37,16 +36,12 @@ class AudioPreviewController: MediaModalBaseController, QLPreviewControllerDeleg
     }
     
     audio.newlyTaken = false
-    mediaPickerControllerDelegate?.addUpdateCartItem(item: audio)
+    doneDelegate?.onSaveTapped(item: audio)
   }
   
-  override func customOnAddNexTap(doneWithMediaTapped: Bool) {
+  override func onSave() {
     addOrUpdateItem()
     self.dismiss(animated: true, completion: nil)
-  }
-  
-  override func updateNewlyTaken() {
-    addOrUpdateItem()
   }
   
   internal override func setupConstraints() {

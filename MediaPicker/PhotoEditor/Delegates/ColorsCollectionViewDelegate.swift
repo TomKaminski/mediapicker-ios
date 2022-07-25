@@ -1,24 +1,22 @@
 import UIKit
 
 class ColorsCollectionViewDelegate: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-  
   var colorDelegate: ColorSelectedDelegate?
-  
-  /**
-   Array of Colors that will show while drawing or typing
-   */
-  var colors = [
-    UIColor.black,
-    UIColor.white,
-    UIColor.blue,
-    UIColor.green,
-    UIColor.red,
-    UIColor.yellow
+
+  var colors: [UIColor] = [
+    .white,
+    .black,
+    .blue,
+    .cyan,
+    .green,
+    .red,
+    .yellow,
+    .orange,
+    .brown,
+    .purple,
+    .magenta,
+    .gray,
   ]
-  
-  override init() {
-    super.init()
-  }
   
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return colors.count
@@ -32,10 +30,15 @@ class ColorsCollectionViewDelegate: NSObject, UICollectionViewDataSource, UIColl
     return 1
   }
   
-  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCollectionViewCell", for: indexPath) as! ColorCollectionViewCell
-    cell.colorView.backgroundColor = colors[indexPath.item]
-    return cell
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    return .init(width: 30, height: 40)
   }
   
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ColorCollectionViewCell", for: indexPath) as! ColorCollectionViewCell
+    let color = colors[indexPath.item]
+    cell.colorView.backgroundColor = color
+    cell.isSelected = color == UIColor.red
+    return cell
+  }
 }

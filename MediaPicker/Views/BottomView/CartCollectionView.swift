@@ -1,5 +1,4 @@
 protocol CartCollectionViewDelegate: AnyObject {
-  func reselectItem()
   func onItemDelete(guid: String)
 }
 
@@ -65,18 +64,11 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
     }
   }
   
-  public func reselectItem() {
-    self.views.forEach { (view) in
-      view.selected = view.guid == MediaPickerConfig.shared.cart.selectedGuid
-    }
-  }
-  
   private func buildScrollView(cartItems: [String: CartItemProtocol]) {
     _ = self.removeAllItems()
     self.views = cartItems.sorted(by: { $0.value.dateAdded < $1.value.dateAdded }).compactMap { (cartItem) -> CartCollectionItemView in
       let view = cartItem.value.cartView
       view.delegate = self
-      view.selected = view.guid == MediaPickerConfig.shared.cart.selectedGuid
       return view
     }
     self.addItems(self.views)

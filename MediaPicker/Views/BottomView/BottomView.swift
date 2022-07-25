@@ -26,7 +26,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
   }
   
   func tapped() {
-    EventHub.shared.doneWithMedia?()
+    EventHub.shared.doneWithMediaPicker?()
   }
 
   // MARK: Setup

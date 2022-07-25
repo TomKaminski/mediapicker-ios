@@ -35,7 +35,7 @@ class TopView: UIView {
   
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
+    backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
     setup()
   }
   
@@ -93,6 +93,7 @@ class TopView: UIView {
 
     let button = FlashButton(states: states)
     button.translatesAutoresizingMaskIntoConstraints = false
+    button.addTarget(self, action: #selector(flashButtonTouched(_:)), for: .touchUpInside)
     return button
   }
 
@@ -100,7 +101,7 @@ class TopView: UIView {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setImage(MediaPickerBundle.image("Switch"), for: UIControl.State())
-
+    button.addTarget(self, action: #selector(rotateButtonTouched(_:)), for: .touchUpInside)
     return button
   }
   
@@ -115,6 +116,7 @@ class TopView: UIView {
   
   private func makeDropdownButton() -> ArrowButton {
     let button = ArrowButton()
+    button.addTarget(self, action: #selector(dropdownTouched(_:)), for: .touchUpInside)
     return button
   }
   
@@ -130,7 +132,6 @@ class TopView: UIView {
     flashButton.g_pin(on: .right, view: rotateButton, on: .left, constant: -8)
     flashButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
     flashButton.g_pin(width: 30)
-    flashButton.addTarget(self, action: #selector(flashButtonTouched(_:)), for: .touchUpInside)
   }
   
   fileprivate func insertRotate() {
@@ -138,7 +139,6 @@ class TopView: UIView {
     rotateButton.g_pin(on: .right, view: self, on: .right, constant: -20)
     rotateButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
     rotateButton.g_pin(width: 30)
-    rotateButton.addTarget(self, action: #selector(rotateButtonTouched(_:)), for: .touchUpInside)
   }
   
   fileprivate func insertTimerLabel() {
@@ -151,7 +151,6 @@ class TopView: UIView {
     addSubview(dropdownButton)
     dropdownButton.g_pin(on: .centerX, view: self, on: .centerX)
     dropdownButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -4)
-    dropdownButton.addTarget(self, action: #selector(dropdownTouched(_:)), for: .touchUpInside)
   }
   
   fileprivate func clearSubviews() {

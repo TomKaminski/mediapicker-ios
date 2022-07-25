@@ -1,4 +1,4 @@
-extension PagesController: BottomViewDelegate {
+extension PagesController: BottomViewDelegate, MediaEditorControllerDelegate {
   func onModalItemRemove(guid: String) {
     mediaPickerController.cart.remove(guidToRemove: guid)
   }
@@ -26,7 +26,7 @@ extension PagesController: BottomViewDelegate {
     }
   }
   
-  func addUpdateCartItem(item: CartItemProtocol) {
+  func onSaveTapped(item: CartItemProtocol) {
     if mediaPickerController.cart.items[item.guid] != nil {
       mediaPickerController.cart.items.updateValue(item, forKey: item.guid)
     } else {

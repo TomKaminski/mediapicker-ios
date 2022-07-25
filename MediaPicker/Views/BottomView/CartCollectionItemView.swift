@@ -8,12 +8,6 @@ public class CartCollectionItemView: UIView {
   var bottomView: UIView!
   var deleteButon: UIImageView!
   var guid: String!
-
-  var selected: Bool = false {
-    didSet {
-      setupBorder()
-    }
-  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -63,9 +57,7 @@ public class CartCollectionItemView: UIView {
   }
   
   @objc private func onTapped() {
-    if MediaPickerConfig.shared.cart.selectedGuid != guid && canTap() {
-      EventHub.shared.modalDismissed?(MediaPickerConfig.shared.cart.selectedGuid != nil)
-      delegate?.reselectItem()
+    if canTap() {
       EventHub.shared.executeCustomAction?(guid)
     }
   }
@@ -143,10 +135,6 @@ public class CartCollectionItemView: UIView {
     imageCompletion(self.imageView)
     
     setupBottom(type)
-  }
-
-  private func setupBorder() {
-    layer.borderColor = selected ? MediaPickerConfig.shared.colors.primary.cgColor : UIColor.clear.cgColor
   }
 
   required init?(coder aDecoder: NSCoder) {

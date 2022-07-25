@@ -2,7 +2,7 @@ import UIKit
 import Photos
 import PhotosUI
 
-class VideoAssetPreviewController: MediaModalBaseController {
+class VideoAssetPreviewController: MediaEditorBaseController {
   
   // ----------------
   // MARK: Properties
@@ -58,7 +58,7 @@ class VideoAssetPreviewController: MediaModalBaseController {
   // MARK: Interaction
   // ----------------
 
-  override func customOnAddNexTap(doneWithMediaTapped: Bool) {
+  override func onSave() {
     addOrUpdateCartItem()
     self.dismiss(animated: true, completion: nil)
   }
@@ -126,11 +126,6 @@ class VideoAssetPreviewController: MediaModalBaseController {
     })
   }
   
-  override func updateNewlyTaken() {
-    addOrUpdateCartItem()
-  }
-  
-  
   // --------------
   // MARK: Private methods
   // --------------
@@ -155,7 +150,7 @@ class VideoAssetPreviewController: MediaModalBaseController {
     }
     
     video.newlyTaken = false
-    mediaPickerControllerDelegate?.addUpdateCartItem(item: video)
+    doneDelegate?.onSaveTapped(item: video)
   }
 
   private func setupNotifications() {
