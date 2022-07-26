@@ -65,15 +65,15 @@ class MediaPreviewToolbar: UIView {
   
   fileprivate func insertBackButton() {
     addSubview(backButton)
-    backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 10)
+    backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 12)
     backButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
     backButton.g_pin(width: 24)
   }
   
   fileprivate func insertMediaFileNameLabel() {
     addSubview(fileNameLabel)
-    fileNameLabel.g_pin(on: .left, view: backButton, on: .right, constant: 10)
-    fileNameLabel.g_pin(on: .right, view: self, on: .right, constant: -10)
+    fileNameLabel.g_pin(on: .left, view: backButton, on: .right, constant: 12)
+    fileNameLabel.g_pin(on: .right, view: self, on: .right, constant: -12)
     fileNameLabel.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
   }
 }

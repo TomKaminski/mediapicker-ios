@@ -100,11 +100,6 @@ extension PhotoEditorController: UIGestureRecognizerDelegate {
     return false
   }
   
-  // to Override Control Center screen edge pan from bottom
-  override public var prefersStatusBarHidden: Bool {
-    return true
-  }
-  
   /**
    Scale Effect
    */

@@ -1,5 +1,4 @@
 extension PhotoEditorController {
-  
   private func checkIfObscuringViewsTouched(_ touches: Set<UITouch>, with event: UIEvent?) -> Bool {
     if let firstTouch = touches.first {
       let hitView = self.view.hitTest(firstTouch.location(in: self.view), with: event)
@@ -23,7 +22,7 @@ extension PhotoEditorController {
   }
   
   override public func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-    if !isTyping && !checkIfObscuringViewsTouched(touches, with: event) && lastPoint != nil {
+    if !isTyping && lastPoint != nil {
       swiped = true
       if let touch = touches.first {
         let currentPoint = touch.location(in: canvasImageView)
@@ -34,7 +33,7 @@ extension PhotoEditorController {
   }
   
   override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    if !isTyping && !checkIfObscuringViewsTouched(touches, with: event) && lastPoint != nil {
+    if !isTyping && lastPoint != nil {
       if !swiped {
         drawLineFrom(lastPoint, toPoint: lastPoint)
       }

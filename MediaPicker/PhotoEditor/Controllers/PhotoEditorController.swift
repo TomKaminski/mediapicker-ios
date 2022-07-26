@@ -4,11 +4,11 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
 
   lazy var topToolbarView = makeTopToolbarView()
   
-  var canvasImageViewWidthConstraint: NSLayoutConstraint!
-  var canvasImageViewHeightConstraint: NSLayoutConstraint!
   var canvasViewWidthConstraint: NSLayoutConstraint!
   var canvasViewHeightConstraint: NSLayoutConstraint!
-  
+  var canvasViewTopConstraint: NSLayoutConstraint!
+  var canvasViewBottomConstraint: NSLayoutConstraint!
+
   lazy var imageView = UIImageView()
   lazy var canvasView = UIView()
   lazy var canvasImageView = UIImageView()
@@ -62,13 +62,13 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   }
   
   override func addSubviews() {
-    view.addSubview(imageView)
+    view.addSubview(canvasView)
     view.addSubview(topToolbarView)
     
     super.addSubviews()
     
-    imageView.addSubview(canvasView)
-    imageView.addSubview(canvasImageView)
+    canvasView.addSubview(imageView)
+    canvasView.addSubview(canvasImageView)
     imageView.contentMode = .scaleAspectFit
   }
   
@@ -79,47 +79,43 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   private func rebuildCanvasConstraints() {
     let fixedSize = imageView.contentClippingRect
-    let height = fixedSize.height
-    let width = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
-    
-    canvasImageViewHeightConstraint.constant = height
-    canvasImageViewWidthConstraint.constant = width
-    canvasViewHeightConstraint.constant = height
-    canvasViewWidthConstraint.constant = width
+    canvasViewHeightConstraint = self.canvasView.heightAnchor.constraint(lessThanOrEqualToConstant: fixedSize.height)
+    canvasViewWidthConstraint.constant = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
+    NSLayoutConstraint.deactivate([canvasViewBottomConstraint])
+    NSLayoutConstraint.activate([canvasViewHeightConstraint])
   }
-  
+
   override func setupConstraints() {
     super.setupConstraints()
     
     imageView.translatesAutoresizingMaskIntoConstraints = false
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     canvasImageView.translatesAutoresizingMaskIntoConstraints = false
-    
-    canvasImageViewWidthConstraint = canvasImageView.widthAnchor.constraint(equalToConstant: 100)
-    canvasImageViewHeightConstraint = canvasImageView.heightAnchor.constraint(equalToConstant: 100)
-    canvasViewWidthConstraint = canvasView.widthAnchor.constraint(equalToConstant: 100)
-    canvasViewHeightConstraint = canvasView.heightAnchor.constraint(equalToConstant: 100)
-    
+
+    canvasViewWidthConstraint = self.canvasView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+    canvasViewTopConstraint = self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor, constant: -40)
+    canvasViewBottomConstraint = self.canvasView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+
     NSLayoutConstraint.activate([
       topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       topToolbarView.heightAnchor.constraint(equalToConstant: 80),
       topToolbarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       
-      imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-      imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      imageView.topAnchor.constraint(equalTo: topToolbarView.bottomAnchor, constant: -40),
-      imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      
-      canvasView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-      canvasView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-      canvasViewHeightConstraint,
+      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      canvasViewTopConstraint,
+      canvasViewBottomConstraint,
       canvasViewWidthConstraint,
       
-      canvasImageView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
-      canvasImageView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
-      canvasImageViewHeightConstraint,
-      canvasImageViewWidthConstraint,
+      imageView.centerXAnchor.constraint(equalTo: canvasView.centerXAnchor),
+      imageView.centerYAnchor.constraint(equalTo: canvasView.centerYAnchor),
+      imageView.widthAnchor.constraint(equalTo: canvasView.widthAnchor),
+      imageView.heightAnchor.constraint(equalTo: canvasView.heightAnchor),
+      
+      canvasImageView.centerXAnchor.constraint(equalTo: canvasView.centerXAnchor),
+      canvasImageView.centerYAnchor.constraint(equalTo: canvasView.centerYAnchor),
+      canvasImageView.widthAnchor.constraint(equalTo: canvasView.widthAnchor),
+      canvasImageView.heightAnchor.constraint(equalTo: canvasView.heightAnchor),
     ])
   }
   
@@ -147,6 +143,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     view.addGestureRecognizer(rotationGestureRecognizer)
 
     let tapGesture = UITapGestureRecognizer(target: self, action: #selector(PhotoEditorController.tapGesture))
+    tapGesture.delegate = self
     view.addGestureRecognizer(tapGesture)
   }
   
@@ -175,10 +172,10 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   func onTextTap() {
     isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 30))
+    let textView = UITextView(frame: CGRect(x: 0, y: UIScreen.main.bounds.width/3, width: UIScreen.main.bounds.width, height: 30))
     
     setupTextView(textView)
-    self.canvasImageView.addSubview(textView)
+    canvasImageView.addSubview(textView)
     addGestures(view: textView)
     textView.becomeFirstResponder()
   }

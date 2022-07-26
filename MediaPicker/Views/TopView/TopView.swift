@@ -122,21 +122,21 @@ class TopView: UIView {
   
   fileprivate func insertBackButton() {
     addSubview(backButton)
-    backButton.g_pin(on: .left, view: self, on: .left, constant: 10)
+    backButton.g_pin(on: .left, view: self, on: .left, constant: 12)
     backButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
     backButton.g_pin(width: 24)
   }
   
   fileprivate func insertFlash() {
     addSubview(flashButton)
-    flashButton.g_pin(on: .right, view: rotateButton, on: .left, constant: -10)
+    flashButton.g_pin(on: .right, view: rotateButton, on: .left, constant: -12)
     flashButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
     flashButton.g_pin(width: 24)
   }
   
   fileprivate func insertRotate() {
     addSubview(rotateButton)
-    rotateButton.g_pin(on: .right, view: self, on: .right, constant: -10)
+    rotateButton.g_pin(on: .right, view: self, on: .right, constant: -12)
     rotateButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
     rotateButton.g_pin(width: 24)
   }
