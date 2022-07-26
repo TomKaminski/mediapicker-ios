@@ -71,8 +71,8 @@ public struct MediaPickerConfig {
   }
   
   public struct PhotoEditor {
-    public var bottomToolbarHeight: CGFloat = 110
-    public var textFont = UIFont(name: "Helvetica", size: 24)
+    public var bottomToolbarHeight: CGFloat = 80
+    public var textFont = UIFont(name: "Helvetica", size: 20)
     public var lineWidth: CGFloat = 4.0
   }
   

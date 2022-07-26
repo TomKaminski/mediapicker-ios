@@ -17,7 +17,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
 
   required init() {
     super.init(frame: .zero)
-    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
+    self.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
     setup()
   }
 

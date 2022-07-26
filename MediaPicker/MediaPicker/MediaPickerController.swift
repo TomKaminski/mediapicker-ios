@@ -101,14 +101,14 @@ public class MediaPickerController: UIViewController {
             let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
             photoEditor.modalPresentationStyle = .overFullScreen
             photoEditor.customFileName = image.customFileName
-            photoEditor.doneDelegate = self
+            photoEditor.delegate = self
             self.present(photoEditor, animated: true, completion: {
               self.currentlyPresentedModalController = photoEditor
             })
           })
-        } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit {
-          let audioCtrl = AudioPreviewController(audio: item as! Audio)
-          audioCtrl.doneDelegate = self
+        } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit, let audio = item as? Audio {
+          let audioCtrl = MediaPreviewController(url: audio.audioFile.url, guid: audio.guid, customFileName: audio.customFileName, newlyTaken: audio.newlyTaken)
+          audioCtrl.delegate = self
           audioCtrl.customFileName = item.customFileName
           audioCtrl.modalPresentationStyle = .overFullScreen
           self.present(audioCtrl, animated: true, completion: {
@@ -118,7 +118,7 @@ public class MediaPickerController: UIViewController {
           let videoCtrl = VideoAssetPreviewController()
           videoCtrl.video = (item as! Video)
           videoCtrl.customFileName = item.customFileName
-          videoCtrl.doneDelegate = self
+          videoCtrl.delegate = self
           videoCtrl.modalPresentationStyle = .overFullScreen
           self.present(videoCtrl, animated: true, completion: {
             self.currentlyPresentedModalController = videoCtrl

@@ -1,13 +1,12 @@
-protocol TopToolbarViewDelegate: AnyObject {
+protocol TopToolbarViewDelegate: MediaPreviewToolbarDelegate {
   func onTextTap()
   func onClearTap()
-  func onBackTap()
   func onPencilTap()
   
   func didSelectColor(color: UIColor)
 }
 
-class TopToolbarView: UIView, ColorSelectedDelegate {
+class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
   weak var editorViewDelegate: TopToolbarViewDelegate?
   
@@ -18,10 +17,11 @@ class TopToolbarView: UIView, ColorSelectedDelegate {
   lazy var textButton = self.makeTextButton()
   lazy var pencilButton = self.makePencilButton()
   lazy var backButton = self.makeBackButton()
+  lazy var fileNameLabel = self.makeFileNameLabel()
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
+    backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
     setup()
   }
   
@@ -49,6 +49,7 @@ class TopToolbarView: UIView, ColorSelectedDelegate {
     insertTextButton()
     insertPencilButton()
     insertUndoButton()
+    insertMediaFileNameLabel()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -104,6 +105,16 @@ class TopToolbarView: UIView, ColorSelectedDelegate {
     return button
   }
   
+  func makeFileNameLabel() -> UILabel {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.textColor = .white
+    label.font = UIFont.systemFont(ofSize: 12)
+    label.numberOfLines = 1
+    label.lineBreakMode = .byTruncatingMiddle
+    return label
+  }
+  
   @objc fileprivate func onTextTap() {
     self.editorViewDelegate?.onTextTap()
   }
@@ -130,36 +141,41 @@ class TopToolbarView: UIView, ColorSelectedDelegate {
     self.undoButton.removeFromSuperview()
     self.textButton.removeFromSuperview()
     self.colorsCollectionView.removeFromSuperview()
+    self.fileNameLabel.removeFromSuperview()
   }
   
   fileprivate func insertBackButton() {
     addSubview(backButton)
-    backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 16)
+    backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 10)
     backButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    backButton.g_pin(width: 30)
+    backButton.g_pin(width: 24)
   }
   
   fileprivate func insertUndoButton() {
     addSubview(undoButton)
-    undoButton.g_pin(on: .right, view: pencilButton, on: .left, constant: -16)
+    undoButton.g_pin(on: .right, view: pencilButton, on: .left, constant: -10)
     undoButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    undoButton.g_pin(width: 30)
+    undoButton.g_pin(width: 24)
   }
   
   fileprivate func insertPencilButton() {
     addSubview(pencilButton)
-    pencilButton.g_pin(on: .right, view: textButton, on: .left, constant: -16)
+    pencilButton.g_pin(on: .right, view: textButton, on: .left, constant: -10)
     pencilButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    pencilButton.g_pin(width: 30)
+    pencilButton.g_pin(width: 24)
   }
   
   fileprivate func insertTextButton() {
     addSubview(textButton)
-    textButton.g_pin(on: .right, view: buttonsContainerView, on: .right, constant: -16)
+    textButton.g_pin(on: .right, view: buttonsContainerView, on: .right, constant: -10)
     textButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    textButton.g_pin(width: 30)
+    textButton.g_pin(width: 24)
   }
   
   fileprivate func insertMediaFileNameLabel() {
+    addSubview(fileNameLabel)
+    fileNameLabel.g_pin(on: .left, view: backButton, on: .right, constant: 10)
+    fileNameLabel.g_pin(on: .right, view: undoButton, on: .left, constant: -10)
+    fileNameLabel.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
   }
 }

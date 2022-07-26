@@ -1,4 +1,4 @@
-public final class PhotoEditorController: MediaEditorBaseController, TopToolbarViewDelegate, ColorSelectedDelegate {
+public final class PhotoEditorController: MediaEditorBaseController, TopToolbarViewDelegate, ColorSelectedDelegate, GalleryFloatingButtonTapDelegate {
   private let originalImage: UIImage
   public let originalImageGuid: String
 
@@ -24,6 +24,22 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   var isTyping = false
   
   var editedSomething = false
+  
+  weak var delegate: PhotoEditorControllerDelegate?
+  
+  public func tapped() {
+    let img = self.canvasView.toImage()
+    
+    var customFileName = FileNameComposer.getImageFileName()
+//    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
+//      customFileName = fileNameFromInput
+//    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
+//      customFileName = lastFileName
+//    }
+    
+    delegate?.editMediaFile(image: img, customFileName: customFileName, guid: originalImageGuid, editedSomething: editedSomething)
+    dismiss(animated: true, completion: nil)
+  }
     
   init(image: UIImage, guid: String, newlyTaken: Bool) {
     self.originalImage = image
@@ -35,9 +51,10 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   override public func viewDidLoad() {
     super.viewDidLoad()
 
+    self.saveButton.tapDelegate = self
     self.topToolbarView.editorViewDelegate = self
+    self.topToolbarView.fileNameLabel.text = customFileName
     self.setImageView(image: self.originalImage)
-    self.bottomToolbarView.lastFileName = customFileName
   }
   
   func setImageView(image: UIImage) {
@@ -92,7 +109,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
       imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       imageView.topAnchor.constraint(equalTo: topToolbarView.bottomAnchor, constant: -40),
-      imageView.bottomAnchor.constraint(equalTo: bottomToolbarView.topAnchor),
+      imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
       
       canvasView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
       canvasView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
@@ -106,22 +123,8 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     ])
   }
   
-  override func onSave() {
-    let img = self.canvasView.toImage()
-    
-    var customFileName = FileNameComposer.getImageFileName()
-    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-      customFileName = fileNameFromInput
-    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-      customFileName = lastFileName
-    }
-    
-    doneDelegate?.doneEditingPhoto(image: img, customFileName: customFileName, guid: originalImageGuid, editedSomething: editedSomething)
-    dismiss(animated: true, completion: nil)
-  }
-  
-  private func makeTopToolbarView() -> TopToolbarView {
-    let view = TopToolbarView()
+  private func makeTopToolbarView() -> PhotoEditorToolbar {
+    let view = PhotoEditorToolbar()
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }
@@ -177,7 +180,6 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     setupTextView(textView)
     self.canvasImageView.addSubview(textView)
     addGestures(view: textView)
-    self.bottomToolbarConstraint?.constant = 0.0
     textView.becomeFirstResponder()
   }
   
@@ -199,16 +201,6 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   func onPencilTap() {
     
-  }
-  
-  override func setupBottomConstraintConstant(_ endFrame: CGRect?) {
-    if (endFrame?.origin.y)! >= UIScreen.main.bounds.size.height {
-      self.bottomToolbarConstraint?.constant = 0.0
-      self.bottomToolbarView.saveButton?.isHidden = false
-    } else if !self.isTyping {
-      self.bottomToolbarConstraint?.constant = -(endFrame?.size.height ?? 0.0)
-      self.bottomToolbarView.saveButton?.isHidden = true
-    }
   }
   
   required init?(coder aDecoder: NSCoder) {

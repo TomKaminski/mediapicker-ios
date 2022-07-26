@@ -2,7 +2,7 @@ import UIKit
 import Photos
 import PhotosUI
 
-class VideoAssetPreviewController: MediaEditorBaseController {
+class VideoAssetPreviewController: MediaEditorBaseController, GalleryFloatingButtonTapDelegate, MediaPreviewToolbarDelegate {
   
   // ----------------
   // MARK: Properties
@@ -10,11 +10,16 @@ class VideoAssetPreviewController: MediaEditorBaseController {
 
   lazy var imageView = self.makeImageView()
   lazy var playIcon = self.makePlayIcon()
+  lazy var topToolbarView = self.makeTopToolbarView()
+
+  
   var video: Video!
   var assetCollection: PHAssetCollection!
   
   var editButton: UIBarButtonItem!
   var playButton: UIBarButtonItem!
+  
+  weak var delegate: MediaRenameControllerDelegate?
   
   var playerPaused = true {
     didSet {
@@ -31,17 +36,21 @@ class VideoAssetPreviewController: MediaEditorBaseController {
   override func viewDidLoad() {
     super.viewDidLoad()
     newlyTaken = video.newlyTaken
+    topToolbarView.fileNameLabel.text = customFileName
 
     setupConstraints()
     setupNotifications()
+    
+    saveButton.tapDelegate = self
 
     PHPhotoLibrary.shared().register(self)
   }
   
   override func addSubviews() {
-    self.view.addSubview(imageView)
-    self.view.addSubview(playIcon)
+    view.addSubview(imageView)
+    view.addSubview(playIcon)
     super.addSubviews()
+    view.addSubview(topToolbarView)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -57,10 +66,22 @@ class VideoAssetPreviewController: MediaEditorBaseController {
   // ----------------
   // MARK: Interaction
   // ----------------
+  
+  override func onBackTap() {
+    self.dismiss(animated: true)
+  }
 
-  override func onSave() {
-    addOrUpdateCartItem()
-    self.dismiss(animated: true, completion: nil)
+  func tapped() {
+    let filename: String
+//    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
+//      filename = fileNameFromInput
+//    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
+//      filename = lastFileName
+//    } else {
+      filename = FileNameComposer.getVideoFileName()
+    //}
+    delegate?.renameMediaFile(guid: video.guid, newFileName: filename)
+    dismiss(animated: true)
   }
   
   @objc private func handleImageTap() {
@@ -75,19 +96,11 @@ class VideoAssetPreviewController: MediaEditorBaseController {
         stopPlaying()
       }
     } else {
-      let options = PHVideoRequestOptions()
-      options.isNetworkAccessAllowed = true
-      options.deliveryMode = .automatic
-      // Request an AVPlayerItem for the displayed PHAsset.
-      // Then configure a layer for playing it.
-      PHImageManager.default().requestPlayerItem(forVideo: video.asset, options: options, resultHandler: { playerItem, info in
+      video.fetchPlayerItem { playerItem in
         DispatchQueue.main.async {
-          // Create an AVPlayer and AVPlayerLayer with the AVPlayerItem.
           let player = AVPlayer(playerItem: playerItem)
-          
           let newLayer = AVPlayerLayer(player: player)
           
-          // Configure the AVPlayerLayer and add it to the view.
           newLayer.videoGravity = AVLayerVideoGravity.resizeAspect
           newLayer.frame = self.imageView.layer.bounds
           if let oldLayer = self.playerLayer {
@@ -99,7 +112,7 @@ class VideoAssetPreviewController: MediaEditorBaseController {
           self.playerLayer = newLayer
           self.startPlaying()
         }
-      })
+      }
     }
   }
   
@@ -139,18 +152,6 @@ class VideoAssetPreviewController: MediaEditorBaseController {
     self.playerLayer?.player?.pause()
     playerPaused = true
   }
-  
-  private func addOrUpdateCartItem() {
-    let filename: String
-    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-      filename = fileNameFromInput
-    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-      filename = lastFileName
-    } else {
-      filename = FileNameComposer.getVideoFileName()
-    }
-    doneDelegate?.onFileRename(guid: video.guid, newFileName: filename)
-  }
 
   private func setupNotifications() {
     NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.playerLayer?.player?.currentItem, queue: .main) { [weak self] _ in
@@ -161,16 +162,23 @@ class VideoAssetPreviewController: MediaEditorBaseController {
   
   internal override func setupConstraints() {
     super.setupConstraints()
+    
+    NSLayoutConstraint.activate([
+      topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      topToolbarView.heightAnchor.constraint(equalToConstant: 40),
+      topToolbarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      
+      imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+      imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+      imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+      imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
 
-    imageView.bottomAnchor.constraint(equalTo: self.bottomToolbarView.topAnchor).isActive = true
-    imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-    imageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor).isActive = true
-
-    playIcon.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor).isActive = true
-    playIcon.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor).isActive = true
-    playIcon.heightAnchor.constraint(equalToConstant: 60).isActive = true
-    playIcon.widthAnchor.constraint(equalToConstant: 60).isActive = true
+      playIcon.centerXAnchor.constraint(equalTo: self.imageView.centerXAnchor),
+      playIcon.centerYAnchor.constraint(equalTo: self.imageView.centerYAnchor),
+      playIcon.heightAnchor.constraint(equalToConstant: 60),
+      playIcon.widthAnchor.constraint(equalToConstant: 60),
+    ])
   }
   
   private func makeImageView() -> UIImageView {
@@ -187,6 +195,13 @@ class VideoAssetPreviewController: MediaEditorBaseController {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = MediaPickerBundle.image("playIcon")
     return imageView
+  }
+  
+  private func makeTopToolbarView() -> MediaPreviewToolbar {
+    let view = MediaPreviewToolbar()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.delegate = self
+    return view
   }
 }
 

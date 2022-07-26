@@ -21,7 +21,7 @@ extension PagesController: CartButtonDelegate {
   internal func addCartCollectionView() {
     let cartView = CartCollectionView(frame: .zero, cartItems: self.cartItems)
     cartView.bottomViewCartDelegate = self
-    cartView.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
+    cartView.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
     cartView.alpha = 0
     
     view.addSubview(cartView)

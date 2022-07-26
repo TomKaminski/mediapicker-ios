@@ -35,7 +35,7 @@ class TopView: UIView {
   
   required init() {
     super.init(frame: .zero)
-    backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.2)
+    backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
     setup()
   }
   
@@ -122,29 +122,29 @@ class TopView: UIView {
   
   fileprivate func insertBackButton() {
     addSubview(backButton)
-    backButton.g_pin(on: .left, view: self, on: .left, constant: 16)
-    backButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
-    backButton.g_pin(width: 30)
+    backButton.g_pin(on: .left, view: self, on: .left, constant: 10)
+    backButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
+    backButton.g_pin(width: 24)
   }
   
   fileprivate func insertFlash() {
     addSubview(flashButton)
-    flashButton.g_pin(on: .right, view: rotateButton, on: .left, constant: -8)
-    flashButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
-    flashButton.g_pin(width: 30)
+    flashButton.g_pin(on: .right, view: rotateButton, on: .left, constant: -10)
+    flashButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
+    flashButton.g_pin(width: 24)
   }
   
   fileprivate func insertRotate() {
     addSubview(rotateButton)
-    rotateButton.g_pin(on: .right, view: self, on: .right, constant: -20)
-    rotateButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
-    rotateButton.g_pin(width: 30)
+    rotateButton.g_pin(on: .right, view: self, on: .right, constant: -10)
+    rotateButton.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
+    rotateButton.g_pin(width: 24)
   }
   
   fileprivate func insertTimerLabel() {
     addSubview(timerLabel)
     timerLabel.g_pin(on: .centerX, view: self, on: .centerX)
-    timerLabel.g_pin(on: .bottom, view: self, on: .bottom, constant: -12)
+    timerLabel.g_pin(on: .bottom, view: self, on: .bottom, constant: -10)
   }
   
   fileprivate func insertDropdownButton() {

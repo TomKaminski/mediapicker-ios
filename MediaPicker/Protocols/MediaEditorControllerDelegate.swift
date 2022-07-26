@@ -1,4 +1,7 @@
-protocol MediaEditorControllerDelegate: AnyObject {
-  func onFileRename(guid: String, newFileName: String)
-  func doneEditingPhoto(image: UIImage, customFileName: String, guid: String, editedSomething: Bool)
+protocol PhotoEditorControllerDelegate: AnyObject {
+  func editMediaFile(image: UIImage, customFileName: String, guid: String, editedSomething: Bool)
+}
+
+protocol MediaRenameControllerDelegate: AnyObject {
+  func renameMediaFile(guid: String, newFileName: String)
 }

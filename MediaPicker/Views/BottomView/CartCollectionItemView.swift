@@ -96,17 +96,6 @@ public class CartCollectionItemView: UIView {
       bottomView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
     }
     
-    if type != .Image {
-      let bottomImageView = UIImageView()
-      bottomImageView.contentMode = .scaleAspectFit
-      bottomImageView.image = getImage(type)
-      
-      bottomView.addSubview(bottomImageView)
-      bottomImageView.g_pin(height: 12)
-      bottomImageView.leftAnchor.constraint(equalTo: self.bottomView.leftAnchor, constant: 4).isActive = true
-      bottomImageView.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor).isActive = true
-    }
-    
     if self.bottomText != nil || self.bottomTextFunc != nil {
       let label = UILabel()
       label.text = bottomText
@@ -120,10 +109,6 @@ public class CartCollectionItemView: UIView {
       label.rightAnchor.constraint(equalTo: self.bottomView.rightAnchor, constant: -4).isActive = true
       label.centerYAnchor.constraint(equalTo: self.bottomView.centerYAnchor).isActive = true
     }
-  }
-  
-  fileprivate func getImage(_ type: MediaTypeEnum) -> UIImage? {
-    return type == .Video ? MediaPickerBundle.image("gallery_video_cell_camera") : MediaPickerBundle.image("recordingMiniatureIcon")
   }
   
   convenience init(type: MediaTypeEnum, guid: String, imageCompletion: (UIImageView) -> Void, bottomTextFunc: ((UILabel) -> Void)? = nil) {
