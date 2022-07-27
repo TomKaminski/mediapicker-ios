@@ -6,7 +6,12 @@ public struct MediaPickerConfig {
   
   public static var shared = MediaPickerConfig()
   
+  //title, message, actions(text, key, action)
   public var dialogBuilder: ((String, String?, [(String, String, (() -> Void)?)]) -> UIViewController?)?
+  
+  //title, message, initialInputValue, actions(text, key, action(inputValue))
+  public var textDialogBuilder: ((String, String?, String?, [(String, String, ((String?) -> Void)?)]) -> UIViewController?)?
+  
   public var bottomView = BottomView()
   public var camera = Camera()
   public var audio = Audio()
@@ -14,7 +19,6 @@ public struct MediaPickerConfig {
   public var colors = Colors()
   public var translationKeys = TranslationKeys()
   public var videoRecording = VideoRecording()
-  public var photoEditor = PhotoEditor()
   public var cart = Cart()
   public var currentLanguage: String = "en"
   public var initialTab = GalleryTab.cameraTab
@@ -24,6 +28,7 @@ public struct MediaPickerConfig {
     public var black = UIColor(red: 19/255, green: 7/255, blue: 0/255, alpha: 1)
     public var lightGray = UIColor(red: 176/255, green: 176/255, blue: 176/255, alpha: 1)
     public var red = UIColor(red: 196/255, green: 60/255, blue: 53/255, alpha: 1)
+    public var blue = UIColor(red: 80/255, green: 124/255, blue: 1, alpha: 1)
   }
   
   public struct Grid {
@@ -68,12 +73,6 @@ public struct MediaPickerConfig {
     public var allow = true
     public var maxBytesCount: Int64?
     public var maxLengthInSeconds: Int?
-  }
-  
-  public struct PhotoEditor {
-    public var bottomToolbarHeight: CGFloat = 80
-    public var textFont = UIFont.systemFont(ofSize: 24)
-    public var lineWidth: CGFloat = 4.0
   }
   
   public struct TranslationKeys {

@@ -2,13 +2,14 @@ protocol TopToolbarViewDelegate: MediaPreviewToolbarDelegate {
   func onTextTap()
   func onClearTap()
   func onPencilTap()
+  func onLabelTap()
   
   func didSelectColor(color: UIColor)
 }
 
 class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   var colorsCollectionViewDelegate: ColorsCollectionViewDelegate!
-  weak var editorViewDelegate: TopToolbarViewDelegate?
+  weak var delegate: TopToolbarViewDelegate?
   
   lazy var colorsCollectionView: UICollectionView = self.makeColorsCollectionView()
   lazy var buttonsContainerView: UIView = UIView()
@@ -26,23 +27,23 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   }
   
   private func setup() {
-    self.addSubview(buttonsContainerView)
-    self.addSubview(colorsCollectionView)
+    addSubview(buttonsContainerView)
+    addSubview(colorsCollectionView)
     
-    self.translatesAutoresizingMaskIntoConstraints = false
-    self.colorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
-    self.buttonsContainerView.translatesAutoresizingMaskIntoConstraints = false
+    translatesAutoresizingMaskIntoConstraints = false
+    colorsCollectionView.translatesAutoresizingMaskIntoConstraints = false
+    buttonsContainerView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      self.buttonsContainerView.topAnchor.constraint(equalTo: self.topAnchor),
-      self.buttonsContainerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      self.buttonsContainerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      self.buttonsContainerView.heightAnchor.constraint(equalToConstant: 40),
+      buttonsContainerView.topAnchor.constraint(equalTo: topAnchor),
+      buttonsContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      buttonsContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      buttonsContainerView.heightAnchor.constraint(equalToConstant: 40),
 
-      self.colorsCollectionView.topAnchor.constraint(equalTo: self.buttonsContainerView.bottomAnchor),
-      self.colorsCollectionView.heightAnchor.constraint(equalToConstant: 40),
-      self.colorsCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      self.colorsCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      colorsCollectionView.topAnchor.constraint(equalTo: buttonsContainerView.bottomAnchor),
+      colorsCollectionView.heightAnchor.constraint(equalToConstant: 40),
+      colorsCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      colorsCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
     ])
     
     insertBackButton()
@@ -112,36 +113,42 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
     label.font = UIFont.systemFont(ofSize: 12)
     label.numberOfLines = 1
     label.lineBreakMode = .byTruncatingMiddle
+    label.isUserInteractionEnabled = true
+    label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onLabelTap)))
     return label
   }
   
   @objc fileprivate func onTextTap() {
-    self.editorViewDelegate?.onTextTap()
+    delegate?.onTextTap()
   }
   
   @objc fileprivate func onClearTap() {
-    self.editorViewDelegate?.onClearTap()
+    delegate?.onClearTap()
   }
   
   @objc fileprivate func onBackTap() {
-    self.editorViewDelegate?.onBackTap()
+    delegate?.onBackTap()
   }
   
   @objc fileprivate func onPencilTap() {
-    self.editorViewDelegate?.onPencilTap()
+    delegate?.onPencilTap()
+  }
+  
+  @objc fileprivate func onLabelTap() {
+    delegate?.onLabelTap()
   }
   
   func didSelectColor(color: UIColor) {
-    self.editorViewDelegate?.didSelectColor(color: color)
+    self.delegate?.didSelectColor(color: color)
   }
   
   fileprivate func clearSubviews() {
-    self.pencilButton.removeFromSuperview()
-    self.backButton.removeFromSuperview()
-    self.undoButton.removeFromSuperview()
-    self.textButton.removeFromSuperview()
-    self.colorsCollectionView.removeFromSuperview()
-    self.fileNameLabel.removeFromSuperview()
+    pencilButton.removeFromSuperview()
+    backButton.removeFromSuperview()
+    undoButton.removeFromSuperview()
+    textButton.removeFromSuperview()
+    colorsCollectionView.removeFromSuperview()
+    fileNameLabel.removeFromSuperview()
   }
   
   fileprivate func insertBackButton() {

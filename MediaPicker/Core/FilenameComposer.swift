@@ -1,6 +1,6 @@
 class FileNameComposer {
-  public static func getAudioFileName(date: Date = Date()) -> String {
-    return formatString(firstPart: MediaPickerConfig.shared.translationKeys.audioFileTitleKey.g_localize(fallback: "VoiceNote"), date: date)
+  public static func getFileName(date: Date = Date()) -> String {
+    return formatString(firstPart: MediaPickerConfig.shared.translationKeys.audioFileTitleKey.g_localize(fallback: "File"), date: date)
   }
   
   public static func getImageFileName(date: Date = Date()) -> String {

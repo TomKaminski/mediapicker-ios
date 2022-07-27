@@ -44,7 +44,6 @@ class ViewController: UIViewController, MediaPickerControllerDelegate {
   override func viewDidLoad() {
     super.viewDidLoad()
     setNeedsStatusBarAppearanceUpdate()
-    // Do any additional setup after loading the view.
   }
 
   @IBAction func onTapAdd(_ sender: Any) {

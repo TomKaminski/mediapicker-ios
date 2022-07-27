@@ -2,25 +2,17 @@ import UIKit
 import Photos
 import PhotosUI
 
-class VideoAssetPreviewController: MediaEditorBaseController, GalleryFloatingButtonTapDelegate, MediaPreviewToolbarDelegate {
-  
-  // ----------------
-  // MARK: Properties
-  // ----------------
-
+class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolbarDelegate {
   lazy var imageView = self.makeImageView()
   lazy var playIcon = self.makePlayIcon()
   lazy var topToolbarView = self.makeTopToolbarView()
-
   
   var video: Video!
   var assetCollection: PHAssetCollection!
   
   var editButton: UIBarButtonItem!
   var playButton: UIBarButtonItem!
-  
-  weak var delegate: MediaRenameControllerDelegate?
-  
+    
   var playerPaused = true {
     didSet {
       self.playIcon.isHidden = !self.playerPaused
@@ -29,27 +21,21 @@ class VideoAssetPreviewController: MediaEditorBaseController, GalleryFloatingBut
   
   fileprivate var playerLayer: AVPlayerLayer!
   
-  // ----------------
-  // MARK: UIViewController Life Cycle
-  // ----------------
-  
   override func viewDidLoad() {
     super.viewDidLoad()
-    newlyTaken = video.newlyTaken
-    topToolbarView.fileNameLabel.text = customFileName
-
+    
+    addSubviews()
     setupConstraints()
     setupNotifications()
-    
-    saveButton.tapDelegate = self
+
+    topToolbarView.fileNameLabel.text = customFileName
 
     PHPhotoLibrary.shared().register(self)
   }
   
-  override func addSubviews() {
+  func addSubviews() {
     view.addSubview(imageView)
     view.addSubview(playIcon)
-    super.addSubviews()
     view.addSubview(topToolbarView)
   }
   
@@ -67,21 +53,18 @@ class VideoAssetPreviewController: MediaEditorBaseController, GalleryFloatingBut
   // MARK: Interaction
   // ----------------
   
-  override func onBackTap() {
+  func onBackTap() {
     self.dismiss(animated: true)
   }
-
-  func tapped() {
-    let filename: String
-//    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-//      filename = fileNameFromInput
-//    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-//      filename = lastFileName
-//    } else {
-      filename = FileNameComposer.getVideoFileName()
-    //}
-    delegate?.renameMediaFile(guid: video.guid, newFileName: filename)
-    dismiss(animated: true)
+  
+  func onLabelTap() {
+    self.presentRenameAlert(guid: video.guid, baseFilename: FileNameComposer.getVideoFileName())
+  }
+  
+  override func onFilenameChanged() {
+    if let customFileName = customFileName {
+      self.topToolbarView.fileNameLabel.text = customFileName
+    }
   }
   
   @objc private func handleImageTap() {
@@ -160,9 +143,7 @@ class VideoAssetPreviewController: MediaEditorBaseController, GalleryFloatingBut
     }
   }
   
-  internal override func setupConstraints() {
-    super.setupConstraints()
-    
+  internal func setupConstraints() {
     NSLayoutConstraint.activate([
       topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

@@ -98,17 +98,18 @@ public class MediaPickerController: UIViewController {
         if item.type == .Image && MediaPickerConfig.shared.camera.allowPhotoEdit {
           let image = item as! Image
           image.resolve(completion: { (uiImage) in
-            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid, newlyTaken: image.newlyTaken)
+            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
             photoEditor.modalPresentationStyle = .overFullScreen
             photoEditor.customFileName = image.customFileName
             photoEditor.delegate = self
+            photoEditor.renameDelegate = self
             self.present(photoEditor, animated: true, completion: {
               self.currentlyPresentedModalController = photoEditor
             })
           })
         } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit, let audio = item as? Audio {
-          let audioCtrl = MediaPreviewController(url: audio.audioFile.url, guid: audio.guid, customFileName: audio.customFileName, newlyTaken: audio.newlyTaken)
-          audioCtrl.delegate = self
+          let audioCtrl = MediaPreviewController(url: audio.audioFile.url, guid: audio.guid, customFileName: audio.customFileName)
+          audioCtrl.renameDelegate = self
           audioCtrl.customFileName = item.customFileName
           audioCtrl.modalPresentationStyle = .overFullScreen
           self.present(audioCtrl, animated: true, completion: {
@@ -118,7 +119,7 @@ public class MediaPickerController: UIViewController {
           let videoCtrl = VideoAssetPreviewController()
           videoCtrl.video = (item as! Video)
           videoCtrl.customFileName = item.customFileName
-          videoCtrl.delegate = self
+          videoCtrl.renameDelegate = self
           videoCtrl.modalPresentationStyle = .overFullScreen
           self.present(videoCtrl, animated: true, completion: {
             self.currentlyPresentedModalController = videoCtrl

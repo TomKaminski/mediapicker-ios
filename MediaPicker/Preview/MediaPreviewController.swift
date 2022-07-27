@@ -1,16 +1,14 @@
 import QuickLook
 
-class MediaPreviewController: MediaEditorBaseController, GalleryFloatingButtonTapDelegate, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
+class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
   var previewCtrl: QLPreviewController!
   
   lazy var topToolbarView = makeTopToolbarView()
   
   let url: URL
   let guid: String
-  
-  weak var delegate: MediaRenameControllerDelegate?
-  
-  init(url: URL, guid: String, customFileName: String, newlyTaken: Bool = false) {
+    
+  init(url: URL, guid: String, customFileName: String) {
     self.url = url
     self.guid = guid
     
@@ -26,33 +24,19 @@ class MediaPreviewController: MediaEditorBaseController, GalleryFloatingButtonTa
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .black
-    self.newlyTaken = newlyTaken
+    
+    addSubviews()
+    setupConstraints()
+    
     topToolbarView.fileNameLabel.text = customFileName
-    saveButton.tapDelegate = self
   }
   
-  override func addSubviews() {
+  func addSubviews() {
     addPreviewChild()
     view.addSubview(topToolbarView)
-    super.addSubviews()
   }
   
-  func tapped() {
-    let filename: String
-//    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-//      filename = fileNameFromInput
-//    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-//      filename = lastFileName
-//    } else {
-      filename = FileNameComposer.getVideoFileName()
-    //}
-    delegate?.renameMediaFile(guid: guid, newFileName: filename)
-    dismiss(animated: true)
-  }
-  
-  internal override func setupConstraints() {
-    super.setupConstraints()
-    
+  internal func setupConstraints() {
     NSLayoutConstraint.activate([
       topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -97,7 +81,17 @@ class MediaPreviewController: MediaEditorBaseController, GalleryFloatingButtonTa
     return view
   }
   
-  override func onBackTap() {
+  func onBackTap() {
     self.dismiss(animated: true)
+  }
+  
+  func onLabelTap() {
+    presentRenameAlert(guid: guid, baseFilename: FileNameComposer.getFileName())
+  }
+  
+  override func onFilenameChanged() {
+    if let customFileName = customFileName {
+      self.topToolbarView.fileNameLabel.text = customFileName
+    }
   }
 }

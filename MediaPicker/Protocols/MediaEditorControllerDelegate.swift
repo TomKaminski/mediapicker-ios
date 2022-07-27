@@ -1,5 +1,5 @@
 protocol PhotoEditorControllerDelegate: AnyObject {
-  func editMediaFile(image: UIImage, customFileName: String, guid: String, editedSomething: Bool)
+  func editMediaFile(image: UIImage, fileName: String, guid: String, editedSomething: Bool)
 }
 
 protocol MediaRenameControllerDelegate: AnyObject {

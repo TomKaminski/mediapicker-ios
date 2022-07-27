@@ -3,15 +3,19 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   public let originalImageGuid: String
 
   lazy var topToolbarView = makeTopToolbarView()
+  lazy var brushSlider = makeBrushSlider()
   
   var canvasViewWidthConstraint: NSLayoutConstraint!
   var canvasViewHeightConstraint: NSLayoutConstraint!
   var canvasViewTopConstraint: NSLayoutConstraint!
   var canvasViewBottomConstraint: NSLayoutConstraint!
+  var toolbarViewHeightConstraint: NSLayoutConstraint!
 
   lazy var imageView = UIImageView()
   lazy var canvasView = UIView()
   lazy var canvasImageView = UIImageView()
+  
+  let saveButton = GalleryFloatingButton()
   
   var drawColor = UIColor.red
   var textColor = UIColor.white
@@ -22,6 +26,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   var activeTextView: UITextView?
   var imageViewToPan: UIImageView?
   var isTyping = false
+  var isPencilActive = true
   
   var editedSomething = false
   
@@ -29,43 +34,39 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   public func tapped() {
     let img = self.canvasView.toImage()
-    
-    var customFileName = FileNameComposer.getImageFileName()
-//    if let fileNameFromInput = self.bottomToolbarView.filenameInput?.text, !fileNameFromInput.isEmpty {
-//      customFileName = fileNameFromInput
-//    } else if let lastFileName = self.bottomToolbarView.lastFileName, !lastFileName.isEmpty {
-//      customFileName = lastFileName
-//    }
-    
-    delegate?.editMediaFile(image: img, customFileName: customFileName, guid: originalImageGuid, editedSomething: editedSomething)
+    delegate?.editMediaFile(image: img, fileName: customFileName ?? FileNameComposer.getImageFileName(), guid: originalImageGuid, editedSomething: editedSomething)
     dismiss(animated: true, completion: nil)
   }
     
-  init(image: UIImage, guid: String, newlyTaken: Bool) {
+  init(image: UIImage, guid: String) {
     self.originalImage = image
     self.originalImageGuid = guid
     super.init(nibName: nil, bundle: nil)
-    self.newlyTaken = newlyTaken
   }
   
   override public func viewDidLoad() {
     super.viewDidLoad()
-
-    self.saveButton.tapDelegate = self
-    self.topToolbarView.editorViewDelegate = self
-    self.topToolbarView.fileNameLabel.text = customFileName
-    self.setImageView(image: self.originalImage)
+    
+    addSubviews()
+    setupConstraints()
+    
+    saveButton.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
+    saveButton.tapDelegate = self
+    topToolbarView.delegate = self
+    topToolbarView.fileNameLabel.text = customFileName
+    setImageView(image: self.originalImage)
   }
   
   func setImageView(image: UIImage) {
     imageView.image = image
   }
   
-  override func addSubviews() {
+  func addSubviews() {
     view.addSubview(canvasView)
+    view.addSubview(saveButton)
     view.addSubview(topToolbarView)
-    
-    super.addSubviews()
+    view.addSubview(brushSlider)
+    sliderValueChanged()
     
     canvasView.addSubview(imageView)
     canvasView.addSubview(canvasImageView)
@@ -79,15 +80,20 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   private func rebuildCanvasConstraints() {
     let fixedSize = imageView.contentClippingRect
-    canvasViewHeightConstraint = self.canvasView.heightAnchor.constraint(lessThanOrEqualToConstant: fixedSize.height)
+    canvasViewHeightConstraint = canvasView.heightAnchor.constraint(lessThanOrEqualToConstant: fixedSize.height)
     canvasViewWidthConstraint.constant = fixedSize.width > UIScreen.main.bounds.width ? UIScreen.main.bounds.width : fixedSize.width
-    NSLayoutConstraint.deactivate([canvasViewBottomConstraint])
-    NSLayoutConstraint.activate([canvasViewHeightConstraint])
+    
+    NSLayoutConstraint.deactivate([
+      canvasViewBottomConstraint,
+      canvasViewTopConstraint,
+    ])
+    NSLayoutConstraint.activate([
+      canvasViewHeightConstraint,
+      canvasView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+    ])
   }
 
-  override func setupConstraints() {
-    super.setupConstraints()
-    
+  func setupConstraints() {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     canvasView.translatesAutoresizingMaskIntoConstraints = false
     canvasImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,13 +102,18 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     canvasViewTopConstraint = self.canvasView.topAnchor.constraint(equalTo: self.topToolbarView.bottomAnchor, constant: -40)
     canvasViewBottomConstraint = self.canvasView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
 
+    toolbarViewHeightConstraint = self.topToolbarView.heightAnchor.constraint(equalToConstant: 80)
+    
     NSLayoutConstraint.activate([
+      saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+      saveButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
+      
       topToolbarView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       topToolbarView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      topToolbarView.heightAnchor.constraint(equalToConstant: 80),
+      toolbarViewHeightConstraint,
       topToolbarView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
       
-      self.canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+      canvasView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
       canvasViewTopConstraint,
       canvasViewBottomConstraint,
       canvasViewWidthConstraint,
@@ -116,6 +127,11 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
       canvasImageView.centerYAnchor.constraint(equalTo: canvasView.centerYAnchor),
       canvasImageView.widthAnchor.constraint(equalTo: canvasView.widthAnchor),
       canvasImageView.heightAnchor.constraint(equalTo: canvasView.heightAnchor),
+      
+      brushSlider.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: 100),
+      brushSlider.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+      brushSlider.widthAnchor.constraint(equalToConstant: 151),
+      brushSlider.heightAnchor.constraint(equalToConstant: 25)
     ])
   }
   
@@ -123,6 +139,26 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     let view = PhotoEditorToolbar()
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
+  }
+  
+  private func makeBrushSlider() -> UISlider {
+    let view = UISlider()
+    view.value = 0.2
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
+    view.maximumTrackTintColor = .clear
+    view.minimumTrackTintColor = .clear
+    view.setMinimumTrackImage(MediaPickerBundle.image("sizePencil"), for: .normal)
+    view.setMaximumTrackImage(MediaPickerBundle.image("sizePencil"), for: .normal)
+    view.transform = CGAffineTransform(rotationAngle: CGFloat(-Double.pi/2))
+    return view
+  }
+  
+  @objc func sliderValueChanged() {
+    DispatchQueue.main.async {
+      let targetSize = 10 + (CGFloat(self.brushSlider.value) * 25)
+      self.brushSlider.setThumbImage(MediaPickerBundle.image("thumb")?.scalePreservingAspectRatio(targetSize: .init(width: targetSize, height: targetSize)), for: .normal)
+    }
   }
   
   fileprivate func addGestures(view: UIView) {
@@ -149,7 +185,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   fileprivate func setupTextView(_ textView: UITextView) {
     textView.textAlignment = .center
-    textView.font = MediaPickerConfig.shared.photoEditor.textFont
+    textView.font = UIFont.systemFont(ofSize: 24)
     textView.textColor = textColor
     textView.layer.shadowColor = UIColor.black.cgColor
     textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
@@ -188,7 +224,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     editedSomething = false
   }
   
-  override func onBackTap() {
+  func onBackTap() {
     if editedSomething {
       presentDiscardChangesAlert()
     } else {
@@ -197,7 +233,55 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   }
   
   func onPencilTap() {
+    isPencilActive.toggle()
+    if isPencilActive {
+      toolbarViewHeightConstraint.constant = 80
+      topToolbarView.colorsCollectionView.isHidden = false
+      topToolbarView.colorsCollectionView.isUserInteractionEnabled = true
+      brushSlider.isHidden = false
+      brushSlider.isUserInteractionEnabled = true
+      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(MediaPickerConfig.shared.colors.blue), for: UIControl.State())
+    } else {
+      toolbarViewHeightConstraint.constant = 40
+      topToolbarView.colorsCollectionView.isHidden = true
+      topToolbarView.colorsCollectionView.isUserInteractionEnabled = false
+      brushSlider.isHidden = true
+      brushSlider.isUserInteractionEnabled = false
+      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(.white), for: UIControl.State())
+    }
+  }
+  
+  func onLabelTap() {
+    self.presentRenameAlert(guid: originalImageGuid, baseFilename: FileNameComposer.getImageFileName())
+  }
+  
+  override func onFilenameChanged() {
+    if let customFileName = customFileName {
+      self.topToolbarView.fileNameLabel.text = customFileName
+    }
+  }
+  
+  func presentDiscardChangesAlert() {
+    let title = MediaPickerConfig.shared.translationKeys.discardChangesKey.g_localize(fallback: "Discard changes")
+    let message = MediaPickerConfig.shared.translationKeys.discardChangesDescriptionKey.g_localize(fallback: "Are you sure you want to discard changes?")
+    let discardBtnText = MediaPickerConfig.shared.translationKeys.discardKey.g_localize(fallback: "Discard")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (cancelBtnText, "cancel", nil),
+      (discardBtnText, "delete", {
+        self.dismiss(animated: true, completion: nil)
+      })
+    ]) {
+      self.present(controller, animated: true, completion: nil)
+    } else {
+      let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
+      alertController.addAction(UIAlertAction(title: discardBtnText, style: .destructive, handler: { _ in
+        self.dismiss(animated: true, completion: nil)
+      }))
+      self.present(alertController, animated: true, completion: nil)
+    }
   }
   
   required init?(coder aDecoder: NSCoder) {

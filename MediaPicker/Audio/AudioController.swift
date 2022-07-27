@@ -83,7 +83,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
 
       audioRecorder?.stop()
 
-      if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getAudioFileName(), guid: UUID().uuidString, dateAdded: Date()) {
+      if let url = audioRecorder?.url, let audio = try? Audio(audioFile: AVAudioFile(forReading: url), customFileName: FileNameComposer.getFileName(), guid: UUID().uuidString, dateAdded: Date()) {
         self.cart.add(audio)
         
         audioRecorder = nil

@@ -12,7 +12,7 @@ extension PhotoEditorController: UITextViewDelegate {
     isTyping = true
     activeTextView = textView
     textView.superview?.bringSubviewToFront(textView)
-    textView.font = MediaPickerConfig.shared.photoEditor.textFont
+    textView.font = UIFont.systemFont(ofSize: 24)
   }
   
   public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

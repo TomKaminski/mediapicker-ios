@@ -10,12 +10,8 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
     }
   }
   
-  func editMediaFile(image: UIImage, customFileName: String, guid: String, editedSomething: Bool) {
+  func editMediaFile(image: UIImage, fileName: String, guid: String, editedSomething: Bool) {
     guard editedSomething, let cgImage = image.cgImage else {
-      if var item = cart.getItem(by: guid) {
-        item.customFileName = customFileName
-        cart.add(item)
-      }
       return
     }
     
@@ -41,7 +37,7 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
           let newAsset = result.object(at: 0)
           
           self.cart.remove(guidToRemove: guid)
-          self.cart.add(Image(asset: newAsset, guid: guid, newlyTaken: false, customFileName: customFileName, dateAdded: Date()))
+          self.cart.add(Image(asset: newAsset, guid: guid, newlyTaken: false, customFileName: fileName, dateAdded: Date()))
         }
       }
     }

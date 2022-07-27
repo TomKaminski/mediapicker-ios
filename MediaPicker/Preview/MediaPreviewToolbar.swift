@@ -1,5 +1,6 @@
 protocol MediaPreviewToolbarDelegate: AnyObject {
   func onBackTap()
+  func onLabelTap()
 }
 
 class MediaPreviewToolbar: UIView {
@@ -16,16 +17,16 @@ class MediaPreviewToolbar: UIView {
   }
   
   private func setup() {
-    self.addSubview(buttonsContainerView)
+    addSubview(buttonsContainerView)
     
-    self.translatesAutoresizingMaskIntoConstraints = false
-    self.buttonsContainerView.translatesAutoresizingMaskIntoConstraints = false
+    translatesAutoresizingMaskIntoConstraints = false
+    buttonsContainerView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      self.buttonsContainerView.topAnchor.constraint(equalTo: self.topAnchor),
-      self.buttonsContainerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      self.buttonsContainerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-      self.buttonsContainerView.heightAnchor.constraint(equalToConstant: 40),
+      buttonsContainerView.topAnchor.constraint(equalTo: topAnchor),
+      buttonsContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      buttonsContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      buttonsContainerView.heightAnchor.constraint(equalToConstant: 40),
     ])
     
     insertBackButton()
@@ -51,16 +52,22 @@ class MediaPreviewToolbar: UIView {
     label.font = UIFont.systemFont(ofSize: 12)
     label.numberOfLines = 1
     label.lineBreakMode = .byTruncatingMiddle
+    label.isUserInteractionEnabled = true
+    label.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onLabelTap)))
     return label
   }
   
   @objc fileprivate func onBackTap() {
-    self.delegate?.onBackTap()
+    delegate?.onBackTap()
+  }
+  
+  @objc fileprivate func onLabelTap() {
+    delegate?.onLabelTap()
   }
   
   fileprivate func clearSubviews() {
-    self.backButton.removeFromSuperview()
-    self.fileNameLabel.removeFromSuperview()
+    backButton.removeFromSuperview()
+    fileNameLabel.removeFromSuperview()
   }
   
   fileprivate func insertBackButton() {
