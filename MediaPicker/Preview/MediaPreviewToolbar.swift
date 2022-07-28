@@ -74,7 +74,7 @@ class MediaPreviewToolbar: UIView {
     addSubview(backButton)
     backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 12)
     backButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    backButton.g_pin(width: 24)
+    backButton.g_pin(size: CGSize(width: 24, height: 24))
   }
   
   fileprivate func insertMediaFileNameLabel() {
