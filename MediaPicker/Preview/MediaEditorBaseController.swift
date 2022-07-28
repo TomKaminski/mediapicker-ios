@@ -1,5 +1,5 @@
 public class MediaEditorBaseController: UIViewController {
-  var customFileName: String? {
+  public var customFileName: String? {
     didSet {
       onFilenameChanged()
     }
