@@ -2,7 +2,7 @@ import Photos
 import UIKit
 
 extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameControllerDelegate {
-  func renameMediaFile(guid: String, newFileName: String) {
+  public func renameMediaFile(guid: String, newFileName: String) {
     if var item = cart.items[guid] {
       item.customFileName = newFileName
       item.newlyTaken = false
@@ -10,7 +10,7 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
     }
   }
   
-  func editMediaFile(image: UIImage, fileName: String, guid: String, editedSomething: Bool) {
+  public func editMediaFile(image: UIImage, fileName: String, guid: String, editedSomething: Bool) {
     guard editedSomething, let cgImage = image.cgImage else {
       return
     }

@@ -2,7 +2,7 @@ import UIKit
 import Photos
 import PhotosUI
 
-class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolbarDelegate {
+public class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolbarDelegate {
   lazy var imageView = self.makeImageView()
   lazy var playIcon = self.makePlayIcon()
   lazy var topToolbarView = self.makeTopToolbarView()
@@ -21,7 +21,7 @@ class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolba
   
   fileprivate var playerLayer: AVPlayerLayer!
   
-  override func viewDidLoad() {
+  public override func viewDidLoad() {
     super.viewDidLoad()
     
     addSubviews()
@@ -39,7 +39,7 @@ class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolba
     view.addSubview(topToolbarView)
   }
   
-  override func viewWillAppear(_ animated: Bool) {
+  public override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     view.layoutIfNeeded()
     updateStaticImage()
@@ -191,7 +191,7 @@ class VideoAssetPreviewController: MediaEditorBaseController, MediaPreviewToolba
 // --------------
 
 extension VideoAssetPreviewController: PHPhotoLibraryChangeObserver {
-  func photoLibraryDidChange(_ changeInstance: PHChange) {
+  public func photoLibraryDidChange(_ changeInstance: PHChange) {
     DispatchQueue.main.sync {
       guard let details = changeInstance.changeDetails(for: video.asset) else {
         return

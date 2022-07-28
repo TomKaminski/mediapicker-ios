@@ -30,7 +30,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   
   var editedSomething = false
   
-  weak var delegate: PhotoEditorControllerDelegate?
+  public weak var delegate: PhotoEditorControllerDelegate?
   
   public func tapped() {
     let img = self.canvasView.toImage()

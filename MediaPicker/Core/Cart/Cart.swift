@@ -28,18 +28,6 @@ public class Cart {
     
     items.updateValue(item, forKey: item.guid)
     cartMainDelegate?.itemAdded(item: item)
-
-    for case let delegate as CartDelegate in delegates.allObjects {
-      switch item.type {
-
-      case .Audio:
-        delegate.cart(self, didAdd: item as! Audio)
-      case .Video:
-        delegate.cart(self, didAdd: item as! Video)
-      case .Image:
-        delegate.cart(self, didAdd: item as! Image)
-      }
-    }
   }
 
   public func remove(_ itemToRemove: CartItemProtocol) {
@@ -61,9 +49,8 @@ public class Cart {
   fileprivate func processRemoveEvent(_ itemToRemove: CartItemProtocol) {
     for case let delegate as CartDelegate in delegates.allObjects {
       switch itemToRemove.type {
-        
       case .Audio:
-        delegate.cart(self, didRemove: itemToRemove as! Audio)
+        break
       case .Video:
         delegate.cart(self, didRemove: itemToRemove as! Video)
       case .Image:

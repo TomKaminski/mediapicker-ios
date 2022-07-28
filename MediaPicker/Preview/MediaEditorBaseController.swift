@@ -5,7 +5,7 @@ public class MediaEditorBaseController: UIViewController {
     }
   }
   
-  weak var renameDelegate: MediaRenameControllerDelegate?
+  public weak var renameDelegate: MediaRenameControllerDelegate?
 
   override public func viewDidLoad() {
     super.viewDidLoad()

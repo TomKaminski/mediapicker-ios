@@ -1,6 +1,6 @@
 import QuickLook
 
-class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
+public class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
   var previewCtrl: QLPreviewController!
   
   lazy var topToolbarView = makeTopToolbarView()
@@ -21,7 +21,7 @@ class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDele
     fatalError("init(coder:) has not been implemented")
   }
   
-  override func viewDidLoad() {
+  public override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .black
     
@@ -62,11 +62,11 @@ class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDele
     previewCtrl.didMove(toParent: self)
   }
   
-  func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+  public func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
     return 1
   }
   
-  func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+  public func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
     if QLPreviewController.canPreview(url as NSURL) {
       return url as NSURL
     } else {
