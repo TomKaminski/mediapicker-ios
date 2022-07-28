@@ -9,7 +9,7 @@ protocol LibraryTabTopViewDelegate: AnyObject {
   func onDropdownTap()
 }
 
-class TopView: UIView {
+class MediaPickerTopView: UIView {
   var state: MediaToolbarState = .Camera {
     didSet {
       setupForState()

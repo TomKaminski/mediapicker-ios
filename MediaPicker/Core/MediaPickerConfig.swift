@@ -38,14 +38,7 @@ public struct MediaPickerConfig {
   
   public struct BottomView {
     public var height: CGFloat = 80
-    public var backButton = BackButton()
     public var saveIcon = MediaPickerBundle.image("Save")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
-    
-    public struct BackButton {
-      public var size: CGFloat = 40
-      public var leftMargin: CGFloat = 16
-      public var icon = MediaPickerBundle.image("arrowLeftIcon")
-    }
   }
   
   public struct Cart {
@@ -90,7 +83,8 @@ public struct MediaPickerConfig {
     public var tapToStartLabelKey = "LandaxApp_Media_Gallery_Audio_StartRecording"
     
     public var filenameInputPlaceholderKey = "LandaxApp_Gallery_FilenamePlaceholder"
-    
+    public var renameKey = "LandaxApp_Common_Rename"
+
     public var cancelKey = "LandaxApp_Common_NavButton_Cancel"
     public var deleteKey = "LandaxApp_Common_Delete"
     public var discardKey = "LandaxApp_Common_NavButton_Discard"

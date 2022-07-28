@@ -7,7 +7,7 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   lazy var scrollViewContentView: UIView = UIView()
   lazy var pageIndicator: PageIndicator = self.makePageIndicator()
   lazy var bottomView: BottomView = self.makeBottomView()
-  lazy var topView: TopView = self.makeTopView()
+  lazy var topView: MediaPickerTopView = self.makeTopView()
   
   var cartView: CartCollectionView?
   
@@ -103,8 +103,8 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     return bottomView
   }
   
-  func makeTopView() -> TopView {
-    let topView = TopView()
+  func makeTopView() -> MediaPickerTopView {
+    let topView = MediaPickerTopView()
     topView.translatesAutoresizingMaskIntoConstraints = false
     return topView
   }
