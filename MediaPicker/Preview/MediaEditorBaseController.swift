@@ -16,11 +16,12 @@ public class MediaEditorBaseController: UIViewController {
   
   func presentRenameAlert(guid: String, baseFilename: String) {
     let renameText = MediaPickerConfig.shared.translationKeys.renameKey.g_localize(fallback: "Rename")
-    let cancelText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Rename")
+    let cancelText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
     if let textDialogBuilder = MediaPickerConfig.shared.textDialogBuilder, let controller = textDialogBuilder(renameText, nil, customFileName, [
       (cancelText, "cancel", nil),
       (renameText, "standard", { inputValue in
+        self.customFileName = inputValue ?? baseFilename
         self.renameDelegate?.renameMediaFile(guid: guid, newFileName: inputValue ?? baseFilename)
       })
     ]) {
