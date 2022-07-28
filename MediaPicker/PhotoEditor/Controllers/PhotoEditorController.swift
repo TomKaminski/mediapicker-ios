@@ -38,7 +38,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     dismiss(animated: true, completion: nil)
   }
     
-  init(image: UIImage, guid: String) {
+  public init(image: UIImage, guid: String) {
     self.originalImage = image
     self.originalImageGuid = guid
     super.init(nibName: nil, bundle: nil)

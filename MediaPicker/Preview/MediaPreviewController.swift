@@ -8,7 +8,7 @@ public class MediaPreviewController: MediaEditorBaseController, QLPreviewControl
   let url: URL
   let guid: String
     
-  init(url: URL, guid: String, customFileName: String) {
+  public init(url: URL, guid: String, customFileName: String) {
     self.url = url
     self.guid = guid
     
