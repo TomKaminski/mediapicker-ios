@@ -17,7 +17,7 @@ extension PhotoEditorController: UITextViewDelegate {
   
   public func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
     if text == "\n" {
-      doneButtonTapped(textView)
+      doneButtonTapped()
       editedSomething = true
       return true
     }
@@ -28,7 +28,13 @@ extension PhotoEditorController: UITextViewDelegate {
     activeTextView = nil
   }
   
-  private func doneButtonTapped(_ sender: Any) {
+  private func doneButtonTapped() {
+    view.endEditing(true)
+    canvasImageView.isUserInteractionEnabled = true
+    isTyping = false
+  }
+  
+  @objc func onKeyboardHide() {
     view.endEditing(true)
     canvasImageView.isUserInteractionEnabled = true
     isTyping = false

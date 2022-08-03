@@ -31,6 +31,7 @@ public class MediaEditorBaseController: UIViewController {
       
       alertController.addTextField { (textField) in
         textField.text = self.customFileName
+        textField.clearButtonMode = .always
       }
       
       alertController.addAction(UIAlertAction(title: cancelText, style: .cancel, handler: nil))

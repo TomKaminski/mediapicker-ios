@@ -18,7 +18,6 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   let saveButton = GalleryFloatingButton()
   
   var drawColor = UIColor.red
-  var textColor = UIColor.white
   var swiped = false
   var lastPoint: CGPoint!
   var lastPanPoint: CGPoint?
@@ -55,6 +54,8 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     topToolbarView.delegate = self
     topToolbarView.fileNameLabel.text = customFileName
     setImageView(image: self.originalImage)
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
   }
   
   func setImageView(image: UIImage) {
@@ -186,7 +187,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   fileprivate func setupTextView(_ textView: UITextView) {
     textView.textAlignment = .center
     textView.font = UIFont.systemFont(ofSize: 24)
-    textView.textColor = textColor
+    textView.textColor = drawColor
     textView.layer.shadowColor = UIColor.black.cgColor
     textView.layer.shadowOffset = CGSize(width: 1.0, height: 0.0)
     textView.layer.shadowOpacity = 0.2
@@ -202,13 +203,12 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
      self.drawColor = color
      if activeTextView != nil {
        activeTextView?.textColor = color
-       textColor = color
      }
    }
   
   func onTextTap() {
     isTyping = true
-    let textView = UITextView(frame: CGRect(x: 0, y: UIScreen.main.bounds.width/3, width: UIScreen.main.bounds.width, height: 30))
+    let textView = UITextView(frame: CGRect(x: 0, y: 100, width: UIScreen.main.bounds.width, height: 30))
     
     setupTextView(textView)
     canvasImageView.addSubview(textView)
