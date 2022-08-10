@@ -2,23 +2,19 @@ class PermissionController: UIViewController {
   let once = Once()
 
   weak var delegate: PermissionControllerDelegate?
+  
+  let permissionView = PermissionView()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    setup()
+    view.addSubview(permissionView)
+    permissionView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)), for: .touchUpInside)
+    permissionView.g_pinEdges()
   }
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
     once.run { self.check() }
-  }
-    
-  func setup() {
-    let permissionView = PermissionView()
-    view.addSubview(permissionView)
-    permissionView.closeButton.addTarget(self, action: #selector(closeButtonTouched(_:)), for: .touchUpInside)
-    permissionView.settingButton.addTarget(self, action: #selector(settingButtonTouched(_:)), for: .touchUpInside)
-    permissionView.g_pinEdges()
   }
   
   func check() {
@@ -41,14 +37,6 @@ class PermissionController: UIViewController {
     
     DispatchQueue.main.async {
       self.delegate?.permissionControllerDidFinish(self, closeTapped: false)
-    }
-  }
-    
-  @objc func settingButtonTouched(_ button: UIButton) {
-    DispatchQueue.main.async {
-      if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-        UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-      }
     }
   }
   

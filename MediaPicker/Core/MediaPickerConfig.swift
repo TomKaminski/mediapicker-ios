@@ -69,7 +69,9 @@ public struct MediaPickerConfig {
   }
   
   public struct TranslationKeys {
-    public var permissionLabelKey = "LandaxApp_Gallery_GaleryAndCamera_Permission"
+    public var permissionTitleLabelKey = "LandaxApp_Gallery_GaleryAndCamera_Permission_Title"
+    public var missingPermissionTitleKey = "LandaxApp_Gallery_MissingPermissions_NoAccess_iOS"
+    public var missingPermissionDescriptionKey = "LandaxApp_Gallery_MissingPermissions_UnsavedChangesWarning_iOS"
     public var goToSettingsKey = "LandaxApp_Gallery_Permission_Button"
     public var libraryTabTitleKey = "LandaxApp_Gallery_Library_Title"
     public var cameraTabTitleKey = "LandaxApp_Gallery_Camera_Title"

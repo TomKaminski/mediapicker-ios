@@ -167,7 +167,7 @@ public class MediaPickerController: UIViewController {
 
   func createCameraController() -> UIViewController {
     guard Permission.Camera.status == .authorized else {
-      return UIViewController()
+      return MissingPermissionController(titleSuffix: MediaPickerConfig.shared.translationKeys.cameraTabTitleKey.g_localize(fallback: "CAMERA").lowercased())
     }
 
     let ctrl = CameraController(cart: cart)
@@ -177,7 +177,7 @@ public class MediaPickerController: UIViewController {
 
   func createAudioController() -> UIViewController {
     guard Permission.Microphone.status == .authorized else {
-      return UIViewController()
+      return MissingPermissionController(titleSuffix: MediaPickerConfig.shared.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO").lowercased())
     }
 
     let ctrl = AudioController(cart: cart)
@@ -185,7 +185,11 @@ public class MediaPickerController: UIViewController {
     return ctrl
   }
 
-  func createLibraryController() -> LibraryController {
+  func createLibraryController() -> UIViewController {
+    guard Permission.Photos.status == .authorized || Permission.Photos.status == .restricted else {
+      return MissingPermissionController(titleSuffix: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY").lowercased())
+    }
+    
     let ctrl = LibraryController(cart: cart)
     ctrl.title = MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY")
     return ctrl

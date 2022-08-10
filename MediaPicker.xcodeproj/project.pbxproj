@@ -34,6 +34,7 @@
 		761E0B552313C4C90072B5BE /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B542313C4C90072B5BE /* ColorCollectionViewCell.swift */; };
 		761E0B5B2313C6430072B5BE /* UIImageView+Alpha.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5A2313C6430072B5BE /* UIImageView+Alpha.swift */; };
 		761E0B5D2313C65F0072B5BE /* UIView+Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761E0B5C2313C65F0072B5BE /* UIView+Image.swift */; };
+		7637731628A3C0A20050A537 /* MissingPermissionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7637731528A3C0A20050A537 /* MissingPermissionController.swift */; };
 		7639064B22F2CA8C007CD4CE /* PageIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639064A22F2CA8C007CD4CE /* PageIndicator.swift */; };
 		7639064D22F2D6D0007CD4CE /* PermissionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639064C22F2D6D0007CD4CE /* PermissionControllerDelegate.swift */; };
 		7639065122F2DC7C007CD4CE /* LibraryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7639065022F2DC7C007CD4CE /* LibraryController.swift */; };
@@ -175,6 +176,7 @@
 		761E0B542313C4C90072B5BE /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		761E0B5A2313C6430072B5BE /* UIImageView+Alpha.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Alpha.swift"; sourceTree = "<group>"; };
 		761E0B5C2313C65F0072B5BE /* UIView+Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Image.swift"; sourceTree = "<group>"; };
+		7637731528A3C0A20050A537 /* MissingPermissionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissingPermissionController.swift; sourceTree = "<group>"; };
 		7639064A22F2CA8C007CD4CE /* PageIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicator.swift; sourceTree = "<group>"; };
 		7639064C22F2D6D0007CD4CE /* PermissionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionControllerDelegate.swift; sourceTree = "<group>"; };
 		7639065022F2DC7C007CD4CE /* LibraryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryController.swift; sourceTree = "<group>"; };
@@ -547,6 +549,7 @@
 				76B8E4E722EACE0E00D99495 /* PermissionView.swift */,
 				76B8E4E922EACE2900D99495 /* PermissionSentry.swift */,
 				7639064C22F2D6D0007CD4CE /* PermissionControllerDelegate.swift */,
+				7637731528A3C0A20050A537 /* MissingPermissionController.swift */,
 			);
 			path = Permission;
 			sourceTree = "<group>";
@@ -826,6 +829,7 @@
 				F3B2B4F1233F92BF00F2CCBE /* AudioController+CartDelegate.swift in Sources */,
 				F3B2B4DE233F8D8B00F2CCBE /* PagesController+BottomViewDelegate.swift in Sources */,
 				7639067B22F2EF9B007CD4CE /* UIScrollView+Extensions.swift in Sources */,
+				7637731628A3C0A20050A537 /* MissingPermissionController.swift in Sources */,
 				F3B2B4DC233F8D6E00F2CCBE /* PagesController+CartButtonDelegate.swift in Sources */,
 				76EF9D1B28858D0D0007CB8F /* MediaPickerTopView.swift in Sources */,
 				F3884B5B2320EB72003E987C /* PhotoEditorController+UITextView.swift in Sources */,

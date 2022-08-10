@@ -9,51 +9,11 @@ struct Permission {
   }
   
   public static var startIndex: Int {
-    guard anyAuthorized else {
-      return 0
-    }
-    
-    if startTab.hasPermission {
-      return startTab.rawValue
-    }
-    
-    if Camera.status == .authorized {
-      return 1
-    }
-    
-    if Photos.status == .authorized || Photos.status == .restricted {
-      return 0
-    }
-    
-    if Microphone.status == .authorized && MediaPickerConfig.shared.audio.includeAudioTab {
-      return 2
-    }
-    
-    return 0
+    return startTab.rawValue
   }
   
   public static var startTab: GalleryTab {
-    guard anyAuthorized else {
-      return .libraryTab
-    }
-    
-    if MediaPickerConfig.shared.initialTab.hasPermission {
-      return MediaPickerConfig.shared.initialTab
-    }
-    
-    if Camera.status == .authorized {
-      return .cameraTab
-    }
-    
-    if Photos.status == .authorized || Photos.status == .restricted {
-      return .libraryTab
-    }
-    
-    if Microphone.status == .authorized && MediaPickerConfig.shared.audio.includeAudioTab {
-      return .audioTab
-    }
-    
-    return .libraryTab
+    return MediaPickerConfig.shared.initialTab
   }
   
   enum Status {
