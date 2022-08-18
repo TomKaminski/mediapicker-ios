@@ -5,7 +5,10 @@ extension AudioController: PageAware {
     self.pagesController.mediaPickerController.rotateButtons()
   }
   
-  func pageDidHide() {}
+  func pageDidHide() {
+    clearDataFunc()
+    EventHub.shared.changeMediaPickerState?(.Audio)
+  }
 
   var initialBottomViewState: MediaToolbarState {
     return .Audio

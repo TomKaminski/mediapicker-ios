@@ -42,7 +42,12 @@ extension CameraController: CameraPageAware {
     once.run {
       cameraMan.setup()
     }
+    
     self.pagesController.mediaPickerController.rotateButtons()
+    
+    if !cameraMan.session.isRunning {
+      cameraMan.session.startRunning()
+    }
   }
 
   var initialBottomViewState: MediaToolbarState {

@@ -179,7 +179,7 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     EventHub.shared.changeMediaPickerState?(.Audio)
   }
   
-  private func clearDataFunc() {
+  internal func clearDataFunc() {
     audioRecorder?.deleteRecording()
     audioRecorder = nil
     recordTimer?.invalidate()
