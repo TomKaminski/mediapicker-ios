@@ -36,6 +36,17 @@ class PagesController: UIViewController, BottomViewCartDelegate {
     setup()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    guard scrollView.frame.size.width > 0 else {
+      return
+    }
+
+    self.scrollTo(index: self.selectedIndex, animated: animated)
+    self.notifyShow()
+  }
+  
   private func setupStartTab() {
     let startTab = Permission.startTab
     selectedIndex = startTab.rawValue
@@ -48,27 +59,11 @@ class PagesController: UIViewController, BottomViewCartDelegate {
       state = .Audio
     }
   }
-  
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-
-    guard scrollView.frame.size.width > 0 else {
-      return
-    }
-
-    once.run {
-      DispatchQueue.main.async {
-        self.scrollToAndSelect(index: self.selectedIndex, animated: false)
-      }
-
-      notifyShow()
-    }
-  }
 
   override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
 
     coordinator.animate(alongsideTransition: { context in
-      self.scrollToAndSelect(index: self.selectedIndex, animated: context.isAnimated)
+      self.scrollTo(index: self.selectedIndex, animated: context.isAnimated)
     }) { _ in }
 
     super.viewWillTransition(to: size, with: coordinator)
@@ -177,11 +172,6 @@ class PagesController: UIViewController, BottomViewCartDelegate {
 
     let point = CGPoint(x: scrollView.frame.size.width * CGFloat(index), y: scrollView.contentOffset.y)
     scrollView.setContentOffset(point, animated: animated)
-  }
-
-  fileprivate func scrollToAndSelect(index: Int, animated: Bool) {
-    scrollTo(index: index, animated: animated)
-    pageIndicator.select(index: index, animated: animated)
   }
 
   func updateAndNotify(_ index: Int) {

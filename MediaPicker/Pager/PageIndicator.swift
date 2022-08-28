@@ -27,10 +27,6 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
     indicator.layer.cornerRadius = 2
     indicator.frame.size = CGSize(width: 90, height: 4)
     indicator.frame.origin.y = bounds.size.height - indicator.frame.size.height
-    
-    if indicator.frame.origin.x == 0 {
-      select(index: 0)
-    }
   }
   
   func setup() {

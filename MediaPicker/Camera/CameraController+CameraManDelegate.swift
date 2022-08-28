@@ -27,7 +27,7 @@ extension CameraController: CameraManDelegate {
         let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())
         self.cart.add(image)
         if MediaPickerConfig.shared.cart.maxItems == 1 {
-          EventHub.shared.executeCustomAction?(image.guid)
+          EventHub.shared.cartItemTappedAction?(image.guid)
         }
       }
     } else {
@@ -36,7 +36,7 @@ extension CameraController: CameraManDelegate {
         let video = Video(asset: asset, guid: UUID().uuidString, customFileName: FileNameComposer.getVideoFileName(), newlyTaken: true, dateAdded: Date())
         self.cart.add(video)
         if MediaPickerConfig.shared.cart.maxItems == 1 {
-          EventHub.shared.executeCustomAction?(video.guid)
+          EventHub.shared.cartItemTappedAction?(video.guid)
         }
       }
     }

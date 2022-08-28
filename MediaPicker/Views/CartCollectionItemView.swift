@@ -58,7 +58,7 @@ public class CartCollectionItemView: UIView {
   
   @objc private func onTapped() {
     if canTap() {
-      EventHub.shared.executeCustomAction?(guid)
+      EventHub.shared.cartItemTappedAction?(guid)
     }
   }
   
