@@ -218,6 +218,10 @@ class PagesController: UIViewController, BottomViewCartDelegate {
   func onItemDelete(guid: String) {
     onItemRemove(guid: guid)
   }
+  
+  func onItemTap(guid: String) {
+    EventHub.shared.cartItemTappedAction?(guid)
+  }
 }
 
 

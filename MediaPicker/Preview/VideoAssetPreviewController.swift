@@ -29,6 +29,7 @@ public class VideoAssetPreviewController: MediaEditorBaseController, MediaPrevie
     setupNotifications()
 
     topToolbarView.fileNameLabel.text = customFileName
+    topToolbarView.canEditCurrentItem = false //just hide edit label here
 
     PHPhotoLibrary.shared().register(self)
   }
@@ -59,6 +60,10 @@ public class VideoAssetPreviewController: MediaEditorBaseController, MediaPrevie
   
   func onLabelTap() {
     self.presentRenameAlert(guid: video.guid, baseFilename: FileNameComposer.getVideoFileName())
+  }
+  
+  func onEditTap() {
+    //NOT USED HERE
   }
   
   override func onFilenameChanged() {

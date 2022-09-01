@@ -1,6 +1,6 @@
 import QuickLook
 
-public class MediaPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
+public class MediaItemPreviewController: MediaEditorBaseController, QLPreviewControllerDelegate, QLPreviewControllerDataSource, MediaPreviewToolbarDelegate {
   var previewCtrl: QLPreviewController!
   
   lazy var topToolbarView = makeTopToolbarView()
@@ -29,6 +29,7 @@ public class MediaPreviewController: MediaEditorBaseController, QLPreviewControl
     setupConstraints()
     
     topToolbarView.fileNameLabel.text = customFileName
+    topToolbarView.canEditCurrentItem = false //hide edit label here
   }
   
   func addSubviews() {
@@ -87,6 +88,10 @@ public class MediaPreviewController: MediaEditorBaseController, QLPreviewControl
   
   func onLabelTap() {
     presentRenameAlert(guid: guid, baseFilename: FileNameComposer.getFileName())
+  }
+  
+  func onEditTap() {
+    //NOT USED HERE
   }
   
   override func onFilenameChanged() {

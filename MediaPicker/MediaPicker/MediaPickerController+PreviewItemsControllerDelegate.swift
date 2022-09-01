@@ -1,6 +1,6 @@
 extension MediaPickerController: PreviewItemsControllerDelegate {
   func getItems() -> [String : CartItemProtocol] {
-    return [:]
+    return cart.items
   }
   
   func removeItem(guid: String) {}

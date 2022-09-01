@@ -1,4 +1,4 @@
-protocol TopToolbarViewDelegate: MediaPreviewToolbarDelegate {
+protocol TopToolbarViewDelegate: MediaBaseToolbarDelegate {
   func onTextTap()
   func onClearTap()
   func onPencilTap()

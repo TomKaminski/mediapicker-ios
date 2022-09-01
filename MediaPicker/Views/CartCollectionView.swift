@@ -1,10 +1,10 @@
 protocol CartCollectionViewDelegate: AnyObject {
   func onItemDelete(guid: String)
+  func onItemTap(guid: String)
 }
 
-protocol BottomViewCartDelegate: AnyObject {
+protocol BottomViewCartDelegate: CartCollectionViewDelegate {
   func closeCartView()
-  func onItemDelete(guid: String)
 }
 
 class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, CartCollectionViewDelegate {
@@ -21,6 +21,10 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
   
   func onItemDelete(guid: String) {
     self.bottomViewCartDelegate?.onItemDelete(guid: guid)
+  }
+  
+  func onItemTap(guid: String) {
+    self.bottomViewCartDelegate?.onItemTap(guid: guid)
   }
   
   public func addItem(item: CartItemProtocol) {

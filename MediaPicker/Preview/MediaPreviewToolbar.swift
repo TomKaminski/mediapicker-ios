@@ -1,6 +1,10 @@
-protocol MediaPreviewToolbarDelegate: AnyObject {
+protocol MediaBaseToolbarDelegate: AnyObject {
   func onBackTap()
   func onLabelTap()
+}
+
+protocol MediaPreviewToolbarDelegate: MediaBaseToolbarDelegate {
+  func onEditTap()
 }
 
 class MediaPreviewToolbar: UIView {
@@ -9,6 +13,13 @@ class MediaPreviewToolbar: UIView {
   lazy var buttonsContainerView: UIView = UIView()
   lazy var backButton = self.makeBackButton()
   lazy var fileNameLabel = self.makeFileNameLabel()
+  lazy var editButton = self.makeEditButton()
+  
+  var canEditCurrentItem: Bool = true {
+    didSet {
+      toggleEditButton()
+    }
+  }
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -23,7 +34,7 @@ class MediaPreviewToolbar: UIView {
     buttonsContainerView.translatesAutoresizingMaskIntoConstraints = false
     
     NSLayoutConstraint.activate([
-      buttonsContainerView.topAnchor.constraint(equalTo: topAnchor),
+      buttonsContainerView.bottomAnchor.constraint(equalTo: bottomAnchor),
       buttonsContainerView.leadingAnchor.constraint(equalTo: leadingAnchor),
       buttonsContainerView.trailingAnchor.constraint(equalTo: trailingAnchor),
       buttonsContainerView.heightAnchor.constraint(equalToConstant: 40),
@@ -31,6 +42,7 @@ class MediaPreviewToolbar: UIView {
     
     insertBackButton()
     insertMediaFileNameLabel()
+    insertEditButton()
   }
   
   required init?(coder aDecoder: NSCoder) {
@@ -42,6 +54,15 @@ class MediaPreviewToolbar: UIView {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setImage(MediaPickerBundle.image("Back"), for: UIControl.State())
     button.addTarget(self, action: #selector(onBackTap), for: .touchUpInside)
+    return button
+  }
+  
+  func makeEditButton() -> UIButton {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle("Edit", for: .normal)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+    button.addTarget(self, action: #selector(onEditTap), for: .touchUpInside)
     return button
   }
   
@@ -61,8 +82,18 @@ class MediaPreviewToolbar: UIView {
     delegate?.onBackTap()
   }
   
+  @objc fileprivate func onEditTap() {
+    if canEditCurrentItem {
+      delegate?.onEditTap()
+    }
+  }
+  
   @objc fileprivate func onLabelTap() {
     delegate?.onLabelTap()
+  }
+  
+  fileprivate func toggleEditButton() {
+    editButton.isHidden = !canEditCurrentItem
   }
   
   fileprivate func clearSubviews() {
@@ -82,5 +113,11 @@ class MediaPreviewToolbar: UIView {
     fileNameLabel.g_pin(on: .left, view: backButton, on: .right, constant: 12)
     fileNameLabel.g_pin(on: .right, view: self, on: .right, constant: -12)
     fileNameLabel.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
+  }
+  
+  fileprivate func insertEditButton() {
+    addSubview(editButton)
+    editButton.g_pin(on: .right, view: buttonsContainerView, on: .right, constant: -12)
+    editButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
   }
 }

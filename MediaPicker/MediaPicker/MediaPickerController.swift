@@ -96,38 +96,9 @@ public class MediaPickerController: UIViewController {
       let previewController = PreviewController(initialItemGuid: guid)
       previewController.modalPresentationStyle = .overFullScreen
       previewController.itemsControllerDelegate = self
+      previewController.parentPhotoEditorDelegate = self
+      previewController.parentRenameDelegate = self
       self.present(previewController, animated: true)
-      
-//      if let item = self.cart.getItem(by: guid) {
-//        MediaPickerConfig.shared.cart.selectedGuid = guid
-//        if item.type == .Image && MediaPickerConfig.shared.camera.allowPhotoEdit {
-//          let image = item as! Image
-//          image.resolve(completion: { (uiImage) in
-//            let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
-//            photoEditor.modalPresentationStyle = .overFullScreen
-//            photoEditor.customFileName = image.customFileName
-//            photoEditor.delegate = self
-//            photoEditor.renameDelegate = self
-//            self.present(photoEditor, animated: true, completion: {
-//            })
-//          })
-//        } else if item.type == .Audio && MediaPickerConfig.shared.audio.allowAudioEdit, let audio = item as? Audio {
-//          let audioCtrl = MediaPreviewController(url: audio.audioFile.url, guid: audio.guid, customFileName: audio.customFileName)
-//          audioCtrl.renameDelegate = self
-//          audioCtrl.customFileName = item.customFileName
-//          audioCtrl.modalPresentationStyle = .overFullScreen
-//          self.present(audioCtrl, animated: true, completion: {
-//          })
-//        } else if item.type == .Video && MediaPickerConfig.shared.camera.allowVideoEdit {
-//          let videoCtrl = VideoAssetPreviewController()
-//          videoCtrl.video = (item as! Video)
-//          videoCtrl.customFileName = item.customFileName
-//          videoCtrl.renameDelegate = self
-//          videoCtrl.modalPresentationStyle = .overFullScreen
-//          self.present(videoCtrl, animated: true, completion: {
-//          })
-//        }
-//      }
     }
   }
   
