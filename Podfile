@@ -4,6 +4,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '12.0'
 
 target 'MediaPicker' do
+  pod 'ImageScrollView'
 end
 
 target 'MediaPickerExample' do

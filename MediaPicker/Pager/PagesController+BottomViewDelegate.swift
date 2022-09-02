@@ -22,7 +22,7 @@ extension PagesController: BottomViewDelegate {
       alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
         self.mediaPickerController.cart.remove(guidToRemove: guid)
       }))
-      self.mediaPickerController.present(alertController, animated: true, completion: nil)
+      self.present(alertController, animated: true, completion: nil)
     }
   }
   

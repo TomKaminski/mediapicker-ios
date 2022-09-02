@@ -7,6 +7,10 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
       item.customFileName = newFileName
       item.newlyTaken = false
       itemAdded(item: item)
+      
+      if let presentingPreviewController = self.presentedViewController as? PreviewController {
+        presentingPreviewController.itemUpdated(item: item)
+      }
     }
   }
   
@@ -36,8 +40,11 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
           let result = PHAsset.fetchAssets(withLocalIdentifiers: [localId], options: nil)
           let newAsset = result.object(at: 0)
           
-          self.cart.remove(guidToRemove: guid)
           self.cart.add(Image(asset: newAsset, guid: guid, newlyTaken: false, customFileName: fileName, dateAdded: Date()))
+          
+          if let presentingPreviewController = self.presentedViewController as? PreviewController {
+            presentingPreviewController.itemUpdated(item: Image(asset: newAsset, guid: guid, newlyTaken: false, customFileName: fileName, dateAdded: Date()))
+          }
         }
       }
     }

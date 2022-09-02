@@ -8,9 +8,7 @@ public class CartCollectionItemView: UIView {
   var bottomView: UIView!
   var deleteButon: UIImageView!
   var guid: String!
-  
-  public var customOnTap: ((String) -> Void)?
-  
+    
   override init(frame: CGRect) {
     super.init(frame: frame)
     layer.borderWidth = 1

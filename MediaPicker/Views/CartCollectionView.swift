@@ -29,6 +29,7 @@ class CartCollectionView: GenericHorizontalScrollView<CartCollectionItemView>, C
   
   public func addItem(item: CartItemProtocol) {
     let itemView = item.cartView
+    itemView.delegate = self
 
     if let sameItemIndex = self.views.firstIndex(where: { (collectionItem) -> Bool in
       return item.guid == collectionItem.guid

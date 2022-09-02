@@ -1,3 +1,9 @@
+protocol PreviewItemsControllerDelegate: AnyObject {
+  func getItems() -> [String: CartItemProtocol]
+  func removeItem(guid: String)
+  func replaceItem(oldGuid: String, newItemGuid: String, newItem: CartItemProtocol)
+}
+
 public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, BottomViewCartDelegate, PhotoEditorControllerDelegate, MediaRenameControllerDelegate {
   weak var itemsControllerDelegate: PreviewItemsControllerDelegate?
   
@@ -16,6 +22,8 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   public weak var parentPhotoEditorDelegate: PhotoEditorControllerDelegate?
   public weak var parentRenameDelegate: MediaRenameControllerDelegate?
   
+  var previewController: AssetPreviewItemController!
+  
   public init(initialItemGuid: String) {
     self.selectedItemGuid = initialItemGuid
     super.init(nibName: nil, bundle: nil)
@@ -23,12 +31,19 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
 
   override public func viewDidLoad() {
     super.viewDidLoad()
-//    view.backgroundColor = MediaPickerConfig.shared.colors.black
-    view.backgroundColor = .white
+    view.backgroundColor = MediaPickerConfig.shared.colors.black
     
     self.items = itemsControllerDelegate?.getItems() ?? [:]
     
+    previewController = AssetPreviewItemController(previewedItem: items[selectedItemGuid]!)
+        
+    self.addChild(previewController)
+    view.addSubview(previewController.view)
+    previewController.view.translatesAutoresizingMaskIntoConstraints = false
+    previewController.didMove(toParent: self)
+    
     addSubviews()
+    
     setupConstraints()
     reloadUI()
   }
@@ -49,6 +64,11 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
       cartView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       cartView.heightAnchor.constraint(equalToConstant: MediaPickerConfig.shared.bottomView.height),
       cartView.bottomAnchor.constraint(equalTo: fakeBottomSpacer.topAnchor),
+      
+      previewController.view.topAnchor.constraint(equalTo: self.view.topAnchor),
+      previewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+      previewController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+      previewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
     ])
   }
   
@@ -88,7 +108,32 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   }
   
   func onItemDelete(guid: String) {
+    let title = MediaPickerConfig.shared.translationKeys.deleteElementKey.g_localize(fallback: "Delete element")
+    let message = MediaPickerConfig.shared.translationKeys.deleteElementDescriptionKey.g_localize(fallback: "Are you sure you want to delete?")
+    let deleteBtnText = MediaPickerConfig.shared.translationKeys.deleteKey.g_localize(fallback: "Delete")
+    let cancelBtnText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
     
+    if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
+      (cancelBtnText, "cancel", nil),
+      (deleteBtnText, "delete", {
+        if let parentController = self.presentingViewController as? MediaPickerController {
+          parentController.cart.remove(guidToRemove: guid)
+          self.itemRemoved(guid: guid)
+        }
+      })
+    ]) {
+      self.present(controller, animated: true, completion: nil)
+    } else {
+      let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
+      alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
+        if let parentController = self.presentingViewController as? MediaPickerController {
+          parentController.cart.remove(guidToRemove: guid)
+          self.itemRemoved(guid: guid)
+        }
+      }))
+      self.present(alertController, animated: true, completion: nil)
+    }
   }
   
   func onItemTap(guid: String) {
@@ -100,7 +145,9 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   }
   
   func onLabelTap() {
-
+    if let item = items[selectedItemGuid] {
+      presentRenameAlert(guid: selectedItemGuid, baseFilename: FileNameComposer.getFileName(), initialFilename: item.customFileName)
+    }
   }
   
   func onEditTap() {
@@ -133,13 +180,12 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   private func toggleUiOnSelectionChange(item: CartItemProtocol) {
     topToolbarView.canEditCurrentItem = canEdit(itemType: item.type)
     topToolbarView.fileNameLabel.text = item.customFileName
-    
-    cartView.refreshSubView()
   }
   
   private func reloadUI() {
     if let item = items[selectedItemGuid] {
       toggleUiOnSelectionChange(item: item)
+      previewController.changePreviewedItem(previewedItem: item)
     }
   }
   
@@ -149,18 +195,58 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   
   public func renameMediaFile(guid: String, newFileName: String) {
     parentRenameDelegate?.renameMediaFile(guid: guid, newFileName: newFileName)
-    
-    if let item = items[guid] {
-      cartView.addItem(item: item)
-    }
   }
   
   public func editMediaFile(image: UIImage, fileName: String, guid: String, editedSomething: Bool) {
     parentPhotoEditorDelegate?.editMediaFile(image: image, fileName: fileName, guid: guid, editedSomething: editedSomething)
-    
+  }
+  
+  public func itemUpdated(item: CartItemProtocol) {
+    items.updateValue(item, forKey: item.guid)
+    cartView.addItem(item: item)
+    reloadUI()
+  }
+  
+  public func itemRemoved(guid: String) {
     if let item = items[guid] {
       cartView.removeItem(item: item)
-      cartView.addItem(item: item)
+      items.removeValue(forKey: guid)
+      
+      if (items.isEmpty) {
+        self.dismiss(animated: true)
+      } else {
+        selectedItemGuid = items.first!.key
+        reloadUI()
+      }
+    }
+  }
+  
+  func presentRenameAlert(guid: String, baseFilename: String, initialFilename: String) {
+    let renameText = MediaPickerConfig.shared.translationKeys.renameKey.g_localize(fallback: "Rename")
+    let cancelText = MediaPickerConfig.shared.translationKeys.cancelKey.g_localize(fallback: "Cancel")
+    
+    if let textDialogBuilder = MediaPickerConfig.shared.textDialogBuilder, let controller = textDialogBuilder(renameText, nil, initialFilename, [
+      (cancelText, "cancel", nil),
+      (renameText, "standard", { inputValue in
+        self.parentRenameDelegate?.renameMediaFile(guid: guid, newFileName: inputValue ?? baseFilename)
+      })
+    ]) {
+      self.present(controller, animated: true)
+    } else {
+      let alertController = UIAlertController(title: renameText, message: nil, preferredStyle: .alert)
+      
+      alertController.addTextField { (textField) in
+        textField.text = initialFilename
+        textField.clearButtonMode = .always
+      }
+      
+      alertController.addAction(UIAlertAction(title: cancelText, style: .cancel, handler: nil))
+      alertController.addAction(UIAlertAction(title: renameText, style: .default, handler: { _ in
+        let textField = alertController.textFields![0]
+        let newFileName = textField.text?.isEmpty == false ? textField.text! : baseFilename
+        self.parentRenameDelegate?.renameMediaFile(guid: guid, newFileName: newFileName)
+      }))
+      self.present(alertController, animated: true, completion: nil)
     }
   }
 }
