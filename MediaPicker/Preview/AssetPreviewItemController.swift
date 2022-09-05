@@ -87,6 +87,7 @@ class AudioPreviewView: UIView, AVAudioPlayerDelegate {
     
   let player: AVAudioPlayer!
   var playerTimer: Timer?
+  var waveFormTapRecognizer: UITapGestureRecognizer!
   
   public init(audio: Audio) {
     player = try! AVAudioPlayer(contentsOf: audio.audioFile.url)
@@ -111,7 +112,10 @@ class AudioPreviewView: UIView, AVAudioPlayerDelegate {
     backgroundWaveForm.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
     backgroundWaveForm.heightAnchor.constraint(equalToConstant: 50).isActive = true
     backgroundWaveForm.widthAnchor.constraint(equalToConstant: 160).isActive = true
+    backgroundWaveForm.isUserInteractionEnabled = true
     backgroundWaveForm.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 30).isActive = true
+    waveFormTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(waveFormTapped))
+    backgroundWaveForm.addGestureRecognizer(waveFormTapRecognizer)
     
     addSubview(foregroundWaveForm)
     foregroundWaveForm.translatesAutoresizingMaskIntoConstraints = false
@@ -146,9 +150,29 @@ class AudioPreviewView: UIView, AVAudioPlayerDelegate {
     playerTimer = nil
   }
   
+  @objc private func waveFormTapped() {
+    if waveFormTapRecognizer.state == .recognized {
+      player.stop()
+      playerTimer?.invalidate()
+      playerTimer = nil
+      
+      let x = waveFormTapRecognizer.location(in: backgroundWaveForm).x
+      let percentageOfX = Double(x/160)
+      updateProgressWaveform(percentageOfX)
+      
+      player.currentTime = player.duration * percentageOfX
+      player.play()
+      playerTimer = Timer.scheduledTimer(
+        timeInterval: 0.015, target: self, selector: #selector(playerTimerFired), userInfo: nil, repeats: true)
+      
+      togglePlayStopButton(isPlaying: player.isPlaying)
+    }
+  }
+  
   @objc private func playButtonTouched() {
     if player.isPlaying {
       player.stop()
+      player.currentTime = 0
       playerTimer?.invalidate()
       playerTimer = nil
       updateProgressWaveform(0)
