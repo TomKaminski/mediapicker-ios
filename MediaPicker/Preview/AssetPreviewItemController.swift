@@ -1,5 +1,7 @@
 import ImageScrollView
 import AVFAudio
+import Photos
+import PhotosUI
 
 class AssetPreviewItemController: UIViewController {
   var previewedItem: CartItemProtocol
@@ -35,6 +37,14 @@ class AssetPreviewItemController: UIViewController {
   }
   
   private func removePreviewView() {
+    if let audioPreviewView = previewView as? AudioPreviewView {
+      audioPreviewView.player.stop()
+      audioPreviewView.playerTimer?.invalidate()
+      audioPreviewView.playerTimer = nil
+    } else if let videoPreviewView = previewView as? VideoPreviewView {
+      PHPhotoLibrary.shared().unregisterChangeObserver(videoPreviewView)
+    }
+    
     previewView?.removeFromSuperview()
     previewView = nil
   }
@@ -51,16 +61,21 @@ class AssetPreviewItemController: UIViewController {
         self.removePreviewView()
         let pinchableImage = ImageScrollView()
         self.view.addSubview(pinchableImage)
+        pinchableImage.g_pinEdges()
         pinchableImage.setup()
         pinchableImage.display(image: uiImage)
-        pinchableImage.g_pinEdges()
         self.previewView = pinchableImage
       }
     }
   }
   
   private func previewVideo(video: Video) {
-    
+    self.removePreviewView()
+
+    let previewView = VideoPreviewView(video: video)
+    self.view.addSubview(previewView)
+    previewView.g_pinEdges()
+    self.previewView = previewView
   }
   
   private func previewAudio(audio: Audio) {
@@ -70,6 +85,152 @@ class AssetPreviewItemController: UIViewController {
     self.view.addSubview(previewView)
     previewView.g_pinEdges()
     self.previewView = previewView
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
+class VideoPreviewView: UIView, PHPhotoLibraryChangeObserver {
+  lazy var imageView = self.makeImageView()
+  lazy var playIcon = self.makePlayIcon()
+  
+  let video: Video
+  
+  var assetCollection: PHAssetCollection!
+  
+  fileprivate var playerLayer: AVPlayerLayer!
+  
+  init(video: Video) {
+    self.video = video
+    super.init(frame: .zero)
+    PHPhotoLibrary.shared().register(self)
+    
+    addSubview(imageView)
+    addSubview(playIcon)
+    
+    NSLayoutConstraint.activate([
+      imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      imageView.topAnchor.constraint(equalTo: topAnchor),
+
+      playIcon.centerXAnchor.constraint(equalTo: imageView.centerXAnchor),
+      playIcon.centerYAnchor.constraint(equalTo: imageView.centerYAnchor),
+      playIcon.heightAnchor.constraint(equalToConstant: 60),
+      playIcon.widthAnchor.constraint(equalToConstant: 60),
+    ])
+    
+    setupNotifications()
+    updateStaticImage()
+  }
+  
+  var playerPaused = true {
+    didSet {
+      self.playIcon.isHidden = !self.playerPaused
+    }
+  }
+  
+  @objc func play() {
+    if playerLayer != nil {
+      if playerPaused {
+        startPlaying()
+      } else {
+        stopPlaying()
+      }
+    } else {
+      video.fetchPlayerItem { playerItem in
+        DispatchQueue.main.async {
+          let player = AVPlayer(playerItem: playerItem)
+          let newLayer = AVPlayerLayer(player: player)
+          
+          newLayer.videoGravity = AVLayerVideoGravity.resizeAspect
+          newLayer.frame = self.imageView.layer.bounds
+          if let oldLayer = self.playerLayer {
+            self.imageView.layer.replaceSublayer(oldLayer, with: newLayer)
+          } else {
+            self.imageView.layer.addSublayer(newLayer)
+          }
+          
+          self.playerLayer = newLayer
+          self.startPlaying()
+        }
+      }
+    }
+  }
+  
+  var targetSize: CGSize {
+    let scale = UIScreen.main.scale
+    return CGSize(width: imageView.bounds.width * scale, height: imageView.bounds.height * scale)
+  }
+  
+  func updateStaticImage() {
+    let options = PHImageRequestOptions()
+    options.deliveryMode = .highQualityFormat
+    options.isNetworkAccessAllowed = true
+    
+    PHImageManager.default().requestImage(for: video.asset, targetSize: targetSize, contentMode: .aspectFit, options: options, resultHandler: { image, _ in
+      guard let image = image else {
+        return
+      }
+      self.imageView.isHidden = false
+      self.imageView.image = image
+    })
+  }
+  
+  @objc private func handleImageTap() {
+    play()
+  }
+  
+  private func startPlaying() {
+    self.playerLayer?.player?.play()
+    playerPaused = false
+  }
+  
+  private func stopPlaying() {
+    self.playerLayer?.player?.pause()
+    playerPaused = true
+  }
+
+  private func setupNotifications() {
+    NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.playerLayer?.player?.currentItem, queue: .main) { [weak self] _ in
+      self?.playerLayer?.player?.seek(to: CMTime.zero)
+      self?.playerLayer?.player?.play()
+    }
+  }
+  
+  private func makeImageView() -> UIImageView {
+    let imageView = UIImageView()
+    imageView.contentMode = .scaleAspectFit
+    imageView.isUserInteractionEnabled = true
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleImageTap)))
+    return imageView
+  }
+  
+  private func makePlayIcon() -> UIImageView {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = UIImage(systemName: "play.circle")
+    imageView.tintColor = .white
+    return imageView
+  }
+  
+  public func photoLibraryDidChange(_ changeInstance: PHChange) {
+    DispatchQueue.main.sync {
+      guard let details = changeInstance.changeDetails(for: video.asset) else {
+        return
+      }
+      
+      video.asset = details.objectAfterChanges ?? details.objectBeforeChanges
+      
+      if details.assetContentChanged {
+        updateStaticImage()
+        playerLayer?.removeFromSuperlayer()
+        playerLayer = nil
+      }
+    }
   }
   
   required init?(coder: NSCoder) {
@@ -143,11 +304,6 @@ class AudioPreviewView: UIView, AVAudioPlayerDelegate {
     playPauseButton.addGestureRecognizer(playStopButtonGestureRecognizer)
     
     player.delegate = self
-  }
-  
-  deinit {
-    playerTimer?.invalidate()
-    playerTimer = nil
   }
   
   @objc private func waveFormTapped() {

@@ -4,7 +4,7 @@ protocol PreviewItemsControllerDelegate: AnyObject {
   func replaceItem(oldGuid: String, newItemGuid: String, newItem: CartItemProtocol)
 }
 
-public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, BottomViewCartDelegate, PhotoEditorControllerDelegate, MediaRenameControllerDelegate {
+public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, BottomViewCartDelegate, PhotoEditorControllerDelegate, MediaRenameControllerDelegate, GalleryFloatingButtonTapDelegate {
   weak var itemsControllerDelegate: PreviewItemsControllerDelegate?
   
   var items = [String: CartItemProtocol]()
@@ -16,8 +16,10 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   }
   
   lazy var topToolbarView = makeTopToolbarView()
-  lazy var cartView: CartCollectionView = makeCartView()
-  lazy var fakeBottomSpacer: UIView = makeFakeBottomSpacer()
+  lazy var cartView = makeCartView()
+  lazy var fakeBottomSpacer = makeFakeBottomSpacer()
+  lazy var saveButton = makeSaveButton()
+
   
   public weak var parentPhotoEditorDelegate: PhotoEditorControllerDelegate?
   public weak var parentRenameDelegate: MediaRenameControllerDelegate?
@@ -69,6 +71,9 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
       previewController.view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
       previewController.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
       previewController.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+      
+      saveButton.bottomAnchor.constraint(equalTo: cartView.topAnchor, constant: -8),
+      saveButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8)
     ])
   }
   
@@ -76,6 +81,7 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     view.addSubview(topToolbarView)
     view.addSubview(cartView)
     view.addSubview(fakeBottomSpacer)
+    view.addSubview(saveButton)
   }
   
   private func makeTopToolbarView() -> MediaPreviewToolbar {
@@ -85,7 +91,7 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     return view
   }
   
-  func makeCartView() -> CartCollectionView {
+  private func makeCartView() -> CartCollectionView {
     let cartView = CartCollectionView(frame: .zero, cartItems: items)
     cartView.bottomViewCartDelegate = self
     cartView.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
@@ -93,15 +99,29 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     return cartView
   }
   
-  func makeFakeBottomSpacer() -> UIView {
+  private func makeFakeBottomSpacer() -> UIView {
     let view = UIView()
     view.backgroundColor = MediaPickerConfig.shared.colors.black.withAlphaComponent(0.4)
     view.translatesAutoresizingMaskIntoConstraints = false
     return view
   }
   
+  private func makeSaveButton() -> GalleryFloatingButton {
+    let button = GalleryFloatingButton()
+    button.tapDelegate = self
+    button.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
+
+    return button
+  }
+  
   
   //ACTIONS
+
+  public func tapped() {
+    self.dismiss(animated: true) {
+      EventHub.shared.doneWithMediaPicker?()
+    }
+  }
   
   func closeCartView() {
     

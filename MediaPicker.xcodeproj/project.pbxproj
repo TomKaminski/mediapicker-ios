@@ -14,7 +14,6 @@
 		760D17BE230A907A00D5E192 /* Fetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BD230A907A00D5E192 /* Fetcher.swift */; };
 		760D17C0230A90B900D5E192 /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17BF230A90B900D5E192 /* CameraView.swift */; };
 		760D17C2230A91DE00D5E192 /* FlashButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 760D17C1230A91DE00D5E192 /* FlashButton.swift */; };
-		76141F1B288FCA6A0074CAA7 /* VideoAssetPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76141F1A288FCA6A0074CAA7 /* VideoAssetPreviewController.swift */; };
 		76141F1E288FCFDA0074CAA7 /* MediaPreviewToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76141F1D288FCFDA0074CAA7 /* MediaPreviewToolbar.swift */; };
 		7617E87222F87706007B7E4E /* MediaToolbarState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7617E87122F87706007B7E4E /* MediaToolbarState.swift */; };
 		7618EE1022F4579C0051C287 /* BottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7618EE0F22F4579C0051C287 /* BottomView.swift */; };
@@ -156,7 +155,6 @@
 		760D17BD230A907A00D5E192 /* Fetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetcher.swift; sourceTree = "<group>"; };
 		760D17BF230A90B900D5E192 /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		760D17C1230A91DE00D5E192 /* FlashButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlashButton.swift; sourceTree = "<group>"; };
-		76141F1A288FCA6A0074CAA7 /* VideoAssetPreviewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoAssetPreviewController.swift; sourceTree = "<group>"; };
 		76141F1D288FCFDA0074CAA7 /* MediaPreviewToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewToolbar.swift; sourceTree = "<group>"; };
 		7617E87122F87706007B7E4E /* MediaToolbarState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaToolbarState.swift; sourceTree = "<group>"; };
 		7618EE0F22F4579C0051C287 /* BottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomView.swift; sourceTree = "<group>"; };
@@ -319,7 +317,6 @@
 			isa = PBXGroup;
 			children = (
 				F38255FC233A71E800CE30A6 /* MediaEditorBaseController.swift */,
-				76141F1A288FCA6A0074CAA7 /* VideoAssetPreviewController.swift */,
 				76141F1D288FCFDA0074CAA7 /* MediaPreviewToolbar.swift */,
 				7634A0FD28AE165100AB2000 /* PreviewController.swift */,
 				7694403228C1F3DA002A7576 /* AssetPreviewItemController.swift */,
@@ -902,7 +899,6 @@
 				F394A27F253440030002C5B7 /* LocationManager.swift in Sources */,
 				76EF9D1528856CE70007CB8F /* WaveformImageView.swift in Sources */,
 				76EF9D1428856CE70007CB8F /* TempiFFT.swift in Sources */,
-				76141F1B288FCA6A0074CAA7 /* VideoAssetPreviewController.swift in Sources */,
 				76141F1E288FCFDA0074CAA7 /* MediaPreviewToolbar.swift in Sources */,
 				7639065822F2DD75007CD4CE /* Video.swift in Sources */,
 				76B8E4E522EACE0000D99495 /* PermissionController.swift in Sources */,
@@ -1112,7 +1108,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1145,7 +1141,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPicker;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1169,7 +1165,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPickerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1191,7 +1187,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.8;
+				MARKETING_VERSION = 2.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tomkaminski.MediaPickerExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
