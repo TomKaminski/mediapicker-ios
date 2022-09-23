@@ -1,3 +1,13 @@
+import UIKit
+
+class CustomSlider: UISlider {
+  override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+    var bounds: CGRect = self.bounds
+    bounds = bounds.insetBy(dx: -4, dy: -8)
+    return bounds.contains(point)
+  }
+}
+
 public final class PhotoEditorController: MediaEditorBaseController, TopToolbarViewDelegate, ColorSelectedDelegate, GalleryFloatingButtonTapDelegate {
   private let originalImage: UIImage
   public let originalImageGuid: String
@@ -25,7 +35,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   var activeTextView: UITextView?
   var imageViewToPan: UIImageView?
   var isTyping = false
-  var isPencilActive = true
+  var isPencilActive = false
   
   var editedSomething = false
   
@@ -54,6 +64,12 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
     topToolbarView.delegate = self
     topToolbarView.fileNameLabel.text = customFileName
     setImageView(image: self.originalImage)
+    
+    toolbarViewHeightConstraint.constant = 40
+    topToolbarView.colorsCollectionView.isHidden = true
+    topToolbarView.colorsCollectionView.isUserInteractionEnabled = false
+    brushSlider.isHidden = true
+    brushSlider.isUserInteractionEnabled = false
     
     NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardHide), name: UIResponder.keyboardWillHideNotification, object: nil)
   }
@@ -143,7 +159,7 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
   }
   
   private func makeBrushSlider() -> UISlider {
-    let view = UISlider()
+    let view = CustomSlider()
     view.value = 0.2
     view.translatesAutoresizingMaskIntoConstraints = false
     view.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)

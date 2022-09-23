@@ -93,7 +93,7 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   func makePencilButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("Pencil"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(.white), for: UIControl.State())
     button.addTarget(self, action: #selector(onPencilTap), for: .touchUpInside)
     return button
   }
@@ -155,28 +155,28 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
     addSubview(backButton)
     backButton.g_pin(on: .left, view: buttonsContainerView, on: .left, constant: 12)
     backButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    backButton.g_pin(size: CGSize(width: 24, height: 24))
+    backButton.g_pin(size: CGSize(width: 30, height: 40))
   }
   
   fileprivate func insertUndoButton() {
     addSubview(undoButton)
     undoButton.g_pin(on: .right, view: pencilButton, on: .left, constant: -12)
     undoButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    undoButton.g_pin(size: CGSize(width: 24, height: 24))
+    undoButton.g_pin(size: CGSize(width: 30, height: 40))
   }
   
   fileprivate func insertPencilButton() {
     addSubview(pencilButton)
     pencilButton.g_pin(on: .right, view: textButton, on: .left, constant: -12)
     pencilButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    pencilButton.g_pin(size: CGSize(width: 24, height: 24))
+    pencilButton.g_pin(size: CGSize(width: 30, height: 40))
   }
   
   fileprivate func insertTextButton() {
     addSubview(textButton)
     textButton.g_pin(on: .right, view: buttonsContainerView, on: .right, constant: -12)
     textButton.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    textButton.g_pin(size: CGSize(width: 24, height: 24))
+    textButton.g_pin(size: CGSize(width: 30, height: 40))
   }
   
   fileprivate func insertMediaFileNameLabel() {
@@ -184,6 +184,6 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
     fileNameLabel.g_pin(on: .left, view: backButton, on: .right, constant: 12)
     fileNameLabel.g_pin(on: .right, view: undoButton, on: .left, constant: -12)
     fileNameLabel.g_pin(on: .centerY, view: buttonsContainerView, on: .centerY)
-    fileNameLabel.g_pin(height: 24)
+    fileNameLabel.g_pin(height: 40)
   }
 }

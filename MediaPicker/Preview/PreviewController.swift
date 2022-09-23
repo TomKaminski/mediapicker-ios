@@ -48,6 +48,43 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     
     setupConstraints()
     reloadUI()
+    
+    let leftSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+    leftSwipeGestureRecognizer.direction = .left
+    let rightSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
+    rightSwipeGestureRecognizer.direction = .right
+    
+    self.view.addGestureRecognizer(leftSwipeGestureRecognizer)
+    self.view.addGestureRecognizer(rightSwipeGestureRecognizer)
+  }
+  
+  private func performNavigation(isNext: Bool) {
+    let sorted = items.sorted(by: { $0.value.dateAdded < $1.value.dateAdded })
+    let indexOfSelectedGuid = sorted.firstIndex { keyVal in
+      return keyVal.key == selectedItemGuid
+    }
+    
+    guard let indexOfSelectedGuid, indexOfSelectedGuid != (isNext ? items.count - 1 : 0) else {
+      return
+    }
+    
+    let newGuid = sorted[indexOfSelectedGuid + (isNext ? 1 : -1)].key
+
+    previewController.view.fade(visible: false)
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+      self.selectedItemGuid = newGuid
+      self.previewController.view.fade(visible: true)
+    }
+  }
+  
+  //SHOW NEXT ELEMENT
+  @objc private func didSwipeLeft() {
+    performNavigation(isNext: true)
+  }
+  
+  //SHOW PREVIOUS ELEMENT
+  @objc private func didSwipeRight() {
+    performNavigation(isNext: false)
   }
   
   internal func setupConstraints() {
