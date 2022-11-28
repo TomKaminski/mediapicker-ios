@@ -15,13 +15,13 @@ extension CameraController: CameraManDelegate {
   }
   
   func cameraMan(_ cameraMan: CameraMan, didChangeInput input: AVCaptureDeviceInput) {
-    pagesController.topView.flashButton.isHidden = !input.device.hasFlash
+    pagesController?.topView.flashButton.isHidden = !input.device.hasFlash
   }
   
   func takenAsset(_ cameraMan: CameraMan, asset: PHAsset?) {
     if MediaPickerConfig.shared.camera.recordMode == .photo {
-      self.pagesController.bottomView.shutterButton.isEnabled = true
-      self.pagesController.bottomView.cartButton.stopLoading()
+      pagesController?.bottomView.shutterButton.isEnabled = true
+      pagesController?.bottomView.cartButton.stopLoading()
 
       if let asset = asset {
         let image = Image(asset: asset, guid: UUID().uuidString, newlyTaken: true, customFileName: FileNameComposer.getImageFileName(), dateAdded: Date())

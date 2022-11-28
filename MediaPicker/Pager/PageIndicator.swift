@@ -1,7 +1,7 @@
 import UIKit
 
 class PageIndicator: UIView, PageIndicatorUIViewDelegate {
-  var buttons: [PageIndicatorUIView]!
+  var buttons: [PageIndicatorUIView] = []
   var indicator = UIView()
   
   weak var delegate: PageIndicatorDelegate?

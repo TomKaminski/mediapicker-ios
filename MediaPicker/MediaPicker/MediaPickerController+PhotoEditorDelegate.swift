@@ -28,7 +28,7 @@ extension MediaPickerController: PhotoEditorControllerDelegate, MediaRenameContr
       
       if let metadata = metadata, !metadata.isEmpty, let imageData = fixedImage.jpegData(compressionQuality: 1), let newImageData = self.mergeImageData(imageData: imageData, with: metadata) {
         request = PHAssetCreationRequest.forAsset()
-        (request as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
+        (request as? PHAssetCreationRequest)?.addResource(with: .photo, data: newImageData as Data, options: nil)
       }
       else {
         request = PHAssetChangeRequest.creationRequestForAsset(from: fixedImage)

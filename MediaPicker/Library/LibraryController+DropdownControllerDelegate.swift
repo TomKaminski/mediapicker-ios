@@ -4,6 +4,6 @@ extension LibraryController: DropdownControllerDelegate {
     show(album: album)
 
     dropdownController.toggle()
-    pagesController.topView.dropdownButton.toggle(controller.expanding)
+    pagesController?.topView.dropdownButton.toggle(controller.expanding)
   }
 }

@@ -18,7 +18,11 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
 
   private func configureImageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: ImageCell.self), for: indexPath)
-    as! ImageCell
+    
+    guard let cell = cell as? ImageCell else {
+      return cell
+    }
+    
     let nsIndexPath = (indexPath as NSIndexPath)
     let item = images[nsIndexPath.item]
 
@@ -29,7 +33,11 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
 
   private func configureVideoCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: VideoCell.self), for: indexPath)
-    as! VideoCell
+
+    guard let cell = cell as? VideoCell else {
+      return cell
+    }
+    
     let nsIndexPath = (indexPath as NSIndexPath)
     let item = videos[nsIndexPath.item - self.images.count]
 
@@ -52,7 +60,7 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
   }
 
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    pagesController.bottomView.cartButton.startLoading()
+    pagesController?.bottomView.cartButton.startLoading()
 
     var newItem = getCartItem(indexPath: indexPath)
     newItem.dateAdded = Date()
@@ -90,8 +98,8 @@ extension LibraryController: UICollectionViewDataSource, UICollectionViewDelegat
     }
   }
 
-  var pagesController: PagesController {
-    return self.parent as! PagesController
+  var pagesController: PagesController? {
+    return self.parent as? PagesController
   }
 }
 

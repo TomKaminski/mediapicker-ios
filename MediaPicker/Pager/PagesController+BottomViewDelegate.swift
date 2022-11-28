@@ -1,6 +1,6 @@
 extension PagesController: BottomViewDelegate {
   func onModalItemRemove(guid: String) {
-    mediaPickerController.cart.remove(guidToRemove: guid)
+    mediaPickerController?.cart.remove(guidToRemove: guid)
   }
   
   func onItemRemove(guid: String) {
@@ -12,7 +12,7 @@ extension PagesController: BottomViewDelegate {
     if let dialogBuilder = MediaPickerConfig.shared.dialogBuilder, let controller = dialogBuilder(title, message, [
       (cancelBtnText, "cancel", nil),
       (deleteBtnText, "delete", {
-        self.mediaPickerController.cart.remove(guidToRemove: guid)
+        self.mediaPickerController?.cart.remove(guidToRemove: guid)
       })
     ]) {
       self.present(controller, animated: true, completion: nil)
@@ -20,7 +20,7 @@ extension PagesController: BottomViewDelegate {
       let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
       alertController.addAction(UIAlertAction(title: cancelBtnText, style: .cancel, handler: nil))
       alertController.addAction(UIAlertAction(title: deleteBtnText, style: .destructive, handler: { _ in
-        self.mediaPickerController.cart.remove(guidToRemove: guid)
+        self.mediaPickerController?.cart.remove(guidToRemove: guid)
       }))
       self.present(alertController, animated: true, completion: nil)
     }
@@ -43,14 +43,14 @@ extension PagesController: BottomViewDelegate {
   }
   
   var cartItems: [String: CartItemProtocol] {
-    return mediaPickerController.cart.items
+    return mediaPickerController?.cart.items ?? [:]
   }
   
-  var mediaPickerController: MediaPickerController {
-    return parent as! MediaPickerController
+  var mediaPickerController: MediaPickerController? {
+    return parent as? MediaPickerController
   }
   
   var itemsInCart: Int {
-    return mediaPickerController.cart.items.count
+    return mediaPickerController?.cart.items.count ?? 0
   }
 }

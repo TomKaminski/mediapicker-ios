@@ -24,7 +24,7 @@ class LibraryController: UIViewController, LibraryTabTopViewDelegate {
     view.backgroundColor = MediaPickerConfig.shared.colors.black
     cart.delegates.add(self)
     setup()
-    pagesController.topView.libraryDelegate = self
+    pagesController?.topView.libraryDelegate = self
   }
 
   func setup() {
@@ -50,7 +50,7 @@ class LibraryController: UIViewController, LibraryTabTopViewDelegate {
   }
 
   func show(album: Album) {
-    pagesController.topView.dropdownButton.updateText(album.collection.localizedTitle ?? "")
+    pagesController?.topView.dropdownButton.updateText(album.collection.localizedTitle ?? "")
 
     images = album.images
     videos = album.videos
@@ -61,7 +61,7 @@ class LibraryController: UIViewController, LibraryTabTopViewDelegate {
   
   func onDropdownTap() {
     dropdownController.toggle()
-    pagesController.topView.dropdownButton.toggle(dropdownController.expanding)
+    pagesController?.topView.dropdownButton.toggle(dropdownController.expanding)
   }
 
   func refreshSelectedAlbum() {

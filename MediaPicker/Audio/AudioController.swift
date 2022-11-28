@@ -73,13 +73,13 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
   @objc private func playButtonTouched() {
     if audioRecorder == nil {
       EventHub.shared.changeMediaPickerState?(.AudioRecording)
-      if pagesController.cartOpened {
-        self.pagesController.cartButtonTapped()
+      if pagesController?.cartOpened == true {
+        pagesController?.cartButtonTapped()
       }
       
       startRecording()
     } else  {
-      pagesController.bottomView.cartButton.startLoading()
+      pagesController?.bottomView.cartButton.startLoading()
 
       audioRecorder?.stop()
 
@@ -207,8 +207,8 @@ class AudioController: UIViewController, AVAudioRecorderDelegate {
     return MediaPickerConfig.shared.translationKeys.tapToStopLabelKey.g_localize(fallback: "Tap to stop recording")
   }
   
-  var pagesController: PagesController {
-    return self.parent as! PagesController
+  var pagesController: PagesController? {
+    return self.parent as? PagesController
   }
 }
 

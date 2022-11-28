@@ -183,7 +183,7 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
       var changeRequest: PHAssetChangeRequest
       if !metadata.isEmpty, let newImageData = self.mergeImageData(imageData: image, with: metadata) {
           changeRequest = PHAssetCreationRequest.forAsset()
-          (changeRequest as! PHAssetCreationRequest).addResource(with: .photo, data: newImageData as Data, options: nil)
+          (changeRequest as? PHAssetCreationRequest)?.addResource(with: .photo, data: newImageData as Data, options: nil)
       }
       else {
           changeRequest = PHAssetChangeRequest.creationRequestForAsset(from: UIImage(data: image)!)
@@ -269,9 +269,14 @@ class CameraMan : NSObject, AVCapturePhotoCaptureDelegate {
   // MARK: - Lock
   
   func lock(_ block: () -> Void) {
-    if let device = currentInput?.device, (try? device.lockForConfiguration()) != nil {
-      block()
-      device.unlockForConfiguration()
+    if let device = currentInput?.device {
+      do {
+        try device.lockForConfiguration()
+        block()
+        device.unlockForConfiguration()
+      } catch {
+        device.unlockForConfiguration()
+      }
     }
   }
   

@@ -37,7 +37,7 @@ class CameraController: UIViewController, CameraTabTopViewDelegate {
     setup()
     setupLocation()
     
-    pagesController.topView.cameraDelegate = self
+    pagesController?.topView.cameraDelegate = self
   }
   
   override func viewWillAppear(_ animated: Bool) {

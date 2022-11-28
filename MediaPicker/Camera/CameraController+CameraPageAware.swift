@@ -1,21 +1,21 @@
 extension CameraController: CameraPageAware {
   func shutterButtonHeld() {
     MediaPickerConfig.shared.camera.recordMode = .video
-    pagesController.topView.toggleViewsVisibility()
-    pagesController.topView.showTimer()
+    pagesController?.topView.toggleViewsVisibility()
+    pagesController?.topView.showTimer()
     cameraMan.startVideoRecord(location: locationManager?.latestLocation, startCompletion: { result in })
   }
   
   func shutterButtonReleased() {
-    pagesController.topView.toggleViewsVisibility()
-    pagesController.topView.hideTimer()
+    pagesController?.topView.toggleViewsVisibility()
+    pagesController?.topView.hideTimer()
     cameraMan.stopVideoRecording()
   }
   
   func shutterButtonTapped() {
     guard let previewLayer = cameraView.previewLayer else { return }
 
-    self.pagesController.bottomView.shutterButton.isEnabled = false
+    pagesController?.bottomView.shutterButton.isEnabled = false
     UIView.animate(withDuration: 0.1, animations: {
       self.cameraView.shutterOverlayView.alpha = 1
     }, completion: { _ in
@@ -24,7 +24,7 @@ extension CameraController: CameraPageAware {
       })
     })
     
-    self.pagesController.bottomView.cartButton.startLoading()
+    pagesController?.bottomView.cartButton.startLoading()
     cameraMan.takePhoto(previewLayer, location: locationManager?.latestLocation)
   }
   
@@ -34,8 +34,8 @@ extension CameraController: CameraPageAware {
     if cameraMan.isRecording() {
       shutterButtonReleased()
     }
-    pagesController.topView.rotateButton.isHidden = false
-    pagesController.topView.flashButton.isHidden = false
+    pagesController?.topView.rotateButton.isHidden = false
+    pagesController?.topView.flashButton.isHidden = false
   }
   
   func pageDidShow() {
@@ -43,10 +43,12 @@ extension CameraController: CameraPageAware {
       cameraMan.setup()
     }
     
-    self.pagesController.mediaPickerController.rotateButtons()
+    pagesController?.mediaPickerController?.rotateButtons()
     
     if !cameraMan.session.isRunning {
-      cameraMan.session.startRunning()
+      DispatchQueue.global(qos: .userInitiated).async {
+        self.cameraMan.session.startRunning()
+      }
     }
   }
 
@@ -54,14 +56,14 @@ extension CameraController: CameraPageAware {
     return .Camera
   }
   
-  var pagesController: PagesController {
-    return self.parent as! PagesController
+  var pagesController: PagesController? {
+    return self.parent as? PagesController
   }
   
   func setupForOrientation(angle: CGFloat) {
     UIView.animate(withDuration: 0.2, animations: {
-      self.pagesController.topView.flashButton.transform = CGAffineTransform(rotationAngle: angle)
-      self.pagesController.topView.rotateButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.topView.flashButton.transform = CGAffineTransform(rotationAngle: angle)
+      self.pagesController?.topView.rotateButton.transform = CGAffineTransform(rotationAngle: angle)
     }, completion: nil)
   }
 }

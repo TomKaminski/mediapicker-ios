@@ -2,7 +2,7 @@ extension AudioController: PageAware {
   func switchedToState(state: MediaToolbarState) { }
   
   func pageDidShow() {
-    self.pagesController.mediaPickerController.rotateButtons()
+    pagesController?.mediaPickerController?.rotateButtons()
   }
   
   func pageDidHide() {

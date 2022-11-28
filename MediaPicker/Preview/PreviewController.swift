@@ -37,25 +37,27 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     
     self.items = itemsControllerDelegate?.getItems() ?? [:]
     
-    previewController = AssetPreviewItemController(previewedItem: items[selectedItemGuid]!)
-        
-    self.addChild(previewController)
-    view.addSubview(previewController.view)
-    previewController.view.translatesAutoresizingMaskIntoConstraints = false
-    previewController.didMove(toParent: self)
-    
-    addSubviews()
-    
-    setupConstraints()
-    reloadUI()
-    
-    let leftSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
-    leftSwipeGestureRecognizer.direction = .left
-    let rightSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
-    rightSwipeGestureRecognizer.direction = .right
-    
-    self.view.addGestureRecognizer(leftSwipeGestureRecognizer)
-    self.view.addGestureRecognizer(rightSwipeGestureRecognizer)
+    if let previewedItem = items[selectedItemGuid] {
+      previewController = AssetPreviewItemController(previewedItem: previewedItem)
+          
+      self.addChild(previewController)
+      view.addSubview(previewController.view)
+      previewController.view.translatesAutoresizingMaskIntoConstraints = false
+      previewController.didMove(toParent: self)
+      
+      addSubviews()
+      
+      setupConstraints()
+      reloadUI()
+      
+      let leftSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeLeft))
+      leftSwipeGestureRecognizer.direction = .left
+      let rightSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeRight))
+      rightSwipeGestureRecognizer.direction = .right
+      
+      self.view.addGestureRecognizer(leftSwipeGestureRecognizer)
+      self.view.addGestureRecognizer(rightSwipeGestureRecognizer)
+    }
   }
   
   private func performNavigation(isNext: Bool) {
@@ -209,10 +211,13 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
   
   func onEditTap() {
     if let item = items[selectedItemGuid] {
-      if item.type == .Image && MediaPickerConfig.shared.camera.allowPhotoEdit {
-        let image = item as! Image
-        image.resolve(completion: { (uiImage) in
-          let photoEditor = PhotoEditorController(image: uiImage!, guid: item.guid)
+      if item.type == .Image && MediaPickerConfig.shared.camera.allowPhotoEdit, let image = item as? Image {
+        image.resolve(completion: { uiImage in
+          guard let uiImage else {
+            return
+          }
+          
+          let photoEditor = PhotoEditorController(image: uiImage, guid: item.guid)
           photoEditor.modalPresentationStyle = .overFullScreen
           photoEditor.customFileName = image.customFileName
           photoEditor.delegate = self

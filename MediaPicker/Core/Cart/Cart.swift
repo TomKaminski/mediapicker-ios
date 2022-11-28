@@ -52,9 +52,13 @@ public class Cart {
       case .Audio:
         break
       case .Video:
-        delegate.cart(self, didRemove: itemToRemove as! Video)
+        if let itemToRemove = itemToRemove as? Video {
+          delegate.cart(self, didRemove: itemToRemove)
+        }
       case .Image:
-        delegate.cart(self, didRemove: itemToRemove as! Image)
+        if let itemToRemove = itemToRemove as? Image {
+          delegate.cart(self, didRemove: itemToRemove)
+        }
       }
     }
   }
