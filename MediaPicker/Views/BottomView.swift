@@ -134,7 +134,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
     addSubview(saveButton)
     saveButton.g_pin(on: .right, view: self, on: .right, constant: -16)
     saveButton.g_pin(on: .centerY, view: self, on: .centerY)
-    saveButton.isHidden = delegate?.cartItems.isEmpty == true
+    saveButton.isHidden = delegate?.cartItems.isEmpty != false
   }
   
   fileprivate func insertCartButton() {
@@ -142,6 +142,6 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
     cartButton.g_pin(size: CGSize(width: 56, height: 56))
     cartButton.g_pin(on: .left, view: self, on: .left, constant: 16)
     cartButton.g_pin(on: .centerY, view: self, on: .centerY)
-    cartButton.isHidden = delegate?.cartItems.isEmpty == true
+    cartButton.isHidden = delegate?.cartItems.isEmpty != false
   }
 }
