@@ -239,7 +239,7 @@ class VideoPreviewView: UIView, PHPhotoLibraryChangeObserver {
 }
 
 class AudioPreviewView: UIView, AVAudioPlayerDelegate {
-  let image = UIImageView(image: MediaPickerBundle.image("musicIcon")!)
+  let image = UIImageView(image: MediaPickerBundle.image("audioIcon")!)
   
   let backgroundWaveForm = WaveformImageView(frame: .zero)
   let foregroundWaveForm = WaveformImageView(frame: .zero)

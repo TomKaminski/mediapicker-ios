@@ -7,7 +7,7 @@ public class Audio: Equatable, CartItemProtocol {
   }
   
   public var cartView: CartCollectionItemView {
-    let tempCartView = CartCollectionItemView(type: .Audio, guid: self.guid, image: MediaPickerBundle.image("musicIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!, bottomTextFunc: { label in
+    let tempCartView = CartCollectionItemView(type: .Audio, guid: self.guid, image: MediaPickerBundle.image("audioIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!, bottomTextFunc: { label in
       self.fetchDuration({ (seconds) in
         let result = self.secondsToHoursMinutesSeconds(seconds: Int(seconds))
         let seconds = result.2 < 10 ? "0\(result.2)" : "\(result.2)"
