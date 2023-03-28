@@ -30,7 +30,7 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
   }
   
   func setup() {
-    let libButton = PageIndicatorUIView(icon: "Details", text: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"), index: 0)
+    let libButton = PageIndicatorUIView(icon: "Library", text: MediaPickerConfig.shared.translationKeys.libraryTabTitleKey.g_localize(fallback: "LIBRARY"), index: 0)
     libButton.delegate = self
     addSubview(libButton)
     
@@ -39,7 +39,7 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
     addSubview(cameraButton)
     
     if (MediaPickerConfig.shared.audio.includeAudioTab) {
-      let audioButton = PageIndicatorUIView(icon: "Recording", text: MediaPickerConfig.shared.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO"), index: 2)
+      let audioButton = PageIndicatorUIView(icon: "Microphone", text: MediaPickerConfig.shared.translationKeys.audioTabTitleKey.g_localize(fallback: "AUDIO"), index: 2)
       audioButton.delegate = self
       addSubview(audioButton)
       buttons = [libButton, cameraButton, audioButton]
@@ -48,10 +48,6 @@ class PageIndicator: UIView, PageIndicatorUIViewDelegate {
     }
     
     addSubview(indicator)
-  }
-  
-  func makeButton(_ title: String) -> PageIndicatorUIView {
-    return PageIndicatorUIView(icon: "cameraIcon", text: title, index: 0)
   }
   
   func onTap(index: Int) {

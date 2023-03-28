@@ -256,14 +256,14 @@ public final class PhotoEditorController: MediaEditorBaseController, TopToolbarV
       topToolbarView.colorsCollectionView.isUserInteractionEnabled = true
       brushSlider.isHidden = false
       brushSlider.isUserInteractionEnabled = true
-      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(MediaPickerConfig.shared.colors.blue), for: UIControl.State())
+      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Marker")?.withTintColor(MediaPickerConfig.shared.colors.blue), for: UIControl.State())
     } else {
       toolbarViewHeightConstraint.constant = 40
       topToolbarView.colorsCollectionView.isHidden = true
       topToolbarView.colorsCollectionView.isUserInteractionEnabled = false
       brushSlider.isHidden = true
       brushSlider.isUserInteractionEnabled = false
-      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(.white), for: UIControl.State())
+      topToolbarView.pencilButton.setImage(MediaPickerBundle.image("Marker")?.withTintColor(.white), for: UIControl.State())
     }
   }
   

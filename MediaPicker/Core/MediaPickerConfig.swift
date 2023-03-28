@@ -38,7 +38,7 @@ public struct MediaPickerConfig {
   
   public struct BottomView {
     public var height: CGFloat = 80
-    public var saveIcon = MediaPickerBundle.image("Save")?.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+    public var saveIcon = MediaPickerBundle.image("Save")?.withTintColor(.white).imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
   }
   
   public struct Cart {

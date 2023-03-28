@@ -86,9 +86,9 @@ class MediaPickerTopView: UIView {
   
   func makeFlashButton() -> FlashButton {
     let states = [
-      MediaPickerBundle.image("FlashOff")!,
-      MediaPickerBundle.image("FlashOn")!,
-      MediaPickerBundle.image("FlashAuto")!
+      MediaPickerBundle.image("FlashOff")!.withTintColor(.white),
+      MediaPickerBundle.image("FlashOn")!.withTintColor(.white),
+      MediaPickerBundle.image("FlashAuto")!.withTintColor(.white)
     ]
 
     let button = FlashButton(states: states)
@@ -100,7 +100,7 @@ class MediaPickerTopView: UIView {
   func makeRotateButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("Switch"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Rotate")?.withTintColor(.white), for: UIControl.State())
     button.addTarget(self, action: #selector(rotateButtonTouched(_:)), for: .touchUpInside)
     return button
   }

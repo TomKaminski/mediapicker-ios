@@ -85,7 +85,7 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   func makeTextButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("Text"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Text")?.withTintColor(.white), for: UIControl.State())
     button.addTarget(self, action: #selector(onTextTap), for: .touchUpInside)
     return button
   }
@@ -93,7 +93,7 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   func makePencilButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("Pencil")?.withTintColor(.white), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Marker")?.withTintColor(.white), for: UIControl.State())
     button.addTarget(self, action: #selector(onPencilTap), for: .touchUpInside)
     return button
   }
@@ -101,7 +101,7 @@ class PhotoEditorToolbar: UIView, ColorSelectedDelegate {
   func makeUndoButton() -> UIButton {
     let button = UIButton(type: .custom)
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setImage(MediaPickerBundle.image("Undo"), for: UIControl.State())
+    button.setImage(MediaPickerBundle.image("Undo")?.withTintColor(.white), for: UIControl.State())
     button.addTarget(self, action: #selector(onClearTap), for: .touchUpInside)
     return button
   }

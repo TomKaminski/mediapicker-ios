@@ -52,7 +52,7 @@ extension UIImageView {
       }
     } else if item is Audio {
       self.backgroundColor = .white
-      self.image = MediaPickerBundle.image("audioIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!
+      self.image = MediaPickerBundle.image("musicIcon")!.imageWithInsets(insets: UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))!
     }
   }
 
