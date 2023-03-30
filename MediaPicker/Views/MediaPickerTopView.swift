@@ -87,8 +87,8 @@ class MediaPickerTopView: UIView {
   func makeFlashButton() -> FlashButton {
     let states = [
       MediaPickerBundle.image("FlashOff")!.withTintColor(.white),
-      MediaPickerBundle.image("FlashOn")!.withTintColor(.white),
-      MediaPickerBundle.image("FlashAuto")!.withTintColor(.white)
+      MediaPickerBundle.image("Flash")!.withTintColor(.yellow), // on
+      MediaPickerBundle.image("Flash")!.withTintColor(.white) // auto
     ]
 
     let button = FlashButton(states: states)
