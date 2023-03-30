@@ -5,8 +5,9 @@ class ArrowButton: UIButton {
   lazy var arrow: UIImageView = self.makeArrow()
   
   let padding: CGFloat = 10
-  let arrowSize: CGFloat = 8
-    
+  let arrowSizeH: CGFloat = 8
+  let arrowSizeW: CGFloat = 12
+
   init() {
     super.init(frame: CGRect.zero)
     
@@ -19,7 +20,7 @@ class ArrowButton: UIButton {
     
     label.center = CGPoint(x: bounds.size.width / 2, y: bounds.size.height / 2)
     
-    arrow.frame.size = CGSize(width: arrowSize, height: arrowSize)
+    arrow.frame.size = CGSize(width: arrowSizeW, height: arrowSizeH)
     arrow.center = CGPoint(x: label.frame.maxX + padding, y: bounds.size.height / 2)
   }
   
@@ -27,7 +28,7 @@ class ArrowButton: UIButton {
     let size = super.intrinsicContentSize
     label.sizeToFit()
     
-    return CGSize(width: label.frame.size.width + arrowSize*2 + padding,
+    return CGSize(width: label.frame.size.width + arrowSizeW*2 + padding,
                   height: size.height)
   }
     
@@ -57,7 +58,7 @@ class ArrowButton: UIButton {
   
   private func makeArrow() -> UIImageView {
     let arrow = UIImageView()
-    arrow.image = MediaPickerBundle.image("gallery_title_arrow")?.withRenderingMode(.alwaysTemplate)
+    arrow.image = MediaPickerBundle.image("arrowDownIcon")?.withRenderingMode(.alwaysTemplate)
     arrow.tintColor = .white
     arrow.alpha = 0
     
