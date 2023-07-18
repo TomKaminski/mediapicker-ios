@@ -149,6 +149,7 @@ public class PreviewController: UIViewController, MediaPreviewToolbarDelegate, B
     let button = GalleryFloatingButton()
     button.tapDelegate = self
     button.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
+    button.accessibilityIdentifier = "saveButton"
 
     return button
   }
