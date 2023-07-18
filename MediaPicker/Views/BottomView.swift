@@ -62,6 +62,7 @@ class BottomView: UIView, GalleryFloatingButtonTapDelegate {
     let button = GalleryFloatingButton()
     button.tapDelegate = self
     button.imageView.image = MediaPickerConfig.shared.bottomView.saveIcon
+    button.accessibilityIdentifier = "saveButton"
 
     return button
   }
