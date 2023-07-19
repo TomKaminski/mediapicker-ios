@@ -81,6 +81,7 @@ class MediaPickerTopView: UIView {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setImage(MediaPickerBundle.image("Back"), for: UIControl.State())
     button.addTarget(self, action: #selector(onBackButtonTap), for: .touchUpInside)
+    button.accessibilityIdentifier = "backButton"
     return button
   }
   

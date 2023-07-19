@@ -32,6 +32,7 @@ class PermissionView: UIView {
     let button = UIButton(type: .custom)
     button.setImage(MediaPickerBundle.image("gallery_close")?.withRenderingMode(.alwaysTemplate), for: .normal)
     button.tintColor = UIColor(red: 109 / 255, green: 107 / 255, blue: 132 / 255, alpha: 1)
+    button.accessibilityIdentifier = "galleryCloseButton"
     return button
   }
   
